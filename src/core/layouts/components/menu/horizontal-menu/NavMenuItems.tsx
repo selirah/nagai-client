@@ -5,7 +5,7 @@ import { resolveHorizontalNavMenuItemComponent as resolveNavItemComponent } from
 
 interface NavMenuItemsProps {
   submenu: boolean
-  parentItem: any
+  parentItem?: any
   items: any
   activeItem: any
   groupActive: any
@@ -13,10 +13,10 @@ interface NavMenuItemsProps {
   openDropdown: any
   onMouseEnter: (itemId: any) => void
   onMouseLeave: (itemId: any) => void
-  setActiveItem: () => void
-  setGroupActive: () => void
-  isChild: boolean
-  setOpenDropdown: () => void
+  setActiveItem: any
+  setGroupActive: any
+  isChild?: boolean
+  setOpenDropdown: any
   currentActiveItem: any
 }
 

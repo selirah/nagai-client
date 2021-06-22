@@ -30,7 +30,7 @@ interface AutocompleteProps {
   customRender: any
   defaultSuggestions?: any
   className?: any
-  onKeyDown?: (e: ChangeEvent<HTMLInputElement>, userInput: any) => void
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>, userInput: any) => void
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
   onSuggestionsShown?: (userInput: any) => void
   onSuggestionClick?: (url: string, e: ChangeEvent<HTMLInputElement>) => void
@@ -140,7 +140,10 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
 
     // custom Keydown event
     if (props.onKeyDown !== undefined && props.onKeyDown !== null) {
-      props.onKeyDown(e as unknown as ChangeEvent<HTMLInputElement>, userInput)
+      props.onKeyDown(
+        e as unknown as KeyboardEvent<HTMLInputElement>,
+        userInput
+      )
     }
   }
 

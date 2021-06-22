@@ -2,7 +2,7 @@ import { useState } from 'react'
 import themeConfig from 'theme/themeConfig'
 
 export const useFooterType = () => {
-  const [footerType, setFooterType] = useState(() => {
+  const [footerType, setFooterType] = useState<any>(() => {
     try {
       return themeConfig.layout.footer.type
     } catch (error) {

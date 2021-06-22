@@ -2,11 +2,12 @@ import { useState } from 'react'
 import themeConfig from 'theme/themeConfig'
 
 export const useNavbarType = () => {
-  const [navbarType, setNavbarType] = useState(() => {
+  const [navbarType, setNavbarType] = useState<any>(() => {
     try {
       return themeConfig.layout.navbar.type
     } catch (error) {
       console.log(error)
+      return themeConfig.layout.navbar.type
     }
   })
 

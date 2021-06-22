@@ -7,7 +7,8 @@ const { handleRTL } = layoutActions
 
 export const useRTL = () => {
   const dispatch: Dispatch = useDispatch()
-  const { isRTL } = Selector((state) => state.layout)
+  const layout = Selector((state) => state.layout)
+  const isRTL: any = layout.isRTL
 
   const setValue = (value: any) => {
     try {

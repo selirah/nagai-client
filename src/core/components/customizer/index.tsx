@@ -10,8 +10,8 @@ import 'core/scss/react/libs/react-select/_react-select.scss'
 interface CustomizerProps {
   layoutMode: 'light' | 'dark' | 'bordered' | 'semi-dark'
   setLayoutMode: (mode: string) => void
-  isRtl: boolean
-  setIsRtl: (value: boolean) => void
+  isRtl: any
+  setIsRtl: (value: any) => void
   layout: 'HorizontalLayout' | 'VerticalLayout'
   setLayout: (layout: string) => void
   navbarType: 'floating' | 'static' | 'sticky' | 'hidden'
@@ -32,8 +32,8 @@ interface CustomizerProps {
   setIsHidden: (value: boolean) => void
   contentWidth: 'full' | 'boxed'
   setContentWidth: (width: string) => void
-  menuCollapsed: boolean
-  setMenuCollapsed: (value: boolean) => void
+  menuCollapsed?: boolean
+  setMenuCollapsed?: (value: boolean) => void
   transition: 'fadeIn' | 'fadeInLeft' | 'zoomIn' | 'none'
   setTransition: (value: string) => void
 }
@@ -346,7 +346,9 @@ const Customizer: React.FC<CustomizerProps> = (props) => {
                   id="menu-collapsed"
                   name="menu-collapsed"
                   checked={menuCollapsed}
-                  onChange={() => setMenuCollapsed(!menuCollapsed)}
+                  onChange={() =>
+                    setMenuCollapsed ? setMenuCollapsed(!menuCollapsed) : null
+                  }
                 />
               </div>
             </FormGroup>

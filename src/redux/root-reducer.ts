@@ -4,16 +4,18 @@ import storage from 'redux-persist/lib/storage'
 
 import { authReducer, AuthState } from './auth'
 import { layoutReducer, LayoutState } from './layout'
+import { navbarReducer, NavbarState } from './navbar'
 
 export type ApplicationState = {
   auth: AuthState
   layout: LayoutState
+  navbar: NavbarState
 }
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'layout']
+  whitelist: ['auth', 'layout', 'navbar']
 }
 
 export const persistingReducer = () =>
@@ -21,6 +23,7 @@ export const persistingReducer = () =>
     persistConfig,
     combineReducers({
       auth: authReducer,
-      layout: layoutReducer
+      layout: layoutReducer,
+      navbar: navbarReducer
     })
   )

@@ -9,7 +9,7 @@ const { handleLayoutMode } = layoutActions
 export const useLayoutMode = () => {
   const dispatch: Dispatch = useDispatch()
   const { mode } = Selector((state) => state.layout)
-  const [layoutMode, setLayoutMode] = useState(() => {
+  const [layoutMode, setLayoutMode] = useState<any>(() => {
     try {
       return mode ? mode : themeConfig.layout.mode
     } catch (error) {

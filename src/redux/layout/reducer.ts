@@ -12,8 +12,7 @@ export const initialState: LayoutState = {
   menuCollapsed: initialMenuCollapsed(),
   menuHidden: themeConfig.layout.menu.isHidden,
   contentWidth: themeConfig.layout.contentWidth,
-  mode: themeConfig.layout.mode,
-  query: ''
+  mode: themeConfig.layout.mode
 }
 
 const reducer: Reducer<LayoutState> = (state = initialState, action) => {
@@ -46,11 +45,6 @@ const reducer: Reducer<LayoutState> = (state = initialState, action) => {
       return {
         ...state,
         mode: action.payload
-      }
-    case ActionTypes.HANDLE_SEARCH_QUERY:
-      return {
-        ...state,
-        query: action.payload
       }
     default:
       return state
