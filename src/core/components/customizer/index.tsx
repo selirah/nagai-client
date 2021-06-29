@@ -30,12 +30,13 @@ interface CustomizerProps {
   setNavbarColor: (color: string) => void
   isHidden: boolean
   setIsHidden: (value: boolean) => void
-  contentWidth: 'full' | 'boxed'
+  contentWidth: string
   setContentWidth: (width: string) => void
   menuCollapsed?: boolean
   setMenuCollapsed?: (value: boolean) => void
   transition: 'fadeIn' | 'fadeInLeft' | 'zoomIn' | 'none'
   setTransition: (value: string) => void
+  themeConfig?: any
 }
 
 const Customizer: React.FC<CustomizerProps> = (props) => {

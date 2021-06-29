@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import themeConfig from 'theme/themeConfig'
 
 export const useLayout = () => {
-  const [lastLayout, setLastLayout] = useState('')
-  const [layout, setLayout] = useState(() => {
+  const [lastLayout, setLastLayout] = useState<any>(null)
+  const [layout, setLayout] = useState<any>(() => {
     try {
       return themeConfig.layout.type
     } catch (error) {
@@ -37,5 +37,7 @@ export const useLayout = () => {
 
   useEffect(() => {
     window.addEventListener('resize', handleLayout)
-  }, [layout, setValue])
+  }, [layout, lastLayout])
+
+  return [layout, setValue]
 }

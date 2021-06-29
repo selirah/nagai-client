@@ -7,10 +7,11 @@ import 'animate.css/animate.css'
 
 interface LayoutWrapperProps {
   layout: 'HorizontalLayout' | 'VerticalLayout'
-  appLayout: boolean
-  wrapperClass: any
-  transition: 'fadeIn' | 'fadeInLeft' | 'zoomIn' | 'none'
-  routeMeta: any
+  appLayout?: any
+  wrapperClass?: any
+  transition: any
+  routeMeta?: any
+  setTransition: (value: any) => void
 }
 
 const { handleContentWidth, handleMenuCollapsed, handleMenuHidden } =
@@ -21,7 +22,9 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = (props) => {
     props
   const dispatch: Dispatch = useDispatch
   const layoutStore = Selector((state) => state.layout)
-  const { contentWidth, query } = layoutStore
+  const navbarStore = Selector((state) => state.navbar)
+  const { contentWidth } = layoutStore
+  const { query } = navbarStore
 
   const Tag = layout === 'HorizontalLayout' && !appLayout ? 'div' : Fragment
 

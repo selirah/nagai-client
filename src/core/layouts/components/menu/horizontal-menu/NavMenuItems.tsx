@@ -13,22 +13,22 @@ interface NavMenuItemsProps {
   openDropdown: any
   onMouseEnter: (itemId: any) => void
   onMouseLeave: (itemId: any) => void
-  setActiveItem: any
-  setGroupActive: any
+  setActiveItem: (value: any) => void
+  setGroupActive: (value: any) => void
   isChild?: boolean
-  setOpenDropdown: any
+  setOpenDropdown: (value: any) => void
   currentActiveItem: any
 }
 
 const NavMenuItems: React.FC<NavMenuItemsProps> = (props) => {
-  const { items, ...rest } = props
+  const { items } = props
 
   const Components: any = { NavMenuGroup, NavMenuLink }
 
   const RenderNavItems = items.map((item: any, index: any) => {
     const TagName = Components[resolveNavItemComponent(item)]
 
-    return <TagName item={item} index={index} key={item.id} {...rest} />
+    return <TagName item={item} index={index} key={item.id} {...props} />
   })
 
   return RenderNavItems

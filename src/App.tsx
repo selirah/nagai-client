@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Store } from 'redux'
 import { ApplicationState } from 'redux/root-reducer'
-import FallbackSpinner from 'core/components/spinner/fallback'
+import Router from 'router'
 
 interface AppProps {
   store: Store<ApplicationState>
@@ -14,8 +14,7 @@ const App: React.FC<AppProps> = ({ store, persistor }) => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        <h1>App</h1>
-        <FallbackSpinner />
+        <Router />
       </PersistGate>
     </Provider>
   )

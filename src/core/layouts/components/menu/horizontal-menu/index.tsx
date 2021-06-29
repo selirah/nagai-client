@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import Navigation from 'navigation/horizontal'
-import NavMenuItems from './NavmenuItems'
+import NavMenuItems from './NavMenuItems'
 
 interface HorizontalMenuProps {
   currentActiveItem: any

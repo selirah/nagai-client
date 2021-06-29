@@ -3,7 +3,7 @@ import themeConfig from 'theme/themeConfig'
 
 export const useRouterTransition = () => {
   // ** State
-  const [transition, setTransition] = useState(() => {
+  const [transition, setTransition] = useState<any>(() => {
     try {
       return themeConfig.layout.routerTransition
     } catch (error) {
