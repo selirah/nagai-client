@@ -17,9 +17,12 @@ const langObj: any = {
 const IntlDropdown = () => {
   const intlContext = useContext(IntlContext)
 
-  const handleSwitchLanguage = useCallback((lang: 'en' | 'fr') => {
-    intlContext.switchLanguage(lang)
-  }, [])
+  const handleSwitchLanguage = useCallback(
+    (lang: 'en' | 'fr') => {
+      intlContext.switchLanguage(lang)
+    },
+    [intlContext]
+  )
 
   return (
     <UncontrolledDropdown

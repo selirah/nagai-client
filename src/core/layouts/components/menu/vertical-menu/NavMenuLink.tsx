@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useEffect, useCallback } from 'react'
 import { NavLink, useLocation, matchPath } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Badge } from 'reactstrap'
@@ -48,11 +48,14 @@ const NavMenuLink: React.FC<NavMenuLinkProps> = ({
   })
 
   // ** Search for current item parents
-  const searchParents = (navigation: any, currentURL: any) => {
-    const parents = search(navigation, currentURL, routerProps) // search for the parent object
-    const allParents = getAllParents(parents, 'id')
-    return allParents
-  }
+  const searchParents = useCallback(
+    (navigation: any, currentURL: any) => {
+      const parents = search(navigation, currentURL, routerProps) // search for the parent object
+      const allParents = getAllParents(parents, 'id')
+      return allParents
+    },
+    [routerProps]
+  )
 
   // ** URL Vars
   const resetActiveGroup = (navLink: any) => {
@@ -73,7 +76,14 @@ const NavMenuLink: React.FC<NavMenuLinkProps> = ({
       const arr = searchParents(Navigation, currentURL)
       setGroupActive([...arr])
     }
-  }, [location])
+  }, [
+    location,
+    currentActiveItem,
+    currentURL,
+    setActiveItem,
+    setGroupActive,
+    searchParents
+  ])
 
   return (
     <li

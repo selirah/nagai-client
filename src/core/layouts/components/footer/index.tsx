@@ -6,7 +6,7 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = (props) => {
-  const { footerClasses, footerType } = props
+  // const { footerClasses, footerType } = props
 
   return (
     <p className="clearfix mb-0">

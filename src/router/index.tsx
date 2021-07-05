@@ -41,6 +41,7 @@ const Router = () => {
           LayoutRoutes.push(route)
           LayoutPaths.push(route.path)
         }
+        return { LayoutPaths, LayoutRoutes }
       })
     }
 
@@ -142,7 +143,7 @@ const Router = () => {
                               ? { wrapperClass: route.className }
                               : {})}
                           >
-                            <route.component {...props} />
+                            {/* <route.component {...props} /> */}
                             <FinalRoute route={route} {...props} />
                           </LayoutWrapper>
                         </Suspense>

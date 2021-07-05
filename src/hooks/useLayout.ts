@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import themeConfig from 'theme/themeConfig'
 
 export const useLayout = () => {
@@ -20,7 +20,7 @@ export const useLayout = () => {
     }
   }
 
-  const handleLayout = () => {
+  const handleLayout = useCallback(() => {
     if (layout === 'horizontal' && window.innerWidth <= 1200) {
       setLayout('vertical')
       setLastLayout('horizontal')
@@ -29,15 +29,16 @@ export const useLayout = () => {
     if (lastLayout === 'horizontal' && window.innerWidth >= 1200) {
       setLayout('horizontal')
     }
-  }
+  }, [lastLayout, layout])
 
   useEffect(() => {
     handleLayout()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     window.addEventListener('resize', handleLayout)
-  }, [layout, lastLayout])
+  }, [layout, lastLayout, handleLayout])
 
   return [layout, setValue]
 }

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import classnames from 'classnames'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
@@ -29,7 +29,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = (props) => {
   const Tag = layout === 'HorizontalLayout' && !appLayout ? 'div' : Fragment
 
   // ** Clean Up Function
-  const cleanUp = () => {
+  const cleanUp = useCallback(() => {
     if (routeMeta) {
       if (routeMeta.contentWidth) {
         dispatch(handleContentWidth('full'))
@@ -41,7 +41,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = (props) => {
         dispatch(handleMenuHidden(!routeMeta.menuHidden))
       }
     }
-  }
+  }, [routeMeta, dispatch])
 
   useEffect(() => {
     if (routeMeta) {
@@ -56,6 +56,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = (props) => {
       }
     }
     return () => cleanUp()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -112,14 +112,14 @@ const VerticalLayout: React.FC<VerticalLayoutProps> = (props) => {
     if (menuVisibility && windowWidth < 1200) {
       setMenuVisibility(false)
     }
-  }, [location])
+  }, [location, menuVisibility, setMenuVisibility, windowWidth])
 
   //** Sets Window Size & Layout Props
   useEffect(() => {
     if (window !== undefined) {
       window.addEventListener('resize', handleWindowWidth)
     }
-  }, [windowWidth])
+  }, [windowWidth, handleWindowWidth])
 
   useEffect(() => {
     setIsMounted(true)

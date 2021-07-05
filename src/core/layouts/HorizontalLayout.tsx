@@ -89,6 +89,7 @@ const HorizontalLayout: React.FC<HorizontalLayoutProps> = (props) => {
       }
     })
     return () => cleanup()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const footerClasses: any = {

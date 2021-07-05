@@ -55,7 +55,7 @@ export const search = (
   currentURL: string,
   routerProps: any
 ) => {
-  let result
+  let result: any
   navigation.some((child: any) => {
     let children
     // If child have children => It's group => Go deeper(recursive)
@@ -75,6 +75,7 @@ export const search = (
         id: child.id
       })
     }
+    return result
   })
   return result
 }
@@ -103,7 +104,7 @@ export const getAllParents = (obj: any, match: any) => {
   return res
 }
 
-export const canViewMenuGroup = (item: any) => {
+export const CanViewMenuGroup = (item: any) => {
   const ability = useContext(AbilityContext)
   // ! This same logic is used in canViewHorizontalNavMenuGroup and canViewHorizontalNavMenuHeaderGroup. So make sure to update logic in them as well
   const hasAnyVisibleChild =
@@ -118,7 +119,7 @@ export const canViewMenuGroup = (item: any) => {
   return ability.can(item.action, item.resource) && hasAnyVisibleChild
 }
 
-export const canViewMenuItem = (item: any) => {
+export const CanViewMenuItem = (item: any) => {
   const ability = useContext(AbilityContext)
   return ability.can(item.action, item.resource)
 }

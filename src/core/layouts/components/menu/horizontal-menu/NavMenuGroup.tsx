@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import classnames from 'classnames'
 import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap'
 import { isNavGroupActive } from 'core/layouts/Utils'
-import NavMenuItems from './NavmenuItems'
+import NavMenuItems from './NavMenuItems'
 
 interface NavMenuGroupProps {
   item: any

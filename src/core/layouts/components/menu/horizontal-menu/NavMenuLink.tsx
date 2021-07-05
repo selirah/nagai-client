@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import navigation from 'navigation/horizontal'
 import classnames from 'classnames'
-import { isNavLinkActive, search, getAllParents } from 'core/layouts/Utils'
+import { /*isNavLinkActive,*/ search, getAllParents } from 'core/layouts/Utils'
 
 interface NavMenuLinkProps {
   item: any
@@ -32,15 +32,18 @@ const NavMenuLink: React.FC<NavMenuLinkProps> = ({
   const location = useLocation()
   const currentURL = location.pathname
 
-  const navLinkActive = isNavLinkActive(item.navLink, currentURL, routerProps)
+  // const navLinkActive = isNavLinkActive(item.navLink, currentURL, routerProps)
 
   // ** Get parents of current items
-  const searchParents = (navigation: any, currentURL: string) => {
-    const parents = search(navigation, currentURL, routerProps) // search for the parent object
-    const allParents = getAllParents(parents, 'id') // Parents Object to Parents Array
-    allParents.pop()
-    return allParents
-  }
+  const searchParents = useCallback(
+    (navigation: any, currentURL: string) => {
+      const parents = search(navigation, currentURL, routerProps) // search for the parent object
+      const allParents = getAllParents(parents, 'id') // Parents Object to Parents Array
+      allParents.pop()
+      return allParents
+    },
+    [routerProps]
+  )
 
   // ** Remove all items from OpenDropdown array
   const resetOpenDropdowns = () => setOpenDropdown([])
@@ -52,7 +55,14 @@ const NavMenuLink: React.FC<NavMenuLinkProps> = ({
       const arr = searchParents(navigation, currentURL)
       setGroupActive([...arr])
     }
-  }, [location])
+  }, [
+    location,
+    currentActiveItem,
+    currentURL,
+    searchParents,
+    setActiveItem,
+    setGroupActive
+  ])
 
   return (
     <li

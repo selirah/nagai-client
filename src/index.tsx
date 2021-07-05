@@ -4,7 +4,7 @@ import reportWebVitals from './reportWebVitals'
 import { configureStore } from 'redux/store'
 import { ToastContainer } from 'react-toastify'
 import { ThemeContext } from 'contexts/Theme'
-import { i8nWrapper } from 'contexts/i18n'
+import { LocaleWrapper } from 'contexts/i18n'
 
 // ** Spinner (Splash Screen)
 import Spinner from 'core/components/spinner/fallback'
@@ -42,10 +42,10 @@ ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<Spinner />}>
       <ThemeContext>
-        {/* <i8nWrapper> */}
-        <LazyApp store={store} persistor={persistor} />
-        <ToastContainer newestOnTop />
-        {/* </i8nWrapper> */}
+        <LocaleWrapper>
+          <LazyApp store={store} persistor={persistor} />
+          <ToastContainer newestOnTop />
+        </LocaleWrapper>
       </ThemeContext>
     </Suspense>
   </React.StrictMode>,

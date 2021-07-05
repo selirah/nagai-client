@@ -19,8 +19,9 @@ const { logout } = authActions
 const UserDropdown = () => {
   const store = Selector((state) => state.auth)
   const dispatch: Dispatch = useDispatch()
-  const [online, setOnline] =
-    useState<'online' | 'offline' | 'away' | 'busy'>('offline')
+  const [online, setOnline] = useState<'online' | 'offline' | 'away' | 'busy'>(
+    'offline'
+  )
 
   const userAvatar = (store.user && store.user.avatar) || defaultAvatar
 
@@ -28,6 +29,7 @@ const UserDropdown = () => {
     if (store.isAuthenticated) {
       setOnline('online')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

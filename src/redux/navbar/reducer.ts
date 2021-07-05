@@ -35,12 +35,13 @@ const reducer: Reducer<NavbarState> = (state = initialState, action) => {
         ...state
       }
     case ActionTypes.UPDATE_BOOKMARKS_SUCCESS:
-      let objectToUpdate
+      let objectToUpdate: any
       state.suggestions.find((item) => {
         if (item !== undefined && item.id === action.payload.id) {
           item.isBookmarked = !item.isBookmarked
           objectToUpdate = item
         }
+        return objectToUpdate
       })
       const bookmarkIndex = state.bookmarks.findIndex(
         (x) => x.id === action.payload.id

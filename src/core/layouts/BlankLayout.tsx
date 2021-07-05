@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useLayoutMode } from 'hooks'
+// import { useLayoutMode } from 'hooks'
 
 const BlankLayout: React.FC = ({ children, ...rest }) => {
-  const [mode, setMode] = useLayoutMode()
+  // const [mode, setMode] = useLayoutMode()
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {

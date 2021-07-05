@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'reactstrap'
 import classnames from 'classnames'
-import PropTypes from 'prop-types'
 import './index.scss'
 
 interface RippleButtonProps {
@@ -19,6 +18,7 @@ const RippleButton: React.FC<RippleButtonProps> = (props) => {
   useEffect(() => {
     setMounted(true)
     return () => setMounted(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // ** Check for coods and set ripple
@@ -31,14 +31,14 @@ const RippleButton: React.FC<RippleButtonProps> = (props) => {
         setIsRippling(false)
       }
     }
-  }, [coords])
+  }, [coords, mounted])
 
   // ** ResetCoords on ripple end
   useEffect(() => {
     if (mounted) {
       if (!isRippling) setCoords({ x: -1, y: -1 })
     }
-  }, [isRippling])
+  }, [isRippling, mounted])
 
   return (
     <Button

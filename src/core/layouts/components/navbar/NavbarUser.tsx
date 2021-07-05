@@ -47,7 +47,7 @@ const NavbarUser: React.FC<NavbarUserProps> = (props) => {
         </Fragment>
       )
     }
-  }, [])
+  }, [mode, setMode])
 
   return (
     <Fragment>
