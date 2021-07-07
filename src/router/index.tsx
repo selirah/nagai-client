@@ -1,7 +1,7 @@
-import { Suspense, useContext, lazy } from 'react'
+import { Suspense /*, useContext*/, lazy } from 'react'
 import { Selector } from 'redux/selector-dispatch'
 import { useLayout, useRouterTransition } from 'hooks'
-import { AbilityContext } from 'contexts/Can'
+// import { AbilityContext } from 'contexts/Can'
 import LayoutWrapper from 'core/layouts/components/layout-wrapper'
 import {
   BrowserRouter as AppRouter,
@@ -14,11 +14,13 @@ import BlankLayout from 'core/layouts/BlankLayout'
 import HorizontalLayout from 'layouts/HorizontalLayout'
 import VerticalLayout from 'layouts/VerticalLayout'
 import { Route as R } from 'classes'
+import ErrorBoundary from 'pages/ErrorBoundary'
+import { PUBLIC_ROUTES } from './constants'
 
 const Router = () => {
   const [layout, setLayout] = useLayout()
   const [transition, setTransition] = useRouterTransition()
-  const ability = useContext(AbilityContext)
+  // const ability = useContext(AbilityContext)
   const DefaultLayout =
     layout === 'horizontal' ? 'HorizontalLayout' : 'VerticalLayout'
   const Layouts: any = { BlankLayout, VerticalLayout, HorizontalLayout }
@@ -51,44 +53,6 @@ const Router = () => {
   const NotAuthorized = lazy(() => import('pages/NotAuthorized'))
 
   const Error = lazy(() => import('pages/Error'))
-
-  /**
-   ** Final Route Component Checks for Login & User Role and then redirects to the route
-   */
-  const FinalRoute = (props: any) => {
-    const route: R = props.route
-    let action, resource
-
-    if (route.meta) {
-      action = route.meta.action ? route.meta.action : null
-      resource = route.meta.resource ? route.meta.resource : null
-    }
-
-    if (
-      (!isAuthenticated && route.meta === undefined) ||
-      (!isAuthenticated &&
-        route.meta &&
-        !route.meta.authRoute &&
-        !route.meta.publicRoute)
-    ) {
-      /**
-       ** If user is not Logged in & route meta is undefined
-       ** OR
-       ** If user is not Logged in & route.meta.authRoute, !route.meta.publicRoute are undefined
-       ** Then redirect user to login
-       */
-      return <Redirect to="/auth/login" />
-    } else if (route.meta && route.meta.authRoute && isAuthenticated) {
-      // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
-      return <Redirect to="/" />
-    } else if (isAuthenticated && !ability.can(action || 'read', resource)) {
-      // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
-      return <Redirect to="/misc/not-authorized" />
-    } else {
-      // ** If none of the above render component
-      return <route.component {...props} />
-    }
-  }
 
   const ResolveRoutes = () => {
     return Object.keys(Layouts).map((layout, index) => {
@@ -143,8 +107,7 @@ const Router = () => {
                               ? { wrapperClass: route.className }
                               : {})}
                           >
-                            {/* <route.component {...props} /> */}
-                            <FinalRoute route={route} {...props} />
+                            <route.component {...props} />
                           </LayoutWrapper>
                         </Suspense>
                       )
@@ -159,35 +122,37 @@ const Router = () => {
     })
   }
   return (
-    <AppRouter basename={process.env.REACT_APP_BASENAME}>
-      <Switch>
-        {/* If user is logged in Redirect user to DefaultRoute else to login */}
-        <Route
-          exact
-          path="/"
-          render={() => {
-            return isAuthenticated ? (
-              <Redirect to={DefaultRoute} />
-            ) : (
-              <Redirect to="/auth/login" />
-            )
-          }}
-        />
-        {/* Not Auth Route */}
-        <Route
-          exact
-          path="/misc/not-authorized"
-          render={(props) => (
-            <Layouts.BlankLayout>
-              <NotAuthorized />
-            </Layouts.BlankLayout>
-          )}
-        />
-        {ResolveRoutes()}
-        {/* NotFound Error page */}
-        <Route path="*" component={Error} />
-      </Switch>
-    </AppRouter>
+    <ErrorBoundary>
+      <AppRouter /*basename={process.env.REACT_APP_BASENAME}*/>
+        <Switch>
+          {/* If user is logged in Redirect user to DefaultRoute else to login */}
+          <Route
+            exact
+            path="/"
+            render={() => {
+              return isAuthenticated ? (
+                <Redirect to={DefaultRoute} />
+              ) : (
+                <Redirect to={PUBLIC_ROUTES.SIGN_IN} />
+              )
+            }}
+          />
+          {/* Not Auth Route */}
+          <Route
+            exact
+            path={PUBLIC_ROUTES.UNAUTHORIZED}
+            render={(props) => (
+              <Layouts.BlankLayout>
+                <NotAuthorized />
+              </Layouts.BlankLayout>
+            )}
+          />
+          {ResolveRoutes()}
+          {/* NotFound Error page */}
+          <Route path="*" component={Error} />
+        </Switch>
+      </AppRouter>
+    </ErrorBoundary>
   )
 }
 

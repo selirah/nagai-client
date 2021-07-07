@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'reactstrap'
+import { Button, ButtonProps } from 'reactstrap'
 import classnames from 'classnames'
 import './index.scss'
 
-interface RippleButtonProps {
+interface RippleButtonProps extends ButtonProps {
   className?: any
   onclick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
@@ -47,7 +47,11 @@ const RippleButton: React.FC<RippleButtonProps> = (props) => {
       })}
       onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
         const rect = e.target as HTMLFormElement
-        setCoords({ x: e.clientX - rect.left, y: e.clientY - rect.top })
+        const r = rect.getBoundingClientRect()
+        setCoords({
+          x: e.clientX - r.left,
+          y: e.clientY - r.top
+        })
         if (onclick) {
           onclick(e)
         }

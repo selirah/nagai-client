@@ -1,22 +1,23 @@
 import { lazy } from 'react'
 import { Route } from 'classes'
+import { PUBLIC_ROUTES, PRIVATE_ROUTES } from './constants'
 
 const TemplateTitle = '%s - NAGAI'
-const DefaultRoute = '/'
+const DefaultRoute = PRIVATE_ROUTES.LANDING
 
 const Routes: Route[] = [
   {
-    path: '/',
+    path: PRIVATE_ROUTES.LANDING,
     component: lazy(() => import('pages/home/Home')),
     exact: true
   },
   {
-    path: '/admin/home',
+    path: PRIVATE_ROUTES.HOME,
     component: lazy(() => import('pages/home/Home')),
     exact: true
   },
   {
-    path: '/auth/login',
+    path: PUBLIC_ROUTES.SIGN_IN,
     component: lazy(() => import('pages/auth/Login')),
     layout: 'BlankLayout',
     meta: {
@@ -24,7 +25,31 @@ const Routes: Route[] = [
     }
   },
   {
-    path: '/error',
+    path: PUBLIC_ROUTES.SIGN_UP,
+    component: lazy(() => import('pages/auth/Register')),
+    layout: 'BlankLayout',
+    meta: {
+      authRoute: true
+    }
+  },
+  {
+    path: PUBLIC_ROUTES.VERIFY_ACCOUNT,
+    component: lazy(() => import('pages/auth/Verify')),
+    layout: 'BlankLayout',
+    meta: {
+      authRoute: true
+    }
+  },
+  {
+    path: PUBLIC_ROUTES.FORGOT_PASSWORD,
+    component: lazy(() => import('pages/auth/Forgotten')),
+    layout: 'BlankLayout',
+    meta: {
+      authRoute: true
+    }
+  },
+  {
+    path: PUBLIC_ROUTES.ERROR,
     component: lazy(() => import('pages/Error')),
     layout: 'BlankLayout'
   }

@@ -1,5 +1,5 @@
-import { Reducer } from 'redux';
-import { AuthState, ActionTypes } from './types';
+import { Reducer } from 'redux'
+import { AuthState, ActionTypes } from './types'
 
 export const initialState: AuthState = {
   isAuthenticated: false,
@@ -12,8 +12,8 @@ export const initialState: AuthState = {
   isVerified: false,
   loading: false,
   token: null,
-  user: null,
-};
+  user: null
+}
 
 const reducer: Reducer<AuthState> = (state = initialState, action) => {
   switch (action.type) {
@@ -21,8 +21,8 @@ const reducer: Reducer<AuthState> = (state = initialState, action) => {
       return {
         ...state,
         isSubmitting: true,
-        errors: initialState.errors,
-      };
+        errors: initialState.errors
+      }
 
     case ActionTypes.LOGIN_SUCCESS:
       return {
@@ -30,110 +30,110 @@ const reducer: Reducer<AuthState> = (state = initialState, action) => {
         isSubmitting: initialState.isSubmitting,
         user: action.payload.user,
         token: action.payload.token,
-        isAuthenticated: true,
-      };
+        isAuthenticated: true
+      }
 
     case ActionTypes.LOGIN_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        errors: action.payload,
-      };
+        errors: action.payload
+      }
 
     case ActionTypes.REGISTER_REQUEST:
       return {
         ...state,
         isSubmitting: true,
-        errors: initialState.errors,
-      };
+        errors: initialState.errors
+      }
 
     case ActionTypes.REGISTER_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         user: action.payload,
-        isRegistered: true,
-      };
+        isRegistered: true
+      }
 
     case ActionTypes.REGISTER_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         errors: action.payload,
-        isRegistered: initialState.isRegistered,
-      };
+        isRegistered: initialState.isRegistered
+      }
 
     case ActionTypes.RESET_PASSWORD_REQUEST:
       return {
         ...state,
         isSubmitting: true,
-        errors: initialState.errors,
-      };
+        errors: initialState.errors
+      }
 
     case ActionTypes.RESET_PASSWORD_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        isResetPassword: true,
-      };
+        isResetPassword: true
+      }
 
     case ActionTypes.RESET_PASSWORD_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         isResetPassword: initialState.isResetPassword,
-        errors: action.payload,
-      };
+        errors: action.payload
+      }
 
     case ActionTypes.RESEND_CODE_REQUEST:
       return {
         ...state,
         loading: true,
-        errors: initialState.errors,
-      };
+        errors: initialState.errors
+      }
 
     case ActionTypes.RESEND_CODE_SUCCESS:
       return {
         ...state,
         loading: initialState.loading,
-        isResendCode: true,
-      };
+        isResendCode: true
+      }
 
     case ActionTypes.RESEND_CODE_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         isResendCode: initialState.isResendCode,
-        errors: action.payload,
-      };
+        errors: action.payload
+      }
 
     case ActionTypes.VERIFICATION_REQUEST:
       return {
         ...state,
         isSubmitting: true,
-        errors: initialState.errors,
-      };
+        errors: initialState.errors
+      }
 
     case ActionTypes.VERIFICATION_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        isVerified: true,
-      };
+        isVerified: true
+      }
 
     case ActionTypes.VERIFICATION_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         isVerified: initialState.isVerified,
-        errors: action.payload,
-      };
+        errors: action.payload
+      }
 
     case ActionTypes.SET_CURRENT_USER:
       return {
         ...state,
-        user: action.payload,
-      };
+        user: action.payload
+      }
 
     case ActionTypes.CLEAR_STATES:
       return {
@@ -145,16 +145,15 @@ const reducer: Reducer<AuthState> = (state = initialState, action) => {
         isResendCode: initialState.isResendCode,
         isSubmitting: initialState.isSubmitting,
         isVerified: initialState.isVerified,
-        loading: initialState.loading,
-        token: initialState.token,
-      };
+        loading: initialState.loading
+      }
 
     case ActionTypes.DESTROY_STATES:
-      return initialState;
+      return initialState
 
     default:
-      return state;
+      return state
   }
-};
+}
 
-export { reducer as authReducer };
+export { reducer as authReducer }

@@ -1,13 +1,12 @@
-import { action } from 'typesafe-actions';
-import { User, LoginFields, RegisterFields } from 'classes';
-import { ActionTypes } from './types';
+import { action } from 'typesafe-actions'
+import { User, LoginFields, RegisterFields, Auth } from 'classes'
+import { ActionTypes } from './types'
 
 const authActions = {
   loginRequest: (payload: LoginFields) =>
     action(ActionTypes.LOGIN_REQUEST, payload),
 
-  loginSuccess: (user: User, token: string) =>
-    action(ActionTypes.LOGIN_SUCCESS, user, token),
+  loginSuccess: (data: Auth) => action(ActionTypes.LOGIN_SUCCESS, data),
 
   loginFailure: (errors: any) => action(ActionTypes.LOGIN_FAILURE, errors),
 
@@ -47,7 +46,7 @@ const authActions = {
 
   clearStates: () => action(ActionTypes.CLEAR_STATES),
 
-  logout: () => action(ActionTypes.DESTROY_STATES),
-};
+  logout: () => action(ActionTypes.DESTROY_STATES)
+}
 
-export default authActions;
+export default authActions

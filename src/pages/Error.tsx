@@ -1,4 +1,4 @@
-import { Button } from 'reactstrap'
+import RippleButton from 'core/components/ripple-button'
 import { Link } from 'react-router-dom'
 import errorImage from 'assets/images/pages/error.svg'
 import 'core/scss/base/pages/page-misc.scss'
@@ -80,9 +80,14 @@ const Error = () => (
         <p className="mb-2">
           Oops! 😖 The requested URL was not found on this server.
         </p>
-        <Button tag={Link} to="/" color="primary" className="btn-sm-block mb-2">
+        <RippleButton
+          tag={Link}
+          to="/"
+          color="primary"
+          className="btn-sm-block mb-2"
+        >
           Back to Home
-        </Button>
+        </RippleButton>
         <img className="img-fluid" src={errorImage} alt="Not authorized page" />
       </div>
     </div>

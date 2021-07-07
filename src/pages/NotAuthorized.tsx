@@ -1,4 +1,4 @@
-import { Button } from 'reactstrap'
+import RippleButton from 'core/components/ripple-button'
 import { Link } from 'react-router-dom'
 import notAuthImage from 'assets/images/pages/not-authorized.svg'
 
@@ -80,14 +80,14 @@ const NotAuthorized = () => (
           The Webtrends Marketing Lab website in IIS uses the default IUSR
           account credentials to access the web pages it serves.
         </p>
-        <Button
+        <RippleButton
           tag={Link}
           to="/pages/login-v2"
           color="primary"
           className="btn-sm-block mb-1"
         >
           Back to login
-        </Button>
+        </RippleButton>
         <img
           className="img-fluid"
           src={notAuthImage}

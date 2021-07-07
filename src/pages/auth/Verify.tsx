@@ -1,68 +1,86 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Link, useLocation, Redirect } from 'react-router-dom'
-import LoginForm from 'containers/auth/LoginForm'
-import { LoginFields } from 'classes'
+import { useHistory, Link } from 'react-router-dom'
+import VerifyForm from 'containers/auth/VerifyForm'
+import { VerifyFields, ResetResendFields } from 'classes'
 import authActions from 'redux/auth/actions'
 import { useDispatch } from 'react-redux'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from 'router/constants'
-import { useLayoutMode } from 'hooks'
+import { useLayoutMode, useTimer } from 'hooks'
 import { AlertTriangle, Coffee } from 'react-feather'
 import { toast, Slide } from 'react-toastify'
-import { Row, Col, CardTitle, CardText } from 'reactstrap'
-import RippleButton from 'core/components/ripple-button'
+import { Row, Col, CardTitle, CardText, Label, Spinner } from 'reactstrap'
 import Logo from './Logo'
 import 'core/scss/base/pages/page-auth.scss'
-import { FormattedMessage } from 'react-intl'
 import themeConfig from 'theme/themeConfig'
 import ToastBox from 'components/ToastBox'
 
-const { loginRequest, clearStates } = authActions
+const { verificationRequest, clearStates, resendCodeRequest } = authActions
 
-const Login = () => {
-  const { isAuthenticated, isSubmitting, errors, user } = Selector(
-    (state) => state.auth
-  )
+const Verify = () => {
+  const {
+    isAuthenticated,
+    isSubmitting,
+    errors,
+    isVerified,
+    user,
+    loading,
+    isResendCode
+  } = Selector((state) => state.auth)
   const dispatch: Dispatch = useDispatch()
-  const location = useLocation<any>()
-  const initialValues: LoginFields = {
-    email: '',
-    password: '',
-    rememberMe: false
-  }
-  const [redirectToReferer, setRedirectToReferrer] = useState(false)
+  const history = useHistory()
   const [mode] = useLayoutMode()
+  const initialValues: VerifyFields = { code: '' }
+  const [timeUp, setTimeUp] = useState(true)
+  const { time, startTimer } = useTimer(60)
+
   const illustration = mode === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg'
   const source = require(`assets/images/pages/${illustration}`).default
 
-  const onLoginSubmit = useCallback(
-    (values: LoginFields) => {
-      dispatch(loginRequest(values))
-      dispatch(clearStates())
+  const onVerifySubmit = useCallback(
+    (value: VerifyFields) => {
+      dispatch(verificationRequest(value))
     },
     [dispatch]
   )
 
+  const resendCode = useCallback(async () => {
+    if (user) {
+      const payload: ResetResendFields = {
+        email: user.email
+      }
+      dispatch(resendCodeRequest(payload))
+    }
+  }, [dispatch, user])
+
   useEffect(() => {
     if (isAuthenticated) {
-      setRedirectToReferrer(true)
+      history.push(PRIVATE_ROUTES.LANDING)
+    } else {
+      dispatch(clearStates())
     }
-    dispatch(clearStates())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    if (isAuthenticated && user) {
-      setRedirectToReferrer(true)
+    if (isVerified) {
       toast.success(
         <ToastBox
           color="success"
           icon={<Coffee />}
-          message={`You have successfully logged in as ${user.role} to NAGAI. Enjoy!`}
-          title={`Welcome, ${user.firstName ? user.firstName : user.email}`}
+          message=" You have successfully verified account. Proceed to login to admin"
+          title="Nice!"
         />,
         { transition: Slide, hideProgressBar: true, autoClose: 5000 }
       )
+      history.push(PUBLIC_ROUTES.SIGN_IN)
+    }
+    if (isResendCode) {
+      startTimer()
+      setTimeUp(false)
+    }
+    if (time <= 0) {
+      setTimeUp(true)
     }
     if (errors) {
       toast.error(
@@ -75,15 +93,7 @@ const Login = () => {
         { transition: Slide, hideProgressBar: true, autoClose: 5000 }
       )
     }
-  }, [isAuthenticated, user, errors])
-
-  let { from } = location.state || {
-    from: { pathname: PRIVATE_ROUTES.LANDING }
-  }
-
-  if (redirectToReferer) {
-    return <Redirect to={from} />
-  }
+  }, [isVerified, isResendCode, history, startTimer, time, errors])
 
   return (
     <div className="auth-wrapper auth-v2">
@@ -106,28 +116,34 @@ const Login = () => {
         >
           <Col className="px-xl-2 mx-auto" sm="8" md="6" lg="12">
             <CardTitle tag="h2" className="font-weight-bold mb-1">
-              <FormattedMessage id="Welcome to NAGAI Admin" />
+              Verify your account
             </CardTitle>
             <CardText className="mb-2">
-              <FormattedMessage id="Please sign-in to your account" />
+              You have successfully registered. Enter the code that was sent to
+              you via email and sms into the box below to verify your account.
+              This code expires after 24 hours
             </CardText>
-            <LoginForm
+            <VerifyForm
               initialValues={initialValues}
               isSubmitting={isSubmitting}
-              onSubmit={onLoginSubmit}
+              onSubmit={onVerifySubmit}
             />
-            <div className="divider my-2">
-              <div className="divider-text">Don't have account?</div>
-            </div>
-            <div className="auth-footer-btn d-flex justify-content-center">
-              <RippleButton
-                tag={Link}
-                to={PUBLIC_ROUTES.SIGN_UP}
-                color="secondary"
-                block
-              >
-                Sign up
-              </RippleButton>
+            <div className="d-flex justify-content-between mt-3">
+              <Label className="form-label" for="login-password">
+                {timeUp ? 'Did not receive code?' : 'Code sent!'}
+              </Label>
+              {timeUp ? (
+                <Link to="#" onClick={() => resendCode()}>
+                  <small>
+                    Resend Code{' '}
+                    {loading ? <Spinner color="indigo" size="sm" /> : null}
+                  </small>
+                </Link>
+              ) : (
+                <Link to="">
+                  <small>{time}</small>
+                </Link>
+              )}
             </div>
           </Col>
         </Col>
@@ -136,4 +152,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Verify

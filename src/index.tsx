@@ -39,7 +39,7 @@ export const { store, persistor } = configureStore(initialState)
 const LazyApp = lazy(() => import('./App'))
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
     <Suspense fallback={<Spinner />}>
       <ThemeContext>
         <LocaleWrapper>
@@ -48,7 +48,7 @@ ReactDOM.render(
         </LocaleWrapper>
       </ThemeContext>
     </Suspense>
-  </React.StrictMode>,
+  </React.Fragment>,
   document.getElementById('root')
 )
 

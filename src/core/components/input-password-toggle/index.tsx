@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Eye, EyeOff } from 'react-feather'
 import {
@@ -7,19 +6,21 @@ import {
   InputGroupAddon,
   Input,
   InputGroupText,
-  Label
+  Label,
+  InputProps
 } from 'reactstrap'
 
-interface InputPasswordToggleProps {
+interface InputPasswordToggleProps extends InputProps {
   hideIcon?: React.ReactNode
   showIcon?: React.ReactNode
-  visible?: boolean
+  show?: boolean
   className?: any
   placeholder?: string
   iconSize?: number
   inputClassName?: any
   htmlFor?: string
   label?: string
+  id?: string
 }
 
 const InputPasswordToggle: React.FC<InputPasswordToggleProps> = (props) => {
@@ -27,20 +28,19 @@ const InputPasswordToggle: React.FC<InputPasswordToggleProps> = (props) => {
     label,
     hideIcon,
     showIcon,
-    visible,
+    show,
     className,
     htmlFor,
     placeholder,
     iconSize,
-    inputClassName,
-    ...rest
+    inputClassName
   } = props
-  const [inputVisibility, setInputVisibility] = useState(visible)
+  const [inputVisibility, setInputVisibility] = useState(show)
 
   const renderIcon = () => {
     const size = iconSize ? iconSize : 14
 
-    if (inputVisibility === false) {
+    if (!inputVisibility) {
       return hideIcon ? hideIcon : <Eye size={size} />
     } else {
       return showIcon ? showIcon : <EyeOff size={size} />
@@ -56,11 +56,12 @@ const InputPasswordToggle: React.FC<InputPasswordToggleProps> = (props) => {
         })}
       >
         <Input
-          type={inputVisibility === false ? 'password' : 'text'}
+          type={!inputVisibility ? 'password' : 'text'}
           placeholder={placeholder ? placeholder : '············'}
           className={classnames({
             [inputClassName]: inputClassName
           })}
+          {...props}
         />
         <InputGroupAddon
           addonType="append"
@@ -73,10 +74,6 @@ const InputPasswordToggle: React.FC<InputPasswordToggleProps> = (props) => {
       </InputGroup>
     </Fragment>
   )
-}
-
-InputPasswordToggle.defaultProps = {
-  visible: false
 }
 
 export default InputPasswordToggle
