@@ -10,6 +10,5 @@ export const PUBLIC_ROUTES = {
 }
 
 export const PRIVATE_ROUTES = {
-  LANDING: '/',
   HOME: '/admin/home'
 }

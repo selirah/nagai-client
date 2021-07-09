@@ -1,12 +1,6 @@
 import React, { Fragment, useCallback } from 'react'
-import { Sun, Moon, Menu, Wifi } from 'react-feather'
-import {
-  NavItem,
-  NavLink,
-  UncontrolledTooltip,
-  Badge,
-  Collapse
-} from 'reactstrap'
+import { Sun, Moon, Menu } from 'react-feather'
+import { NavItem, NavLink, UncontrolledTooltip } from 'reactstrap'
 import IntlDropdown from './IntlDropdown'
 import UserDropdown from './UserDropdown'
 
@@ -62,14 +56,6 @@ const NavbarUser: React.FC<NavbarUserProps> = (props) => {
         </NavItem>
       </ul>
       <ul className="nav navbar-nav align-items-center ml-auto">
-        <li className="mr-2">
-          <Collapse isOpen={true}>
-            <Badge color="success" pill href="#">
-              <Wifi />
-              <span className="align-middle ml-50 text-uppercase">Online</span>
-            </Badge>
-          </Collapse>
-        </li>
         <IntlDropdown />
         <UserDropdown />
         <NavItem className="d-none d-lg-block">

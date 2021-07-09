@@ -5,9 +5,10 @@ import jwtDecode from 'jwt-decode'
 import { authorization } from 'utils/authorization'
 import authActions from './actions'
 import { LoginFields, RegisterFields, User, Auth } from 'classes'
+import { setItem } from 'utils/localstorage'
 
 function setAuthorization(token: string): User {
-  const user: User = jwtDecode(token)
+  const user: User = jwtDecode(JSON.stringify({ token }))
   authorization(token)
   return user
 }
@@ -23,6 +24,7 @@ function* login({
     const { token } = res.data
     const user: User | any = yield setAuthorization(token)
     const result: Auth = { user, token }
+    yield setItem('token', token)
     yield put(authActions.loginSuccess(result))
   } catch (err) {
     if (err && err.response) {

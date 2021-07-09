@@ -78,7 +78,7 @@ const Login = () => {
   }, [isAuthenticated, user, errors])
 
   let { from } = location.state || {
-    from: { pathname: PRIVATE_ROUTES.LANDING }
+    from: { pathname: PRIVATE_ROUTES.HOME }
   }
 
   if (redirectToReferer) {
@@ -88,7 +88,7 @@ const Login = () => {
   return (
     <div className="auth-wrapper auth-v2">
       <Row className="auth-inner m-0">
-        <Link className="brand-logo" to={PRIVATE_ROUTES.LANDING}>
+        <Link className="brand-logo" to={PRIVATE_ROUTES.HOME}>
           <Logo />
           <h2 className="brand-text text-primary ml-1">
             {themeConfig.app.appName}

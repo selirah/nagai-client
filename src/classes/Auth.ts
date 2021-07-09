@@ -10,6 +10,8 @@ export type User = {
   role: string
   createdAt: Date
   updatedAt: Date
+  exp: number
+  iat: number
 }
 
 export type Auth = {

@@ -30,7 +30,8 @@ const Register = () => {
     confirmPassword: '',
     terms: false
   }
-  const illustration = mode === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg'
+  const illustration =
+    mode === 'dark' ? 'register-v2-dark.svg' : 'register-v2.svg'
   const source = require(`assets/images/pages/${illustration}`).default
 
   const onRegisterSubmit = useCallback(
@@ -42,7 +43,7 @@ const Register = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push(PRIVATE_ROUTES.LANDING)
+      history.push(PRIVATE_ROUTES.HOME)
     } else {
       dispatch(clearStates())
     }
@@ -80,7 +81,7 @@ const Register = () => {
   return (
     <div className="auth-wrapper auth-v2">
       <Row className="auth-inner m-0">
-        <Link className="brand-logo" to={PRIVATE_ROUTES.LANDING}>
+        <Link className="brand-logo" to={PRIVATE_ROUTES.HOME}>
           <Logo />
           <h2 className="brand-text text-primary ml-1">
             {themeConfig.app.appName}

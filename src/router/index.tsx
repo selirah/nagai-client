@@ -80,7 +80,7 @@ const Router = () => {
       return <Redirect to={PUBLIC_ROUTES.SIGN_IN} />
     } else if (route.meta && route.meta.authRoute && isAuthenticated) {
       // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
-      return <Redirect to={PRIVATE_ROUTES.LANDING} />
+      return <Redirect to={PRIVATE_ROUTES.HOME} />
     } else if (isAuthenticated && !ability.can(action || 'read', resource)) {
       // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
       return <Redirect to={PUBLIC_ROUTES.UNAUTHORIZED} />

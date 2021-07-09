@@ -15,7 +15,7 @@ const themeConfig = {
     },
     navbar: {
       type: 'floating', // static , sticky , floating, hidden
-      backgroundColor: '#fff' // BS color options [primary, success, etc]
+      backgroundColor: 'white' // BS color options [primary, success, etc]
     },
     footer: {
       type: 'sticky' // static, sticky, hidden

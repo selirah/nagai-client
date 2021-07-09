@@ -3,14 +3,9 @@ import { Route } from 'classes'
 import { PUBLIC_ROUTES, PRIVATE_ROUTES } from './constants'
 
 const TemplateTitle = '%s - NAGAI'
-const DefaultRoute = PRIVATE_ROUTES.LANDING
+const DefaultRoute = PRIVATE_ROUTES.HOME
 
 const Routes: Route[] = [
-  {
-    path: PRIVATE_ROUTES.LANDING,
-    component: lazy(() => import('pages/home/Home')),
-    exact: true
-  },
   {
     path: PRIVATE_ROUTES.HOME,
     component: lazy(() => import('pages/home/Home')),

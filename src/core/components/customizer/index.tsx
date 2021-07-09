@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
 import classnames from 'classnames'
+import { Link } from 'react-router-dom'
 import { Settings, X } from 'react-feather'
 import { CustomInput, FormGroup } from 'reactstrap'
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -243,24 +244,20 @@ const Customizer: React.FC<CustomizerProps> = (props) => {
         open: openCustomizer
       })}
     >
-      <a
-        href="#endregion"
+      <Link
+        to="#"
         className="customizer-toggle d-flex align-items-center justify-content-center"
         onClick={handleToggle}
       >
         <Settings size={14} className="spinner" />
-      </a>
+      </Link>
       <PerfectScrollbar className="customizer-content">
         <div className="customizer-header px-2 pt-1 pb-0 position-relative">
           <h4 className="mb-0">Theme Customizer</h4>
           <p className="m-0">Customize & Preview in Real Time</p>
-          <a
-            href="#endregion"
-            className="customizer-close"
-            onClick={handleToggle}
-          >
+          <Link to="#" className="customizer-close" onClick={handleToggle}>
             <X />
-          </a>
+          </Link>
         </div>
         <hr />
         <div className="px-2">

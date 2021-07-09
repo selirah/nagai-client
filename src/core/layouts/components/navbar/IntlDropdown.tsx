@@ -45,7 +45,7 @@ const IntlDropdown = () => {
       </DropdownToggle>
       <DropdownMenu className="mt-0" right>
         <DropdownItem
-          href="/"
+          href="#"
           tag="a"
           onClick={() => handleSwitchLanguage('en')}
         >
@@ -53,7 +53,7 @@ const IntlDropdown = () => {
           <span className="ml-1">English</span>
         </DropdownItem>
         <DropdownItem
-          href="/"
+          href="#"
           tag="a"
           onClick={() => handleSwitchLanguage('fr')}
         >
