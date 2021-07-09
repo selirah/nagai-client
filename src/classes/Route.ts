@@ -13,6 +13,6 @@ export type Route = {
   exact?: boolean
   layout?: string
   meta?: meta
-  appLayout?: any
+  appLayout?: boolean
   className?: string
 }

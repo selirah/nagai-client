@@ -4,7 +4,7 @@ import NavbarUser from './NavbarUser'
 interface ThemeNavbarProps {
   mode: 'light' | 'dark'
   setMode: (mode: 'light' | 'dark') => void
-  setMenuVisibility?: (value: boolean) => void
+  setMenuVisibility: (value: boolean) => void
 }
 
 const ThemeNavbar: React.FC<ThemeNavbarProps> = (props) => {

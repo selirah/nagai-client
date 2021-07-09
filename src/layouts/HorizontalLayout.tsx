@@ -10,11 +10,11 @@ interface HorizontalLayoutProps {
   layout: any
   setLayout: any
   transition: any
-  setTransition: any
+  setTransition: (value: string) => void
+  setMenuVisibility: (value: boolean) => void
 }
 
 const HorizontalLayout: React.FC<HorizontalLayoutProps> = (props) => (
   <Layout {...props}>{props.children}</Layout>
 )
-
 export default HorizontalLayout

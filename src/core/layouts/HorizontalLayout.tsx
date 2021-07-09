@@ -26,9 +26,10 @@ interface HorizontalLayoutProps {
   currentActiveItem: any
   routerProps: any
   layout: any
-  setLayout: any
+  setLayout: (value: string) => void
   transition: any
-  setTransition: any
+  setTransition: (value: string) => void
+  setMenuVisibility: (value: boolean) => void
 }
 
 const { handleMenuHidden, handleContentWidth } = layoutActions
@@ -44,6 +45,7 @@ const HorizontalLayout: React.FC<HorizontalLayoutProps> = (props) => {
     setLayout,
     transition,
     setTransition,
+    setMenuVisibility,
     children
   } = props
 
@@ -149,7 +151,15 @@ const HorizontalLayout: React.FC<HorizontalLayoutProps> = (props) => {
           </div>
         )}
         <div className="navbar-container d-flex content">
-          {navbar ? navbar : <NavbarComponent mode={mode} setMode={setMode} />}
+          {navbar ? (
+            navbar
+          ) : (
+            <NavbarComponent
+              mode={mode}
+              setMode={setMode}
+              setMenuVisibility={setMenuVisibility}
+            />
+          )}
         </div>
       </Navbar>
       {isHidden ? (

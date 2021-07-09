@@ -6,9 +6,9 @@ import { AbilityContext } from 'contexts/Can'
  * @param {Object} item nav menu item
  */
 export const resolveVerticalNavMenuItemComponent = (item: any) => {
-  if (item.header) return 'VerticalNavMenuSectionHeader'
-  if (item.children) return 'VerticalNavMenuGroup'
-  return 'VerticalNavMenuLink'
+  if (item.header) return 'NavMenuSectionHeader'
+  if (item.children) return 'NavMenuGroup'
+  return 'NavMenuLink'
 }
 
 /**
@@ -16,8 +16,8 @@ export const resolveVerticalNavMenuItemComponent = (item: any) => {
  * @param {Object} item nav menu item
  */
 export const resolveHorizontalNavMenuItemComponent = (item: any) => {
-  if (item.children) return 'HorizontalNavMenuGroup'
-  return 'HorizontalNavMenuLink'
+  if (item.children) return 'NavMenuGroup'
+  return 'NavMenuLink'
 }
 
 export const isNavLinkActive = (

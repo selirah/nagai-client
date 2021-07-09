@@ -7,7 +7,7 @@ interface VerticalLayoutProps {
   menu: any
   routerProps: any
   currentActiveItem: any
-  layout: 'HorizontalLayout' | 'VerticalLayout'
+  layout: string
   setLayout: (layout: string) => void
   transition: 'fadeIn' | 'fadeInLeft' | 'zoomIn' | 'none'
   setTransition: (value: string) => void

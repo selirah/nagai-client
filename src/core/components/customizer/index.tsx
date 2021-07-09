@@ -12,7 +12,7 @@ interface CustomizerProps {
   setLayoutMode: (mode: string) => void
   isRtl: any
   setIsRtl: (value: any) => void
-  layout: 'HorizontalLayout' | 'VerticalLayout'
+  layout: string
   setLayout: (layout: string) => void
   navbarType: 'floating' | 'static' | 'sticky' | 'hidden'
   setNavbarType: (type: string) => void
@@ -244,7 +244,7 @@ const Customizer: React.FC<CustomizerProps> = (props) => {
       })}
     >
       <a
-        href="/"
+        href="#endregion"
         className="customizer-toggle d-flex align-items-center justify-content-center"
         onClick={handleToggle}
       >
@@ -254,7 +254,11 @@ const Customizer: React.FC<CustomizerProps> = (props) => {
         <div className="customizer-header px-2 pt-1 pb-0 position-relative">
           <h4 className="mb-0">Theme Customizer</h4>
           <p className="m-0">Customize & Preview in Real Time</p>
-          <a href="/" className="customizer-close" onClick={handleToggle}>
+          <a
+            href="#endregion"
+            className="customizer-close"
+            onClick={handleToggle}
+          >
             <X />
           </a>
         </div>

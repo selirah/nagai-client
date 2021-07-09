@@ -1,23 +1,15 @@
-import { Navigation } from 'classes'
-import { Grid, Home } from 'react-feather'
+import { Home } from 'react-feather'
+import { PRIVATE_ROUTES } from 'router/constants'
 
-const HorizontalNavigation: Navigation[] = [
+const HorizontalNavigation: any = [
   {
-    links: {
-      id: 'home',
-      title: 'Home',
-      icon: <Home size={20} />,
-      navLink: '/admin/home'
-    },
-    header: 'Customers & Accounts'
+    id: 'home',
+    title: 'Home',
+    icon: <Home size={20} />,
+    navLink: PRIVATE_ROUTES.HOME
   },
   {
-    links: {
-      id: 'accounts',
-      title: 'Accounts',
-      icon: <Grid size={20} />,
-      navLink: '/admin/accounts'
-    }
+    header: 'Customers & Accounts'
   }
 ]
 

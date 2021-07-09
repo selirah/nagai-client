@@ -50,7 +50,7 @@ interface VerticalLayoutProps {
   menu: any
   routerProps: any
   currentActiveItem: any
-  layout: 'HorizontalLayout' | 'VerticalLayout'
+  layout: string
   setLayout: (layout: string) => void
   transition: 'fadeIn' | 'fadeInLeft' | 'zoomIn' | 'none'
   setTransition: (value: string) => void
@@ -112,7 +112,8 @@ const VerticalLayout: React.FC<VerticalLayoutProps> = (props) => {
     if (menuVisibility && windowWidth < 1200) {
       setMenuVisibility(false)
     }
-  }, [location, menuVisibility, setMenuVisibility, windowWidth])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, windowWidth])
 
   //** Sets Window Size & Layout Props
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Disc, X, Circle } from 'react-feather'
 import themeConfig from 'theme/themeConfig'
@@ -27,14 +27,14 @@ const NavMenuHeader: React.FC<NavMenuHeaderProps> = (props) => {
   }, [menuHover, menuCollapsed, setGroupOpen])
 
   // ** Menu toggler component
-  const Toggler = () => {
+  const Toggler = useCallback(() => {
     if (!menuCollapsed) {
       return (
         <Disc
           size={20}
           data-tour="toggle-icon"
           className="text-primary toggle-icon d-none d-xl-block"
-          onClick={() => (setMenuCollapsed ? setMenuCollapsed(true) : null)}
+          onClick={() => setMenuCollapsed(true)}
         />
       )
     } else {
@@ -43,11 +43,11 @@ const NavMenuHeader: React.FC<NavMenuHeaderProps> = (props) => {
           size={20}
           data-tour="toggle-icon"
           className="text-primary toggle-icon d-none d-xl-block"
-          onClick={() => (setMenuCollapsed ? setMenuCollapsed(true) : null)}
+          onClick={() => setMenuCollapsed(false)}
         />
       )
     }
-  }
+  }, [menuCollapsed, setMenuCollapsed])
 
   return (
     <div className="navbar-header">
@@ -64,9 +64,7 @@ const NavMenuHeader: React.FC<NavMenuHeaderProps> = (props) => {
           <div className="nav-link modern-nav-toggle cursor-pointer">
             <Toggler />
             <X
-              onClick={() =>
-                setMenuVisibility ? setMenuVisibility(false) : null
-              }
+              onClick={() => setMenuVisibility(false)}
               className="toggle-icon icon-x d-block d-xl-none"
               size={20}
             />

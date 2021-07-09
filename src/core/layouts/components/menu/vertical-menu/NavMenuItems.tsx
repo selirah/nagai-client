@@ -2,7 +2,7 @@ import React from 'react'
 import NavMenuLink from './NavMenuLink'
 import NavMenuGroup from './NavMenuGroup'
 import NavMenuSectionHeader from './NavMenuSectionHeader'
-import { resolveVerticalNavMenuItemComponent as resolveNavItemComponent } from 'core/layouts/Utils'
+import { resolveVerticalNavMenuItemComponent as resolveNavItemComponent } from '../../../Utils'
 
 interface NavMenuItemsProps {
   parentItem?: any

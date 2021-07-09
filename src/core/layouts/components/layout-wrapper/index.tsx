@@ -7,7 +7,7 @@ import 'animate.css/animate.css'
 
 interface LayoutWrapperProps {
   layout: 'HorizontalLayout' | 'VerticalLayout'
-  appLayout?: any
+  appLayout?: boolean
   wrapperClass?: any
   transition: any
   routeMeta?: any

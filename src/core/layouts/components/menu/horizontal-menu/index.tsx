@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import Navigation from 'navigation/horizontal'
+import navigation from 'navigation/horizontal'
 import NavMenuItems from './NavMenuItems'
 
 interface HorizontalMenuProps {
@@ -38,7 +38,7 @@ const HorizontalMenu: React.FC<HorizontalMenuProps> = ({
       <ul className="nav navbar-nav" id="main-menu-navigation">
         <NavMenuItems
           submenu={false}
-          items={Navigation}
+          items={navigation}
           activeItem={activeItem}
           groupActive={groupActive}
           routerProps={routerProps}

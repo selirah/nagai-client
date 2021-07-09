@@ -3,7 +3,7 @@ import { NavLink, useLocation, matchPath } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Badge } from 'reactstrap'
 import classnames from 'classnames'
-import Navigation from 'navigation/vertical'
+import navigation from 'navigation/vertical'
 import { search, getAllParents } from 'core/layouts/Utils'
 
 interface NavMenuLinkProps {
@@ -73,7 +73,7 @@ const NavMenuLink: React.FC<NavMenuLinkProps> = ({
   useEffect(() => {
     if (currentActiveItem !== null) {
       setActiveItem(currentActiveItem)
-      const arr = searchParents(Navigation, currentURL)
+      const arr = searchParents(navigation, currentURL)
       setGroupActive([...arr])
     }
   }, [

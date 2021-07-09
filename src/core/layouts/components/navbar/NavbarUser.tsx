@@ -13,7 +13,7 @@ import UserDropdown from './UserDropdown'
 interface NavbarUserProps {
   mode: 'light' | 'dark'
   setMode: (mode: 'light' | 'dark') => void
-  setMenuVisibility?: (value: boolean) => void
+  setMenuVisibility: (value: boolean) => void
 }
 
 const NavbarUser: React.FC<NavbarUserProps> = (props) => {
@@ -55,7 +55,7 @@ const NavbarUser: React.FC<NavbarUserProps> = (props) => {
         <NavItem className="mobile-menu mr-auto">
           <NavLink
             className="nav-menu-main menu-toggle hidden-xs is-active"
-            onClick={() => (setMenuVisibility ? setMenuVisibility(true) : null)}
+            onClick={() => setMenuVisibility(true)}
           >
             <Menu className="ficon" />
           </NavLink>

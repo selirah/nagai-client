@@ -1,6 +1,8 @@
 import RippleButton from 'core/components/ripple-button'
 import { Link } from 'react-router-dom'
 import notAuthImage from 'assets/images/pages/not-authorized.svg'
+import { PUBLIC_ROUTES } from 'router/constants'
+import themeConfig from 'theme/themeConfig'
 
 const NotAuthorized = () => (
   <div className="misc-wrapper">
@@ -71,7 +73,9 @@ const NotAuthorized = () => (
           </g>
         </g>
       </svg>
-      <h2 className="brand-text text-primary ml-1">COAO_v2</h2>
+      <h2 className="brand-text text-primary ml-1">
+        {themeConfig.app.appName}
+      </h2>
     </a>
     <div className="misc-inner p-2 p-sm-3">
       <div className="w-100 text-center">
@@ -82,7 +86,7 @@ const NotAuthorized = () => (
         </p>
         <RippleButton
           tag={Link}
-          to="/pages/login-v2"
+          to={PUBLIC_ROUTES.SIGN_IN}
           color="primary"
           className="btn-sm-block mb-1"
         >

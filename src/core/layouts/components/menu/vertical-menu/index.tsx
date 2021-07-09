@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useRef } from 'react'
-import Navigation from 'navigation/vertical'
+import navigation from 'navigation/vertical'
 import classnames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import NavMenuHeader from './NavMenuHeader'
@@ -41,7 +41,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       }
     }
   }
-
   return (
     <Fragment>
       <div
@@ -74,19 +73,21 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
               options={{ wheelPropagation: false }}
               onScrollY={(container) => scrollMenu(container)}
             >
-              <NavMenuItems
-                items={Navigation}
-                groupActive={groupActive}
-                setGroupActive={setGroupActive}
-                activeItem={activeItem}
-                setActiveItem={setActiveItem}
-                groupOpen={groupOpen}
-                setGroupOpen={setGroupOpen}
-                routerProps={routerProps}
-                menuCollapsed={menuCollapsed}
-                menuHover={menuHover}
-                currentActiveItem={currentActiveItem}
-              />
+              <ul className="navigation navigation-main">
+                <NavMenuItems
+                  items={navigation}
+                  groupActive={groupActive}
+                  setGroupActive={setGroupActive}
+                  activeItem={activeItem}
+                  setActiveItem={setActiveItem}
+                  groupOpen={groupOpen}
+                  setGroupOpen={setGroupOpen}
+                  routerProps={routerProps}
+                  menuCollapsed={menuCollapsed}
+                  menuHover={menuHover}
+                  currentActiveItem={currentActiveItem}
+                />
+              </ul>
             </PerfectScrollbar>
           </Fragment>
         )}
