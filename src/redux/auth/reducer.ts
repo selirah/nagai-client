@@ -148,9 +148,6 @@ const reducer: Reducer<AuthState> = (state = initialState, action) => {
         loading: initialState.loading
       }
 
-    case ActionTypes.DESTROY_STATES:
-      return initialState
-
     default:
       return state
   }

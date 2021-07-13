@@ -8,7 +8,7 @@ const DefaultRoute = PRIVATE_ROUTES.HOME
 const Routes: Route[] = [
   {
     path: PRIVATE_ROUTES.HOME,
-    component: lazy(() => import('pages/home/Home')),
+    component: lazy(() => import('pages/home')),
     exact: true
   },
   {
@@ -47,6 +47,11 @@ const Routes: Route[] = [
     path: PUBLIC_ROUTES.ERROR,
     component: lazy(() => import('pages/Error')),
     layout: 'BlankLayout'
+  },
+  {
+    path: PRIVATE_ROUTES.MANUFACTURERS,
+    component: lazy(() => import('pages/manufacturers')),
+    exact: true
   }
 ]
 

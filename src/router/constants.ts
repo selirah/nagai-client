@@ -1,4 +1,5 @@
 export const PUBLIC_ROUTES = {
+  LANDING: '/',
   SIGN_IN: '/auth/signin',
   SIGN_UP: '/auth/signup',
   VERIFY_ACCOUNT: '/auth/verifyaccount',
@@ -10,5 +11,17 @@ export const PUBLIC_ROUTES = {
 }
 
 export const PRIVATE_ROUTES = {
-  HOME: '/admin/home'
+  HOME: '/admin/home',
+  MANUFACTURERS: '/admin/manufacturers',
+  SETTINGS: '/admin/settings',
+  PROFILE: '/admin/profile',
+  PRODUCTS: '/admin/products',
+  OUTLETS: '/admin/outlets',
+  TERRITORIES: '/admin/territories',
+  INVENTORIES: '/admin/inventories',
+  ORDERS: '/admin/orders',
+  USERS: '/admin/users',
+  DELIVERIES: '/admin/deliveries',
+  SALES: '/admin/sales',
+  PAYMENTS: '/admin/payments'
 }

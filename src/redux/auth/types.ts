@@ -1,4 +1,4 @@
-import { User } from 'classes';
+import { User } from 'classes'
 
 export enum ActionTypes {
   SUBMITTING = '@@auth/SUBMITTING',
@@ -19,19 +19,19 @@ export enum ActionTypes {
   RESEND_CODE_FAILURE = '@@auth/RESEND_CODE_FAILURE',
   SET_CURRENT_USER = '@@auth/SET_CURRENT_USER',
   DESTROY_STATES = '@@auth/DESTROY_STATES',
-  CLEAR_STATES = '@@auth/CLEAR_STATES',
+  CLEAR_STATES = '@@auth/CLEAR_STATES'
 }
 
 export type AuthState = {
-  readonly isAuthenticated: boolean;
-  readonly email: string | null;
-  readonly errors: any;
-  readonly isSubmitting: boolean;
-  readonly isResetPassword: boolean;
-  readonly isRegistered: boolean;
-  readonly isResendCode: boolean;
-  readonly isVerified: boolean;
-  readonly loading: boolean;
-  readonly token: string | null;
-  readonly user: User | null;
-};
+  readonly isAuthenticated: boolean
+  readonly email: string | null
+  readonly errors: any
+  readonly isSubmitting: boolean
+  readonly isResetPassword: boolean
+  readonly isRegistered: boolean
+  readonly isResendCode: boolean
+  readonly isVerified: boolean
+  readonly loading: boolean
+  readonly token: string | null
+  readonly user: User | null
+}

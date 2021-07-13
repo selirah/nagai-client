@@ -11,9 +11,10 @@ import {
   DropdownItem,
   Collapse
 } from 'reactstrap'
-import { LogOut } from 'react-feather'
+import { LogOut, Settings, UserCheck } from 'react-feather'
 import defaultAvatar from 'assets/images/avatars/avatar.png'
 import { removeAll } from 'utils/localstorage'
+import { PUBLIC_ROUTES } from 'router/constants'
 
 const { logout } = authActions
 
@@ -31,7 +32,7 @@ const UserDropdown = () => {
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle
-        href="/"
+        href={PUBLIC_ROUTES.LANDING}
         tag="a"
         className="nav-link dropdown-user-link"
         onClick={(e) => e.preventDefault()}
@@ -41,7 +42,19 @@ const UserDropdown = () => {
       </DropdownToggle>
       <DropdownMenu right>
         <Collapse isOpen={true}>
-          <DropdownItem tag={Link} to="#" onClick={onLogoutUser}>
+          <DropdownItem tag={Link} to={PUBLIC_ROUTES.LANDING}>
+            <UserCheck size={14} className="mr-75" />
+            <span className="align-middle">Profile</span>
+          </DropdownItem>
+          <DropdownItem tag={Link} to={PUBLIC_ROUTES.LANDING}>
+            <Settings size={14} className="mr-75" />
+            <span className="align-middle">Settings</span>
+          </DropdownItem>
+          <DropdownItem
+            tag={Link}
+            to={PUBLIC_ROUTES.LANDING}
+            onClick={onLogoutUser}
+          >
             <LogOut size={14} className="mr-75" />
             <span className="align-middle">Logout</span>
           </DropdownItem>

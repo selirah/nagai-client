@@ -1,15 +1,15 @@
 import { Home } from 'react-feather'
 import { PRIVATE_ROUTES } from 'router/constants'
 
-const HorizontalNavigation: any = [
+const HorizontalNavigation = [
   {
     id: 'home',
-    title: 'Home',
+    title: 'Dashboard',
     icon: <Home size={20} />,
     navLink: PRIVATE_ROUTES.HOME
   },
   {
-    header: 'Customers & Accounts'
+    header: 'Features'
   }
 ]
 
