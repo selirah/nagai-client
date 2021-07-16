@@ -20,7 +20,7 @@ const themeConfig = {
     footer: {
       type: 'sticky' // static, sticky, hidden
     },
-    customizer: true,
+    customizer: false,
     scrollTop: true // Enable scroll to top button
   }
 }

@@ -1,7 +1,7 @@
 import { Product } from './Product'
 
 export type Manufacturer = {
-  manufacturerId: number
+  id: number
   name: string
   email: string
   phone: string
@@ -17,7 +17,7 @@ export type Manufacturer = {
 }
 
 export type ManufacturerFields = {
-  manufacturerId?: number
+  id?: number
   name: string
   email: string
   phone: string

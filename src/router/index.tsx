@@ -115,7 +115,6 @@ const Router = () => {
                             /*eslint-enable */
                           >
                             <route.component {...props} />
-                            {/* <FinalRoute route={route} {...props} /> */}
                           </LayoutWrapper>
                         </Suspense>
                       )
@@ -131,7 +130,7 @@ const Router = () => {
   }
   return (
     <ErrorBoundary>
-      <AppRouter /*basename={process.env.REACT_APP_BASENAME}*/>
+      <AppRouter>
         <Switch>
           {/* If user is logged in Redirect user to DefaultRoute else to login */}
           <Route

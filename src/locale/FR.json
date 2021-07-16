@@ -1,5 +1,15 @@
 {
   "Welcome to NAGAI Admin": "Welcome to NAGAI Admin",
   "Please sign-in to your account": "Please sign-in to your account",
-  "Home": "Home"
+  "Home": "Home",
+  "Dashboard": "Dashboard",
+  "Manufacturers": "Manufacturers",
+  "Products": "Products",
+  "Outlets": "Outlets",
+  "Territories": "Territories",
+  "Inventories": "Inventories",
+  "Orders": "Orders",
+  "Deliveries": "Deliveries",
+  "Sales": "Sales",
+  "Payments": "Payments"
 }

@@ -51,7 +51,9 @@ const Routes: Route[] = [
   {
     path: PRIVATE_ROUTES.MANUFACTURERS,
     component: lazy(() => import('pages/manufacturers')),
-    exact: true
+    exact: false,
+    className: 'todo-application',
+    appLayout: true
   }
 ]
 

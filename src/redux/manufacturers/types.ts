@@ -17,7 +17,10 @@ export enum ActionTypes {
   EXPORT_MANUFACTURERS_REQUEST = '@@manufacturers/EXPORT_MANUFACTURERS_REQUEST',
   EXPORT_MANUFACTURERS_SUCCESS = '@@manufacturers/EXPORT_MANUFACTURERS_SUCCESS',
   EXPORT_MANUFACTURERS_FAILURE = '@@manufacturers/EXPORT_MANUFACTURERS_FAILURE',
-  CLEAR_STATES = '@@manufacturers/CLEAR_STATES'
+  CLEAR_STATES = '@@manufacturers/CLEAR_STATES',
+  SEARCH_TEXT = '@@manufacturers/SEARCH_TEXT',
+  SET_PAGE = '@@manufacturers/SET_PAGE',
+  REORDER_LIST = '@@manufacturers/REORDER_LIST'
 }
 
 export type ManufacturerState = {
@@ -27,4 +30,7 @@ export type ManufacturerState = {
   readonly loading: boolean
   readonly isExporting: boolean
   readonly isSucceeded: boolean
+  readonly searchText: string
+  readonly page: number
+  readonly totalRecords: number
 }

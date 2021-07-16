@@ -33,7 +33,7 @@ function* updateManufacturer({
       callApiPut,
       '/manufacturers',
       payload,
-      payload.manufacturerId
+      payload.id
     )
     yield put(manufacturerActions.updateManufacturerSuccess(res.data))
   } catch (err) {

@@ -38,7 +38,13 @@ const manufacturerActions = {
   getManufacturersFailure: (error: any) =>
     action(ActionTypes.GET_MANUFACTURERS_FAILURE, error),
 
-  clearStates: () => action(ActionTypes.CLEAR_STATES)
+  clearStates: () => action(ActionTypes.CLEAR_STATES),
+
+  setSearchText: (value: string) => action(ActionTypes.SEARCH_TEXT, value),
+
+  setPageNumber: (page: number) => action(ActionTypes.SET_PAGE, page),
+
+  reorderList: (list: Manufacturer[]) => action(ActionTypes.REORDER_LIST, list)
 }
 
 export default manufacturerActions

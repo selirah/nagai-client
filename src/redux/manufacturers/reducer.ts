@@ -7,7 +7,10 @@ export const initialState: ManufacturerState = {
   isSubmitting: false,
   loading: false,
   manufacturers: [],
-  isSucceeded: false
+  isSucceeded: false,
+  searchText: '',
+  page: 0,
+  totalRecords: 0
 }
 
 const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
@@ -25,7 +28,8 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         ...state,
         isSubmitting: initialState.isSubmitting,
         manufacturers: [action.payload, ...state.manufacturers],
-        isSucceeded: true
+        isSucceeded: true,
+        totalRecords: state.totalRecords + 1
       }
 
     case ActionTypes.ADD_MANUFACTURER_FAILURE:
@@ -46,9 +50,7 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
 
     case ActionTypes.UPDATE_MANUFACTURER_SUCCESS:
       let manufacturers = state.manufacturers.slice()
-      manufacturers = manufacturers.filter(
-        (m) => m.manufacturerId !== action.payload.manufacturerId
-      )
+      manufacturers = manufacturers.filter((m) => m.id !== action.payload.id)
       manufacturers.unshift(action.payload)
       return {
         ...state,
@@ -77,9 +79,10 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         ...state,
         isSubmitting: initialState.isSubmitting,
         manufacturers: state.manufacturers.filter(
-          (m) => m.manufacturerId !== action.payload
+          (m) => m.id !== action.payload
         ),
-        isSucceeded: true
+        isSucceeded: true,
+        totalRecords: state.totalRecords - 1
       }
 
     case ActionTypes.DELETE_MANUFACTURER_FAILURE:
@@ -100,7 +103,8 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
       return {
         ...state,
         loading: initialState.loading,
-        manufacturers: action.payload
+        manufacturers: action.payload,
+        totalRecords: action.payload.length
       }
 
     case ActionTypes.GET_MANUFACTURERS_FAILURE:
@@ -108,6 +112,18 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         ...state,
         loading: initialState.loading,
         error: action.payload
+      }
+
+    case ActionTypes.SEARCH_TEXT:
+      return {
+        ...state,
+        searchText: action.payload
+      }
+
+    case ActionTypes.REORDER_LIST:
+      return {
+        ...state,
+        manufacturers: action.payload
       }
 
     default:
