@@ -42,7 +42,7 @@ const Drawer: React.FC<Props> = (props) => {
           {manufacturer ? manufacturer.name : 'View'}
         </span>
       </ModalHeader>
-      <ModalBody className="flex-grow-1 pb-sm-0 pb-3 px-0">
+      <ModalBody className="flex-grow-1 pb-sm-0 py-3">
         <View />
       </ModalBody>
     </Modal>

@@ -52,3 +52,12 @@ export const deleteDone = (item: string) => {
   }
   return payload
 }
+
+export const getInitials = (str: string) => {
+  const results: string[] = []
+  const wordArray = str.split(' ')
+  wordArray.forEach((e) => {
+    results.push(e[0])
+  })
+  return results.join('').substr(0, 2)
+}
