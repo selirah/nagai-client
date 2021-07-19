@@ -1,21 +1,36 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import classnames from 'classnames'
 import { Link } from 'react-router-dom'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { ListGroup, ListGroupItem } from 'reactstrap'
-import { Grid, PlusCircle, List } from 'react-feather'
+import { PlusCircle, List } from 'react-feather'
+import { Selector, Dispatch } from 'redux/selector-dispatch'
+import manufacturerActions from 'redux/manufacturers/actions'
+import { useDispatch } from 'react-redux'
 
 interface Props {
   mainSidebar: boolean
 }
 
+const { setActiveLink } = manufacturerActions
+
 const Sidebar: React.FC<Props> = (props) => {
   const { mainSidebar } = props
-  const [activeLink, setActiveLink] = useState('list')
+  const store = Selector((state) => state.manufacturers)
+  const [active, setActive] = useState(store.activeLink)
+  const dispatch: Dispatch = useDispatch()
 
-  const handleActiveLink = useCallback((value: string) => {
-    setActiveLink(value)
-  }, [])
+  const handleActiveLink = useCallback(
+    (value: string) => {
+      dispatch(setActiveLink(value))
+    },
+    [dispatch]
+  )
+
+  useEffect(() => {
+    const { activeLink } = store
+    setActive(activeLink)
+  }, [store])
 
   return (
     <div
@@ -36,7 +51,7 @@ const Sidebar: React.FC<Props> = (props) => {
                   action
                   tag={Link}
                   to={'/admin/manufacturers'}
-                  active={activeLink === 'list'}
+                  active={active === 'list'}
                   onClick={() => handleActiveLink('list')}
                 >
                   <List className="mr-75" size={18} />
@@ -47,71 +62,11 @@ const Sidebar: React.FC<Props> = (props) => {
                   action
                   tag={Link}
                   to={'/admin/manufacturers/add'}
-                  active={activeLink === 'add'}
+                  active={active === 'add'}
                   onClick={() => handleActiveLink('add')}
                 >
                   <PlusCircle className="mr-75" size={18} />
                   <span className="align-middle">Add Manufacturer</span>
-                </ListGroupItem>
-              </ListGroup>
-              <div className="mt-3 px-2 d-flex justify-content-between">
-                <h6 className="section-label mb-1">Group by statuses/tags</h6>
-                <Grid size={14} />
-              </div>
-              <ListGroup className="list-group-labels">
-                <ListGroupItem
-                  className="d-flex align-items-center"
-                  tag={Link}
-                  to="/accounts/tags/ready_to_sync"
-                  action
-                >
-                  <span className="bullet bullet-sm bullet-primary mr-1"></span>
-                  <span className="align-middle">Ready to sync</span>
-                </ListGroupItem>
-                <ListGroupItem
-                  className="d-flex align-items-center"
-                  tag={Link}
-                  to="/accounts/tags/completed"
-                  action
-                >
-                  <span className="bullet bullet-sm bullet-success mr-1"></span>
-                  <span className="align-middle">Completed</span>
-                </ListGroupItem>
-                <ListGroupItem
-                  className="d-flex align-items-center"
-                  tag={Link}
-                  to="/accounts/tags/synced_to_broker"
-                  action
-                >
-                  <span className="bullet bullet-sm bullet-info mr-1"></span>
-                  <span className="align-middle">Syncronized</span>
-                </ListGroupItem>
-                <ListGroupItem
-                  className="d-flex align-items-center"
-                  tag={Link}
-                  to="/accounts/tags/waiting_images"
-                  action
-                >
-                  <span className="bullet bullet-sm bullet-warning mr-1"></span>
-                  <span className="align-middle">Waiting images</span>
-                </ListGroupItem>
-                <ListGroupItem
-                  className="d-flex align-items-center"
-                  tag={Link}
-                  to="/accounts/tags/waiting_profile"
-                  action
-                >
-                  <span className="bullet bullet-sm bullet-warning mr-1"></span>
-                  <span className="align-middle">Waiting profile</span>
-                </ListGroupItem>
-                <ListGroupItem
-                  className="d-flex align-items-center"
-                  tag={Link}
-                  to="/accounts/tags/error_broker_sync"
-                  action
-                >
-                  <span className="bullet bullet-sm bullet-danger mr-1"></span>
-                  <span className="align-middle">Error on sync</span>
                 </ListGroupItem>
               </ListGroup>
             </PerfectScrollbar>

@@ -6,11 +6,9 @@ import 'core/scss/react/apps/app-todo.scss'
 import ManufacturerRoutes from './routes'
 
 const Manufacturers = () => {
-  const [query, setQuery] = useState('')
   const [mainSidebar, setMainSidebar] = useState(false)
   const [openTaskSidebar, setOpenTaskSidebar] = useState(false)
 
-  const handleFilter = useCallback(() => {}, [])
   const handleMainSidebar = useCallback(
     () => setMainSidebar(!mainSidebar),
     [mainSidebar]
@@ -19,8 +17,6 @@ const Manufacturers = () => {
     () => setOpenTaskSidebar(!openTaskSidebar),
     [openTaskSidebar]
   )
-
-  const handleSort = useCallback((value: string) => {}, [])
 
   return (
     <Fragment>
@@ -35,12 +31,7 @@ const Manufacturers = () => {
               onClick={handleMainSidebar}
             ></div>
             <div className="todo-app-list">
-              <SearchBar
-                handleFilter={handleFilter}
-                query={query}
-                handleMainSidebar={handleMainSidebar}
-                handleSort={handleSort}
-              />
+              <SearchBar handleMainSidebar={handleMainSidebar} />
               <ManufacturerRoutes />
             </div>
           </div>

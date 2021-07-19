@@ -1,5 +1,26 @@
+import { Manufacturer } from 'classes'
 import { Reducer } from 'redux'
 import { ManufacturerState, ActionTypes } from './types'
+
+const sortItems = (
+  items: Manufacturer[],
+  sortOrder: 'asc' | 'desc' | 'normal'
+) => {
+  switch (sortOrder) {
+    case 'normal':
+      return items.sort(function (a, b) {
+        return b.id - a.id
+      })
+    case 'asc':
+      return items.sort(function (a, b) {
+        return a.name.length - b.name.length
+      })
+    case 'desc':
+      return items.sort(function (a, b) {
+        return b.name.length - a.name.length
+      })
+  }
+}
 
 export const initialState: ManufacturerState = {
   errors: null,
@@ -10,7 +31,11 @@ export const initialState: ManufacturerState = {
   isSucceeded: false,
   searchText: '',
   page: 0,
-  totalRecords: 0
+  totalRecords: 0,
+  sortBy: 'normal',
+  activeLink: 'list',
+  isDeleted: false,
+  manufacturer: null
 }
 
 const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
@@ -71,7 +96,7 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
       return {
         ...state,
         errors: initialState.errors,
-        isSucceeded: initialState.isSucceeded
+        isDeleted: initialState.isDeleted
       }
 
     case ActionTypes.DELETE_MANUFACTURER_SUCCESS:
@@ -81,7 +106,7 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         manufacturers: state.manufacturers.filter(
           (m) => m.id !== action.payload
         ),
-        isSucceeded: true,
+        isDeleted: true,
         totalRecords: state.totalRecords - 1
       }
 
@@ -90,7 +115,7 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         ...state,
         isSubmitting: initialState.isSubmitting,
         errors: action.payload,
-        isSucceeded: initialState.isSucceeded
+        isDeleted: initialState.isDeleted
       }
 
     case ActionTypes.GET_MANUFACTURERS_REQUEST:
@@ -120,10 +145,39 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         searchText: action.payload
       }
 
+    case ActionTypes.SET_SORT_ORDER:
+      return {
+        ...state,
+        sortBy: action.payload,
+        manufacturers: sortItems(state.manufacturers, action.payload)
+      }
+
     case ActionTypes.REORDER_LIST:
       return {
         ...state,
         manufacturers: action.payload
+      }
+
+    case ActionTypes.CLEAR_STATES:
+      return {
+        ...state,
+        searchText: initialState.searchText,
+        isSucceeded: initialState.isSucceeded,
+        errors: initialState.errors,
+        sortBy: initialState.sortBy,
+        isDeleted: initialState.isDeleted
+      }
+
+    case ActionTypes.SET_ACTIVE_LINK:
+      return {
+        ...state,
+        activeLink: action.payload
+      }
+
+    case ActionTypes.SET_MANUFACTURER:
+      return {
+        ...state,
+        manufacturer: action.payload
       }
 
     default:

@@ -44,7 +44,15 @@ const manufacturerActions = {
 
   setPageNumber: (page: number) => action(ActionTypes.SET_PAGE, page),
 
-  reorderList: (list: Manufacturer[]) => action(ActionTypes.REORDER_LIST, list)
+  reorderList: (list: Manufacturer[]) => action(ActionTypes.REORDER_LIST, list),
+
+  setSortOrder: (order: 'asc' | 'desc' | 'normal') =>
+    action(ActionTypes.SET_SORT_ORDER, order),
+
+  setActiveLink: (link: string) => action(ActionTypes.SET_ACTIVE_LINK, link),
+
+  setManufacturer: (manufacturer: Manufacturer) =>
+    action(ActionTypes.SET_MANUFACTURER, manufacturer)
 }
 
 export default manufacturerActions

@@ -20,7 +20,10 @@ export enum ActionTypes {
   CLEAR_STATES = '@@manufacturers/CLEAR_STATES',
   SEARCH_TEXT = '@@manufacturers/SEARCH_TEXT',
   SET_PAGE = '@@manufacturers/SET_PAGE',
-  REORDER_LIST = '@@manufacturers/REORDER_LIST'
+  REORDER_LIST = '@@manufacturers/REORDER_LIST',
+  SET_SORT_ORDER = '@@manufacturers/SET_SORT_ORDER',
+  SET_ACTIVE_LINK = '@@manufacturers/SET_ACTIVE_LINK',
+  SET_MANUFACTURER = '@@manufacturers/SET_MANUFACTURER'
 }
 
 export type ManufacturerState = {
@@ -33,4 +36,8 @@ export type ManufacturerState = {
   readonly searchText: string
   readonly page: number
   readonly totalRecords: number
+  readonly sortBy: 'asc' | 'desc' | 'normal'
+  readonly activeLink: string
+  readonly isDeleted: boolean
+  readonly manufacturer: Manufacturer | null
 }

@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useCallback, useState, MouseEvent } from 'react'
 import { Link } from 'react-router-dom'
 import {
   InputGroup,
@@ -11,16 +11,37 @@ import {
   DropdownItem
 } from 'reactstrap'
 import { Search, MoreVertical, Menu } from 'react-feather'
+import { useDispatch } from 'react-redux'
+import { Dispatch, Selector } from 'redux/selector-dispatch'
+import manufacturerActions from 'redux/manufacturers/actions'
 
 interface Props {
-  query: string
-  handleFilter: (e: ChangeEvent<HTMLInputElement>) => void
-  handleSort: (value: string) => void
   handleMainSidebar: () => void
 }
 
+const { setSearchText, setSortOrder } = manufacturerActions
+
 const SearchBar: React.FC<Props> = (props) => {
-  const { query, handleFilter, handleMainSidebar, handleSort } = props
+  const { handleMainSidebar } = props
+  const [query, setQuery] = useState('')
+  const dispatch: Dispatch = useDispatch()
+  const { activeLink } = Selector((state) => state.manufacturers)
+
+  const handleFilter = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setQuery(e.target.value)
+      dispatch(setSearchText(e.target.value))
+    },
+    [dispatch]
+  )
+
+  const handleSort = useCallback(
+    (e: MouseEvent<HTMLElement>, value: 'asc' | 'desc' | 'normal') => {
+      e.preventDefault()
+      dispatch(setSortOrder(value))
+    },
+    [dispatch]
+  )
 
   return (
     <div className="app-fixed-search d-flex align-items-center">
@@ -34,41 +55,56 @@ const SearchBar: React.FC<Props> = (props) => {
         <InputGroup className="input-group-merge">
           <InputGroupAddon addonType="prepend">
             <InputGroupText>
-              <Search className="text-muted" size={14} />
+              {activeLink === 'list' ? (
+                <Search className="text-muted" size={14} />
+              ) : null}
             </InputGroupText>
           </InputGroupAddon>
-          <Input value={query} onChange={handleFilter} />
+          <Input
+            value={query}
+            onChange={handleFilter}
+            placeholder={
+              activeLink === 'list' ? 'Search by name of manufacturer ..' : ''
+            }
+            disabled={activeLink !== 'list'}
+          />
         </InputGroup>
       </div>
-      <UncontrolledDropdown>
-        <DropdownToggle
-          className="hide-arrow mr-1"
-          tag="a"
-          href="/"
-          onClick={(e) => e.preventDefault()}
-        >
-          <MoreVertical className="text-body" size={16} />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to="/"
-            onClick={(e) => handleSort('title-asc')}
+      {activeLink === 'list' ? (
+        <UncontrolledDropdown>
+          <DropdownToggle
+            className="hide-arrow mr-1"
+            tag="a"
+            href="/"
+            onClick={(e) => e.preventDefault()}
           >
-            Sort AZ
-          </DropdownItem>
-          <DropdownItem
-            tag={Link}
-            to="/"
-            onClick={(e) => handleSort('title-desc')}
-          >
-            Sort ZA
-          </DropdownItem>
-          <DropdownItem tag={Link} to="/" onClick={(e) => handleSort('')}>
-            Reset Sort
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
+            <MoreVertical className="text-body" size={16} />
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem
+              tag={Link}
+              to="/"
+              onClick={(e) => handleSort(e, 'asc')}
+            >
+              Sort A-Z
+            </DropdownItem>
+            <DropdownItem
+              tag={Link}
+              to="/"
+              onClick={(e) => handleSort(e, 'desc')}
+            >
+              Sort Z-A
+            </DropdownItem>
+            <DropdownItem
+              tag={Link}
+              to="/"
+              onClick={(e) => handleSort(e, 'normal')}
+            >
+              Reset Sort
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      ) : null}
     </div>
   )
 }
