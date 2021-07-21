@@ -16,7 +16,7 @@ interface AvatarProps {
   imgWidth?: string | number
   size?: 'sm' | 'lg' | 'xl'
   status?: 'online' | 'offline' | 'away' | 'busy'
-  initals?: boolean
+  initials?: boolean
   badgeColor?:
     | 'primary'
     | 'secondary'
@@ -66,7 +66,7 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
     status,
     tag: Tag,
     contentStyles,
-    initals,
+    initials,
     ...rest
   } = props
 
@@ -96,7 +96,7 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           })}
           style={contentStyles}
         >
-          {initals && content ? getInitials(content) : content}
+          {initials && content ? getInitials(content) : content}
           {icon ? icon : null}
           {badgeUp ? (
             <Badge

@@ -96,7 +96,7 @@ function* watchGetManufacturers() {
   yield takeEvery(ActionTypes.GET_MANUFACTURERS_REQUEST, getManufacturers)
 }
 
-function* manufacturerSaga(): Generator {
+function* manufacturersSaga(): Generator {
   yield all([
     fork(watchAddManufacturer),
     fork(watchUpdateManufacturer),
@@ -105,4 +105,4 @@ function* manufacturerSaga(): Generator {
   ])
 }
 
-export default manufacturerSaga
+export default manufacturersSaga

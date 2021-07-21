@@ -1,3 +1,5 @@
+import { Selector } from 'redux/selector-dispatch'
+
 export const isObjEmpty = (obj: object) => Object.keys(obj).length === 0
 
 export const kFormatter = (num: number) =>
@@ -60,4 +62,10 @@ export const getInitials = (str: string) => {
     results.push(e[0])
   })
   return results.join('').substr(0, 2)
+}
+
+export const getCategory = (id: number) => {
+  const { categories } = Selector((state) => state.categories)
+  const category = categories.find((c) => c.id === id)
+  return category !== undefined ? category : null
 }

@@ -125,7 +125,9 @@ const List = () => {
         ></div>
       )
     } else {
-      return <Avatar color="primary" content={`${manifacturer.name}`} initals />
+      return (
+        <Avatar color="primary" content={`${manifacturer.name}`} initials />
+      )
     }
   }
 
@@ -155,10 +157,12 @@ const List = () => {
             <li
               key={item.id}
               className={classnames('todo-item', { completed: false })}
-              onClick={() => handleManufacturerSelection(item)}
             >
               <div className="todo-title-wrapper">
-                <div className="todo-title-area">
+                <div
+                  className="todo-title-area"
+                  onClick={() => handleManufacturerSelection(item)}
+                >
                   <MoreVertical className="drag-icon" />
                   {renderAvatar(item)}
                   <span className="todo-title">{`${item.name}`}</span>

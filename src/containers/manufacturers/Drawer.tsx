@@ -1,21 +1,31 @@
 import React from 'react'
-import { X } from 'react-feather'
+import { X, Edit2 } from 'react-feather'
 import RippleButton from 'core/components/ripple-button'
 import { Modal, ModalBody } from 'reactstrap'
 import { Selector } from 'redux/selector-dispatch'
 import View from './view'
+import { Link } from 'react-router-dom'
 
 interface Props {
   toggleDrawer: boolean
   handleToggleDrawer: () => void
 }
 
-const ModalHeader: React.FC<{ handleToggleDrawer: () => void }> = (props) => {
-  const { handleToggleDrawer, children } = props
+const ModalHeader: React.FC<{ handleToggleDrawer: () => void; id: number }> = (
+  props
+) => {
+  const { handleToggleDrawer, children, id } = props
   return (
     <div className="modal-header d-flex align-items-center justify-content-between mb-1">
       <h5 className="modal-title">{children}</h5>
       <div className="todo-item-action d-flex align-items-center">
+        <RippleButton
+          color="info"
+          tag={Link}
+          to={`/admin/manufacturers/edit/${id}`}
+        >
+          Edit <Edit2 className="font-weight-normal ml-2" size={12} />
+        </RippleButton>
         <span className="todo-item-favorite cursor-pointer mx-75"></span>
         <RippleButton color="danger" onClick={handleToggleDrawer}>
           Close <X className="font-weight-normal ml-2" size={12} />
@@ -37,7 +47,10 @@ const Drawer: React.FC<Props> = (props) => {
       contentClassName="p-0"
       modalClassName="modal-slide-in sidebar-todo-modal"
     >
-      <ModalHeader handleToggleDrawer={handleToggleDrawer}>
+      <ModalHeader
+        handleToggleDrawer={handleToggleDrawer}
+        id={manufacturer!.id}
+      >
         <span className="ml-2">
           {manufacturer ? manufacturer.name : 'View'}
         </span>
