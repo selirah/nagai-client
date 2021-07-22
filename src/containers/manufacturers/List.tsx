@@ -203,10 +203,12 @@ const List = () => {
           ? renderList()
           : renderEmptyList()}
       </div>
-      <Drawer
-        toggleDrawer={toggleDrawer}
-        handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
-      />
+      {store.manufacturer ? (
+        <Drawer
+          toggleDrawer={toggleDrawer}
+          handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
+        />
+      ) : null}
     </Fragment>
   )
 }

@@ -7,6 +7,7 @@ import { layoutReducer, LayoutState } from './layout'
 import { navbarReducer, NavbarState } from './navbar'
 import { manufacturersReducer, ManufacturerState } from './manufacturers'
 import { categoriesReducer, CategoryState } from './categories'
+import { productsReducer, ProductState } from './products'
 
 export type ApplicationState = {
   auth: AuthState
@@ -14,12 +15,20 @@ export type ApplicationState = {
   navbar: NavbarState
   manufacturers: ManufacturerState
   categories: CategoryState
+  products: ProductState
 }
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'layout', 'navbar', 'manufacturers', 'categories']
+  whitelist: [
+    'auth',
+    'layout',
+    'navbar',
+    'manufacturers',
+    'categories',
+    'products'
+  ]
 }
 
 const appReducer = combineReducers({
@@ -27,7 +36,8 @@ const appReducer = combineReducers({
   layout: layoutReducer,
   navbar: navbarReducer,
   manufacturers: manufacturersReducer,
-  categories: categoriesReducer
+  categories: categoriesReducer,
+  products: productsReducer
 })
 
 const rootReducer = (state?: ApplicationState, action?: AnyAction) => {

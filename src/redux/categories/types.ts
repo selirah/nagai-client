@@ -1,7 +1,7 @@
 import { Category } from 'classes'
 
 export enum ActionTypes {
-  SUBMITTING = '@@auth/SUBMITTING',
+  SUBMITTING = '@@categories/SUBMITTING',
   GET_CATEGORIES_REQUEST = '@@categories/GET_CATEGORIES_REQUEST',
   GET_CATEGORIES_SUCCESS = '@@categories/GET_CATEGORIES_SUCCESS',
   GET_CATEGORIES_FAILURE = '@@categories/GET_CATEGORIES_FAILURE',

@@ -1,12 +1,9 @@
-import { Manufacturer } from 'classes'
-import { Reducer } from 'redux'
+import { Product } from 'classes'
 import moment from 'moment'
-import { ManufacturerState, ActionTypes } from './types'
+import { Reducer } from 'redux'
+import { ProductState, ActionTypes } from './types'
 
-const sortItems = (
-  items: Manufacturer[],
-  sortOrder: 'asc' | 'desc' | 'normal'
-) => {
+const sortItems = (items: Product[], sortOrder: 'asc' | 'desc' | 'normal') => {
   switch (sortOrder) {
     case 'normal':
       return items.sort(function (a, b) {
@@ -16,21 +13,21 @@ const sortItems = (
       })
     case 'asc':
       return items.sort(function (a, b) {
-        return a.name.length - b.name.length
+        return a.productName.length - b.productName.length
       })
     case 'desc':
       return items.sort(function (a, b) {
-        return b.name.length - a.name.length
+        return b.productName.length - a.productName.length
       })
   }
 }
 
-export const initialState: ManufacturerState = {
+export const initialState: ProductState = {
   errors: null,
   isExporting: false,
   isSubmitting: false,
   loading: false,
-  manufacturers: [],
+  products: [],
   isSucceeded: false,
   searchText: '',
   page: 0,
@@ -38,12 +35,12 @@ export const initialState: ManufacturerState = {
   sortBy: 'normal',
   activeLink: 'list',
   isDeleted: false,
-  manufacturer: null
+  product: null
 }
 
-const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
+const reducer: Reducer<ProductState> = (state = initialState, action) => {
   switch (action.type) {
-    case ActionTypes.ADD_MANUFACTURER_REQUEST:
+    case ActionTypes.ADD_PRODUCT_REQUEST:
       return {
         ...state,
         isSubmitting: true,
@@ -51,16 +48,16 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.ADD_MANUFACTURER_SUCCESS:
+    case ActionTypes.ADD_PRODUCT_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        manufacturers: [action.payload, ...state.manufacturers],
+        products: [action.payload, ...state.products],
         isSucceeded: true,
         totalRecords: state.totalRecords + 1
       }
 
-    case ActionTypes.ADD_MANUFACTURER_FAILURE:
+    case ActionTypes.ADD_PRODUCT_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -68,7 +65,7 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.UPDATE_MANUFACTURER_REQUEST:
+    case ActionTypes.UPDATE_PRODUCT_REQUEST:
       return {
         ...state,
         isSubmitting: true,
@@ -76,18 +73,18 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.UPDATE_MANUFACTURER_SUCCESS:
-      let manufacturers = state.manufacturers.slice()
-      manufacturers = manufacturers.filter((m) => m.id !== action.payload.id)
-      manufacturers.unshift(action.payload)
+    case ActionTypes.UPDATE_PRODUCT_SUCCESS:
+      let products = state.products.slice()
+      products = products.filter((p) => p.id !== action.payload.id)
+      products.unshift(action.payload)
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        manufacturers: manufacturers,
+        products: products,
         isSucceeded: true
       }
 
-    case ActionTypes.UPDATE_MANUFACTURER_FAILURE:
+    case ActionTypes.UPDATE_PRODUCT_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -95,25 +92,23 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.DELETE_MANUFACTURER_REQUEST:
+    case ActionTypes.DELETE_PRODUCT_REQUEST:
       return {
         ...state,
         errors: initialState.errors,
         isDeleted: initialState.isDeleted
       }
 
-    case ActionTypes.DELETE_MANUFACTURER_SUCCESS:
+    case ActionTypes.DELETE_PRODUCT_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        manufacturers: state.manufacturers.filter(
-          (m) => m.id !== action.payload
-        ),
+        products: state.products.filter((p) => p.id !== action.payload),
         isDeleted: true,
         totalRecords: state.totalRecords - 1
       }
 
-    case ActionTypes.DELETE_MANUFACTURER_FAILURE:
+    case ActionTypes.DELETE_PRODUCT_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -121,21 +116,21 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         isDeleted: initialState.isDeleted
       }
 
-    case ActionTypes.GET_MANUFACTURERS_REQUEST:
+    case ActionTypes.GET_PRODUCTS_REQUEST:
       return {
         ...state,
         loading: true
       }
 
-    case ActionTypes.GET_MANUFACTURERS_SUCCESS:
+    case ActionTypes.GET_PRODUCTS_SUCCESS:
       return {
         ...state,
         loading: initialState.loading,
-        manufacturers: action.payload,
+        products: action.payload,
         totalRecords: action.payload.length
       }
 
-    case ActionTypes.GET_MANUFACTURERS_FAILURE:
+    case ActionTypes.GET_PRODUCTS_FAILURE:
       return {
         ...state,
         loading: initialState.loading,
@@ -152,13 +147,13 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
       return {
         ...state,
         sortBy: action.payload,
-        manufacturers: sortItems(state.manufacturers, action.payload)
+        products: sortItems(state.products, action.payload)
       }
 
     case ActionTypes.REORDER_LIST:
       return {
         ...state,
-        manufacturers: action.payload
+        products: action.payload
       }
 
     case ActionTypes.CLEAR_STATES:
@@ -177,10 +172,10 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         activeLink: action.payload
       }
 
-    case ActionTypes.SET_MANUFACTURER:
+    case ActionTypes.SET_PRODUCT:
       return {
         ...state,
-        manufacturer: action.payload
+        product: action.payload
       }
 
     default:
@@ -188,4 +183,4 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
   }
 }
 
-export { reducer as manufacturersReducer }
+export { reducer as productsReducer }

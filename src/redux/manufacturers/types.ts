@@ -1,7 +1,7 @@
 import { Manufacturer } from 'classes'
 
 export enum ActionTypes {
-  SUBMITTING = '@@auth/SUBMITTING',
+  SUBMITTING = '@@manufacturers/SUBMITTING',
   GET_MANUFACTURERS_REQUEST = '@@manufacturers/GET_MANUFACTURERS_REQUEST',
   GET_MANUFACTURERS_SUCCESS = '@@manufacturers/GET_MANUFACTURERS_SUCCESS',
   GET_MANUFACTURERS_FAILURE = '@@manufacturers/GET_MANUFACTURERS_FAILURE',
