@@ -18,16 +18,22 @@ const VerticalNavigation = [
     navLink: PRIVATE_ROUTES.MANUFACTURERS
   },
   {
-    id: 'products',
-    title: 'Products',
-    icon: <Icons.Database size={20} />,
-    navLink: PRIVATE_ROUTES.PRODUCTS
-  },
-  {
     id: 'outlets',
     title: 'Outlets',
     icon: <Icons.CloudLightning size={20} />,
     navLink: PRIVATE_ROUTES.OUTLETS
+  },
+  {
+    id: 'categories',
+    title: 'Product Categories',
+    icon: <Icons.Database size={20} />,
+    navLink: PRIVATE_ROUTES.CATEGORIES
+  },
+  {
+    id: 'products',
+    title: 'Products',
+    icon: <Icons.Coffee size={20} />,
+    navLink: PRIVATE_ROUTES.PRODUCTS
   },
   {
     id: 'territories',

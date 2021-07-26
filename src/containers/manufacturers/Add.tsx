@@ -60,7 +60,7 @@ const Add = () => {
       .max(12, 'Phone number is too long!')
       .required('This is a required field'),
     name: Yup.string()
-      .min(2, 'Phone number is too short!')
+      .min(2, 'Name is too short!')
       .required('This is a required field'),
     location: Yup.string()
       .min(2, 'Phone number is too short!')

@@ -28,7 +28,7 @@ export const isEmpty = (value: any) =>
 
 export const deleteConfirmMessage = (item: string) => {
   const payload: any = {
-    title: `Are you sure you want to delete this ${item}?`,
+    title: `Are you sure you want to delete ${item}?`,
     text: 'Any data associated with this action will be deleted forever',
     icon: 'warning',
     showCancelButton: true,

@@ -1,11 +1,11 @@
 import { useState, useCallback, Fragment } from 'react'
-import SearchBar from 'containers/manufacturers/SearchBar'
-import Sidebar from 'containers/manufacturers/Sidebar'
+import SearchBar from 'containers/categories/Searchbar'
+import Sidebar from 'containers/categories/Sidebar'
 import classnames from 'classnames'
 import 'core/scss/react/apps/app-todo.scss'
-import ManufacturerRoutes from './routes'
+import CategoryRoutes from './routes'
 
-const Manufacturers = () => {
+const Categories = () => {
   const [mainSidebar, setMainSidebar] = useState(false)
 
   const handleMainSidebar = useCallback(
@@ -27,7 +27,7 @@ const Manufacturers = () => {
             ></div>
             <div className="todo-app-list">
               <SearchBar handleMainSidebar={handleMainSidebar} />
-              <ManufacturerRoutes />
+              <CategoryRoutes />
             </div>
           </div>
         </div>
@@ -36,4 +36,4 @@ const Manufacturers = () => {
   )
 }
 
-export default Manufacturers
+export default Categories

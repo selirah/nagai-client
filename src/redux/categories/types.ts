@@ -18,7 +18,8 @@ export enum ActionTypes {
   SEARCH_TEXT = '@@categories/SEARCH_TEXT',
   REORDER_LIST = '@@categories/REORDER_LIST',
   SET_SORT_ORDER = '@@categories/SET_SORT_ORDER',
-  SET_ACTIVE_LINK = '@@categories/SET_ACTIVE_LINK'
+  SET_ACTIVE_LINK = '@@categories/SET_ACTIVE_LINK',
+  SET_CATEGORY = '@@manufacturers/SET_CATEGORY'
 }
 
 export type CategoryState = {
@@ -31,4 +32,5 @@ export type CategoryState = {
   readonly sortBy: 'asc' | 'desc' | 'normal'
   readonly activeLink: string
   readonly isDeleted: boolean
+  readonly category: Category | null
 }

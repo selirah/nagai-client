@@ -56,7 +56,9 @@ const Details: React.FC<Props> = (props) => {
             <h6 className="text-muted font-weight-bolder">
               Name of Manufacturer
             </h6>
-            <h6 className="mb-0">{manufacturer ? manufacturer.name : null}</h6>
+            <h6 className="mb-0">
+              {manufacturer ? manufacturer.name.toUpperCase() : null}
+            </h6>
           </div>
           <div>
             <h6 className="text-muted font-weight-bolder">Location</h6>
@@ -80,8 +82,12 @@ const Details: React.FC<Props> = (props) => {
             </h6>
           </div>
           <div className="mb-1">
-            <h6 className="text-muted font-weight-bolder">Email</h6>
-            <h6 className="mb-0">{manufacturer ? manufacturer.email : null}</h6>
+            <h6 className="text-muted font-weight-bolder">
+              Number of products produced
+            </h6>
+            <h6 className="mb-0">
+              {manufacturer ? manufacturer.products.length : null}
+            </h6>
           </div>
         </div>
         <hr className="mb-2" />

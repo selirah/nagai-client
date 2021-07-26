@@ -42,8 +42,6 @@ const manufacturerActions = {
 
   setSearchText: (value: string) => action(ActionTypes.SEARCH_TEXT, value),
 
-  setPageNumber: (page: number) => action(ActionTypes.SET_PAGE, page),
-
   reorderList: (list: Manufacturer[]) => action(ActionTypes.REORDER_LIST, list),
 
   setSortOrder: (order: 'asc' | 'desc' | 'normal') =>

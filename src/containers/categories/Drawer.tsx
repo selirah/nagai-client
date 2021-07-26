@@ -22,7 +22,7 @@ const ModalHeader: React.FC<{ handleToggleDrawer: () => void; id: number }> = (
         <RippleButton
           color="info"
           tag={Link}
-          to={`/admin/manufacturers/edit/${id}`}
+          to={`/admin/product-categories/edit/${id}`}
         >
           Edit <Edit2 className="font-weight-normal ml-2" size={12} />
         </RippleButton>
@@ -37,7 +37,7 @@ const ModalHeader: React.FC<{ handleToggleDrawer: () => void; id: number }> = (
 
 const Drawer: React.FC<Props> = (props) => {
   const { handleToggleDrawer, toggleDrawer } = props
-  const { manufacturer } = Selector((state) => state.manufacturers)
+  const { category } = Selector((state) => state.categories)
 
   return (
     <Modal
@@ -47,12 +47,9 @@ const Drawer: React.FC<Props> = (props) => {
       contentClassName="p-0"
       modalClassName="modal-slide-in sidebar-todo-modal"
     >
-      <ModalHeader
-        handleToggleDrawer={handleToggleDrawer}
-        id={manufacturer!.id}
-      >
+      <ModalHeader handleToggleDrawer={handleToggleDrawer} id={category!.id}>
         <span className="ml-2">
-          {manufacturer ? manufacturer.name.toUpperCase() : 'View'}
+          {category ? category.category.toUpperCase() : 'View'}
         </span>
       </ModalHeader>
       <ModalBody className="flex-grow-1 pb-sm-0 py-3">

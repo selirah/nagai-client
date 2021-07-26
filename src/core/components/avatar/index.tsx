@@ -8,7 +8,7 @@ interface AvatarProps {
   src?: string
   tag?: any
   badgeUp?: boolean
-  content?: string
+  content?: any
   icon?: React.ReactNode
   contentStyles?: object
   badgeText?: string

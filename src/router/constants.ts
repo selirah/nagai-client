@@ -15,6 +15,7 @@ export const PRIVATE_ROUTES = {
   MANUFACTURERS: '/admin/manufacturers',
   SETTINGS: '/admin/settings',
   PROFILE: '/admin/profile',
+  CATEGORIES: '/admin/product-categories',
   PRODUCTS: '/admin/products',
   OUTLETS: '/admin/outlets',
   TERRITORIES: '/admin/territories',

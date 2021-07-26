@@ -28,7 +28,8 @@ export const initialState: CategoryState = {
   searchText: '',
   sortBy: 'normal',
   activeLink: 'list',
-  isDeleted: false
+  isDeleted: false,
+  category: null
 }
 
 const reducer: Reducer<CategoryState> = (state = initialState, action) => {
@@ -153,13 +154,20 @@ const reducer: Reducer<CategoryState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded,
         errors: initialState.errors,
         sortBy: initialState.sortBy,
-        isDeleted: initialState.isDeleted
+        isDeleted: initialState.isDeleted,
+        isSubmitting: initialState.isSubmitting
       }
 
     case ActionTypes.SET_ACTIVE_LINK:
       return {
         ...state,
         activeLink: action.payload
+      }
+
+    case ActionTypes.SET_CATEGORY:
+      return {
+        ...state,
+        category: action.payload
       }
 
     default:

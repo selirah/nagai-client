@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment, useCallback } from 'react'
+import { useEffect, useState, Fragment, useCallback, MouseEvent } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -18,6 +18,7 @@ import withReactContent from 'sweetalert2-react-content'
 import { toast, Slide } from 'react-toastify'
 import ToastBox from 'components/ToastBox'
 import Drawer from './Drawer'
+import PaginationComponent from 'components/Pagination'
 
 const {
   getManufacturersRequest,
@@ -35,6 +36,9 @@ const List = () => {
   const [manufacturers, setManufacturers] = useState<Manufacturer[]>([])
   const sweetAlert = withReactContent(SWAL)
   const [toggleDrawer, setToggleDrawer] = useState(false)
+  const [pageSize] = useState(10)
+  const [currentPage, setCurrentPage] = useState(0)
+  const [pageCount, setPageCount] = useState(0)
 
   useEffect(() => {
     if (isEmpty(manufacturers)) {
@@ -75,10 +79,19 @@ const List = () => {
     [dispatch, toggleDrawer]
   )
 
+  const handlePageClick = useCallback(
+    (e: MouseEvent<HTMLElement>, index: number) => {
+      e.preventDefault()
+      setCurrentPage(index)
+    },
+    []
+  )
+
   useEffect(() => {
     const { loading, manufacturers, searchText, isDeleted, errors } = store
     setLoading(loading)
     if (manufacturers.length) {
+      setPageCount(Math.ceil(manufacturers.length / pageSize))
       if (!isEmpty(searchText)) {
         const res = handleFilter(manufacturers, searchText)
         setManufacturers(res)
@@ -104,7 +117,7 @@ const List = () => {
         { transition: Slide, hideProgressBar: true, autoClose: 5000 }
       )
     }
-  }, [store, handleFilter, sweetAlert, dispatch])
+  }, [store, handleFilter, sweetAlert, dispatch, pageSize])
 
   const renderLoader = () => <Spinner />
 
@@ -126,7 +139,11 @@ const List = () => {
       )
     } else {
       return (
-        <Avatar color="primary" content={`${manifacturer.name}`} initials />
+        <Avatar
+          color="primary"
+          content={`${manifacturer.name.toUpperCase()}`}
+          initials
+        />
       )
     }
   }
@@ -153,43 +170,52 @@ const List = () => {
           className="todo-task-list media-list"
           setList={(state: Manufacturer[]) => dispatch(reorderList(state))}
         >
-          {manufacturers.map((item) => (
-            <li
-              key={item.id}
-              className={classnames('todo-item', { completed: false })}
-            >
-              <div className="todo-title-wrapper">
-                <div
-                  className="todo-title-area"
-                  onClick={() => handleManufacturerSelection(item)}
-                >
-                  <MoreVertical className="drag-icon" />
-                  {renderAvatar(item)}
-                  <span className="todo-title">{`${item.name}`}</span>
-                </div>
-                <div className="todo-item-action mt-lg-0 mt-50">
-                  <small className="text-nowrap text-muted mr-lg-1">
-                    {moment(item.createdAt).format('MMM Do')}
-                  </small>
-                  <Link to={`/admin/manufacturers/edit/${item.id}`}>
-                    <Edit2
+          {manufacturers
+            .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
+            .map((item) => (
+              <li
+                key={item.id}
+                className={classnames('todo-item', { completed: false })}
+              >
+                <div className="todo-title-wrapper">
+                  <div
+                    className="todo-title-area"
+                    onClick={() => handleManufacturerSelection(item)}
+                  >
+                    <MoreVertical className="drag-icon" />
+                    {renderAvatar(item)}
+                    <span className="todo-title">{`${item.name.toUpperCase()} (${
+                      item.products.length
+                    })`}</span>
+                  </div>
+                  <div className="todo-item-action mt-lg-0 mt-50">
+                    <small className="text-nowrap text-muted mr-lg-1">
+                      {moment(item.createdAt).format('MMM Do')}
+                    </small>
+                    <Link to={`/admin/manufacturers/edit/${item.id}`}>
+                      <Edit2
+                        size={14}
+                        className="mr-lg-1"
+                        style={{ outline: 'none' }}
+                        color="#40C4FF"
+                      />
+                    </Link>
+                    <Trash2
                       size={14}
-                      className="mr-lg-1"
                       style={{ outline: 'none' }}
-                      color="#40C4FF"
+                      color="#F44336"
+                      onClick={() => handleDelete(item.id, item.name)}
                     />
-                  </Link>
-                  <Trash2
-                    size={14}
-                    style={{ outline: 'none' }}
-                    color="#F44336"
-                    onClick={() => handleDelete(item.id, item.name)}
-                  />
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            ))}
         </ReactSortable>
+        <PaginationComponent
+          currentPage={currentPage}
+          handlePageClick={handlePageClick}
+          pageCount={pageCount}
+        />
       </Fragment>
     </PerfectScrollbar>
   )

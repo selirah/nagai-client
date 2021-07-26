@@ -163,7 +163,8 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded,
         errors: initialState.errors,
         sortBy: initialState.sortBy,
-        isDeleted: initialState.isDeleted
+        isDeleted: initialState.isDeleted,
+        isSubmitting: initialState.isSubmitting
       }
 
     case ActionTypes.SET_ACTIVE_LINK:

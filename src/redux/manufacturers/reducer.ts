@@ -33,8 +33,6 @@ export const initialState: ManufacturerState = {
   manufacturers: [],
   isSucceeded: false,
   searchText: '',
-  page: 0,
-  totalRecords: 0,
   sortBy: 'normal',
   activeLink: 'list',
   isDeleted: false,
@@ -56,8 +54,7 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         ...state,
         isSubmitting: initialState.isSubmitting,
         manufacturers: [action.payload, ...state.manufacturers],
-        isSucceeded: true,
-        totalRecords: state.totalRecords + 1
+        isSucceeded: true
       }
 
     case ActionTypes.ADD_MANUFACTURER_FAILURE:
@@ -109,8 +106,7 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         manufacturers: state.manufacturers.filter(
           (m) => m.id !== action.payload
         ),
-        isDeleted: true,
-        totalRecords: state.totalRecords - 1
+        isDeleted: true
       }
 
     case ActionTypes.DELETE_MANUFACTURER_FAILURE:
@@ -168,7 +164,8 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded,
         errors: initialState.errors,
         sortBy: initialState.sortBy,
-        isDeleted: initialState.isDeleted
+        isDeleted: initialState.isDeleted,
+        isSubmitting: initialState.isSubmitting
       }
 
     case ActionTypes.SET_ACTIVE_LINK:

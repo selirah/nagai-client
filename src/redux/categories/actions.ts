@@ -47,7 +47,10 @@ const categoriesActions = {
   setSortOrder: (order: 'asc' | 'desc' | 'normal') =>
     action(ActionTypes.SET_SORT_ORDER, order),
 
-  setActiveLink: (link: string) => action(ActionTypes.SET_ACTIVE_LINK, link)
+  setActiveLink: (link: string) => action(ActionTypes.SET_ACTIVE_LINK, link),
+
+  setCategory: (category: Category) =>
+    action(ActionTypes.SET_CATEGORY, category)
 }
 
 export default categoriesActions
