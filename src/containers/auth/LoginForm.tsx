@@ -71,9 +71,6 @@ const LoginForm: React.FC<Props> = (props) => {
               <Label className="form-label" for="login-password">
                 Password
               </Label>
-              <Link to={PUBLIC_ROUTES.FORGOT_PASSWORD}>
-                <small>Forgot Password?</small>
-              </Link>
             </div>
             <InputPasswordToggle
               className="input-group-merge"
@@ -91,13 +88,18 @@ const LoginForm: React.FC<Props> = (props) => {
             ) : null}
           </FormGroup>
           <FormGroup>
-            <CustomInput
-              type="checkbox"
-              className="custom-control-Primary"
-              id="remember-me"
-              label="Remember Me"
-              name="rememberMe"
-            />
+            <div className="d-flex justify-content-between">
+              <CustomInput
+                type="checkbox"
+                className="custom-control-Primary"
+                id="remember-me"
+                label="Remember Me"
+                name="rememberMe"
+              />
+              <Link to={PUBLIC_ROUTES.FORGOT_PASSWORD}>
+                <small>Forgot Password?</small>
+              </Link>
+            </div>
           </FormGroup>
           <RippleButton type="submit" color="primary" block>
             <Collapse isOpen={isSubmitting}>

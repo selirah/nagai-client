@@ -61,7 +61,12 @@ const Login = () => {
           message={`You have successfully logged in as ${user.role} to NAGAI. Enjoy!`}
           title={`Welcome, ${user.firstName ? user.firstName : user.email}`}
         />,
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
+        {
+          transition: Slide,
+          hideProgressBar: true,
+          autoClose: 5000,
+          position: 'bottom-right'
+        }
       )
     }
     if (errors) {
@@ -105,10 +110,10 @@ const Login = () => {
           sm="12"
         >
           <Col className="px-xl-2 mx-auto" sm="8" md="6" lg="12">
-            <CardTitle tag="h2" className="font-weight-bold mb-1">
-              <FormattedMessage id="Welcome to NAGAI Admin" />
+            <CardTitle tag="h2" className="font-weight-bolder mb-1">
+              <FormattedMessage id="Login" />
             </CardTitle>
-            <CardText className="mb-2">
+            <CardText className="mb-2 text-muted">
               <FormattedMessage id="Please sign-in to your account" />
             </CardText>
             <LoginForm

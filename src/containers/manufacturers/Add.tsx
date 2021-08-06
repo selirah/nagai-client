@@ -105,7 +105,12 @@ const Add = () => {
           message="Manufacturer has been created successfully"
           title="Nice!"
         />,
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
+        {
+          transition: Slide,
+          hideProgressBar: true,
+          autoClose: 5000,
+          position: 'bottom-right'
+        }
       )
       history.push('/admin/manufacturers')
     }
@@ -117,7 +122,12 @@ const Add = () => {
           message={`${errors.errors[0].message}`}
           title="Ooops . . ."
         />,
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
+        {
+          transition: Slide,
+          hideProgressBar: true,
+          autoClose: 5000,
+          position: 'bottom-right'
+        }
       )
     }
   }, [store, history])

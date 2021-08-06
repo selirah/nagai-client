@@ -5,6 +5,8 @@ import { Store } from 'redux'
 import { ApplicationState } from 'redux/root-reducer'
 import Router from 'router'
 import { useLoadScript } from '@react-google-maps/api'
+// import MapLoadError from 'components/MapLoadError'
+
 interface AppProps {
   store: Store<ApplicationState>
   persistor: any
@@ -26,6 +28,7 @@ const App: React.FC<AppProps> = ({ store, persistor }) => {
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
         {isLoaded ? <Router /> : null}
+        {/* <Router /> */}
       </PersistGate>
     </Provider>
   )

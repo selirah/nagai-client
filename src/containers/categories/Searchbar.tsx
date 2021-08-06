@@ -25,14 +25,14 @@ const SearchBar: React.FC<Props> = (props) => {
   const { handleMainSidebar } = props
   const [query, setQuery] = useState('')
   const dispatch: Dispatch = useDispatch()
-  const { activeLink } = Selector((state) => state.categories)
+  const { activeLink, categories } = Selector((state) => state.categories)
 
   const handleFilter = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setQuery(e.target.value)
-      dispatch(setSearchText(e.target.value))
+      dispatch(setSearchText(e.target.value, categories))
     },
-    [dispatch]
+    [dispatch, categories]
   )
 
   const handleSort = useCallback(

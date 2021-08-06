@@ -98,10 +98,12 @@ const Register = () => {
           sm="12"
         >
           <Col className="px-xl-2 mx-auto" sm="8" md="6" lg="12">
-            <CardTitle tag="h2" className="font-weight-bold mb-1">
+            <CardTitle tag="h2" className="font-weight-bolder mb-1">
               Sign up
             </CardTitle>
-            <CardText className="mb-2">Enter your details to register</CardText>
+            <CardText className="mb-2 text-muted">
+              Enter your details to register
+            </CardText>
             <RegisterForm
               initialValues={initialValues}
               isSubmitting={isSubmitting}

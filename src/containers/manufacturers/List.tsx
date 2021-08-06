@@ -49,17 +49,6 @@ const List = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleFilter = useCallback(
-    (items: Manufacturer[], searchText: string) => {
-      const res = items.filter((item) => {
-        const blob = `${item.name.toLowerCase()}`
-        return blob.indexOf(searchText.replace(/ /gi, '').toLowerCase()) > -1
-      })
-      return res
-    },
-    []
-  )
-
   const handleDelete = useCallback(
     (id: number, name: string) => {
       sweetAlert.fire(deleteConfirmMessage(name)).then(function (res) {
@@ -88,13 +77,13 @@ const List = () => {
   )
 
   useEffect(() => {
-    const { loading, manufacturers, searchText, isDeleted, errors } = store
+    const { loading, manufacturers, isDeleted, errors, searchText, filtered } =
+      store
     setLoading(loading)
     if (manufacturers.length) {
       setPageCount(Math.ceil(manufacturers.length / pageSize))
       if (!isEmpty(searchText)) {
-        const res = handleFilter(manufacturers, searchText)
-        setManufacturers(res)
+        setManufacturers(filtered)
       } else {
         setManufacturers(manufacturers)
       }
@@ -117,7 +106,7 @@ const List = () => {
         { transition: Slide, hideProgressBar: true, autoClose: 5000 }
       )
     }
-  }, [store, handleFilter, sweetAlert, dispatch, pageSize])
+  }, [store, sweetAlert, dispatch, pageSize])
 
   const renderLoader = () => <Spinner />
 
@@ -184,7 +173,7 @@ const List = () => {
                   >
                     <MoreVertical className="drag-icon" />
                     {renderAvatar(item)}
-                    <span className="todo-title">{`${item.name.toUpperCase()} (${
+                    <span className="todo-title">{`${item.name.toLowerCase()} (${
                       item.products.length
                     })`}</span>
                   </div>
@@ -211,23 +200,31 @@ const List = () => {
               </li>
             ))}
         </ReactSortable>
-        <PaginationComponent
-          currentPage={currentPage}
-          handlePageClick={handlePageClick}
-          pageCount={pageCount}
-        />
       </Fragment>
     </PerfectScrollbar>
+  )
+
+  const renderPagination = () => (
+    <PaginationComponent
+      currentPage={currentPage}
+      handlePageClick={handlePageClick}
+      pageCount={pageCount}
+    />
   )
 
   return (
     <Fragment>
       <div className="list-group todo-task-list-wrapper">
-        {loading
-          ? renderLoader()
-          : manufacturers.length
-          ? renderList()
-          : renderEmptyList()}
+        {loading ? (
+          renderLoader()
+        ) : manufacturers.length ? (
+          <Fragment>
+            {renderList()}
+            {renderPagination()}
+          </Fragment>
+        ) : (
+          renderEmptyList()
+        )}
       </div>
       {store.manufacturer ? (
         <Drawer

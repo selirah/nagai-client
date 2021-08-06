@@ -1,4 +1,4 @@
-import { Product } from 'classes'
+import { Product, QueryParam, StockTrail, Param } from 'classes'
 
 export enum ActionTypes {
   SUBMITTING = '@@products/SUBMITTING',
@@ -19,11 +19,15 @@ export enum ActionTypes {
   EXPORT_PRODUCTS_FAILURE = '@@products/EXPORT_PRODUCTS_FAILURE',
   CLEAR_STATES = '@@products/CLEAR_STATES',
   SEARCH_TEXT = '@@products/SEARCH_TEXT',
-  SET_PAGE = '@@products/SET_PAGE',
   REORDER_LIST = '@@products/REORDER_LIST',
   SET_SORT_ORDER = '@@products/SET_SORT_ORDER',
   SET_ACTIVE_LINK = '@@products/SET_ACTIVE_LINK',
-  SET_PRODUCT = '@@products/SET_PRODUCT'
+  SET_PRODUCT = '@@products/SET_PRODUCT',
+  SET_QUERY_PARAMS = '@@products/SET_QUERY_PARAMS',
+  GET_STOCK_TRAILS_REQUEST = '@@products/GET_STOCK_TRAILS_REQUEST',
+  GET_STOCK_TRAILS_SUCCESS = '@@products/GET_STOCK_TRAILS_SUCCESS',
+  GET_STOCK_TRAILS_FAILURE = '@@products/GET_STOCK_TRAILS_FAILURE',
+  SET_STOCK_TRIALS_PARAMS = '@@products/SET_STOCK_TRIALS_PARAMS'
 }
 
 export type ProductState = {
@@ -34,10 +38,15 @@ export type ProductState = {
   readonly isExporting: boolean
   readonly isSucceeded: boolean
   readonly searchText: string
-  readonly page: number
-  readonly totalRecords: number
   readonly sortBy: 'asc' | 'desc' | 'normal'
   readonly activeLink: string
   readonly isDeleted: boolean
   readonly product: Product | null
+  readonly params: QueryParam
+  readonly filtered: Product[]
+  readonly count: number
+  readonly stockTrails: StockTrail[]
+  readonly stockTrailsParams: Param
+  readonly stockTrailsCount: number
+  readonly loadStockTrails: boolean
 }

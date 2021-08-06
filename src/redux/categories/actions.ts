@@ -40,7 +40,13 @@ const categoriesActions = {
 
   clearStates: () => action(ActionTypes.CLEAR_STATES),
 
-  setSearchText: (value: string) => action(ActionTypes.SEARCH_TEXT, value),
+  setSearchText: (value: string, categories: Category[]) => {
+    const res = categories.filter((item) => {
+      const blob = `${item.category.toLowerCase()}`
+      return blob.indexOf(value.replace(/ /gi, '').toLowerCase()) > -1
+    })
+    return action(ActionTypes.SEARCH_TEXT, { value, res })
+  },
 
   reorderList: (list: Category[]) => action(ActionTypes.REORDER_LIST, list),
 

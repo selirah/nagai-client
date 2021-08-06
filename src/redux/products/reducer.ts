@@ -30,12 +30,27 @@ export const initialState: ProductState = {
   products: [],
   isSucceeded: false,
   searchText: '',
-  page: 0,
-  totalRecords: 0,
   sortBy: 'normal',
   activeLink: 'list',
   isDeleted: false,
-  product: null
+  product: null,
+  params: {
+    category: 0,
+    manufacturer: 0,
+    page: 100,
+    skip: 0
+  },
+  filtered: [],
+  count: 0,
+  stockTrails: [],
+  stockTrailsCount: 0,
+  stockTrailsParams: {
+    page: 100,
+    skip: 0,
+    fromDate: '',
+    toDate: ''
+  },
+  loadStockTrails: false
 }
 
 const reducer: Reducer<ProductState> = (state = initialState, action) => {
@@ -53,8 +68,7 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
         ...state,
         isSubmitting: initialState.isSubmitting,
         products: [action.payload, ...state.products],
-        isSucceeded: true,
-        totalRecords: state.totalRecords + 1
+        isSucceeded: true
       }
 
     case ActionTypes.ADD_PRODUCT_FAILURE:
@@ -104,8 +118,7 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
         ...state,
         isSubmitting: initialState.isSubmitting,
         products: state.products.filter((p) => p.id !== action.payload),
-        isDeleted: true,
-        totalRecords: state.totalRecords - 1
+        isDeleted: true
       }
 
     case ActionTypes.DELETE_PRODUCT_FAILURE:
@@ -126,8 +139,8 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
       return {
         ...state,
         loading: initialState.loading,
-        products: action.payload,
-        totalRecords: action.payload.length
+        products: action.payload.products,
+        count: action.payload.count
       }
 
     case ActionTypes.GET_PRODUCTS_FAILURE:
@@ -140,7 +153,8 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
     case ActionTypes.SEARCH_TEXT:
       return {
         ...state,
-        searchText: action.payload
+        searchText: action.payload.value,
+        filtered: action.payload.res
       }
 
     case ActionTypes.SET_SORT_ORDER:
@@ -164,7 +178,9 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
         errors: initialState.errors,
         sortBy: initialState.sortBy,
         isDeleted: initialState.isDeleted,
-        isSubmitting: initialState.isSubmitting
+        isSubmitting: initialState.isSubmitting,
+        loadStockTrails: initialState.loadStockTrails,
+        loading: initialState.loading
       }
 
     case ActionTypes.SET_ACTIVE_LINK:
@@ -177,6 +193,39 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
       return {
         ...state,
         product: action.payload
+      }
+
+    case ActionTypes.SET_QUERY_PARAMS:
+      return {
+        ...state,
+        params: action.payload
+      }
+
+    case ActionTypes.GET_STOCK_TRAILS_REQUEST:
+      return {
+        ...state,
+        loadStockTrails: true
+      }
+
+    case ActionTypes.GET_STOCK_TRAILS_SUCCESS:
+      return {
+        ...state,
+        loadStockTrails: initialState.loadStockTrails,
+        stockTrails: action.payload.stockTrails,
+        stockTrailsCount: action.payload.count
+      }
+
+    case ActionTypes.GET_STOCK_TRAILS_FAILURE:
+      return {
+        ...state,
+        loadStockTrails: initialState.loading,
+        error: action.payload
+      }
+
+    case ActionTypes.SET_STOCK_TRIALS_PARAMS:
+      return {
+        ...state,
+        stockTrailsParams: action.payload
       }
 
     default:

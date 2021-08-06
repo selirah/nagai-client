@@ -69,3 +69,11 @@ export const getCategory = (id: number) => {
   const category = categories.find((c) => c.id === id)
   return category !== undefined ? category : null
 }
+
+export const getManufacturer = (id: number) => {
+  const { manufacturers } = Selector((state) => state.manufacturers)
+  const manufacturer = manufacturers.find((m) => m.id === id)
+  return manufacturer !== undefined ? manufacturer : null
+}
+
+export const isUserLoggedIn = () => localStorage.getItem('user')

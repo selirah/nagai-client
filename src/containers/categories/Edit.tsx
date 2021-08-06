@@ -84,7 +84,12 @@ const Edit = () => {
           message="Product category has been updated successfully"
           title="Nice!"
         />,
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
+        {
+          transition: Slide,
+          hideProgressBar: true,
+          autoClose: 5000,
+          position: 'bottom-right'
+        }
       )
       history.push('/admin/product-categories')
     }
@@ -96,7 +101,12 @@ const Edit = () => {
           message={`${errors.errors[0].message}`}
           title="Ooops . . ."
         />,
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
+        {
+          transition: Slide,
+          hideProgressBar: true,
+          autoClose: 5000,
+          position: 'bottom-right'
+        }
       )
     }
   }, [store, history])

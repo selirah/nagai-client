@@ -1,6 +1,7 @@
 export type Param = {
-  query: string
-  sortField: any
-  sortType: 'asc' | 'desc'
+  id?: string | number
   page: number
+  skip: number
+  fromDate?: string
+  toDate?: string
 }

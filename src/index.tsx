@@ -10,6 +10,7 @@ import { authorization } from 'utils/authorization'
 import authActions from 'redux/auth/actions'
 import { getItem } from 'utils/localstorage'
 import { User } from 'classes'
+import { removeAll } from 'utils/localstorage'
 import jwtDecode from 'jwt-decode'
 // ** Spinner (Splash Screen)
 import Spinner from 'core/components/spinner/fallback'
@@ -48,6 +49,7 @@ if (token) {
   const currentTime = Date.now() / 1000
 
   if (user.exp < currentTime) {
+    removeAll()
     store.dispatch(logout())
     window.location.href = PUBLIC_ROUTES.SIGN_IN
   }

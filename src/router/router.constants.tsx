@@ -9,7 +9,11 @@ const Routes: Route[] = [
   {
     path: PRIVATE_ROUTES.HOME,
     component: lazy(() => import('pages/home')),
-    exact: true
+    exact: true,
+    meta: {
+      resource: 'Home',
+      action: 'read'
+    }
   },
   {
     path: PUBLIC_ROUTES.SIGN_IN,

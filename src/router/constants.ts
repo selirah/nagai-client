@@ -19,7 +19,7 @@ export const PRIVATE_ROUTES = {
   PRODUCTS: '/admin/products',
   OUTLETS: '/admin/outlets',
   TERRITORIES: '/admin/territories',
-  INVENTORIES: '/admin/inventories',
+  STOCK: '/admin/stock',
   ORDERS: '/admin/orders',
   USERS: '/admin/users',
   DELIVERIES: '/admin/deliveries',

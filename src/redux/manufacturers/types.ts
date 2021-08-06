@@ -33,6 +33,7 @@ export type ManufacturerState = {
   readonly isExporting: boolean
   readonly isSucceeded: boolean
   readonly searchText: string
+  readonly filtered: Manufacturer[]
   readonly sortBy: 'asc' | 'desc' | 'normal'
   readonly activeLink: string
   readonly isDeleted: boolean

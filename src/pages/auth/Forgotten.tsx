@@ -96,7 +96,7 @@ const Forgotten = () => {
             <CardTitle tag="h2" className="font-weight-bold mb-1">
               Forgotten Password
             </CardTitle>
-            <CardText className="mb-2">
+            <CardText className="mb-2 text-muted">
               Enter your email and receive instruction on resetting your
               password
             </CardText>

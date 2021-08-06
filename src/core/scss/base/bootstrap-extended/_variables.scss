@@ -27,10 +27,11 @@ $green: #28c76f !default; //$success
 $blue: #00cfe8 !default; //$info
 $orange: #ff9f43 !default; //$warning
 $red: #ea5455 !default; //$danger
-$brightBlue: #0096ff !default; //$danger
+$nagaiblue: #0090fe !default; //$primary
+$nagaipurple: #7367f0 !default; //$secondary
 
-$primary: $purple !default;
-$secondary: #82868b !default;
+$primary: $nagaiblue !default;
+$secondary: $nagaipurple !default;
 $info: $blue !default;
 $warning: $orange !default;
 $light: $gray-50 !default;

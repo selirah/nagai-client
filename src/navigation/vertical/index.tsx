@@ -25,7 +25,7 @@ const VerticalNavigation = [
   },
   {
     id: 'categories',
-    title: 'Product Categories',
+    title: 'Categories',
     icon: <Icons.Database size={20} />,
     navLink: PRIVATE_ROUTES.CATEGORIES
   },
@@ -42,10 +42,10 @@ const VerticalNavigation = [
     navLink: PRIVATE_ROUTES.TERRITORIES
   },
   {
-    id: 'inventories',
-    title: 'Inventories',
-    icon: <Icons.Clipboard size={20} />,
-    navLink: PRIVATE_ROUTES.INVENTORIES
+    id: 'stock',
+    title: 'Stock',
+    icon: <Icons.CheckCircle size={20} />,
+    navLink: PRIVATE_ROUTES.STOCK
   },
   {
     id: 'orders',

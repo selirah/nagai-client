@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment, useCallback } from 'react'
+import { useEffect, useState, Fragment, useCallback, MouseEvent } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -18,6 +18,7 @@ import withReactContent from 'sweetalert2-react-content'
 import { toast, Slide } from 'react-toastify'
 import ToastBox from 'components/ToastBox'
 import Drawer from './Drawer'
+import PaginationComponent from 'components/Pagination'
 
 const {
   getCategoriesRequest,
@@ -35,6 +36,9 @@ const List = () => {
   const [categories, setCategories] = useState<Category[]>([])
   const sweetAlert = withReactContent(SWAL)
   const [toggleDrawer, setToggleDrawer] = useState(false)
+  const [pageSize] = useState(10)
+  const [currentPage, setCurrentPage] = useState(0)
+  const [pageCount, setPageCount] = useState(0)
 
   useEffect(() => {
     if (isEmpty(categories)) {
@@ -43,14 +47,6 @@ const List = () => {
     dispatch(clearStates())
     dispatch(setActiveLink('list'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const handleFilter = useCallback((items: Category[], searchText: string) => {
-    const res = items.filter((item) => {
-      const blob = `${item.category.toLowerCase()}`
-      return blob.indexOf(searchText.replace(/ /gi, '').toLowerCase()) > -1
-    })
-    return res
   }, [])
 
   const handleDelete = useCallback(
@@ -72,13 +68,22 @@ const List = () => {
     [dispatch, toggleDrawer]
   )
 
+  const handlePageClick = useCallback(
+    (e: MouseEvent<HTMLElement>, index: number) => {
+      e.preventDefault()
+      setCurrentPage(index)
+    },
+    []
+  )
+
   useEffect(() => {
-    const { loading, categories, searchText, isDeleted, errors } = store
+    const { loading, categories, searchText, isDeleted, errors, filtered } =
+      store
     setLoading(loading)
     if (categories.length) {
+      setPageCount(Math.ceil(categories.length / pageSize))
       if (!isEmpty(searchText)) {
-        const res = handleFilter(categories, searchText)
-        setCategories(res)
+        setCategories(filtered)
       } else {
         setCategories(categories)
       }
@@ -101,7 +106,7 @@ const List = () => {
         { transition: Slide, hideProgressBar: true, autoClose: 5000 }
       )
     }
-  }, [store, handleFilter, sweetAlert, dispatch])
+  }, [store, sweetAlert, dispatch, pageSize])
 
   const renderLoader = () => <Spinner />
 
@@ -145,57 +150,70 @@ const List = () => {
           className="todo-task-list media-list"
           setList={(state: Category[]) => dispatch(reorderList(state))}
         >
-          {categories.map((item) => (
-            <li
-              key={item.id}
-              className={classnames('todo-item', { completed: false })}
-            >
-              <div className="todo-title-wrapper">
-                <div
-                  className="todo-title-area"
-                  onClick={() => handleCategorySelection(item)}
-                >
-                  <MoreVertical className="drag-icon" />
-                  {renderAvatar(item)}
-                  <span className="todo-title">{`${item.category.toUpperCase()} (${
-                    item.products.length
-                  })`}</span>
-                </div>
-                <div className="todo-item-action mt-lg-0 mt-50">
-                  <small className="text-nowrap text-muted mr-lg-1">
-                    {moment(item.createdAt).format('MMM Do')}
-                  </small>
-                  <Link to={`/admin/product-categories/edit/${item.id}`}>
-                    <Edit2
+          {categories
+            .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
+            .map((item) => (
+              <li
+                key={item.id}
+                className={classnames('todo-item', { completed: false })}
+              >
+                <div className="todo-title-wrapper">
+                  <div
+                    className="todo-title-area"
+                    onClick={() => handleCategorySelection(item)}
+                  >
+                    <MoreVertical className="drag-icon" />
+                    {renderAvatar(item)}
+                    <span className="todo-title">{`${item.category} (${item.products.length})`}</span>
+                  </div>
+                  <div className="todo-item-action mt-lg-0 mt-50">
+                    <small className="text-nowrap text-muted mr-lg-1">
+                      {moment(item.createdAt).format('MMM Do')}
+                    </small>
+                    <Link to={`/admin/product-categories/edit/${item.id}`}>
+                      <Edit2
+                        size={14}
+                        className="mr-lg-1"
+                        style={{ outline: 'none' }}
+                        color="#40C4FF"
+                      />
+                    </Link>
+                    <Trash2
                       size={14}
-                      className="mr-lg-1"
                       style={{ outline: 'none' }}
-                      color="#40C4FF"
+                      color="#F44336"
+                      onClick={() => handleDelete(item.id, item.category)}
                     />
-                  </Link>
-                  <Trash2
-                    size={14}
-                    style={{ outline: 'none' }}
-                    color="#F44336"
-                    onClick={() => handleDelete(item.id, item.category)}
-                  />
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            ))}
         </ReactSortable>
       </Fragment>
     </PerfectScrollbar>
   )
 
+  const renderPagination = () => (
+    <PaginationComponent
+      currentPage={currentPage}
+      handlePageClick={handlePageClick}
+      pageCount={pageCount}
+    />
+  )
+
   return (
     <Fragment>
       <div className="list-group todo-task-list-wrapper">
-        {loading
-          ? renderLoader()
-          : categories.length
-          ? renderList()
-          : renderEmptyList()}
+        {loading ? (
+          renderLoader()
+        ) : categories.length ? (
+          <Fragment>
+            {renderList()}
+            {renderPagination()}
+          </Fragment>
+        ) : (
+          renderEmptyList()
+        )}
       </div>
       {store.category ? (
         <Drawer

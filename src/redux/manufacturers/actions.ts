@@ -40,7 +40,13 @@ const manufacturerActions = {
 
   clearStates: () => action(ActionTypes.CLEAR_STATES),
 
-  setSearchText: (value: string) => action(ActionTypes.SEARCH_TEXT, value),
+  setSearchText: (value: string, manufacturers: Manufacturer[]) => {
+    const res = manufacturers.filter((item) => {
+      const blob = `${item.name.toLowerCase()}`
+      return blob.indexOf(value.replace(/ /gi, '').toLowerCase()) > -1
+    })
+    return action(ActionTypes.SEARCH_TEXT, { value, res })
+  },
 
   reorderList: (list: Manufacturer[]) => action(ActionTypes.REORDER_LIST, list),
 

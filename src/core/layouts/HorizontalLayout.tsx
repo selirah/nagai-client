@@ -12,11 +12,13 @@ import Customizer from '../components/customizer'
 import NavbarComponent from './components/navbar'
 import FooterComponent from './components/footer'
 import MenuComponent from './components/menu/horizontal-menu'
-import { useRTL } from 'hooks/useRTL'
-import { useLayoutMode } from 'hooks/useLayoutMode'
-import { useNavbarType } from 'hooks/useNavbarType'
-import { useFooterType } from 'hooks/useFooterType'
-import { useNavbarColor } from 'hooks/useNavbarColor'
+import {
+  useRTL,
+  useLayoutMode,
+  useNavbarType,
+  useFooterType,
+  useNavbarColor
+} from 'hooks'
 import 'core/scss/base/core/menu/menu-types/horizontal-menu.scss'
 
 interface HorizontalLayoutProps {

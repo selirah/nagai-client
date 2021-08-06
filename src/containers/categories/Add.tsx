@@ -74,7 +74,12 @@ const Add = () => {
           message="Product Category has been created successfully"
           title="Nice!"
         />,
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
+        {
+          transition: Slide,
+          hideProgressBar: true,
+          autoClose: 5000,
+          position: 'bottom-right'
+        }
       )
       history.push('/admin/product-categories')
     }

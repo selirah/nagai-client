@@ -20,7 +20,7 @@ const { handleContentWidth, handleMenuCollapsed, handleMenuHidden } =
 const LayoutWrapper: React.FC<LayoutWrapperProps> = (props) => {
   const { layout, appLayout, wrapperClass, transition, routeMeta, children } =
     props
-  const dispatch: Dispatch = useDispatch
+  const dispatch: Dispatch = useDispatch()
   const layoutStore = Selector((state) => state.layout)
   const navbarStore = Selector((state) => state.navbar)
   const { contentWidth } = layoutStore

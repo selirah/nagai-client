@@ -20,11 +20,12 @@ function* login({
   payload: LoginFields
 }): Generator {
   try {
-    const res: any = yield call(callApiPost, '/users/login', payload)
+    const res: any = yield call(callApiPost, 'users/login', payload)
     const { token } = res.data
     const user: User | any = yield setAuthorization(token)
     const result: Auth = { user, token }
     yield setItem('token', token)
+    yield setItem('user', user)
     yield put(authActions.loginSuccess(result))
   } catch (err) {
     if (err && err.response) {
@@ -60,7 +61,7 @@ function* verifyAccount({
   payload: any
 }): Generator {
   try {
-    const res: any = yield call(callApiPost, '/users/verify', payload)
+    const res: any = yield call(callApiPost, 'users/verify', payload)
     if (res.status === 200) {
       yield put(authActions.verificationSuccess())
     }
@@ -80,7 +81,7 @@ function* resetPassword({
   payload: any
 }): Generator {
   try {
-    const res: any = yield call(callApiPost, '/users/reset-password', payload)
+    const res: any = yield call(callApiPost, 'users/reset-password', payload)
     if (res.status === 200) {
       yield put(authActions.resetPasswordSuccess())
     }
@@ -95,7 +96,7 @@ function* resetPassword({
 
 function* resendCode({ payload }: { type: string; payload: any }): Generator {
   try {
-    const res: any = yield call(callApiPost, '/users/resend-code', payload)
+    const res: any = yield call(callApiPost, 'users/resend-code', payload)
     if (res.status === 200) {
       yield put(authActions.resendCodeSuccess())
     }

@@ -1,5 +1,5 @@
 {
-  "Welcome to NAGAI Admin": "Welcome to NAGAI Admin",
+  "Login": "Login",
   "Please sign-in to your account": "Please sign-in to your account",
   "Home": "Home",
   "Dashboard": "Dashboard",
@@ -7,10 +7,10 @@
   "Products": "Products",
   "Outlets": "Outlets",
   "Territories": "Territories",
-  "Inventories": "Inventories",
+  "Stock": "Stock",
   "Orders": "Orders",
   "Deliveries": "Deliveries",
   "Sales": "Sales",
   "Payments": "Payments",
-  "Product Categories": "Product Categories"
+  "Categories": "Categories"
 }

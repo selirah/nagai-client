@@ -1,5 +1,4 @@
 import { Suspense, lazy } from 'react'
-import { Selector } from 'redux/selector-dispatch'
 import { useLayout, useRouterTransition } from 'hooks'
 import LayoutWrapper from 'core/layouts/components/layout-wrapper'
 import {
@@ -13,18 +12,22 @@ import BlankLayout from 'core/layouts/BlankLayout'
 import HorizontalLayout from 'layouts/HorizontalLayout'
 import VerticalLayout from 'layouts/VerticalLayout'
 import ErrorBoundary from 'pages/ErrorBoundary'
-import { PUBLIC_ROUTES } from './constants'
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from './constants'
 import { Route as RR } from 'classes'
+// import { Ability } from '@casl/ability'
+import { isUserLoggedIn } from 'utils'
+
+// type Actions = 'create' | 'read' | 'update' | 'delete'
+// type Subjects = 'Home' | 'Manufacturers' | 'Categories' | 'Products'
 
 const Router = () => {
   const [layout, setLayout] = useLayout()
   const [transition, setTransition] = useRouterTransition()
+  // const ability = new Ability<[Actions, Subjects]>()
   const DefaultLayout =
     layout === 'horizontal' ? 'HorizontalLayout' : 'VerticalLayout'
   const Layouts: any = { BlankLayout, VerticalLayout, HorizontalLayout }
   const currentActiveItem = null
-  const authStore = Selector((state) => state.auth)
-  const { isAuthenticated } = authStore
 
   // ** Return Filtered Array of Routes & Paths
   const LayoutRoutesAndPaths = (layout: string) => {
@@ -50,6 +53,47 @@ const Router = () => {
   const NotAuthorized = lazy(() => import('pages/NotAuthorized'))
 
   const Error = lazy(() => import('pages/Error'))
+
+  /**
+   ** Final Route Component Checks for Login & User Role and then redirects to the route
+   */
+  const FinalRoute = (props: any) => {
+    const route = props.route
+    let action, resource
+
+    // ** Assign vars based on route meta
+    if (route.meta) {
+      action = route.meta.action ? route.meta.action : null
+      resource = route.meta.resource ? route.meta.resource : null
+    }
+
+    if (
+      (!isUserLoggedIn() && route.meta === undefined) ||
+      (!isUserLoggedIn() &&
+        route.meta &&
+        !route.meta.authRoute &&
+        !route.meta.publicRoute)
+    ) {
+      /**
+       ** If user is not Logged in & route meta is undefined
+       ** OR
+       ** If user is not Logged in & route.meta.authRoute, !route.meta.publicRoute are undefined
+       ** Then redirect user to login
+       */
+
+      return <Redirect to={PUBLIC_ROUTES.SIGN_IN} />
+    } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
+      // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
+      return <Redirect to={PRIVATE_ROUTES.HOME} />
+
+      // } else if (isUserLoggedIn() && !ability.can(action || 'read', resource)) {
+      //   // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
+      //   return <Redirect to={PUBLIC_ROUTES.UNAUTHORIZED} />
+    } else {
+      // ** If none of the above render component
+      return <route.component {...props} />
+    }
+  }
 
   const ResolveRoutes = () => {
     return Object.keys(Layouts).map((layout, index) => {
@@ -91,6 +135,7 @@ const Router = () => {
                       return (
                         <Suspense fallback={null}>
                           {/* Layout Wrapper to add classes based on route's layout, appLayout and className */}
+
                           <LayoutWrapper
                             layout={DefaultLayout}
                             transition={transition}
@@ -114,7 +159,8 @@ const Router = () => {
                               : {})}
                             /*eslint-enable */
                           >
-                            <route.component {...props} />
+                            <FinalRoute route={route} {...props} />
+                            {/* <route.component {...props} /> */}
                           </LayoutWrapper>
                         </Suspense>
                       )
@@ -132,12 +178,11 @@ const Router = () => {
     <ErrorBoundary>
       <AppRouter>
         <Switch>
-          {/* If user is logged in Redirect user to DefaultRoute else to login */}
           <Route
             exact
             path="/"
             render={() => {
-              return isAuthenticated ? (
+              return isUserLoggedIn() ? (
                 <Redirect to={DefaultRoute} />
               ) : (
                 <Redirect to={PUBLIC_ROUTES.SIGN_IN} />

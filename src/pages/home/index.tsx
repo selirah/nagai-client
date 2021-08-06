@@ -1,20 +1,25 @@
 import React, { useEffect } from 'react'
 import { Row, Col, Card, CardBody } from 'reactstrap'
 import categoriesActions from 'redux/categories/actions'
+import manufacturerActions from 'redux/manufacturers/actions'
 import { useDispatch } from 'react-redux'
 import { Dispatch, Selector } from 'redux/selector-dispatch'
 import { isEmpty } from 'utils'
 
 const { getCategoriesRequest } = categoriesActions
+const { getManufacturersRequest } = manufacturerActions
 
 const Home = () => {
   const dispatch: Dispatch = useDispatch()
-  const store = Selector((state) => state.categories)
+  const { categories } = Selector((state) => state.categories)
+  const { manufacturers } = Selector((state) => state.manufacturers)
 
   useEffect(() => {
-    const { categories } = store
     if (isEmpty(categories)) {
       dispatch(getCategoriesRequest())
+    }
+    if (isEmpty(manufacturers)) {
+      dispatch(getManufacturersRequest())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

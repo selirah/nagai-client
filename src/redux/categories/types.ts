@@ -33,4 +33,5 @@ export type CategoryState = {
   readonly activeLink: string
   readonly isDeleted: boolean
   readonly category: Category | null
+  readonly filtered: Category[]
 }

@@ -1,9 +1,16 @@
 import { action } from 'typesafe-actions'
-import { Product } from 'classes'
+import {
+  ProductObj,
+  Product,
+  QueryParam,
+  ProductFields,
+  Param,
+  StockTrailObj
+} from 'classes'
 import { ActionTypes } from './types'
 
 const productActions = {
-  addProductRequest: (payload: Product) =>
+  addProductRequest: (payload: ProductFields) =>
     action(ActionTypes.ADD_PRODUCT_REQUEST, payload),
 
   addProductSuccess: (data: Product) =>
@@ -12,7 +19,7 @@ const productActions = {
   addProductFailure: (error: any) =>
     action(ActionTypes.ADD_PRODUCT_FAILURE, error),
 
-  updateProductRequest: (payload: Product) =>
+  updateProductRequest: (payload: ProductFields) =>
     action(ActionTypes.UPDATE_PRODUCT_REQUEST, payload),
 
   updateProductSuccess: (data: Product) =>
@@ -30,9 +37,10 @@ const productActions = {
   deleteProductFailure: (error: any) =>
     action(ActionTypes.DELETE_PRODUCT_FAILURE, error),
 
-  getProductsRequest: () => action(ActionTypes.GET_PRODUCTS_REQUEST),
+  getProductsRequest: (params: QueryParam) =>
+    action(ActionTypes.GET_PRODUCTS_REQUEST, params),
 
-  getProductsSuccess: (data: Product[]) =>
+  getProductsSuccess: (data: ProductObj) =>
     action(ActionTypes.GET_PRODUCTS_SUCCESS, data),
 
   getProductsFailure: (error: any) =>
@@ -40,9 +48,13 @@ const productActions = {
 
   clearStates: () => action(ActionTypes.CLEAR_STATES),
 
-  setSearchText: (value: string) => action(ActionTypes.SEARCH_TEXT, value),
-
-  setPageNumber: (page: number) => action(ActionTypes.SET_PAGE, page),
+  setSearchText: (value: string, products: Product[]) => {
+    const res = products.filter((item) => {
+      const blob = `${item.productName.toLowerCase()}`
+      return blob.indexOf(value.replace(/ /gi, '').toLowerCase()) > -1
+    })
+    return action(ActionTypes.SEARCH_TEXT, { value, res })
+  },
 
   reorderList: (list: Product[]) => action(ActionTypes.REORDER_LIST, list),
 
@@ -51,7 +63,22 @@ const productActions = {
 
   setActiveLink: (link: string) => action(ActionTypes.SET_ACTIVE_LINK, link),
 
-  setProduct: (product: Product) => action(ActionTypes.SET_PRODUCT, product)
+  setProduct: (product: Product) => action(ActionTypes.SET_PRODUCT, product),
+
+  setQueryParams: (params: QueryParam) =>
+    action(ActionTypes.SET_QUERY_PARAMS, params),
+
+  getStockTrailsRequest: (params: Param) =>
+    action(ActionTypes.GET_STOCK_TRAILS_REQUEST, params),
+
+  getStockTrailsSuccess: (data: StockTrailObj) =>
+    action(ActionTypes.GET_STOCK_TRAILS_SUCCESS, data),
+
+  getStockTrailsFailure: (error: any) =>
+    action(ActionTypes.GET_STOCK_TRAILS_FAILURE, error),
+
+  setStockTrailsParams: (params: Param) =>
+    action(ActionTypes.SET_STOCK_TRIALS_PARAMS, params)
 }
 
 export default productActions

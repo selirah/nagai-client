@@ -119,7 +119,7 @@ const Verify = () => {
             <CardTitle tag="h2" className="font-weight-bold mb-1">
               Verify your account
             </CardTitle>
-            <CardText className="mb-2">
+            <CardText className="mb-2 text-muted">
               You have successfully registered. Enter the code that was sent to
               you via email and sms into the box below to verify your account.
               This code expires after 24 hours

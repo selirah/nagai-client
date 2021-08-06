@@ -58,6 +58,17 @@ const Details: React.FC<Props> = (props) => {
           </div>
         </div>
         <hr className="mb-2" />
+        <div className="d-flex flex-column text-left align-items-start">
+          <div className="mb-1">
+            <h6 className="text-muted font-weight-bolder">Date added</h6>
+            <h6 className="mb-0">
+              {category
+                ? moment(category.createdAt).format('MMM Do, YYYY')
+                : null}
+            </h6>
+          </div>
+        </div>
+        <hr className="mb-2" />
       </CardBody>
     </Card>
   )

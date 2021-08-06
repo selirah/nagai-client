@@ -29,7 +29,8 @@ export const initialState: CategoryState = {
   sortBy: 'normal',
   activeLink: 'list',
   isDeleted: false,
-  category: null
+  category: null,
+  filtered: []
 }
 
 const reducer: Reducer<CategoryState> = (state = initialState, action) => {
@@ -131,7 +132,8 @@ const reducer: Reducer<CategoryState> = (state = initialState, action) => {
     case ActionTypes.SEARCH_TEXT:
       return {
         ...state,
-        searchText: action.payload
+        searchText: action.payload.value,
+        filtered: action.payload.res
       }
 
     case ActionTypes.SET_SORT_ORDER:

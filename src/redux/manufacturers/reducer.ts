@@ -36,7 +36,8 @@ export const initialState: ManufacturerState = {
   sortBy: 'normal',
   activeLink: 'list',
   isDeleted: false,
-  manufacturer: null
+  manufacturer: null,
+  filtered: []
 }
 
 const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
@@ -141,7 +142,8 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
     case ActionTypes.SEARCH_TEXT:
       return {
         ...state,
-        searchText: action.payload
+        searchText: action.payload.value,
+        filtered: action.payload.res
       }
 
     case ActionTypes.SET_SORT_ORDER:
