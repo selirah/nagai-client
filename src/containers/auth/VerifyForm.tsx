@@ -2,21 +2,44 @@ import React from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { VerifyFields } from 'classes'
-import { Form, FormGroup, Input, Spinner, Collapse, Label } from 'reactstrap'
+import {
+  Form,
+  FormGroup,
+  Input,
+  Spinner,
+  Collapse,
+  Label,
+  Row,
+  Col,
+  Alert
+} from 'reactstrap'
 import RippleButton from 'core/components/ripple-button'
 
 interface Props {
   initialValues: VerifyFields
   onSubmit(values: VerifyFields): void
   isSubmitting: boolean
+  errs: any
 }
 
-const VerifyForm: React.FC<Props> = (props) => {
-  const { initialValues, onSubmit, isSubmitting } = props
+const validationSchema = Yup.object().shape({
+  code: Yup.string().required('This is a required field')
+})
 
-  const validationSchema = Yup.object().shape({
-    code: Yup.string().required('This is a required field')
-  })
+const VerifyForm: React.FC<Props> = (props) => {
+  const { initialValues, onSubmit, isSubmitting, errs } = props
+
+  const renderError = (errors: any) => (
+    <Row>
+      <Col sm="12" md="12" lg="12">
+        <Alert color="danger" className="p-2">
+          <small className="font-weight-bolder">
+            {errors.errors[0].message}
+          </small>
+        </Alert>
+      </Col>
+    </Row>
+  )
 
   return (
     <Formik
@@ -33,6 +56,7 @@ const VerifyForm: React.FC<Props> = (props) => {
         handleSubmit
       }) => (
         <Form className="auth-login-form mt-2" onSubmit={handleSubmit}>
+          {errs ? renderError(errs) : null}
           <FormGroup>
             <Label className="form-label" for="code">
               Verification code

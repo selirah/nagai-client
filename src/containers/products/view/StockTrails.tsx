@@ -55,10 +55,13 @@ const StockTrails: React.FC<Props> = (props) => {
   )
 
   useEffect(() => {
-    const { stockTrails, loadStockTrails, stockTrailsCount, errors } = store
+    const { stockTrails, loadStockTrails, stockTrailsCount } = store
     setLoading(loadStockTrails)
     if (stockTrails.length) {
       setPageCount(Math.ceil(stockTrailsCount / pageSize))
+      setStockTrails(stockTrails)
+    } else {
+      setStockTrails(stockTrails)
     }
   }, [store, pageSize])
 
@@ -120,7 +123,7 @@ const StockTrails: React.FC<Props> = (props) => {
         <div className="d-flex flex-column text-left align-items-start">
           {loading ? (
             renderLoader()
-          ) : !store.stockTrails.length ? (
+          ) : stockTrails.length ? (
             <Fragment>
               {renderStockTrails()}
               {renderPagination()}

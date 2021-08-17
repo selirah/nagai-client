@@ -10,7 +10,10 @@ import {
   Input,
   CustomInput,
   Spinner,
-  Collapse
+  Collapse,
+  Row,
+  Col,
+  Alert
 } from 'reactstrap'
 import RippleButton from 'core/components/ripple-button'
 import { PUBLIC_ROUTES } from 'router/constants'
@@ -20,17 +23,30 @@ interface Props {
   initialValues: LoginFields
   onSubmit(values: LoginFields): void
   isSubmitting: boolean
+  errs: any
 }
 
-const LoginForm: React.FC<Props> = (props) => {
-  const { initialValues, onSubmit, isSubmitting } = props
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Please input a valid email in the form john@example.com')
+    .required('This is a required field'),
+  password: Yup.string().required('This is a required field')
+})
 
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Please input a valid email in the form john@example.com')
-      .required('This is a required field'),
-    password: Yup.string().required('This is a required field')
-  })
+const LoginForm: React.FC<Props> = (props) => {
+  const { initialValues, onSubmit, isSubmitting, errs } = props
+
+  const renderError = (errors: any) => (
+    <Row>
+      <Col sm="12" md="12" lg="12">
+        <Alert color="danger" className="p-2">
+          <small className="font-weight-bolder">
+            {errors.errors[0].message}
+          </small>
+        </Alert>
+      </Col>
+    </Row>
+  )
 
   return (
     <Formik
@@ -47,6 +63,7 @@ const LoginForm: React.FC<Props> = (props) => {
         handleSubmit
       }) => (
         <Form className="auth-login-form mt-2" onSubmit={handleSubmit}>
+          {errs ? renderError(errs) : null}
           <FormGroup>
             <Label className="form-label" for="login-email">
               Email

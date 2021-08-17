@@ -12,13 +12,6 @@ export type Product = {
   updatedAt: Date
 }
 
-export type QueryParam = {
-  page: number
-  skip: number
-  category: number
-  manufacturer: number
-}
-
 export type ProductObj = {
   products: Product[]
   count: number

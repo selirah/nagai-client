@@ -106,6 +106,8 @@ const List = () => {
       } else {
         setProducts(products)
       }
+    } else {
+      setProducts(products)
     }
     if (isDeleted) {
       sweetAlert.fire(deleteDone('Product')).then(function (res) {

@@ -1,4 +1,4 @@
-import { Product, QueryParam, StockTrail, Param } from 'classes'
+import { Product, StockTrail, Param } from 'classes'
 
 export enum ActionTypes {
   SUBMITTING = '@@products/SUBMITTING',
@@ -42,7 +42,7 @@ export type ProductState = {
   readonly activeLink: string
   readonly isDeleted: boolean
   readonly product: Product | null
-  readonly params: QueryParam
+  readonly params: Param
   readonly filtered: Product[]
   readonly count: number
   readonly stockTrails: StockTrail[]

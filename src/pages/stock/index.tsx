@@ -1,11 +1,11 @@
 import { useState, useCallback, Fragment } from 'react'
-import SearchBar from 'containers/products/SearchBar'
-import Sidebar from 'containers/products/Sidebar'
+import SearchBar from 'containers/stock/SearchBar'
+import Sidebar from 'containers/stock/Sidebar'
 import classnames from 'classnames'
-import ProductRoutes from './routes'
+import StockRoutes from './routes'
 import 'core/scss/react/apps/app-todo.scss'
 
-const Products = () => {
+const Stock = () => {
   const [mainSidebar, setMainSidebar] = useState(false)
 
   const handleMainSidebar = useCallback(
@@ -27,7 +27,7 @@ const Products = () => {
             ></div>
             <div className="todo-app-list">
               <SearchBar handleMainSidebar={handleMainSidebar} />
-              <ProductRoutes />
+              <StockRoutes />
             </div>
           </div>
         </div>
@@ -36,4 +36,4 @@ const Products = () => {
   )
 }
 
-export default Products
+export default Stock

@@ -2,27 +2,26 @@ import { lazy, Suspense } from 'react'
 import { Route, useRouteMatch, Switch } from 'react-router-dom'
 import { Route as RR } from 'classes'
 import Spinner from 'components/Spinner'
-// import abilities from 'router/can.constants'
 
 const routes: RR[] = [
   {
     path: '',
-    component: lazy(() => import('containers/manufacturers/List')),
+    component: lazy(() => import('containers/stock/List')),
     exact: true
   },
   {
     path: 'add',
-    component: lazy(() => import('containers/manufacturers/Add')),
+    component: lazy(() => import('containers/stock/Add')),
     exact: true
   },
   {
     path: 'edit/:id',
-    component: lazy(() => import('containers/manufacturers/Edit')),
+    component: lazy(() => import('containers/stock/Edit')),
     exact: true
   }
 ]
 
-const ManufacturerRoutes = () => {
+const StockRoutes = () => {
   const { url } = useRouteMatch()
   return (
     <Suspense fallback={<Spinner />}>
@@ -37,4 +36,4 @@ const ManufacturerRoutes = () => {
   )
 }
 
-export default ManufacturerRoutes
+export default StockRoutes

@@ -2,7 +2,7 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
 import { callApiDelete, callApiPost, callApiPut, callApiGet } from 'api'
 import productActions from './actions'
-import { QueryParam, ProductFields, Param } from 'classes'
+import { ProductFields, Param } from 'classes'
 
 function* addProduct({
   payload
@@ -62,7 +62,7 @@ function* getProducts({
   payload
 }: {
   type: string
-  payload: QueryParam
+  payload: Param
 }): Generator {
   try {
     const res: any = yield call(

@@ -26,7 +26,7 @@ const StockList: React.FC<Props> = (props) => {
         <div className="d-flex flex-column text-left align-items-start">
           {stock.length ? (
             <Fragment>
-              <Table>
+              <Table responsive>
                 <thead>
                   <tr>
                     <th>SKU</th>

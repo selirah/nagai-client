@@ -1,6 +1,7 @@
 import { lazy } from 'react'
 import { Route } from 'classes'
 import { PUBLIC_ROUTES, PRIVATE_ROUTES } from './constants'
+import abilities from './can.constants'
 
 const TemplateTitle = '%s - NAGAI'
 const DefaultRoute = PRIVATE_ROUTES.HOME
@@ -11,7 +12,7 @@ const Routes: Route[] = [
     component: lazy(() => import('pages/home')),
     exact: true,
     meta: {
-      resource: 'Home',
+      resource: abilities.Home,
       action: 'read'
     }
   },
@@ -57,21 +58,44 @@ const Routes: Route[] = [
     component: lazy(() => import('pages/manufacturers')),
     exact: false,
     className: 'todo-application',
-    appLayout: true
+    appLayout: true,
+    meta: {
+      resource: abilities.Manufacturers,
+      action: 'read'
+    }
   },
   {
     path: PRIVATE_ROUTES.CATEGORIES,
     component: lazy(() => import('pages/categories')),
     exact: false,
     className: 'todo-application',
-    appLayout: true
+    appLayout: true,
+    meta: {
+      resource: abilities.Categories,
+      action: 'read'
+    }
   },
   {
     path: PRIVATE_ROUTES.PRODUCTS,
     component: lazy(() => import('pages/products')),
     exact: false,
     className: 'todo-application',
-    appLayout: true
+    appLayout: true,
+    meta: {
+      resource: abilities.Products,
+      action: 'read'
+    }
+  },
+  {
+    path: PRIVATE_ROUTES.STOCK,
+    component: lazy(() => import('pages/stock')),
+    exact: false,
+    className: 'todo-application',
+    appLayout: true,
+    meta: {
+      resource: abilities.Stock,
+      action: 'read'
+    }
   }
 ]
 

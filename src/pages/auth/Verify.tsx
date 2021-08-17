@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from 'router/constants'
 import { useLayoutMode, useTimer } from 'hooks'
-import { AlertTriangle, Coffee } from 'react-feather'
+import { Coffee } from 'react-feather'
 import { toast, Slide } from 'react-toastify'
 import { Row, Col, CardTitle, CardText, Label, Spinner } from 'reactstrap'
 import Logo from './Logo'
@@ -18,21 +18,16 @@ import ToastBox from 'components/ToastBox'
 const { verificationRequest, clearStates, resendCodeRequest } = authActions
 
 const Verify = () => {
-  const {
-    isAuthenticated,
-    isSubmitting,
-    errors,
-    isVerified,
-    user,
-    loading,
-    isResendCode
-  } = Selector((state) => state.auth)
+  const store = Selector((state) => state.auth)
   const dispatch: Dispatch = useDispatch()
   const history = useHistory()
   const [mode] = useLayoutMode()
   const initialValues: VerifyFields = { code: '' }
   const [timeUp, setTimeUp] = useState(true)
   const { time, startTimer } = useTimer(60)
+  const [isSubmitting, setIsSubmiting] = useState(false)
+  const [errors, setErrors] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const illustration =
     mode === 'dark' ? 'reset-password-v2-dark.svg' : 'reset-password-v2.svg'
@@ -46,15 +41,17 @@ const Verify = () => {
   )
 
   const resendCode = useCallback(async () => {
+    const { user } = store
     if (user) {
       const payload: ResetResendFields = {
         email: user.email
       }
       dispatch(resendCodeRequest(payload))
     }
-  }, [dispatch, user])
+  }, [dispatch, store])
 
   useEffect(() => {
+    const { isAuthenticated } = store
     if (isAuthenticated) {
       history.push(PRIVATE_ROUTES.HOME)
     } else {
@@ -64,6 +61,10 @@ const Verify = () => {
   }, [])
 
   useEffect(() => {
+    const { isSubmitting, errors, isVerified, loading, isResendCode } = store
+    setLoading(loading)
+    setIsSubmiting(isSubmitting)
+    setErrors(errors)
     if (isVerified) {
       toast.success(
         <ToastBox
@@ -83,18 +84,7 @@ const Verify = () => {
     if (time <= 0) {
       setTimeUp(true)
     }
-    if (errors) {
-      toast.error(
-        <ToastBox
-          color="danger"
-          icon={<AlertTriangle />}
-          message={`${errors.errors[0].message}`}
-          title="Ooops . . ."
-        />,
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
-      )
-    }
-  }, [isVerified, isResendCode, history, startTimer, time, errors])
+  }, [store, history, startTimer, time])
 
   return (
     <div className="auth-wrapper auth-v2">
@@ -128,6 +118,7 @@ const Verify = () => {
               initialValues={initialValues}
               isSubmitting={isSubmitting}
               onSubmit={onVerifySubmit}
+              errs={errors}
             />
             <div className="d-flex justify-content-between mt-3">
               <Label className="form-label" for="login-password">

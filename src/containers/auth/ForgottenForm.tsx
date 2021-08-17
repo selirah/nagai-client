@@ -2,23 +2,46 @@ import React from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { ResetResendFields } from 'classes'
-import { Form, FormGroup, Input, Spinner, Collapse, Label } from 'reactstrap'
+import {
+  Form,
+  FormGroup,
+  Input,
+  Spinner,
+  Collapse,
+  Label,
+  Row,
+  Col,
+  Alert
+} from 'reactstrap'
 import RippleButton from 'core/components/ripple-button'
 
 interface Props {
   initialValues: ResetResendFields
   onSubmit(values: ResetResendFields): void
   isSubmitting: boolean
+  errs: any
 }
 
-const ForgottenForm: React.FC<Props> = (props) => {
-  const { initialValues, onSubmit, isSubmitting } = props
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Please input a valid email in the form john@example.com')
+    .required('This is a required field')
+})
 
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Please input a valid email in the form john@example.com')
-      .required('This is a required field')
-  })
+const ForgottenForm: React.FC<Props> = (props) => {
+  const { initialValues, onSubmit, isSubmitting, errs } = props
+
+  const renderError = (errors: any) => (
+    <Row>
+      <Col sm="12" md="12" lg="12">
+        <Alert color="danger" className="p-2">
+          <small className="font-weight-bolder">
+            {errors.errors[0].message}
+          </small>
+        </Alert>
+      </Col>
+    </Row>
+  )
 
   return (
     <Formik
@@ -35,6 +58,7 @@ const ForgottenForm: React.FC<Props> = (props) => {
         handleSubmit
       }) => (
         <Form className="auth-login-form mt-2" onSubmit={handleSubmit}>
+          {errs ? renderError(errs) : null}
           <FormGroup>
             <Label className="form-label" for="email">
               Email Address

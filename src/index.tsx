@@ -12,6 +12,8 @@ import { getItem } from 'utils/localstorage'
 import { User } from 'classes'
 import { removeAll } from 'utils/localstorage'
 import jwtDecode from 'jwt-decode'
+import { AbilityContext } from 'contexts/Can'
+import ability from 'utils/ability'
 // ** Spinner (Splash Screen)
 import Spinner from 'core/components/spinner/fallback'
 // ** Ripple Button
@@ -62,7 +64,9 @@ ReactDOM.render(
     <Suspense fallback={<Spinner />}>
       <ThemeContext>
         <LocaleWrapper>
-          <LazyApp store={store} persistor={persistor} />
+          <AbilityContext.Provider value={ability()}>
+            <LazyApp store={store} persistor={persistor} />
+          </AbilityContext.Provider>
           <ToastContainer newestOnTop />
         </LocaleWrapper>
       </ThemeContext>

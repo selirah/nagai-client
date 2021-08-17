@@ -90,7 +90,7 @@ const NotAuthorized = () => (
           color="primary"
           className="btn-sm-block mb-1"
         >
-          Back to login
+          Back to Home
         </RippleButton>
         <img
           className="img-fluid"

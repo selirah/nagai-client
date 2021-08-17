@@ -9,7 +9,10 @@ import {
   Input,
   CustomInput,
   Spinner,
-  Collapse
+  Collapse,
+  Row,
+  Col,
+  Alert
 } from 'reactstrap'
 import RippleButton from 'core/components/ripple-button'
 import InputPasswordToggle from 'core/components/input-password-toggle'
@@ -18,33 +21,46 @@ interface Props {
   initialValues: RegisterFields
   onSubmit(values: RegisterFields): void
   isSubmitting: boolean
+  errs: any
 }
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
-const RegisterForm: React.FC<Props> = (props) => {
-  const { initialValues, onSubmit, isSubmitting } = props
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Please input a valid email in the form john@example.com')
+    .required('This is a required field'),
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('This is a required field'),
+  phone: Yup.string()
+    .matches(phoneRegExp, 'Please enter a valid phone number')
+    .min(10, 'Phone number is too short!')
+    .max(12, 'Phone number is too long!')
+    .required('This is a required field'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords do not match')
+    .required('This is a required field'),
+  terms: Yup.bool()
+    .oneOf([true], 'Please accepts the terms and conditions')
+    .required('This is a required field')
+})
 
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Please input a valid email in the form john@example.com')
-      .required('This is a required field'),
-    password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('This is a required field'),
-    phone: Yup.string()
-      .matches(phoneRegExp, 'Please enter a valid phone number')
-      .min(10, 'Phone number is too short!')
-      .max(12, 'Phone number is too long!')
-      .required('This is a required field'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords do not match')
-      .required('This is a required field'),
-    terms: Yup.bool()
-      .oneOf([true], 'Please accepts the terms and conditions')
-      .required('This is a required field')
-  })
+const RegisterForm: React.FC<Props> = (props) => {
+  const { initialValues, onSubmit, isSubmitting, errs } = props
+
+  const renderError = (errors: any) => (
+    <Row>
+      <Col sm="12" md="12" lg="12">
+        <Alert color="danger" className="p-2">
+          <small className="font-weight-bolder">
+            {errors.errors[0].message}
+          </small>
+        </Alert>
+      </Col>
+    </Row>
+  )
 
   return (
     <Formik
@@ -61,6 +77,7 @@ const RegisterForm: React.FC<Props> = (props) => {
         handleSubmit
       }) => (
         <Form className="auth-login-form mt-2" onSubmit={handleSubmit}>
+          {errs ? renderError(errs) : null}
           <FormGroup>
             <Label className="form-label" for="email">
               Email

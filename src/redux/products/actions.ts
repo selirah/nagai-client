@@ -2,7 +2,6 @@ import { action } from 'typesafe-actions'
 import {
   ProductObj,
   Product,
-  QueryParam,
   ProductFields,
   Param,
   StockTrailObj
@@ -37,7 +36,7 @@ const productActions = {
   deleteProductFailure: (error: any) =>
     action(ActionTypes.DELETE_PRODUCT_FAILURE, error),
 
-  getProductsRequest: (params: QueryParam) =>
+  getProductsRequest: (params: Param) =>
     action(ActionTypes.GET_PRODUCTS_REQUEST, params),
 
   getProductsSuccess: (data: ProductObj) =>
@@ -65,7 +64,7 @@ const productActions = {
 
   setProduct: (product: Product) => action(ActionTypes.SET_PRODUCT, product),
 
-  setQueryParams: (params: QueryParam) =>
+  setQueryParams: (params: Param) =>
     action(ActionTypes.SET_QUERY_PARAMS, params),
 
   getStockTrailsRequest: (params: Param) =>

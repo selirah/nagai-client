@@ -87,6 +87,8 @@ const List = () => {
       } else {
         setCategories(categories)
       }
+    } else {
+      setCategories(categories)
     }
     if (isDeleted) {
       sweetAlert.fire(deleteDone('Product Category')).then(function (res) {

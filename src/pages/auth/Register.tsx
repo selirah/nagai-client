@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import RegisterForm from 'containers/auth/RegisterForm'
 import { RegisterFields } from 'classes'
@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from 'router/constants'
 import { useLayoutMode } from 'hooks'
-import { AlertTriangle, Coffee } from 'react-feather'
+import { Coffee } from 'react-feather'
 import { toast, Slide } from 'react-toastify'
 import { Row, Col, CardTitle, CardText, Label } from 'reactstrap'
 import Logo from './Logo'
@@ -18,8 +18,7 @@ import ToastBox from 'components/ToastBox'
 const { registerRequest, clearStates } = authActions
 
 const Register = () => {
-  const { isAuthenticated, isSubmitting, errors, user, isRegistered } =
-    Selector((state) => state.auth)
+  const store = Selector((state) => state.auth)
   const dispatch: Dispatch = useDispatch()
   const history = useHistory()
   const [mode] = useLayoutMode()
@@ -33,6 +32,8 @@ const Register = () => {
   const illustration =
     mode === 'dark' ? 'register-v2-dark.svg' : 'register-v2.svg'
   const source = require(`assets/images/pages/${illustration}`).default
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errors, setErrors] = useState(null)
 
   const onRegisterSubmit = useCallback(
     (values: RegisterFields) => {
@@ -42,6 +43,7 @@ const Register = () => {
   )
 
   useEffect(() => {
+    const { isAuthenticated } = store
     if (isAuthenticated) {
       history.push(PRIVATE_ROUTES.HOME)
     } else {
@@ -51,6 +53,9 @@ const Register = () => {
   }, [])
 
   useEffect(() => {
+    const { isSubmitting, errors, user, isRegistered } = store
+    setIsSubmitting(isSubmitting)
+    setErrors(errors)
     if (isRegistered && user) {
       toast.success(
         <ToastBox
@@ -65,18 +70,7 @@ const Register = () => {
       )
       history.push(PUBLIC_ROUTES.VERIFY_ACCOUNT)
     }
-    if (errors) {
-      toast.error(
-        <ToastBox
-          color="danger"
-          icon={<AlertTriangle />}
-          message={`${errors.errors[0].message}`}
-          title="Ooops . . ."
-        />,
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
-      )
-    }
-  }, [isRegistered, user, history, errors])
+  }, [store, history])
 
   return (
     <div className="auth-wrapper auth-v2">
@@ -108,6 +102,7 @@ const Register = () => {
               initialValues={initialValues}
               isSubmitting={isSubmitting}
               onSubmit={onRegisterSubmit}
+              errs={errors}
             />
             <div className="d-flex justify-content-between mt-2">
               <Label className="form-label" for="login-password">

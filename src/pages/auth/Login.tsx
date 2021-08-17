@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Link, useLocation, Redirect } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import LoginForm from 'containers/auth/LoginForm'
 import { LoginFields } from 'classes'
 import authActions from 'redux/auth/actions'
@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from 'router/constants'
 import { useLayoutMode } from 'hooks'
-import { AlertTriangle, Coffee } from 'react-feather'
+import { Coffee } from 'react-feather'
 import { toast, Slide } from 'react-toastify'
 import { Row, Col, CardTitle, CardText } from 'reactstrap'
 import RippleButton from 'core/components/ripple-button'
@@ -20,9 +20,7 @@ import ToastBox from 'components/ToastBox'
 const { loginRequest, clearStates } = authActions
 
 const Login = () => {
-  const { isAuthenticated, isSubmitting, errors, user } = Selector(
-    (state) => state.auth
-  )
+  const store = Selector((state) => state.auth)
   const dispatch: Dispatch = useDispatch()
   const location = useLocation<any>()
   const initialValues: LoginFields = {
@@ -34,16 +32,18 @@ const Login = () => {
   const [mode] = useLayoutMode()
   const illustration = mode === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg'
   const source = require(`assets/images/pages/${illustration}`).default
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errors, setErrors] = useState(null)
 
   const onLoginSubmit = useCallback(
     (values: LoginFields) => {
       dispatch(loginRequest(values))
-      dispatch(clearStates())
     },
     [dispatch]
   )
 
   useEffect(() => {
+    const { isAuthenticated } = store
     if (isAuthenticated) {
       setRedirectToReferrer(true)
     }
@@ -52,6 +52,9 @@ const Login = () => {
   }, [])
 
   useEffect(() => {
+    const { isAuthenticated, isSubmitting, errors, user } = store
+    setIsSubmitting(isSubmitting)
+    setErrors(errors)
     if (isAuthenticated && user) {
       setRedirectToReferrer(true)
       toast.success(
@@ -69,25 +72,14 @@ const Login = () => {
         }
       )
     }
-    if (errors) {
-      toast.error(
-        <ToastBox
-          color="danger"
-          icon={<AlertTriangle />}
-          message={`${errors.errors[0].message}`}
-          title="Ooops . . ."
-        />,
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
-      )
-    }
-  }, [isAuthenticated, user, errors])
+  }, [store])
 
   let { from } = location.state || {
     from: { pathname: PRIVATE_ROUTES.HOME }
   }
 
-  if (redirectToReferer) {
-    return <Redirect to={from} />
+  if (redirectToReferer && store.user) {
+    window.location.href = from.pathname
   }
 
   return (
@@ -120,6 +112,7 @@ const Login = () => {
               initialValues={initialValues}
               isSubmitting={isSubmitting}
               onSubmit={onLoginSubmit}
+              errs={errors}
             />
             <div className="divider my-2">
               <div className="divider-text">Don't have account?</div>

@@ -87,6 +87,8 @@ const List = () => {
       } else {
         setManufacturers(manufacturers)
       }
+    } else {
+      setManufacturers(manufacturers)
     }
     if (isDeleted) {
       sweetAlert.fire(deleteDone('Manufacturer')).then(function (res) {

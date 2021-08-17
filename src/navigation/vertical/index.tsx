@@ -36,16 +36,16 @@ const VerticalNavigation = [
     navLink: PRIVATE_ROUTES.PRODUCTS
   },
   {
-    id: 'territories',
-    title: 'Territories',
-    icon: <Icons.Map size={20} />,
-    navLink: PRIVATE_ROUTES.TERRITORIES
-  },
-  {
     id: 'stock',
     title: 'Stock',
     icon: <Icons.CheckCircle size={20} />,
     navLink: PRIVATE_ROUTES.STOCK
+  },
+  {
+    id: 'territories',
+    title: 'Territories',
+    icon: <Icons.Map size={20} />,
+    navLink: PRIVATE_ROUTES.TERRITORIES
   },
   {
     id: 'orders',
