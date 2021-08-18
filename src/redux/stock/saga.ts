@@ -62,12 +62,25 @@ function* getStock({ payload }: { type: string; payload: Param }): Generator {
   try {
     const res: any = yield call(
       callApiGet,
-      `products?page=${payload.page}&skip=${payload.skip}&productId=${payload.productId}&sku=${payload.sku}&fromDate=${payload.fromDate}&toDate=${payload.toDate}`
+      `stock?page=${payload.page}&skip=${payload.skip}&query=${payload.query}&fromDate=${payload.fromDate}&toDate=${payload.toDate}`
     )
     yield put(stockActions.getStockSuccess(res.data))
   } catch (err) {
     if (err && err.response) {
       yield put(stockActions.getStockFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
+function* getUnits(): Generator {
+  try {
+    const res: any = yield call(callApiGet, `utils/units`)
+    yield put(stockActions.getUnitSuccess(res.data))
+  } catch (err) {
+    if (err && err.response) {
+      yield put(stockActions.getUnitFailure(err.response.data))
     } else {
       throw err
     }
@@ -90,12 +103,17 @@ function* watchGetStock() {
   yield takeEvery(ActionTypes.GET_STOCK_REQUEST, getStock)
 }
 
+function* watchGetUnits() {
+  yield takeEvery(ActionTypes.GET_UNIT_REQUEST, getUnits)
+}
+
 function* stockSaga(): Generator {
   yield all([
     fork(watchAddStock),
     fork(watchUpdateStock),
     fork(watchDeleteStock),
-    fork(watchGetStock)
+    fork(watchGetStock),
+    fork(watchGetUnits)
   ])
 }
 

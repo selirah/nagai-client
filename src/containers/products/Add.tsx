@@ -35,6 +35,14 @@ interface Fields {
   manufacturerId: any
 }
 
+const validateSchema = Yup.object().shape({
+  productName: Yup.string()
+    .min(2, 'Product name is too short!')
+    .required('This is a required field'),
+  manufacturerId: Yup.object().required('This is a required field'),
+  categoryId: Yup.object().required('This is a required field')
+})
+
 const Add = () => {
   const dispatch: Dispatch = useDispatch()
   const store = Selector((state) => state.products)
@@ -47,14 +55,6 @@ const Add = () => {
   })
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
-
-  const validateSchema = Yup.object().shape({
-    productName: Yup.string()
-      .min(2, 'Product name is too short!')
-      .required('This is a required field'),
-    manufacturerId: Yup.object().required('This is a required field'),
-    categoryId: Yup.object().required('This is a required field')
-  })
 
   const onSubmit = useCallback(
     (values: Fields) => {

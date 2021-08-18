@@ -1,4 +1,4 @@
-import { Stock, Param } from 'classes'
+import { Stock, Param, Unit } from 'classes'
 
 export enum ActionTypes {
   SUBMITTING = '@@stock/SUBMITTING',
@@ -22,7 +22,10 @@ export enum ActionTypes {
   SET_SORT_ORDER = '@@stock/SET_SORT_ORDER',
   SET_ACTIVE_LINK = '@@stock/SET_ACTIVE_LINK',
   SET_STOCK = '@@stock/SET_STOCK',
-  SET_QUERY_PARAMS = '@@stock/SET_QUERY_PARAMS'
+  SET_QUERY_PARAMS = '@@stock/SET_QUERY_PARAMS',
+  GET_UNIT_REQUEST = '@@stock/GET_UNIT_REQUEST',
+  GET_UNIT_SUCCESS = '@@stock/GET_UNIT_SUCCESS',
+  GET_UNIT_FAILURE = '@@stock/GET_UNIT_FAILURE'
 }
 
 export type StockState = {
@@ -38,4 +41,5 @@ export type StockState = {
   readonly stk: Stock | null
   readonly params: Param
   readonly count: number
+  readonly units: Unit[]
 }

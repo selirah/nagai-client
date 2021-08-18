@@ -100,6 +100,24 @@ function* getStockTrails({
   }
 }
 
+function* getSearchedProducts({
+  payload
+}: {
+  type: string
+  payload: string
+}): Generator {
+  try {
+    const res: any = yield call(callApiGet, `products/search?q=${payload}`)
+    yield put(productActions.getSearchedProductsSuccess(res.data))
+  } catch (err) {
+    if (err && err.response) {
+      yield put(productActions.getSearchedProductsFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
 function* watchAddProduct() {
   yield takeEvery(ActionTypes.ADD_PRODUCT_REQUEST, addProduct)
 }
@@ -120,13 +138,18 @@ function* watchGetStockTrails() {
   yield takeEvery(ActionTypes.GET_STOCK_TRAILS_REQUEST, getStockTrails)
 }
 
+function* watchGetSearchedProducts() {
+  yield takeEvery(ActionTypes.GET_PRODUCTS_SEARCH_REQUEST, getSearchedProducts)
+}
+
 function* productsSaga(): Generator {
   yield all([
     fork(watchAddProduct),
     fork(watchUpdateProduct),
     fork(watchDeleteProduct),
     fork(watchGetProducts),
-    fork(watchGetStockTrails)
+    fork(watchGetStockTrails),
+    fork(watchGetSearchedProducts)
   ])
 }
 

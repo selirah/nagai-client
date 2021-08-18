@@ -37,11 +37,14 @@ export const initialState: StockState = {
   loading: false,
   params: {
     page: 100,
-    skip: 0
+    skip: 0,
+    fromDate: '',
+    toDate: ''
   },
   sortBy: 'normal',
   stk: null,
-  stock: []
+  stock: [],
+  units: []
 }
 
 const reducer: Reducer<StockState> = (state = initialState, action) => {
@@ -104,7 +107,7 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isDeleted: initialState.isDeleted
       }
 
-    case ActionTypes.DELETE_STOCK_FAILURE:
+    case ActionTypes.DELETE_STOCK_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -181,6 +184,23 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
       return {
         ...state,
         params: action.payload
+      }
+
+    case ActionTypes.GET_UNIT_REQUEST:
+      return {
+        ...state
+      }
+
+    case ActionTypes.GET_UNIT_SUCCESS:
+      return {
+        ...state,
+        units: action.payload
+      }
+
+    case ActionTypes.GET_UNIT_FAILURE:
+      return {
+        ...state,
+        units: action.payload
       }
 
     default:

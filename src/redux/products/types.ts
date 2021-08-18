@@ -27,7 +27,10 @@ export enum ActionTypes {
   GET_STOCK_TRAILS_REQUEST = '@@products/GET_STOCK_TRAILS_REQUEST',
   GET_STOCK_TRAILS_SUCCESS = '@@products/GET_STOCK_TRAILS_SUCCESS',
   GET_STOCK_TRAILS_FAILURE = '@@products/GET_STOCK_TRAILS_FAILURE',
-  SET_STOCK_TRIALS_PARAMS = '@@products/SET_STOCK_TRIALS_PARAMS'
+  SET_STOCK_TRIALS_PARAMS = '@@products/SET_STOCK_TRIALS_PARAMS',
+  GET_PRODUCTS_SEARCH_REQUEST = '@@products/GET_PRODUCTS_SEARCH_REQUEST',
+  GET_PRODUCTS_SEARCH_SUCCESS = '@@products/GET_PRODUCTS_SEARCH_SUCCESS',
+  GET_PRODUCTS_SEARCH_FAILURE = '@@products/GET_PRODUCTS_SEARCH_FAILURE'
 }
 
 export type ProductState = {
@@ -49,4 +52,5 @@ export type ProductState = {
   readonly stockTrailsParams: Param
   readonly stockTrailsCount: number
   readonly loadStockTrails: boolean
+  readonly searchedProducts: Product[]
 }

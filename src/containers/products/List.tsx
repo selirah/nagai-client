@@ -19,7 +19,7 @@ import { toast, Slide } from 'react-toastify'
 import ToastBox from 'components/ToastBox'
 import Drawer from './Drawer'
 import PaginationComponent from 'components/Pagination'
-import Empty from 'components/Empty'
+import Empty from 'components/EmptyBox'
 
 const {
   getProductsRequest,

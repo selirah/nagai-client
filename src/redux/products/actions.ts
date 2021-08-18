@@ -77,7 +77,16 @@ const productActions = {
     action(ActionTypes.GET_STOCK_TRAILS_FAILURE, error),
 
   setStockTrailsParams: (params: Param) =>
-    action(ActionTypes.SET_STOCK_TRIALS_PARAMS, params)
+    action(ActionTypes.SET_STOCK_TRIALS_PARAMS, params),
+
+  getSearchedProductsRequest: (query: string) =>
+    action(ActionTypes.GET_PRODUCTS_SEARCH_REQUEST, query),
+
+  getSearchedProductsSuccess: (data: Product[]) =>
+    action(ActionTypes.GET_PRODUCTS_SEARCH_SUCCESS, data),
+
+  getSearchedProductsFailure: (error: any) =>
+    action(ActionTypes.GET_PRODUCTS_SEARCH_FAILURE, error)
 }
 
 export default productActions

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Row, Col, Card, CardBody } from 'reactstrap'
 import categoriesActions from 'redux/categories/actions'
 import manufacturerActions from 'redux/manufacturers/actions'

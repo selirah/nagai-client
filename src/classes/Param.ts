@@ -4,8 +4,7 @@ export type Param = {
   skip: number
   fromDate?: string
   toDate?: string
-  productId?: string
+  query?: string
   category?: number
   manufacturer?: number
-  sku?: string
 }

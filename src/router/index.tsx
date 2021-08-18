@@ -17,9 +17,6 @@ import { Route as RR } from 'classes'
 import { AbilityContext } from 'contexts/Can'
 import { isUserLoggedIn } from 'utils'
 
-// type Actions = 'create' | 'read' | 'update' | 'delete'
-// type Subjects = 'Home' | 'Manufacturers' | 'Categories' | 'Products'
-
 const Router = () => {
   const [layout, setLayout] = useLayout()
   const [transition, setTransition] = useRouterTransition()

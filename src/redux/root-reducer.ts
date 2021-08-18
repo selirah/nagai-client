@@ -8,6 +8,7 @@ import { navbarReducer, NavbarState } from './navbar'
 import { manufacturersReducer, ManufacturerState } from './manufacturers'
 import { categoriesReducer, CategoryState } from './categories'
 import { productsReducer, ProductState } from './products'
+import { stockReducer, StockState } from './stock'
 
 export type ApplicationState = {
   auth: AuthState
@@ -16,6 +17,7 @@ export type ApplicationState = {
   manufacturers: ManufacturerState
   categories: CategoryState
   products: ProductState
+  stock: StockState
 }
 
 const persistConfig = {
@@ -27,7 +29,8 @@ const persistConfig = {
     'navbar',
     'manufacturers',
     'categories',
-    'products'
+    'products',
+    'stock'
   ]
 }
 
@@ -37,7 +40,8 @@ const appReducer = combineReducers({
   navbar: navbarReducer,
   manufacturers: manufacturersReducer,
   categories: categoriesReducer,
-  products: productsReducer
+  products: productsReducer,
+  stock: stockReducer
 })
 
 const rootReducer = (state?: ApplicationState, action?: AnyAction) => {

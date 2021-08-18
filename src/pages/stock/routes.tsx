@@ -10,13 +10,18 @@ const routes: RR[] = [
     exact: true
   },
   {
-    path: 'add',
+    path: 'add/:id',
     component: lazy(() => import('containers/stock/Add')),
     exact: true
   },
   {
     path: 'edit/:id',
     component: lazy(() => import('containers/stock/Edit')),
+    exact: true
+  },
+  {
+    path: 'select/:id',
+    component: lazy(() => import('containers/stock/StockSelect')),
     exact: true
   }
 ]

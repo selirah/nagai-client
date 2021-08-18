@@ -50,7 +50,8 @@ export const initialState: ProductState = {
     fromDate: '',
     toDate: ''
   },
-  loadStockTrails: false
+  loadStockTrails: false,
+  searchedProducts: []
 }
 
 const reducer: Reducer<ProductState> = (state = initialState, action) => {
@@ -226,6 +227,26 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
       return {
         ...state,
         stockTrailsParams: action.payload
+      }
+
+    case ActionTypes.GET_PRODUCTS_SEARCH_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case ActionTypes.GET_PRODUCTS_SEARCH_SUCCESS:
+      return {
+        ...state,
+        loading: initialState.loading,
+        searchedProducts: action.payload
+      }
+
+    case ActionTypes.GET_PRODUCTS_SEARCH_FAILURE:
+      return {
+        ...state,
+        loading: initialState.loading,
+        error: action.payload
       }
 
     default:

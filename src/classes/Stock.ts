@@ -36,3 +36,9 @@ export type StockFields = {
   reorderDate: Date
   comments: string
 }
+
+export type Unit = {
+  id: number
+  unit: string
+  description: string
+}

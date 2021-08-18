@@ -29,7 +29,7 @@ const SpinnerWrapper = styled.div`
     animation: svgSpinnerCircle 1.4s ease-in-out infinite;
     stroke-dasharray: 80px, 200px;
     stroke-dashoffset: 0px;
-    stroke: #7367f0;
+    stroke: #0090fe;
     stroke-linecap: round;
   }
 

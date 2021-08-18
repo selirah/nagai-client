@@ -8,12 +8,12 @@ import { LocaleWrapper } from 'contexts/i18n'
 import { PUBLIC_ROUTES } from 'router/constants'
 import { authorization } from 'utils/authorization'
 import authActions from 'redux/auth/actions'
-import { getItem } from 'utils/localstorage'
+import { getItem, removeItem, removeAll } from 'utils/localstorage'
 import { User } from 'classes'
-import { removeAll } from 'utils/localstorage'
 import jwtDecode from 'jwt-decode'
 import { AbilityContext } from 'contexts/Can'
 import ability from 'utils/ability'
+import moment from 'moment'
 // ** Spinner (Splash Screen)
 import Spinner from 'core/components/spinner/fallback'
 // ** Ripple Button
@@ -45,14 +45,21 @@ export const { store, persistor } = configureStore(initialState)
 const token = getItem('token')
 
 if (token) {
-  authorization(token)
   const user: User = jwtDecode(JSON.stringify({ token }))
-  store.dispatch(setCurrentUser(user))
-  const currentTime = Date.now() / 1000
+  const d = new Date(0)
+  d.setUTCSeconds(user.exp)
+  const futureTime = moment(d).format('X')
+  const currentTime = moment(new Date()).format('X')
 
-  if (user.exp < currentTime) {
-    removeAll()
+  if (futureTime > currentTime) {
+    authorization(token)
+    store.dispatch(setCurrentUser(user))
+  } else {
     store.dispatch(logout())
+    removeItem('user')
+    removeItem('token')
+    removeItem('persist:root')
+    removeAll()
     window.location.href = PUBLIC_ROUTES.SIGN_IN
   }
 }
