@@ -37,7 +37,7 @@ export const initialState: ProductState = {
   params: {
     category: 0,
     manufacturer: 0,
-    page: 100,
+    page: 10,
     skip: 0
   },
   filtered: [],
@@ -45,7 +45,7 @@ export const initialState: ProductState = {
   stockTrails: [],
   stockTrailsCount: 0,
   stockTrailsParams: {
-    page: 100,
+    page: 10,
     skip: 0,
     fromDate: '',
     toDate: ''
@@ -68,7 +68,6 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        products: [action.payload, ...state.products],
         isSucceeded: true
       }
 
@@ -89,13 +88,9 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
       }
 
     case ActionTypes.UPDATE_PRODUCT_SUCCESS:
-      let products = state.products.slice()
-      products = products.filter((p) => p.id !== action.payload.id)
-      products.unshift(action.payload)
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        products: products,
         isSucceeded: true
       }
 
@@ -247,6 +242,12 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
         ...state,
         loading: initialState.loading,
         error: action.payload
+      }
+
+    case ActionTypes.CLEAR_SEARCHED_PRODUCTS:
+      return {
+        ...state,
+        searchedProducts: initialState.searchedProducts
       }
 
     default:

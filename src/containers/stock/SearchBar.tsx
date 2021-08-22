@@ -15,29 +15,33 @@ import { useDispatch } from 'react-redux'
 import { Dispatch, Selector } from 'redux/selector-dispatch'
 import stockActions from 'redux/stock/actions'
 
+const { getStockRequest } = stockActions
+
 interface Props {
   handleMainSidebar: () => void
 }
-
-const { setSortOrder } = stockActions
 
 const SearchBar: React.FC<Props> = (props) => {
   const { handleMainSidebar } = props
   const [query, setQuery] = useState('')
   const dispatch: Dispatch = useDispatch()
-  const { activeLink, stock } = Selector((state) => state.stock)
+  const { activeLink, stock, params } = Selector((state) => state.stock)
 
   const handleFilter = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
-    // dispatch(setSearchText(e.target.value, products))
   }, [])
 
-  const handleSort = useCallback(
-    (e: MouseEvent<HTMLElement>, value: 'asc' | 'desc' | 'normal') => {
+  const handleSearch = useCallback(() => {
+    params.query = query
+    params.skip = 0
+    dispatch(getStockRequest(params))
+  }, [dispatch, params, query])
+
+  const handleExport = useCallback(
+    (e: MouseEvent<HTMLElement>, value: 'excel' | 'pdf') => {
       e.preventDefault()
-      dispatch(setSortOrder(value))
     },
-    [dispatch]
+    []
   )
 
   return (
@@ -83,23 +87,16 @@ const SearchBar: React.FC<Props> = (props) => {
             <DropdownItem
               tag={Link}
               to="/"
-              onClick={(e) => handleSort(e, 'asc')}
+              onClick={(e) => handleExport(e, 'excel')}
             >
-              Sort A-Z
+              Excel
             </DropdownItem>
             <DropdownItem
               tag={Link}
               to="/"
-              onClick={(e) => handleSort(e, 'desc')}
+              onClick={(e) => handleExport(e, 'pdf')}
             >
-              Sort Z-A
-            </DropdownItem>
-            <DropdownItem
-              tag={Link}
-              to="/"
-              onClick={(e) => handleSort(e, 'normal')}
-            >
-              Reset Sort
+              PDF
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>

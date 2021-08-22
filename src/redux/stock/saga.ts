@@ -12,7 +12,9 @@ function* addStock({
 }): Generator {
   try {
     const res: any = yield call(callApiPost, 'stock', payload)
-    yield put(stockActions.addStockSuccess(res.data))
+    if (res.status === 201) {
+      yield put(stockActions.addStockSuccess())
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(stockActions.addStockFailure(err.response.data))
@@ -30,7 +32,9 @@ function* updateStock({
 }): Generator {
   try {
     const res: any = yield call(callApiPut, 'stock', payload, payload.id)
-    yield put(stockActions.updateStockSuccess(res.data))
+    if (res.status === 200) {
+      yield put(stockActions.updateStockSuccess())
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(stockActions.updateStockFailure(err.response.data))
@@ -47,8 +51,10 @@ function* deleteStock({
   payload: string
 }): Generator {
   try {
-    yield call(callApiDelete, 'stock', payload)
-    yield put(stockActions.deleteStockSuccess(payload))
+    const res: any = yield call(callApiDelete, 'stock', payload)
+    if (res.status === 200) {
+      yield put(stockActions.deleteStockSuccess(payload))
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(stockActions.deleteStockFailure(err.response.data))

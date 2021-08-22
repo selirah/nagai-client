@@ -17,10 +17,11 @@ import {
   Collapse,
   Row,
   Col,
-  CardTitle
+  CardTitle,
+  Alert
 } from 'reactstrap'
 import { useHistory, useParams } from 'react-router-dom'
-import { Coffee, AlertTriangle } from 'react-feather'
+import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
 import SelectComponent from 'components/Select'
@@ -39,6 +40,14 @@ type QueryParam = {
   id: string
 }
 
+const validateSchema = Yup.object().shape({
+  productName: Yup.string()
+    .min(2, 'Product name is too short!')
+    .required('This is a required field'),
+  manufacturerId: Yup.object().required('This is a required field'),
+  categoryId: Yup.object().required('This is a required field')
+})
+
 const Edit = () => {
   const dispatch: Dispatch = useDispatch()
   const { id } = useParams<QueryParam>()
@@ -47,6 +56,7 @@ const Edit = () => {
   const { manufacturers } = Selector((state) => state.manufacturers)
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
+  const [err, setErr] = useState(null)
   const [values] = useState(() => {
     const { products } = store
     const item = products.find((p) => p.id === id)
@@ -60,14 +70,6 @@ const Edit = () => {
         : ''
     }
     return payload
-  })
-
-  const validateSchema = Yup.object().shape({
-    productName: Yup.string()
-      .min(2, 'Product name is too short!')
-      .required('This is a required field'),
-    manufacturerId: Yup.object().required('This is a required field'),
-    categoryId: Yup.object().required('This is a required field')
   })
 
   useEffect(() => {
@@ -92,6 +94,7 @@ const Edit = () => {
   useEffect(() => {
     const { isSubmitting, isSucceeded, errors } = store
     setBtnLoading(isSubmitting)
+    setErr(errors)
     if (isSucceeded) {
       toast.success(
         <ToastBox
@@ -108,22 +111,6 @@ const Edit = () => {
         }
       )
       history.push('/admin/products')
-    }
-    if (errors) {
-      toast.error(
-        <ToastBox
-          color="danger"
-          icon={<AlertTriangle />}
-          message={`${errors.errors[0].message}`}
-          title="Ooops . . ."
-        />,
-        {
-          transition: Slide,
-          hideProgressBar: true,
-          autoClose: 5000,
-          position: 'bottom-right'
-        }
-      )
     }
   }, [store, history])
 
@@ -170,6 +157,18 @@ const Edit = () => {
     )
   }
 
+  const renderError = (errors: any) => (
+    <Row className="px-3">
+      <Col sm="12" md="12" lg="12">
+        <Alert color="danger" className="p-2">
+          <small className="font-weight-bolder">
+            {errors.errors[0].message}
+          </small>
+        </Alert>
+      </Col>
+    </Row>
+  )
+
   return (
     <Fragment>
       <div className="list-group todo-task-list-wrapper">
@@ -209,6 +208,7 @@ const Edit = () => {
                     </CardTitle>
                   </Col>
                 </Row>
+                {err ? renderError(err) : null}
                 <Row className="px-3">
                   <Col sm="12" md="6" lg="6">
                     <FormGroup>

@@ -6,15 +6,14 @@ const stockActions = {
   addStockRequest: (payload: StockFields) =>
     action(ActionTypes.ADD_STOCK_REQUEST, payload),
 
-  addStockSuccess: (data: Stock) => action(ActionTypes.ADD_STOCK_SUCCESS, data),
+  addStockSuccess: () => action(ActionTypes.ADD_STOCK_SUCCESS),
 
   addStockFailure: (error: any) => action(ActionTypes.ADD_STOCK_FAILURE, error),
 
   updateStockRequest: (payload: StockFields) =>
     action(ActionTypes.UPDATE_STOCK_REQUEST, payload),
 
-  updateStockSuccess: (data: Stock) =>
-    action(ActionTypes.UPDATE_STOCK_SUCCESS, data),
+  updateStockSuccess: () => action(ActionTypes.UPDATE_STOCK_SUCCESS),
 
   updateStockFailure: (error: any) =>
     action(ActionTypes.UPDATE_STOCK_FAILURE, error),
@@ -37,11 +36,6 @@ const stockActions = {
   getStockFailure: (error: any) => action(ActionTypes.GET_STOCK_FAILURE, error),
 
   clearStates: () => action(ActionTypes.CLEAR_STATES),
-
-  reorderList: (list: Stock[]) => action(ActionTypes.REORDER_LIST, list),
-
-  setSortOrder: (order: 'asc' | 'desc' | 'normal') =>
-    action(ActionTypes.SET_SORT_ORDER, order),
 
   setActiveLink: (link: string) => action(ActionTypes.SET_ACTIVE_LINK, link),
 

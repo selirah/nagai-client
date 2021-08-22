@@ -7,15 +7,12 @@ import { useDispatch } from 'react-redux'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from 'router/constants'
 import { useLayoutMode } from 'hooks'
-import { Coffee } from 'react-feather'
-import { toast, Slide } from 'react-toastify'
 import { Row, Col, CardTitle, CardText } from 'reactstrap'
 import RippleButton from 'core/components/ripple-button'
 import Logo from './Logo'
 import 'core/scss/base/pages/page-auth.scss'
 import { FormattedMessage } from 'react-intl'
 import themeConfig from 'theme/themeConfig'
-import ToastBox from 'components/ToastBox'
 
 const { loginRequest, clearStates } = authActions
 
@@ -57,20 +54,6 @@ const Login = () => {
     setErrors(errors)
     if (isAuthenticated && user) {
       setRedirectToReferrer(true)
-      toast.success(
-        <ToastBox
-          color="success"
-          icon={<Coffee />}
-          message={`You have successfully logged in as ${user.role} to NAGAI. Enjoy!`}
-          title={`Welcome, ${user.firstName ? user.firstName : user.email}`}
-        />,
-        {
-          transition: Slide,
-          hideProgressBar: true,
-          autoClose: 5000,
-          position: 'bottom-right'
-        }
-      )
     }
   }, [store])
 

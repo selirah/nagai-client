@@ -6,8 +6,7 @@ const categoriesActions = {
   addCategoryRequest: (payload: Category) =>
     action(ActionTypes.ADD_CATEGORY_REQUEST, payload),
 
-  addCategorySuccess: (data: Category) =>
-    action(ActionTypes.ADD_CATEGORY_SUCCESS, data),
+  addCategorySuccess: () => action(ActionTypes.ADD_CATEGORY_SUCCESS),
 
   addCategoryFailure: (error: any) =>
     action(ActionTypes.ADD_CATEGORY_FAILURE, error),
@@ -15,8 +14,7 @@ const categoriesActions = {
   updateCategoryRequest: (payload: Category) =>
     action(ActionTypes.UPDATE_CATEGORY_REQUEST, payload),
 
-  updateCategorySuccess: (data: Category) =>
-    action(ActionTypes.UPDATE_CATEGORY_SUCCESS, data),
+  updateCategorySuccess: () => action(ActionTypes.UPDATE_CATEGORY_SUCCESS),
 
   updateCategoryFailure: (error: any) =>
     action(ActionTypes.UPDATE_CATEGORY_FAILURE, error),

@@ -47,6 +47,7 @@ const List = () => {
     params.category = 0
     params.manufacturer = 0
     params.skip = 0
+    dispatch(setQueryParams(params))
     dispatch(getProductsRequest(params))
     dispatch(clearStates())
     dispatch(setActiveLink('list'))

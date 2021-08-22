@@ -12,8 +12,7 @@ const productActions = {
   addProductRequest: (payload: ProductFields) =>
     action(ActionTypes.ADD_PRODUCT_REQUEST, payload),
 
-  addProductSuccess: (data: Product) =>
-    action(ActionTypes.ADD_PRODUCT_SUCCESS, data),
+  addProductSuccess: () => action(ActionTypes.ADD_PRODUCT_SUCCESS),
 
   addProductFailure: (error: any) =>
     action(ActionTypes.ADD_PRODUCT_FAILURE, error),
@@ -21,8 +20,7 @@ const productActions = {
   updateProductRequest: (payload: ProductFields) =>
     action(ActionTypes.UPDATE_PRODUCT_REQUEST, payload),
 
-  updateProductSuccess: (data: Product) =>
-    action(ActionTypes.UPDATE_PRODUCT_SUCCESS, data),
+  updateProductSuccess: () => action(ActionTypes.UPDATE_PRODUCT_SUCCESS),
 
   updateProductFailure: (error: any) =>
     action(ActionTypes.UPDATE_PRODUCT_FAILURE, error),
@@ -86,7 +84,9 @@ const productActions = {
     action(ActionTypes.GET_PRODUCTS_SEARCH_SUCCESS, data),
 
   getSearchedProductsFailure: (error: any) =>
-    action(ActionTypes.GET_PRODUCTS_SEARCH_FAILURE, error)
+    action(ActionTypes.GET_PRODUCTS_SEARCH_FAILURE, error),
+
+  clearSearchedProducts: () => action(ActionTypes.CLEAR_SEARCHED_PRODUCTS)
 }
 
 export default productActions

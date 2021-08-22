@@ -12,7 +12,9 @@ function* addManufacturer({
 }): Generator {
   try {
     const res: any = yield call(callApiPost, 'manufacturers', payload)
-    yield put(manufacturerActions.addManufacturerSuccess(res.data))
+    if (res.status === 201) {
+      yield put(manufacturerActions.addManufacturerSuccess())
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(manufacturerActions.addManufacturerFailure(err.response.data))
@@ -35,7 +37,9 @@ function* updateManufacturer({
       payload,
       payload.id
     )
-    yield put(manufacturerActions.updateManufacturerSuccess(res.data))
+    if (res.status) {
+      yield put(manufacturerActions.updateManufacturerSuccess())
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(
@@ -54,8 +58,10 @@ function* deleteManufacturer({
   payload: number
 }): Generator {
   try {
-    yield call(callApiDelete, 'manufacturers', payload)
-    yield put(manufacturerActions.deleteManufacturerSuccess(payload))
+    const res: any = yield call(callApiDelete, 'manufacturers', payload)
+    if (res.status === 200) {
+      yield put(manufacturerActions.deleteManufacturerSuccess(payload))
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(

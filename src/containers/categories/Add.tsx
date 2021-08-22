@@ -17,10 +17,11 @@ import {
   Collapse,
   Row,
   Col,
-  CardTitle
+  CardTitle,
+  Alert
 } from 'reactstrap'
 import { useHistory } from 'react-router-dom'
-import { Coffee, AlertTriangle } from 'react-feather'
+import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 const { addCategoryRequest, clearStates, setActiveLink } = categoriesActions
@@ -29,6 +30,12 @@ interface Fields {
   category: string
 }
 
+const validateSchema = Yup.object().shape({
+  category: Yup.string()
+    .min(2, 'Name is too short!')
+    .required('This is a required field')
+})
+
 const Add = () => {
   const dispatch: Dispatch = useDispatch()
   const store = Selector((state) => state.categories)
@@ -36,12 +43,8 @@ const Add = () => {
     category: ''
   })
   const [btnLoading, setBtnLoading] = useState(false)
-  const validateSchema = Yup.object().shape({
-    category: Yup.string()
-      .min(2, 'Name is too short!')
-      .required('This is a required field')
-  })
   const history = useHistory()
+  const [err, setErr] = useState(null)
 
   const onSubmit = useCallback(
     (values: Fields) => {
@@ -66,6 +69,7 @@ const Add = () => {
   useEffect(() => {
     const { isSubmitting, isSucceeded, errors } = store
     setBtnLoading(isSubmitting)
+    setErr(errors)
     if (isSucceeded) {
       toast.success(
         <ToastBox
@@ -83,18 +87,19 @@ const Add = () => {
       )
       history.push('/admin/product-categories')
     }
-    if (errors) {
-      toast.error(
-        <ToastBox
-          color="danger"
-          icon={<AlertTriangle />}
-          message={`${errors.errors[0].message}`}
-          title="Ooops . . ."
-        />,
-        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
-      )
-    }
   }, [store, history])
+
+  const renderError = (errors: any) => (
+    <Row className="px-3">
+      <Col sm="12" md="12" lg="12">
+        <Alert color="danger" className="p-2">
+          <small className="font-weight-bolder">
+            {errors.errors[0].message}
+          </small>
+        </Alert>
+      </Col>
+    </Row>
+  )
 
   return (
     <Fragment>
@@ -133,6 +138,7 @@ const Add = () => {
                     </CardTitle>
                   </Col>
                 </Row>
+                {err ? renderError(err) : null}
                 <Row className="px-3">
                   <Col sm="12" md="6" lg="6">
                     <FormGroup>

@@ -12,7 +12,9 @@ function* addProduct({
 }): Generator {
   try {
     const res: any = yield call(callApiPost, 'products', payload)
-    yield put(productActions.addProductSuccess(res.data))
+    if (res.status === 201) {
+      yield put(productActions.addProductSuccess())
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(productActions.addProductFailure(err.response.data))
@@ -30,7 +32,9 @@ function* updateProduct({
 }): Generator {
   try {
     const res: any = yield call(callApiPut, 'products', payload, payload.id)
-    yield put(productActions.updateProductSuccess(res.data))
+    if (res.status === 200) {
+      yield put(productActions.updateProductSuccess())
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(productActions.updateProductFailure(err.response.data))
@@ -47,8 +51,10 @@ function* deleteProduct({
   payload: string
 }): Generator {
   try {
-    yield call(callApiDelete, 'products', payload)
-    yield put(productActions.deleteProductSuccess(payload))
+    const res: any = yield call(callApiDelete, 'products', payload)
+    if (res.status === 200) {
+      yield put(productActions.deleteProductSuccess(payload))
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(productActions.deleteProductFailure(err.response.data))

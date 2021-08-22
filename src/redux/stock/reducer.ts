@@ -1,30 +1,5 @@
-import { Stock } from 'classes'
-import moment from 'moment'
 import { Reducer } from 'redux'
 import { StockState, ActionTypes } from './types'
-
-const sortItems = (items: Stock[], sortOrder: 'asc' | 'desc' | 'normal') => {
-  switch (sortOrder) {
-    case 'normal':
-      return items.sort(function (a, b) {
-        const createdAtA: number = parseInt(moment(a.createdAt).format('X'))
-        const createdAtB: number = parseInt(moment(b.createdAt).format('X'))
-        return createdAtB - createdAtA
-      })
-    case 'asc':
-      return items.sort(function (a, b) {
-        const createdAtA: number = parseInt(moment(a.createdAt).format('X'))
-        const createdAtB: number = parseInt(moment(b.createdAt).format('X'))
-        return createdAtA - createdAtB
-      })
-    case 'desc':
-      return items.sort(function (a, b) {
-        const createdAtA: number = parseInt(moment(a.createdAt).format('X'))
-        const createdAtB: number = parseInt(moment(b.createdAt).format('X'))
-        return createdAtB - createdAtA
-      })
-  }
-}
 
 export const initialState: StockState = {
   activeLink: 'list',
@@ -36,10 +11,8 @@ export const initialState: StockState = {
   isSucceeded: false,
   loading: false,
   params: {
-    page: 100,
-    skip: 0,
-    fromDate: '',
-    toDate: ''
+    page: 10,
+    skip: 0
   },
   sortBy: 'normal',
   stk: null,
@@ -61,7 +34,6 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        stock: [action.payload, ...state.stock],
         isSucceeded: true
       }
 
@@ -82,13 +54,9 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
       }
 
     case ActionTypes.UPDATE_STOCK_SUCCESS:
-      let stock = state.stock.slice()
-      stock = stock.filter((s) => s.id !== action.payload.id)
-      stock.unshift(action.payload)
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        stock: stock,
         isSucceeded: true
       }
 
@@ -142,19 +110,6 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         ...state,
         loading: initialState.loading,
         error: action.payload
-      }
-
-    case ActionTypes.SET_SORT_ORDER:
-      return {
-        ...state,
-        sortBy: action.payload,
-        stock: sortItems(state.stock, action.payload)
-      }
-
-    case ActionTypes.REORDER_LIST:
-      return {
-        ...state,
-        stock: action.payload
       }
 
     case ActionTypes.CLEAR_STATES:

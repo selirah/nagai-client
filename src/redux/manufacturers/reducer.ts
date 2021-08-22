@@ -54,7 +54,6 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        manufacturers: [action.payload, ...state.manufacturers],
         isSucceeded: true
       }
 
@@ -75,13 +74,9 @@ const reducer: Reducer<ManufacturerState> = (state = initialState, action) => {
       }
 
     case ActionTypes.UPDATE_MANUFACTURER_SUCCESS:
-      let manufacturers = state.manufacturers.slice()
-      manufacturers = manufacturers.filter((m) => m.id !== action.payload.id)
-      manufacturers.unshift(action.payload)
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        manufacturers: manufacturers,
         isSucceeded: true
       }
 

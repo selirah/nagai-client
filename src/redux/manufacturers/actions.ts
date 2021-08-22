@@ -6,8 +6,7 @@ const manufacturerActions = {
   addManufacturerRequest: (payload: ManufacturerFields) =>
     action(ActionTypes.ADD_MANUFACTURER_REQUEST, payload),
 
-  addManufacturerSuccess: (data: Manufacturer) =>
-    action(ActionTypes.ADD_MANUFACTURER_SUCCESS, data),
+  addManufacturerSuccess: () => action(ActionTypes.ADD_MANUFACTURER_SUCCESS),
 
   addManufacturerFailure: (error: any) =>
     action(ActionTypes.ADD_MANUFACTURER_FAILURE, error),
@@ -15,8 +14,8 @@ const manufacturerActions = {
   updateManufacturerRequest: (payload: ManufacturerFields) =>
     action(ActionTypes.UPDATE_MANUFACTURER_REQUEST, payload),
 
-  updateManufacturerSuccess: (data: Manufacturer) =>
-    action(ActionTypes.UPDATE_MANUFACTURER_SUCCESS, data),
+  updateManufacturerSuccess: () =>
+    action(ActionTypes.UPDATE_MANUFACTURER_SUCCESS),
 
   updateManufacturerFailure: (error: any) =>
     action(ActionTypes.UPDATE_MANUFACTURER_FAILURE, error),

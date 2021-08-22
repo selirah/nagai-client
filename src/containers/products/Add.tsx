@@ -17,10 +17,11 @@ import {
   Collapse,
   Row,
   Col,
-  CardTitle
+  CardTitle,
+  Alert
 } from 'reactstrap'
 import { useHistory } from 'react-router-dom'
-import { Coffee, AlertTriangle } from 'react-feather'
+import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
 import SelectComponent from 'components/Select'
@@ -55,6 +56,7 @@ const Add = () => {
   })
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
+  const [err, setErr] = useState(null)
 
   const onSubmit = useCallback(
     (values: Fields) => {
@@ -78,6 +80,7 @@ const Add = () => {
   useEffect(() => {
     const { isSubmitting, isSucceeded, errors } = store
     setBtnLoading(isSubmitting)
+    setErr(errors)
     if (isSucceeded) {
       toast.success(
         <ToastBox
@@ -94,22 +97,6 @@ const Add = () => {
         }
       )
       history.push('/admin/products')
-    }
-    if (errors) {
-      toast.error(
-        <ToastBox
-          color="danger"
-          icon={<AlertTriangle />}
-          message={`${errors.errors[0].message}`}
-          title="Ooops . . ."
-        />,
-        {
-          transition: Slide,
-          hideProgressBar: true,
-          autoClose: 5000,
-          position: 'bottom-right'
-        }
-      )
     }
   }, [store, history])
 
@@ -156,6 +143,18 @@ const Add = () => {
     )
   }
 
+  const renderError = (errors: any) => (
+    <Row className="px-3">
+      <Col sm="12" md="12" lg="12">
+        <Alert color="danger" className="p-2">
+          <small className="font-weight-bolder">
+            {errors.errors[0].message}
+          </small>
+        </Alert>
+      </Col>
+    </Row>
+  )
+
   return (
     <Fragment>
       <div className="list-group todo-task-list-wrapper">
@@ -195,6 +194,7 @@ const Add = () => {
                     </CardTitle>
                   </Col>
                 </Row>
+                {err ? renderError(err) : null}
                 <Row className="px-3">
                   <Col sm="12" md="6" lg="6">
                     <FormGroup>

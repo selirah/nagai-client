@@ -27,8 +27,8 @@ const App: React.FC<AppProps> = ({ store, persistor }) => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        {isLoaded ? <Router /> : null}
-        {/* <Router /> */}
+        {/* {isLoaded ? <Router /> : null} */}
+        <Router />
       </PersistGate>
     </Provider>
   )

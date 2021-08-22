@@ -12,7 +12,9 @@ function* addCategory({
 }): Generator {
   try {
     const res: any = yield call(callApiPost, 'categories', payload)
-    yield put(categoriesActions.addCategorySuccess(res.data))
+    if (res.status === 201) {
+      yield put(categoriesActions.addCategorySuccess())
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(categoriesActions.addCategoryFailure(err.response.data))
@@ -30,7 +32,9 @@ function* updateCategory({
 }): Generator {
   try {
     const res: any = yield call(callApiPut, 'categories', payload, payload.id)
-    yield put(categoriesActions.updateCategorySuccess(res.data))
+    if (res.status === 200) {
+      yield put(categoriesActions.updateCategorySuccess())
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(categoriesActions.updateCategoryFailure(err.response.data))
@@ -47,8 +51,10 @@ function* deleteCategory({
   payload: number
 }): Generator {
   try {
-    yield call(callApiDelete, 'categories', payload)
-    yield put(categoriesActions.deleteCategorySuccess(payload))
+    const res: any = yield call(callApiDelete, 'categories', payload)
+    if (res.status === 200) {
+      yield put(categoriesActions.deleteCategorySuccess(payload))
+    }
   } catch (err) {
     if (err && err.response) {
       yield put(categoriesActions.deleteCategoryFailure(err.response.data))

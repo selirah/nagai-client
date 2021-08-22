@@ -47,7 +47,6 @@ const reducer: Reducer<CategoryState> = (state = initialState, action) => {
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        categories: [action.payload, ...state.categories],
         isSucceeded: true
       }
 
@@ -68,13 +67,9 @@ const reducer: Reducer<CategoryState> = (state = initialState, action) => {
       }
 
     case ActionTypes.UPDATE_CATEGORY_SUCCESS:
-      let categories = state.categories.slice()
-      categories = categories.filter((c) => c.id !== action.payload.id)
-      categories.unshift(action.payload)
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        categories: categories,
         isSucceeded: true
       }
 

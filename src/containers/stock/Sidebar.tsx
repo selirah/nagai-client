@@ -16,9 +16,10 @@ import {
   InputGroup,
   InputGroupText,
   InputGroupAddon,
-  Spinner
+  Spinner,
+  UncontrolledTooltip
 } from 'reactstrap'
-import { List, Grid, Search } from 'react-feather'
+import { List, Grid, Search, XCircle } from 'react-feather'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import stockActions from 'redux/stock/actions'
@@ -30,7 +31,8 @@ interface Props {
 }
 
 const { setActiveLink, setQueryParams, getStockRequest } = stockActions
-const { getSearchedProductsRequest, setProduct } = productActions
+const { getSearchedProductsRequest, setProduct, clearSearchedProducts } =
+  productActions
 
 const Sidebar: React.FC<Props> = (props) => {
   const { mainSidebar } = props
@@ -42,6 +44,7 @@ const Sidebar: React.FC<Props> = (props) => {
   const [loading, setLoading] = useState(false)
   const [products, setProducts] = useState<Product[]>([])
   const history = useHistory()
+  const [search, setSearch] = useState(false)
 
   const handleActiveLink = useCallback(
     (value: string) => {
@@ -60,18 +63,18 @@ const Sidebar: React.FC<Props> = (props) => {
   }, [])
 
   const handleSearch = useCallback(() => {
-    dispatch(getSearchedProductsRequest(query))
+    if (query) {
+      setSearch(true)
+      dispatch(getSearchedProductsRequest(query))
+    }
   }, [query, dispatch])
 
   const handleQueryFilter = useCallback(
     (e: MouseEvent<HTMLElement>, product: Product, activeLink: string) => {
       e.preventDefault()
       dispatch(setActiveLink(activeLink))
-      if (product.stock.length) {
-        history.push(`/admin/stock/select/${product.id}`)
-      } else {
-        history.push(`/admin/stock/add/${product.id}`)
-      }
+      dispatch(setProduct(product))
+      history.push(`/admin/stock/add/${product.id}`)
     },
     [dispatch, history]
   )
@@ -90,11 +93,17 @@ const Sidebar: React.FC<Props> = (props) => {
     </div>
   )
 
-  const renderEmptyResult = () => (
-    <div className="no-results show px-2">
-      <h5 className="text-warning">No results found</h5>
-    </div>
-  )
+  const renderEmptyResult = () => {
+    return !search ? (
+      <div className="no-results show px-2">
+        <h5 className="text-primary small">Results would be shown here</h5>
+      </div>
+    ) : (
+      <div className="no-results show px-2">
+        <h5 className="text-danger small">No results found</h5>
+      </div>
+    )
+  }
 
   const renderProductList = () => {
     return (
@@ -115,6 +124,12 @@ const Sidebar: React.FC<Props> = (props) => {
       ))
     )
   }
+
+  const clearSearchedData = useCallback(() => {
+    setSearch(false)
+    setQuery('')
+    dispatch(clearSearchedProducts())
+  }, [dispatch])
 
   return (
     <div
@@ -168,7 +183,20 @@ const Sidebar: React.FC<Props> = (props) => {
                 <Fragment>
                   <div className="mt-3 px-2 d-flex justify-content-between">
                     <h6 className="section-label mb-1">Search Results</h6>
-                    <Grid size={14} />
+                    <XCircle
+                      size={16}
+                      className="cursor-pointer text-primary"
+                      onClick={clearSearchedData}
+                      id="clear"
+                      style={{ outline: 'none' }}
+                    />
+                    <UncontrolledTooltip
+                      placement="top"
+                      target="clear"
+                      style={{ outline: 'none' }}
+                    >
+                      Clear all
+                    </UncontrolledTooltip>
                   </div>
                   <ListGroup className="list-group-labels">
                     {loading

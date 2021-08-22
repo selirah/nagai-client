@@ -17,10 +17,11 @@ import {
   Collapse,
   Row,
   Col,
-  CardTitle
+  CardTitle,
+  Alert
 } from 'reactstrap'
 import { useHistory, useParams } from 'react-router-dom'
-import { Coffee, AlertTriangle } from 'react-feather'
+import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 const { updateManufacturerRequest, clearStates, setActiveLink } =
@@ -42,6 +43,25 @@ type QueryParam = {
   id: string
 }
 
+const validateSchema = Yup.object().shape({
+  email: Yup.string().email(
+    'Please input a valid email in the form john@example.com'
+  ),
+  phone: Yup.string()
+    .matches(phoneRegExp, 'Please enter a valid phone number')
+    .min(10, 'Phone number is too short!')
+    .max(12, 'Phone number is too long!')
+    .required('This is a required field'),
+  name: Yup.string()
+    .min(2, 'Phone number is too short!')
+    .required('This is a required field'),
+  location: Yup.string()
+    .min(2, 'Phone number is too short!')
+    .required('This is a required field'),
+  lat: Yup.string().required('This is a required field'),
+  lng: Yup.string().required('This is a required field')
+})
+
 const Edit = () => {
   const dispatch: Dispatch = useDispatch()
   const { id } = useParams<QueryParam>()
@@ -60,25 +80,8 @@ const Edit = () => {
     }
     return payload
   })
-  const validateSchema = Yup.object().shape({
-    email: Yup.string().email(
-      'Please input a valid email in the form john@example.com'
-    ),
-    phone: Yup.string()
-      .matches(phoneRegExp, 'Please enter a valid phone number')
-      .min(10, 'Phone number is too short!')
-      .max(12, 'Phone number is too long!')
-      .required('This is a required field'),
-    name: Yup.string()
-      .min(2, 'Phone number is too short!')
-      .required('This is a required field'),
-    location: Yup.string()
-      .min(2, 'Phone number is too short!')
-      .required('This is a required field'),
-    lat: Yup.string().required('This is a required field'),
-    lng: Yup.string().required('This is a required field')
-  })
   const history = useHistory()
+  const [err, setErr] = useState(null)
 
   useEffect(() => {
     dispatch(clearStates())
@@ -108,6 +111,7 @@ const Edit = () => {
   useEffect(() => {
     const { isSubmitting, isSucceeded, errors } = store
     setBtnLoading(isSubmitting)
+    setErr(errors)
     if (isSucceeded) {
       toast.success(
         <ToastBox
@@ -125,23 +129,19 @@ const Edit = () => {
       )
       history.push('/admin/manufacturers')
     }
-    if (errors) {
-      toast.error(
-        <ToastBox
-          color="danger"
-          icon={<AlertTriangle />}
-          message={`${errors.errors[0].message}`}
-          title="Ooops . . ."
-        />,
-        {
-          transition: Slide,
-          hideProgressBar: true,
-          autoClose: 5000,
-          position: 'bottom-right'
-        }
-      )
-    }
   }, [store, history])
+
+  const renderError = (errors: any) => (
+    <Row className="px-3">
+      <Col sm="12" md="12" lg="12">
+        <Alert color="danger" className="p-2">
+          <small className="font-weight-bolder">
+            {errors.errors[0].message}
+          </small>
+        </Alert>
+      </Col>
+    </Row>
+  )
 
   return (
     <Fragment>
@@ -180,6 +180,7 @@ const Edit = () => {
                     </CardTitle>
                   </Col>
                 </Row>
+                {err ? renderError(err) : null}
                 <Row className="px-3">
                   <Col sm="12" md="6" lg="6">
                     <FormGroup>
