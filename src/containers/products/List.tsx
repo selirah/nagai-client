@@ -1,16 +1,11 @@
-import { useEffect, useState, Fragment, useCallback, MouseEvent } from 'react'
+import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import productActions from 'redux/products/actions'
 import { Product } from 'classes'
-import { isEmpty } from 'utils'
-import Spinner from 'components/Spinner'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { ReactSortable } from 'react-sortablejs'
-import classnames from 'classnames'
-import { MoreVertical, Edit2, Trash2, AlertTriangle } from 'react-feather'
-import Avatar from 'core/components/avatar'
+import { Edit3, Trash, AlertTriangle } from 'react-feather'
 import moment from 'moment'
 import { deleteConfirmMessage, deleteDone } from 'utils'
 import SWAL from 'sweetalert2'
@@ -18,12 +13,11 @@ import withReactContent from 'sweetalert2-react-content'
 import { toast, Slide } from 'react-toastify'
 import ToastBox from 'components/ToastBox'
 import Drawer from './Drawer'
-import PaginationComponent from 'components/Pagination'
-import Empty from 'components/EmptyBox'
+import { IDataTableColumn } from 'react-data-table-component'
+import Table from 'components/DataTable'
 
 const {
   getProductsRequest,
-  reorderList,
   clearStates,
   setActiveLink,
   deleteProductRequest,
@@ -34,19 +28,22 @@ const {
 const List = () => {
   const dispatch: Dispatch = useDispatch()
   const store = Selector((state) => state.products)
+  const layoutStore = Selector((state) => state.layout)
   const [loading, setLoading] = useState(false)
   const [products, setProducts] = useState<Product[]>([])
   const sweetAlert = withReactContent(SWAL)
   const [toggleDrawer, setToggleDrawer] = useState(false)
-  const [pageSize] = useState(store.params.page)
-  const [currentPage, setCurrentPage] = useState(0)
-  const [pageCount, setPageCount] = useState(0)
+  const [pageSize, setPageSize] = useState(store.params.page)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [mode, setMode] = useState(layoutStore.mode)
+  const [totalRows, setTotalRows] = useState(store.count)
 
   useEffect(() => {
     const { params } = store
     params.category = 0
     params.manufacturer = 0
     params.skip = 0
+    params.query = ''
     dispatch(setQueryParams(params))
     dispatch(getProductsRequest(params))
     dispatch(clearStates())
@@ -65,48 +62,76 @@ const List = () => {
     [dispatch, sweetAlert]
   )
 
-  const handleProductSelection = useCallback(
-    (product: Product) => {
-      dispatch(setProduct(product))
-      setToggleDrawer(!toggleDrawer)
-    },
-    [dispatch, toggleDrawer]
-  )
-
-  const handlePageClick = useCallback(
-    (e: MouseEvent<HTMLElement>, index: number) => {
-      e.preventDefault()
-      setCurrentPage(index)
-      const { params } = store
-      if (index > params.skip) {
-        params.skip = params.skip + pageSize
-      } else if (index < params.skip) {
-        params.skip = params.skip - pageSize
+  const columns: IDataTableColumn[] = useMemo(
+    () => [
+      {
+        id: 1,
+        name: 'Product ID',
+        sortable: true,
+        selector: (row: Product) => row.id
+      },
+      {
+        id: 2,
+        name: 'Name',
+        sortable: true,
+        selector: (row: Product) => row.productName
+      },
+      {
+        id: 3,
+        name: 'Category',
+        sortable: true,
+        selector: (row: Product) => row.category.category
+      },
+      {
+        id: 4,
+        name: 'Manufacturer',
+        sortable: true,
+        selector: (row: Product) => row.manufacturer.name
+      },
+      {
+        id: 8,
+        name: 'Created Date',
+        sortable: true,
+        selector: (row: Product) => moment(row.createdAt).format("MMM Do, 'YY")
+      },
+      {
+        id: 9,
+        name: 'Updated Date',
+        sortable: true,
+        selector: (row: Product) => moment(row.updatedAt).format("MMM Do, 'YY")
+      },
+      {
+        cell: (row: Product) => (
+          <Fragment>
+            <Link to={`/admin/products/edit/${row.id}`}>
+              <Edit3
+                size={14}
+                className="mr-lg-1"
+                style={{ outline: 'none' }}
+                color="#40C4FF"
+              />
+            </Link>
+            <Trash
+              size={14}
+              style={{ outline: 'none' }}
+              color="#F44336"
+              className="cursor-pointer"
+              onClick={() => handleDelete(row.id, row.productName)}
+            />
+          </Fragment>
+        )
       }
-      dispatch(setQueryParams(params))
-      dispatch(getProductsRequest(params))
-    },
-    [dispatch, pageSize, store]
+    ],
+    [handleDelete]
   )
 
   useEffect(() => {
-    const {
-      loading,
-      products,
-      searchText,
-      isDeleted,
-      errors,
-      count,
-      filtered
-    } = store
+    const { loading, products, isDeleted, errors, count } = store
+    const { mode } = layoutStore
     setLoading(loading)
     if (products.length) {
-      setPageCount(Math.ceil(count / pageSize))
-      if (!isEmpty(searchText)) {
-        setProducts(filtered)
-      } else {
-        setProducts(products)
-      }
+      setProducts(products)
+      setTotalRows(count)
     } else {
       setProducts(products)
     }
@@ -128,106 +153,78 @@ const List = () => {
         { transition: Slide, hideProgressBar: true, autoClose: 5000 }
       )
     }
-  }, [store, sweetAlert, dispatch, pageSize])
+    setMode(mode)
+  }, [store, sweetAlert, dispatch, pageSize, layoutStore])
 
-  const renderLoader = () => <Spinner />
-
-  const renderEmptyList = () => <Empty />
-
-  const renderAvatar = (product: Product) => {
-    if (product) {
-      return (
-        <Avatar
-          color="warning"
-          content={`${product.productName.toUpperCase()}`}
-          initials
-        />
-      )
-    }
-  }
-
-  const renderList = () => (
-    <PerfectScrollbar
-      options={{ wheelPropagation: false }}
-      containerRef={(ref: any) => {
-        if (ref) {
-          ref._getBoundingClientRect = ref.getBoundingClientRect
-          ref.getBoundingClientRect = () => {
-            const original = ref._getBoundingClientRect()
-
-            return { ...original, height: Math.floor(original.height) }
-          }
-        }
-      }}
-    >
-      <ReactSortable
-        tag="ul"
-        list={products}
-        handle=".drag-icon"
-        className="todo-task-list media-list"
-        setList={(state: Product[]) => dispatch(reorderList(state))}
-      >
-        {products.map((item) => (
-          <li
-            key={item.id}
-            className={classnames('todo-item', { completed: false })}
-          >
-            <div className="todo-title-wrapper">
-              <div
-                className="todo-title-area"
-                onClick={() => handleProductSelection(item)}
-              >
-                <MoreVertical className="drag-icon" />
-                {renderAvatar(item)}
-                <span className="todo-title">{`${item.productName}`}</span>
-              </div>
-              <div className="todo-item-action mt-lg-0 mt-50">
-                <small className="text-nowrap text-muted mr-lg-1">
-                  {moment(item.createdAt).format('MMM Do')}
-                </small>
-                <Link to={`/admin/products/edit/${item.id}`}>
-                  <Edit2
-                    size={14}
-                    className="mr-lg-1"
-                    style={{ outline: 'none' }}
-                    color="#40C4FF"
-                  />
-                </Link>
-                <Trash2
-                  size={14}
-                  style={{ outline: 'none' }}
-                  color="#F44336"
-                  onClick={() => handleDelete(item.id, item.productName)}
-                />
-              </div>
-            </div>
-          </li>
-        ))}
-      </ReactSortable>
-    </PerfectScrollbar>
+  const handlePageClick = useCallback(
+    (page: number) => {
+      const { params } = store
+      if (page > currentPage) {
+        params.skip = params.skip + pageSize
+      } else if (page < currentPage) {
+        params.skip = params.skip - pageSize
+      }
+      setCurrentPage(page)
+      dispatch(setQueryParams(params))
+      dispatch(getProductsRequest(params))
+    },
+    [dispatch, pageSize, store, currentPage]
   )
 
-  const renderPagination = () => (
-    <PaginationComponent
+  console.log(loading)
+
+  const handlePerRowsChange = useCallback(
+    async (newPerPage: number) => {
+      const { params } = store
+      params.page = newPerPage
+      setPageSize(newPerPage)
+      dispatch(getProductsRequest(params))
+    },
+    [dispatch, store]
+  )
+
+  const handleProductSelection = useCallback(
+    (product: Product) => {
+      dispatch(setProduct(product))
+      setToggleDrawer(!toggleDrawer)
+    },
+    [dispatch, toggleDrawer]
+  )
+
+  const renderList = () => (
+    <Table
+      columns={columns}
       currentPage={currentPage}
+      data={products}
       handlePageClick={handlePageClick}
-      pageCount={pageCount}
+      handlePerRowsChange={handlePerRowsChange}
+      loading={loading}
+      onRowClicked={handleProductSelection}
+      pageSize={pageSize}
+      server
+      theme={mode}
+      totalRows={totalRows}
     />
   )
 
   return (
     <Fragment>
       <div className="list-group todo-task-list-wrapper">
-        {loading ? (
-          renderLoader()
-        ) : products.length ? (
-          <Fragment>
-            {renderList()}
-            {renderPagination()}
-          </Fragment>
-        ) : (
-          renderEmptyList()
-        )}
+        <PerfectScrollbar
+          options={{ wheelPropagation: false }}
+          containerRef={(ref: any) => {
+            if (ref) {
+              ref._getBoundingClientRect = ref.getBoundingClientRect
+              ref.getBoundingClientRect = () => {
+                const original = ref._getBoundingClientRect()
+
+                return { ...original, height: Math.floor(original.height) }
+              }
+            }
+          }}
+        >
+          {renderList()}
+        </PerfectScrollbar>
       </div>
       {store.product ? (
         <Drawer

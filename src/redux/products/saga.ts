@@ -73,7 +73,7 @@ function* getProducts({
   try {
     const res: any = yield call(
       callApiGet,
-      `products?page=${payload.page}&skip=${payload.skip}&category=${payload.category}&manufacturer=${payload.manufacturer}`
+      `products?page=${payload.page}&skip=${payload.skip}&category=${payload.category}&manufacturer=${payload.manufacturer}&query=${payload.query}`
     )
     yield put(productActions.getProductsSuccess(res.data))
   } catch (err) {
@@ -94,7 +94,7 @@ function* getStockTrails({
   try {
     const res: any = yield call(
       callApiGet,
-      `stock-trails/${payload.id}?page=${payload.page}&skip=${payload.skip}`
+      `stock-trails/product/${payload.id}?page=${payload.page}&skip=${payload.skip}`
     )
     yield put(productActions.getStockTrailsSuccess(res.data))
   } catch (err) {

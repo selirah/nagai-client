@@ -4,15 +4,15 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 interface Props {
   onChange: (name: string, value: any) => void
-  onBlur: (name: string, value: boolean) => void
+  onBlur?: (name: string, value: boolean) => void
   name: string
-  id: string
+  id?: string
   error?: any
   touched?: any
-  value: any
+  value?: any
   placeholder?: string
   minDate?: Date
-  showDisabledMonthNavigation: boolean
+  showDisabledMonthNavigation?: boolean
 }
 
 const DatePickerComponent: React.FC<Props> = (props) => {
@@ -34,7 +34,7 @@ const DatePickerComponent: React.FC<Props> = (props) => {
   }
 
   const handleBlur = () => {
-    onBlur(name, true)
+    onBlur && onBlur(name, true)
   }
 
   return (

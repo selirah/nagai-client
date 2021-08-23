@@ -1,19 +1,11 @@
-import React, { ChangeEvent, useCallback, useState, MouseEvent } from 'react'
-import { Link } from 'react-router-dom'
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from 'reactstrap'
-import { Search, MoreVertical, Menu } from 'react-feather'
+import React, { ChangeEvent, useCallback, useState } from 'react'
+import { InputGroup, Input, Button } from 'reactstrap'
+import { Menu } from 'react-feather'
 import { useDispatch } from 'react-redux'
 import { Dispatch, Selector } from 'redux/selector-dispatch'
 import stockActions from 'redux/stock/actions'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const { getStockRequest } = stockActions
 
@@ -25,7 +17,9 @@ const SearchBar: React.FC<Props> = (props) => {
   const { handleMainSidebar } = props
   const [query, setQuery] = useState('')
   const dispatch: Dispatch = useDispatch()
-  const { activeLink, stock, params } = Selector((state) => state.stock)
+  const { activeLink, params } = Selector((state) => state.stock)
+  const [dateRange, setDateRange] = useState<Date[] | null[]>([null, null])
+  const [startDate, endDate] = dateRange
 
   const handleFilter = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
@@ -34,15 +28,10 @@ const SearchBar: React.FC<Props> = (props) => {
   const handleSearch = useCallback(() => {
     params.query = query
     params.skip = 0
+    params.fromDate = startDate ? new Date(startDate).toISOString() : ''
+    params.toDate = endDate ? new Date(endDate).toISOString() : ''
     dispatch(getStockRequest(params))
-  }, [dispatch, params, query])
-
-  const handleExport = useCallback(
-    (e: MouseEvent<HTMLElement>, value: 'excel' | 'pdf') => {
-      e.preventDefault()
-    },
-    []
-  )
+  }, [dispatch, params, query, startDate, endDate])
 
   return (
     <div className="app-fixed-search d-flex align-items-center">
@@ -52,15 +41,8 @@ const SearchBar: React.FC<Props> = (props) => {
       >
         <Menu size={21} />
       </div>
-      <div className="d-flex align-content-center justify-content-between w-100">
-        <InputGroup className="input-group-merge">
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>
-              {activeLink !== 'add' && activeLink !== 'edit' ? (
-                <Search className="text-muted" size={14} />
-              ) : null}
-            </InputGroupText>
-          </InputGroupAddon>
+      <div className="d-flex align-content-center justify-content-around w-100">
+        <InputGroup className="input-group-merge mr-1">
           <Input
             value={query}
             onChange={handleFilter}
@@ -70,37 +52,24 @@ const SearchBar: React.FC<Props> = (props) => {
                 : ''
             }
             disabled={activeLink === 'add' || activeLink === 'edit'}
+            className="border"
           />
         </InputGroup>
+
+        <DatePicker
+          selectsRange
+          startDate={startDate}
+          onChange={(update: any) => {
+            setDateRange(update)
+          }}
+          endDate={endDate}
+          className="form-control border"
+          placeholderText="select date range"
+        />
+        <Button color="primary" className="ml-1" onClick={handleSearch}>
+          Filter
+        </Button>
       </div>
-      {activeLink === 'list' ? (
-        <UncontrolledDropdown>
-          <DropdownToggle
-            className="hide-arrow mr-1"
-            tag="a"
-            href="/"
-            onClick={(e) => e.preventDefault()}
-          >
-            <MoreVertical className="text-body" size={16} />
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem
-              tag={Link}
-              to="/"
-              onClick={(e) => handleExport(e, 'excel')}
-            >
-              Excel
-            </DropdownItem>
-            <DropdownItem
-              tag={Link}
-              to="/"
-              onClick={(e) => handleExport(e, 'pdf')}
-            >
-              PDF
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
-      ) : null}
     </div>
   )
 }

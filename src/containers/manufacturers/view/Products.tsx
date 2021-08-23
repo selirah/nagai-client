@@ -1,22 +1,47 @@
-import React, { Fragment, MouseEvent } from 'react'
+import React, { useMemo } from 'react'
 import moment from 'moment'
 import { Product } from 'classes'
-import { Card, CardHeader, CardBody, CardTitle, Table } from 'reactstrap'
-import { getCategory } from 'utils'
-import PaginationComponent from 'components/Pagination'
-import Empty from 'components/Empty'
+import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
+import { IDataTableColumn } from 'react-data-table-component'
+import SimpleTable from 'components/SimpleTable'
 
 interface Props {
   products: Product[]
-  pageCount: number
-  currentPage: number
-  handlePageClick: (e: MouseEvent<HTMLElement>, i: number) => void
-  pageSize: number
+  theme: string
 }
 
 const Products: React.FC<Props> = (props) => {
-  const { products, currentPage, handlePageClick, pageCount, pageSize } = props
-  let count = 1
+  const { products, theme } = props
+
+  const columns: IDataTableColumn[] = useMemo(
+    () => [
+      {
+        id: 1,
+        name: 'SKU',
+        sortable: true,
+        selector: (row: Product) => row.id
+      },
+      {
+        id: 2,
+        name: 'Name',
+        sortable: true,
+        selector: (row: Product) => `GHC ${row.productName}`
+      },
+      {
+        id: 3,
+        name: 'Date Created',
+        sortable: true,
+        selector: (row: Product) => moment(row.createdAt).format("MMM Do, 'YY")
+      },
+      {
+        id: 3,
+        name: 'Date Updated',
+        sortable: true,
+        selector: (row: Product) => moment(row.updatedAt).format("MMM Do, 'YY")
+      }
+    ],
+    []
+  )
 
   return (
     <Card className="border">
@@ -25,45 +50,7 @@ const Products: React.FC<Props> = (props) => {
       </CardHeader>
       <CardBody>
         <hr className="m-0 mb-2" />
-        <div className="d-flex flex-column text-left align-items-start">
-          {products.length ? (
-            <Fragment>
-              <Table borderless responsive>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products
-                    .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
-                    .map((p) => (
-                      <tr key={p.id} style={{ fontSize: '12px' }}>
-                        <th scope="row">{count++}</th>
-                        <td>{p.productName}</td>
-                        <td>
-                          {getCategory(p.categoryId)
-                            ? getCategory(p.categoryId)?.category
-                            : null}
-                        </td>
-                        <td>{moment(p.createdAt).format("MMM Do, 'YY")}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-              <PaginationComponent
-                currentPage={currentPage}
-                handlePageClick={handlePageClick}
-                pageCount={pageCount}
-              />
-            </Fragment>
-          ) : (
-            <Empty />
-          )}
-        </div>
+        <SimpleTable columns={columns} data={products} theme={theme} />
       </CardBody>
     </Card>
   )

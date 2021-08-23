@@ -1,16 +1,12 @@
-import { useEffect, useState, Fragment, useCallback, MouseEvent } from 'react'
+import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import manufacturerActions from 'redux/manufacturers/actions'
 import { Manufacturer } from 'classes'
 import { isEmpty } from 'utils'
-import Spinner from 'components/Spinner'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { ReactSortable } from 'react-sortablejs'
-import classnames from 'classnames'
-import { MoreVertical, Edit2, Trash2, AlertTriangle } from 'react-feather'
-import Avatar from 'core/components/avatar'
+import { Edit3, Trash, AlertTriangle } from 'react-feather'
 import moment from 'moment'
 import { deleteConfirmMessage, deleteDone } from 'utils'
 import SWAL from 'sweetalert2'
@@ -18,11 +14,11 @@ import withReactContent from 'sweetalert2-react-content'
 import { toast, Slide } from 'react-toastify'
 import ToastBox from 'components/ToastBox'
 import Drawer from './Drawer'
-import PaginationComponent from 'components/Pagination'
+import { IDataTableColumn } from 'react-data-table-component'
+import SimpleTable from 'components/SimpleTable'
 
 const {
   getManufacturersRequest,
-  reorderList,
   clearStates,
   setActiveLink,
   deleteManufacturerRequest,
@@ -36,9 +32,8 @@ const List = () => {
   const [manufacturers, setManufacturers] = useState<Manufacturer[]>([])
   const sweetAlert = withReactContent(SWAL)
   const [toggleDrawer, setToggleDrawer] = useState(false)
-  const [pageSize] = useState(10)
-  const [currentPage, setCurrentPage] = useState(0)
-  const [pageCount, setPageCount] = useState(0)
+  const layoutStore = Selector((state) => state.layout)
+  const [mode, setMode] = useState(layoutStore.mode)
 
   useEffect(() => {
     if (isEmpty(manufacturers)) {
@@ -60,6 +55,66 @@ const List = () => {
     [dispatch, sweetAlert]
   )
 
+  const columns: IDataTableColumn[] = useMemo(
+    () => [
+      {
+        id: 1,
+        name: 'Name',
+        sortable: true,
+        selector: (row: Manufacturer) => row.name
+      },
+      {
+        id: 2,
+        name: 'Number of Products',
+        sortable: true,
+        selector: (row: Manufacturer) => row.products.length
+      },
+      {
+        id: 3,
+        name: 'Location',
+        sortable: true,
+        selector: (row: Manufacturer) => row.location
+      },
+      {
+        id: 4,
+        name: 'Date Created',
+        sortable: true,
+        selector: (row: Manufacturer) =>
+          moment(row.createdAt).format("MMM Do, 'YY")
+      },
+      {
+        id: 5,
+        name: 'Date Updated',
+        sortable: true,
+        selector: (row: Manufacturer) =>
+          moment(row.updatedAt).format("MMM Do, 'YY")
+      },
+
+      {
+        cell: (row: Manufacturer) => (
+          <Fragment>
+            <Link to={`/admin/manufacturers/edit/${row.id}`}>
+              <Edit3
+                size={14}
+                className="mr-lg-1"
+                style={{ outline: 'none' }}
+                color="#40C4FF"
+              />
+            </Link>
+            <Trash
+              size={14}
+              style={{ outline: 'none' }}
+              color="#F44336"
+              className="cursor-pointer"
+              onClick={() => handleDelete(row.id, row.name)}
+            />
+          </Fragment>
+        )
+      }
+    ],
+    [handleDelete]
+  )
+
   const handleManufacturerSelection = useCallback(
     (manufacturer: Manufacturer) => {
       dispatch(setManufacturer(manufacturer))
@@ -68,20 +123,11 @@ const List = () => {
     [dispatch, toggleDrawer]
   )
 
-  const handlePageClick = useCallback(
-    (e: MouseEvent<HTMLElement>, index: number) => {
-      e.preventDefault()
-      setCurrentPage(index)
-    },
-    []
-  )
-
   useEffect(() => {
     const { loading, manufacturers, isDeleted, errors, searchText, filtered } =
       store
     setLoading(loading)
     if (manufacturers.length) {
-      setPageCount(Math.ceil(manufacturers.length / pageSize))
       if (!isEmpty(searchText)) {
         setManufacturers(filtered)
       } else {
@@ -108,125 +154,36 @@ const List = () => {
         { transition: Slide, hideProgressBar: true, autoClose: 5000 }
       )
     }
-  }, [store, sweetAlert, dispatch, pageSize])
-
-  const renderLoader = () => <Spinner />
-
-  const renderEmptyList = () => (
-    <div className="no-results show">
-      <h5>No entries found</h5>
-    </div>
-  )
-
-  const renderAvatar = (manifacturer: Manufacturer) => {
-    if (manifacturer && manifacturer.logo) {
-      return (
-        <div
-          className="avatar-placeholder"
-          style={{
-            background: `url(${manifacturer.logo}) no-repeat center transparent`
-          }}
-        ></div>
-      )
-    } else {
-      return (
-        <Avatar
-          color="primary"
-          content={`${manifacturer.name.toUpperCase()}`}
-          initials
-        />
-      )
-    }
-  }
+    setMode(layoutStore.mode)
+  }, [store, sweetAlert, dispatch, layoutStore])
 
   const renderList = () => (
-    <PerfectScrollbar
-      options={{ wheelPropagation: false }}
-      containerRef={(ref: any) => {
-        if (ref) {
-          ref._getBoundingClientRect = ref.getBoundingClientRect
-          ref.getBoundingClientRect = () => {
-            const original = ref._getBoundingClientRect()
-
-            return { ...original, height: Math.floor(original.height) }
-          }
-        }
-      }}
-    >
-      <Fragment>
-        <ReactSortable
-          tag="ul"
-          list={manufacturers}
-          handle=".drag-icon"
-          className="todo-task-list media-list"
-          setList={(state: Manufacturer[]) => dispatch(reorderList(state))}
-        >
-          {manufacturers
-            .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
-            .map((item) => (
-              <li
-                key={item.id}
-                className={classnames('todo-item', { completed: false })}
-              >
-                <div className="todo-title-wrapper">
-                  <div
-                    className="todo-title-area"
-                    onClick={() => handleManufacturerSelection(item)}
-                  >
-                    <MoreVertical className="drag-icon" />
-                    {renderAvatar(item)}
-                    <span className="todo-title">{`${item.name.toLowerCase()} (${
-                      item.products.length
-                    })`}</span>
-                  </div>
-                  <div className="todo-item-action mt-lg-0 mt-50">
-                    <small className="text-nowrap text-muted mr-lg-1">
-                      {moment(item.createdAt).format('MMM Do')}
-                    </small>
-                    <Link to={`/admin/manufacturers/edit/${item.id}`}>
-                      <Edit2
-                        size={14}
-                        className="mr-lg-1"
-                        style={{ outline: 'none' }}
-                        color="#40C4FF"
-                      />
-                    </Link>
-                    <Trash2
-                      size={14}
-                      style={{ outline: 'none' }}
-                      color="#F44336"
-                      onClick={() => handleDelete(item.id, item.name)}
-                    />
-                  </div>
-                </div>
-              </li>
-            ))}
-        </ReactSortable>
-      </Fragment>
-    </PerfectScrollbar>
-  )
-
-  const renderPagination = () => (
-    <PaginationComponent
-      currentPage={currentPage}
-      handlePageClick={handlePageClick}
-      pageCount={pageCount}
+    <SimpleTable
+      columns={columns}
+      data={manufacturers}
+      theme={mode}
+      loading={loading}
+      onRowClick={handleManufacturerSelection}
     />
   )
 
   return (
     <Fragment>
       <div className="list-group todo-task-list-wrapper">
-        {loading ? (
-          renderLoader()
-        ) : manufacturers.length ? (
-          <Fragment>
-            {renderList()}
-            {renderPagination()}
-          </Fragment>
-        ) : (
-          renderEmptyList()
-        )}
+        <PerfectScrollbar
+          options={{ wheelPropagation: false }}
+          containerRef={(ref: any) => {
+            if (ref) {
+              ref._getBoundingClientRect = ref.getBoundingClientRect
+              ref.getBoundingClientRect = () => {
+                const original = ref._getBoundingClientRect()
+                return { ...original, height: Math.floor(original.height) }
+              }
+            }
+          }}
+        >
+          {renderList()}
+        </PerfectScrollbar>
       </div>
       {store.manufacturer ? (
         <Drawer

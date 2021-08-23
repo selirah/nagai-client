@@ -1,3 +1,5 @@
+import { DBUser } from './Auth'
+
 export type StockTrail = {
   id: number
   stockId: string
@@ -13,6 +15,7 @@ export type StockTrail = {
   reorderDate: Date
   userId: number
   comments: string
+  user: DBUser
   createdAt: Date
   updatedAt: Date
 }

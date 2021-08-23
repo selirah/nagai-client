@@ -1,26 +1,5 @@
-import { Product } from 'classes'
-import moment from 'moment'
 import { Reducer } from 'redux'
 import { ProductState, ActionTypes } from './types'
-
-const sortItems = (items: Product[], sortOrder: 'asc' | 'desc' | 'normal') => {
-  switch (sortOrder) {
-    case 'normal':
-      return items.sort(function (a, b) {
-        const createdAtA: number = parseInt(moment(a.createdAt).format('X'))
-        const createdAtB: number = parseInt(moment(b.createdAt).format('X'))
-        return createdAtB - createdAtA
-      })
-    case 'asc':
-      return items.sort(function (a, b) {
-        return a.productName.length - b.productName.length
-      })
-    case 'desc':
-      return items.sort(function (a, b) {
-        return b.productName.length - a.productName.length
-      })
-  }
-}
 
 export const initialState: ProductState = {
   errors: null,
@@ -29,8 +8,6 @@ export const initialState: ProductState = {
   loading: false,
   products: [],
   isSucceeded: false,
-  searchText: '',
-  sortBy: 'normal',
   activeLink: 'list',
   isDeleted: false,
   product: null,
@@ -38,9 +15,9 @@ export const initialState: ProductState = {
     category: 0,
     manufacturer: 0,
     page: 10,
-    skip: 0
+    skip: 0,
+    query: ''
   },
-  filtered: [],
   count: 0,
   stockTrails: [],
   stockTrailsCount: 0,
@@ -146,33 +123,11 @@ const reducer: Reducer<ProductState> = (state = initialState, action) => {
         error: action.payload
       }
 
-    case ActionTypes.SEARCH_TEXT:
-      return {
-        ...state,
-        searchText: action.payload.value,
-        filtered: action.payload.res
-      }
-
-    case ActionTypes.SET_SORT_ORDER:
-      return {
-        ...state,
-        sortBy: action.payload,
-        products: sortItems(state.products, action.payload)
-      }
-
-    case ActionTypes.REORDER_LIST:
-      return {
-        ...state,
-        products: action.payload
-      }
-
     case ActionTypes.CLEAR_STATES:
       return {
         ...state,
-        searchText: initialState.searchText,
         isSucceeded: initialState.isSucceeded,
         errors: initialState.errors,
-        sortBy: initialState.sortBy,
         isDeleted: initialState.isDeleted,
         isSubmitting: initialState.isSubmitting,
         loadStockTrails: initialState.loadStockTrails,

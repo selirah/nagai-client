@@ -60,7 +60,7 @@ const Edit = () => {
   const [values] = useState(() => {
     const { products } = store
     const item = products.find((p) => p.id === id)
-    const payload = {
+    const payload: Fields = {
       productName: item ? item.productName : '',
       categoryId: item
         ? { label: item.category.category, value: item.category.id }

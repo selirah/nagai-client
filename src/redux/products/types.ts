@@ -18,9 +18,6 @@ export enum ActionTypes {
   EXPORT_PRODUCTS_SUCCESS = '@@products/EXPORT_PRODUCTS_SUCCESS',
   EXPORT_PRODUCTS_FAILURE = '@@products/EXPORT_PRODUCTS_FAILURE',
   CLEAR_STATES = '@@products/CLEAR_STATES',
-  SEARCH_TEXT = '@@products/SEARCH_TEXT',
-  REORDER_LIST = '@@products/REORDER_LIST',
-  SET_SORT_ORDER = '@@products/SET_SORT_ORDER',
   SET_ACTIVE_LINK = '@@products/SET_ACTIVE_LINK',
   SET_PRODUCT = '@@products/SET_PRODUCT',
   SET_QUERY_PARAMS = '@@products/SET_QUERY_PARAMS',
@@ -41,13 +38,10 @@ export type ProductState = {
   readonly loading: boolean
   readonly isExporting: boolean
   readonly isSucceeded: boolean
-  readonly searchText: string
-  readonly sortBy: 'asc' | 'desc' | 'normal'
   readonly activeLink: string
   readonly isDeleted: boolean
   readonly product: Product | null
   readonly params: Param
-  readonly filtered: Product[]
   readonly count: number
   readonly stockTrails: StockTrail[]
   readonly stockTrailsParams: Param

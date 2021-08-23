@@ -1,16 +1,12 @@
-import React, { ChangeEvent, useCallback, useState, MouseEvent } from 'react'
-import { Link } from 'react-router-dom'
+import React, { ChangeEvent, useCallback, useState } from 'react'
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
   Input,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
+  Button
 } from 'reactstrap'
-import { Search, MoreVertical, Menu } from 'react-feather'
+import { Search, Menu } from 'react-feather'
 import { useDispatch } from 'react-redux'
 import { Dispatch, Selector } from 'redux/selector-dispatch'
 import productActions from 'redux/products/actions'
@@ -19,29 +15,25 @@ interface Props {
   handleMainSidebar: () => void
 }
 
-const { setSearchText, setSortOrder } = productActions
+const { getProductsRequest } = productActions
 
 const SearchBar: React.FC<Props> = (props) => {
   const { handleMainSidebar } = props
   const [query, setQuery] = useState('')
   const dispatch: Dispatch = useDispatch()
-  const { activeLink, products } = Selector((state) => state.products)
+  const { activeLink, params } = Selector((state) => state.products)
 
-  const handleFilter = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setQuery(e.target.value)
-      dispatch(setSearchText(e.target.value, products))
-    },
-    [dispatch, products]
-  )
+  const handleFilter = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+  }, [])
 
-  const handleSort = useCallback(
-    (e: MouseEvent<HTMLElement>, value: 'asc' | 'desc' | 'normal') => {
-      e.preventDefault()
-      dispatch(setSortOrder(value))
-    },
-    [dispatch]
-  )
+  const handleSearch = useCallback(() => {
+    params.query = query
+    params.skip = 0
+    params.manufacturer = 0
+    params.category = 0
+    dispatch(getProductsRequest(params))
+  }, [dispatch, params, query])
 
   return (
     <div className="app-fixed-search d-flex align-items-center">
@@ -71,42 +63,10 @@ const SearchBar: React.FC<Props> = (props) => {
             disabled={activeLink === 'add' || activeLink === 'edit'}
           />
         </InputGroup>
+        <Button color="primary" className="ml-1" onClick={handleSearch}>
+          Filter
+        </Button>
       </div>
-      {activeLink === 'list' ? (
-        <UncontrolledDropdown>
-          <DropdownToggle
-            className="hide-arrow mr-1"
-            tag="a"
-            href="/"
-            onClick={(e) => e.preventDefault()}
-          >
-            <MoreVertical className="text-body" size={16} />
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem
-              tag={Link}
-              to="/"
-              onClick={(e) => handleSort(e, 'asc')}
-            >
-              Sort A-Z
-            </DropdownItem>
-            <DropdownItem
-              tag={Link}
-              to="/"
-              onClick={(e) => handleSort(e, 'desc')}
-            >
-              Sort Z-A
-            </DropdownItem>
-            <DropdownItem
-              tag={Link}
-              to="/"
-              onClick={(e) => handleSort(e, 'normal')}
-            >
-              Reset Sort
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
-      ) : null}
     </div>
   )
 }

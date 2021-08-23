@@ -67,14 +67,6 @@ const Add = () => {
   const [err, setErr] = useState(null)
   const [product, setProduct] = useState<Product | null>(null)
 
-  const onSubmit = useCallback(
-    (values: StockFields) => {
-      values.unit = values.unit.value
-      dispatch(addStockRequest(values))
-    },
-    [dispatch]
-  )
-
   useEffect(() => {
     dispatch(clearStates())
     dispatch(setActiveLink('add'))
@@ -107,12 +99,20 @@ const Add = () => {
     }
   }, [store, history, id, productStore, values])
 
+  const onSubmit = useCallback(
+    (values: StockFields) => {
+      values.unit = values.unit.value
+      dispatch(addStockRequest(values))
+    },
+    [dispatch]
+  )
+
   const unitOptions: OptionKey[] = []
 
   store.units.map((u) => {
     unitOptions.push({
-      value: `${u.description} (${u.unit})`,
-      label: `${u.description} (${u.unit})`
+      value: `${u.description}`,
+      label: `${u.description}`
     })
     return unitOptions
   })

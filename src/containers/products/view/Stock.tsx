@@ -1,20 +1,52 @@
-import React, { MouseEvent, Fragment } from 'react'
-import moment from 'moment'
+import React, { useMemo } from 'react'
 import { Stock } from 'classes'
-import { Card, CardHeader, CardBody, CardTitle, Table } from 'reactstrap'
-import Empty from 'components/Empty'
-import PaginationComponent from 'components/Pagination'
+import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
+import { IDataTableColumn } from 'react-data-table-component'
+import SimpleTable from 'components/SimpleTable'
 
 interface Props {
   stock: Stock[]
-  pageCount: number
-  currentPage: number
-  handlePageClick: (e: MouseEvent<HTMLElement>, i: number) => void
-  pageSize: number
+  theme: string
 }
 
 const StockList: React.FC<Props> = (props) => {
-  const { stock, currentPage, handlePageClick, pageCount, pageSize } = props
+  const { stock, theme } = props
+
+  const columns: IDataTableColumn[] = useMemo(
+    () => [
+      {
+        id: 1,
+        name: 'SKU',
+        sortable: true,
+        selector: (row: Stock) => row.id
+      },
+      {
+        id: 2,
+        name: 'Unit Price',
+        sortable: true,
+        selector: (row: Stock) => `GHC ${row.unitPrice}`
+      },
+      {
+        id: 3,
+        name: 'Quantity in Stock',
+        sortable: true,
+        selector: (row: Stock) => `${row.quantityInStock} ${row.unit}`
+      },
+      {
+        id: 4,
+        name: 'Stock Value',
+        sortable: true,
+        selector: (row: Stock) => `GHC ${row.stockValue}`
+      },
+      {
+        id: 5,
+        name: 'Reorder Level',
+        sortable: true,
+        selector: (row: Stock) => `${row.reorderLevel} ${row.unit}`
+      }
+    ],
+    []
+  )
 
   return (
     <Card className="border">
@@ -23,49 +55,7 @@ const StockList: React.FC<Props> = (props) => {
       </CardHeader>
       <CardBody>
         <hr className="m-0 mb-2" />
-        <div className="d-flex flex-column text-left align-items-start">
-          {stock.length ? (
-            <Fragment>
-              <Table responsive>
-                <thead>
-                  <tr>
-                    <th>SKU</th>
-                    <th>Unit</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Value</th>
-                    <th>Reorder Level</th>
-                    <th>Reorder Qty</th>
-                    <th>Reorder Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {stock
-                    .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
-                    .map((s) => (
-                      <tr key={s.id} style={{ fontSize: '12px' }}>
-                        <th scope="row">{s.sku}</th>
-                        <td>{s.unit}</td>
-                        <td>{s.unitPrice}</td>
-                        <td>{s.quantityInStock}</td>
-                        <td>{s.stockValue}</td>
-                        <td>{s.reorderLevel}</td>
-                        <td>{s.reorderQuantity}</td>
-                        <td>{moment(s.reorderDate).format("MMM Do, 'YY")}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-              <PaginationComponent
-                currentPage={currentPage}
-                handlePageClick={handlePageClick}
-                pageCount={pageCount}
-              />
-            </Fragment>
-          ) : (
-            <Empty />
-          )}
-        </div>
+        <SimpleTable columns={columns} data={stock} theme={theme} />
       </CardBody>
     </Card>
   )

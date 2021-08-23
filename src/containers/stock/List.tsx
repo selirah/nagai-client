@@ -1,28 +1,11 @@
-import {
-  useEffect,
-  useState,
-  Fragment,
-  useCallback,
-  MouseEvent,
-  useMemo
-} from 'react'
+import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import stockActions from 'redux/stock/actions'
 import { Stock } from 'classes'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import classnames from 'classnames'
-import {
-  Edit2,
-  Trash2,
-  AlertTriangle,
-  ArrowDown,
-  ChevronRight,
-  ChevronLeft,
-  SkipBack,
-  SkipForward
-} from 'react-feather'
+import { Edit3, Trash, AlertTriangle } from 'react-feather'
 import moment from 'moment'
 import { deleteConfirmMessage, deleteDone } from 'utils'
 import SWAL from 'sweetalert2'
@@ -30,13 +13,8 @@ import withReactContent from 'sweetalert2-react-content'
 import { toast, Slide } from 'react-toastify'
 import ToastBox from 'components/ToastBox'
 import Drawer from './Drawer'
-import Empty from 'components/EmptyBox'
-import DataTable, {
-  IDataTableColumn,
-  createTheme,
-  IDataTableStyles
-} from 'react-data-table-component'
-import { ScaleLoader } from 'react-spinners'
+import { IDataTableColumn } from 'react-data-table-component'
+import Table from 'components/DataTable'
 
 const {
   getStockRequest,
@@ -46,54 +24,6 @@ const {
   setStock,
   setQueryParams
 } = stockActions
-
-createTheme('dark', {
-  text: {
-    primary: '#b4b7bd',
-    secondary: '#b4b7bd'
-  },
-  background: {
-    default: '#283046'
-  },
-  context: {
-    background: '#283046',
-    text: '#b4b7bd'
-  },
-  divider: {
-    default: '#b4b7bd'
-  },
-  action: {
-    button: '#b4b7bd',
-    hover: '#b4b7bd',
-    disabled: '#b4b7bd'
-  }
-})
-
-const customStyles: IDataTableStyles = {
-  rows: {
-    style: {
-      minHeight: '38px', // override the row height,
-      textAlign: 'center',
-      cursor: 'pointer'
-    }
-  },
-  headCells: {
-    style: {
-      paddingLeft: '8px', // override the cell padding for head cells
-      paddingRight: '8px',
-      fontWeight: 'bolder',
-      fontSize: '11px',
-      textTransform: 'uppercase',
-      textAlign: 'center'
-    }
-  },
-  cells: {
-    style: {
-      paddingLeft: '8px', // override the cell padding for data cells
-      paddingRight: '8px'
-    }
-  }
-}
 
 const List = () => {
   const dispatch: Dispatch = useDispatch()
@@ -136,45 +66,45 @@ const List = () => {
     () => [
       {
         id: 1,
+        name: 'Stock ID',
+        sortable: true,
+        selector: (row: Stock) => row.id
+      },
+      {
+        id: 2,
         name: 'Product ID',
         sortable: true,
         selector: (row: Stock) => row.productId
       },
       {
-        id: 2,
+        id: 3,
         name: 'SKU',
         sortable: true,
         selector: (row: Stock) => row.sku
       },
       {
-        id: 3,
+        id: 4,
         name: 'Unit Price',
         sortable: true,
         selector: (row: Stock) => `GHC ${row.unitPrice}`
       },
       {
-        id: 4,
+        id: 5,
         name: 'Quantity in Stock',
         sortable: true,
         selector: (row: Stock) => `${row.quantityInStock} ${row.unit}`
       },
       {
-        id: 5,
+        id: 6,
         name: 'Stock Value',
         sortable: true,
         selector: (row: Stock) => `GHC ${row.stockValue}`
       },
       {
-        id: 6,
+        id: 7,
         name: 'Reorder Level',
         sortable: true,
         selector: (row: Stock) => `${row.reorderLevel} ${row.unit}`
-      },
-      {
-        id: 7,
-        name: 'Created Date',
-        sortable: true,
-        selector: (row: Stock) => moment(row.createdAt).format("MMM Do, 'YY")
       },
       {
         id: 8,
@@ -186,14 +116,14 @@ const List = () => {
         cell: (row: Stock) => (
           <Fragment>
             <Link to={`/admin/stock/edit/${row.id}`}>
-              <Edit2
+              <Edit3
                 size={14}
                 className="mr-lg-1"
                 style={{ outline: 'none' }}
                 color="#40C4FF"
               />
             </Link>
-            <Trash2
+            <Trash
               size={14}
               style={{ outline: 'none' }}
               color="#F44336"
@@ -271,40 +201,19 @@ const List = () => {
     [dispatch, toggleDrawer]
   )
 
-  const renderLoader = () => (
-    <div className="mt-5 text-primary">
-      <ScaleLoader color="#0090fe" />
-    </div>
-  )
-
-  const renderEmptyList = () => <Empty />
-
   const renderList = () => (
-    <DataTable
+    <Table
       columns={columns}
-      keyField="id"
+      currentPage={currentPage}
       data={stock}
-      defaultSortField="name"
-      pagination
-      paginationServer
-      paginationTotalRows={totalRows}
-      paginationDefaultPage={currentPage}
-      onChangeRowsPerPage={handlePerRowsChange}
-      onChangePage={handlePageClick}
-      paginationPerPage={pageSize}
-      paginationIconNext={<ChevronRight />}
-      paginationIconPrevious={<ChevronLeft />}
-      paginationIconFirstPage={<SkipBack />}
-      paginationIconLastPage={<SkipForward />}
-      noHeader
-      theme={mode}
-      sortIcon={<ArrowDown />}
-      customStyles={customStyles}
-      progressPending={loading}
-      progressComponent={renderLoader()}
-      noDataComponent={renderEmptyList()}
+      handlePageClick={handlePageClick}
+      handlePerRowsChange={handlePerRowsChange}
+      loading={loading}
       onRowClicked={handleStockSelection}
-      striped
+      pageSize={pageSize}
+      server
+      theme={mode}
+      totalRows={totalRows}
     />
   )
 
@@ -327,12 +236,12 @@ const List = () => {
           {renderList()}
         </PerfectScrollbar>
       </div>
-      {/* {store.stk ? (
-    <Drawer
-      toggleDrawer={toggleDrawer}
-      handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
-    />
-  ) : null} */}
+      {store.stk ? (
+        <Drawer
+          toggleDrawer={toggleDrawer}
+          handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
+        />
+      ) : null}
     </Fragment>
   )
 }
