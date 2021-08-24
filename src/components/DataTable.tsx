@@ -37,6 +37,11 @@ const customStyles: IDataTableStyles = {
       paddingLeft: '8px', // override the cell padding for data cells
       paddingRight: '8px'
     }
+  },
+  pagination: {
+    pageButtonsStyle: {
+      color: '#b4b7bd'
+    }
   }
 }
 

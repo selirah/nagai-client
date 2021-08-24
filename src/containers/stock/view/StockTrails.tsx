@@ -1,26 +1,26 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
-import { StockTrail, Product } from 'classes'
-import { Card, CardHeader, CardBody, CardTitle, Button } from 'reactstrap'
-import productActions from 'redux/products/actions'
+import { StockTrail, Stock } from 'classes'
+import { Card, CardBody, CardTitle, CardHeader, Button } from 'reactstrap'
+import stockActions from 'redux/stock/actions'
 import { IDataTableColumn } from 'react-data-table-component'
 import DataTable from 'components/DataTable'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-const { getStockTrailsRequest, setStockTrailsParams } = productActions
+const { getStockTrailsRequest, setStockTrailsParams } = stockActions
 
 interface Props {
-  product: Product
+  stock: Stock
   theme: string
 }
 
 const StockTrails: React.FC<Props> = (props) => {
-  const { product, theme } = props
+  const { stock, theme } = props
   const dispatch: Dispatch = useDispatch()
-  const store = Selector((state) => state.products)
+  const store = Selector((state) => state.stock)
   const [loading, setLoading] = useState(false)
   const [stockTrails, setStockTrails] = useState<StockTrail[]>([])
   const [pageSize, setPageSize] = useState(store.stockTrailsParams.page)
@@ -32,7 +32,7 @@ const StockTrails: React.FC<Props> = (props) => {
   useEffect(() => {
     const { stockTrailsParams } = store
     stockTrailsParams.skip = 0
-    stockTrailsParams.id = product.id
+    stockTrailsParams.id = stock.id
     dispatch(getStockTrailsRequest(stockTrailsParams))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -17,7 +17,16 @@ export const initialState: StockState = {
   sortBy: 'normal',
   stk: null,
   stock: [],
-  units: []
+  units: [],
+  stockTrails: [],
+  stockTrailsCount: 0,
+  stockTrailsParams: {
+    page: 10,
+    skip: 0,
+    fromDate: '',
+    toDate: ''
+  },
+  loadStockTrails: false
 }
 
 const reducer: Reducer<StockState> = (state = initialState, action) => {
@@ -120,7 +129,8 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         sortBy: initialState.sortBy,
         isDeleted: initialState.isDeleted,
         isSubmitting: initialState.isSubmitting,
-        loading: initialState.loading
+        loading: initialState.loading,
+        loadStockTrails: initialState.loadStockTrails
       }
 
     case ActionTypes.SET_ACTIVE_LINK:
@@ -156,6 +166,33 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
       return {
         ...state,
         units: action.payload
+      }
+
+    case ActionTypes.GET_STOCK_TRAILS_REQUEST:
+      return {
+        ...state,
+        loadStockTrails: true
+      }
+
+    case ActionTypes.GET_STOCK_TRAILS_SUCCESS:
+      return {
+        ...state,
+        loadStockTrails: initialState.loadStockTrails,
+        stockTrails: action.payload.stockTrails,
+        stockTrailsCount: action.payload.count
+      }
+
+    case ActionTypes.GET_STOCK_TRAILS_FAILURE:
+      return {
+        ...state,
+        loadStockTrails: initialState.loading,
+        error: action.payload
+      }
+
+    case ActionTypes.SET_STOCK_TRIALS_PARAMS:
+      return {
+        ...state,
+        stockTrailsParams: action.payload
       }
 
     default:

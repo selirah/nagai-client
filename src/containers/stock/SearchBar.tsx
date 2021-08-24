@@ -65,8 +65,14 @@ const SearchBar: React.FC<Props> = (props) => {
           endDate={endDate}
           className="form-control border"
           placeholderText="select date range"
+          disabled={activeLink === 'add' || activeLink === 'edit'}
         />
-        <Button color="primary" className="ml-1" onClick={handleSearch}>
+        <Button
+          color="primary"
+          className="ml-1"
+          onClick={handleSearch}
+          disabled={activeLink === 'add' || activeLink === 'edit'}
+        >
           Filter
         </Button>
       </div>

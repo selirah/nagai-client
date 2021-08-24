@@ -93,6 +93,27 @@ function* getUnits(): Generator {
   }
 }
 
+function* getStockTrails({
+  payload
+}: {
+  type: string
+  payload: Param
+}): Generator {
+  try {
+    const res: any = yield call(
+      callApiGet,
+      `stock-trails/${payload.id}?page=${payload.page}&skip=${payload.skip}&fromDate=${payload.fromDate}&toDate=${payload.toDate}`
+    )
+    yield put(stockActions.getStockTrailsSuccess(res.data))
+  } catch (err) {
+    if (err && err.response) {
+      yield put(stockActions.getStockTrailsFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
 function* watchAddStock() {
   yield takeEvery(ActionTypes.ADD_STOCK_REQUEST, addStock)
 }
@@ -113,13 +134,18 @@ function* watchGetUnits() {
   yield takeEvery(ActionTypes.GET_UNIT_REQUEST, getUnits)
 }
 
+function* watchGetStockTrails() {
+  yield takeEvery(ActionTypes.GET_STOCK_TRAILS_REQUEST, getStockTrails)
+}
+
 function* stockSaga(): Generator {
   yield all([
     fork(watchAddStock),
     fork(watchUpdateStock),
     fork(watchDeleteStock),
     fork(watchGetStock),
-    fork(watchGetUnits)
+    fork(watchGetUnits),
+    fork(watchGetStockTrails)
   ])
 }
 

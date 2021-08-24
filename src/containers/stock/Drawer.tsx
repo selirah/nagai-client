@@ -3,7 +3,7 @@ import { X, Edit3 } from 'react-feather'
 import RippleButton from 'core/components/ripple-button'
 import { Modal, ModalBody } from 'reactstrap'
 import { Selector } from 'redux/selector-dispatch'
-// import View from './view'
+import View from './view'
 import { Link } from 'react-router-dom'
 
 interface Props {
@@ -21,7 +21,7 @@ const ModalHeader: React.FC<{
     <div className="modal-header d-flex align-items-center justify-content-between mb-1">
       <h5 className="modal-title">{children}</h5>
       <div className="todo-item-action d-flex align-items-center">
-        <RippleButton color="info" tag={Link} to={`/admin/products/edit/${id}`}>
+        <RippleButton color="info" tag={Link} to={`/admin/stock/edit/${id}`}>
           Edit <Edit3 className="font-weight-normal ml-2" size={12} />
         </RippleButton>
         <span className="todo-item-favorite cursor-pointer mx-75"></span>
@@ -51,7 +51,7 @@ const Drawer: React.FC<Props> = (props) => {
         })`}</span>
       </ModalHeader>
       <ModalBody className="flex-grow-1 pb-sm-0 py-3">
-        {/* <View /> */}
+        <View />
       </ModalBody>
     </Modal>
   )

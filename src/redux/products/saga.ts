@@ -94,7 +94,7 @@ function* getStockTrails({
   try {
     const res: any = yield call(
       callApiGet,
-      `stock-trails/product/${payload.id}?page=${payload.page}&skip=${payload.skip}`
+      `stock-trails/product/${payload.id}?page=${payload.page}&skip=${payload.skip}&fromDate=${payload.fromDate}&toDate=${payload.toDate}`
     )
     yield put(productActions.getStockTrailsSuccess(res.data))
   } catch (err) {

@@ -1,5 +1,12 @@
 import { action } from 'typesafe-actions'
-import { StockObj, Stock, StockFields, Param, Unit } from 'classes'
+import {
+  StockObj,
+  Stock,
+  StockFields,
+  Param,
+  Unit,
+  StockTrailObj
+} from 'classes'
 import { ActionTypes } from './types'
 
 const stockActions = {
@@ -48,7 +55,19 @@ const stockActions = {
 
   getUnitSuccess: (data: Unit[]) => action(ActionTypes.GET_UNIT_SUCCESS, data),
 
-  getUnitFailure: (error: any) => action(ActionTypes.GET_UNIT_FAILURE, error)
+  getUnitFailure: (error: any) => action(ActionTypes.GET_UNIT_FAILURE, error),
+
+  getStockTrailsRequest: (params: Param) =>
+    action(ActionTypes.GET_STOCK_TRAILS_REQUEST, params),
+
+  getStockTrailsSuccess: (data: StockTrailObj) =>
+    action(ActionTypes.GET_STOCK_TRAILS_SUCCESS, data),
+
+  getStockTrailsFailure: (error: any) =>
+    action(ActionTypes.GET_STOCK_TRAILS_FAILURE, error),
+
+  setStockTrailsParams: (params: Param) =>
+    action(ActionTypes.SET_STOCK_TRIALS_PARAMS, params)
 }
 
 export default stockActions
