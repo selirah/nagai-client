@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import productActions from 'redux/products/actions'
@@ -156,125 +156,123 @@ const Add = () => {
   )
 
   return (
-    <Fragment>
-      <div className="list-group todo-task-list-wrapper">
-        <PerfectScrollbar
-          options={{ wheelPropagation: false }}
-          containerRef={(ref: any) => {
-            if (ref) {
-              ref._getBoundingClientRect = ref.getBoundingClientRect
-              ref.getBoundingClientRect = () => {
-                const original = ref._getBoundingClientRect()
+    <div className="list-group todo-task-list-wrapper">
+      <PerfectScrollbar
+        options={{ wheelPropagation: false }}
+        containerRef={(ref: any) => {
+          if (ref) {
+            ref._getBoundingClientRect = ref.getBoundingClientRect
+            ref.getBoundingClientRect = () => {
+              const original = ref._getBoundingClientRect()
 
-                return { ...original, height: Math.floor(original.height) }
-              }
+              return { ...original, height: Math.floor(original.height) }
             }
-          }}
+          }
+        }}
+      >
+        <Formik
+          initialValues={values}
+          onSubmit={(values) => onSubmit(values)}
+          validationSchema={validateSchema}
         >
-          <Formik
-            initialValues={values}
-            onSubmit={(values) => onSubmit(values)}
-            validationSchema={validateSchema}
-          >
-            {({
-              values,
-              touched,
-              errors,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              setFieldValue,
-              setFieldTouched
-            }) => (
-              <Form className="mt-2" onSubmit={handleSubmit}>
-                <Row className="px-3">
-                  <Col sm="12" md="12" lg="12">
-                    <CardTitle tag="h2" className="font-weight-light">
-                      Create a product
-                    </CardTitle>
-                  </Col>
-                </Row>
-                {err ? renderError(err) : null}
-                <Row className="px-3">
-                  <Col sm="12" md="6" lg="6">
-                    <FormGroup>
-                      <Label className="form-label" for="productName">
-                        Product name <span style={{ color: '#ff0000' }}>*</span>
-                      </Label>
-                      <Input
-                        type="text"
-                        id="productName"
-                        placeholder="Enter name of product"
-                        value={values.productName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        name="productName"
-                      />
-                      {errors.productName && touched.productName ? (
-                        <small style={{ color: '#ff0000' }}>
-                          {errors.productName}
-                        </small>
-                      ) : null}
-                    </FormGroup>
-                  </Col>
-                  <Col sm="12" md="6" lg="6">
-                    <FormGroup>
-                      <Label className="form-label" for="categoryId">
-                        Category <span style={{ color: '#ff0000' }}>*</span>
-                      </Label>
-                      <SelectComponent
-                        id="categoryId"
-                        name="categoryId"
-                        onChange={setFieldValue}
-                        onBlur={setFieldTouched}
-                        error={errors.categoryId}
-                        touched={touched.categoryId}
-                        options={cSelectOptions}
-                        optionComponent={OptionComponent}
-                        value={values.categoryId}
-                        placeholder="Select category.."
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row className="px-3">
-                  <Col sm="12" md="6" lg="6">
-                    <FormGroup>
-                      <Label className="form-label" for="manufacturerId">
-                        Maufacturer <span style={{ color: '#ff0000' }}>*</span>
-                      </Label>
-                      <SelectComponent
-                        id="manufacturerId"
-                        name="manufacturerId"
-                        onChange={setFieldValue}
-                        onBlur={setFieldTouched}
-                        error={errors.manufacturerId}
-                        touched={touched.manufacturerId}
-                        options={mSelectOptions}
-                        optionComponent={OptionComponent}
-                        value={values.manufacturerId}
-                        placeholder="Select manufacturer.."
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-                <Row className="px-3 mb-2">
-                  <Col sm="4" md="4" lg="4">
-                    <RippleButton type="submit" color="primary" block>
-                      <Collapse isOpen={btnLoading}>
-                        <Spinner color="white" className="mr-2" size="sm" />{' '}
-                        Saving . . .
-                      </Collapse>
-                      <Collapse isOpen={!btnLoading}>Save Product</Collapse>
-                    </RippleButton>
-                  </Col>
-                </Row>
-              </Form>
-            )}
-          </Formik>
-        </PerfectScrollbar>
-      </div>
-    </Fragment>
+          {({
+            values,
+            touched,
+            errors,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            setFieldValue,
+            setFieldTouched
+          }) => (
+            <Form className="mt-2" onSubmit={handleSubmit}>
+              <Row className="px-3">
+                <Col sm="12" md="12" lg="12">
+                  <CardTitle tag="h2" className="font-weight-light">
+                    Create a product
+                  </CardTitle>
+                </Col>
+              </Row>
+              {err ? renderError(err) : null}
+              <Row className="px-3">
+                <Col sm="12" md="6" lg="6">
+                  <FormGroup>
+                    <Label className="form-label" for="productName">
+                      Product name <span style={{ color: '#ff0000' }}>*</span>
+                    </Label>
+                    <Input
+                      type="text"
+                      id="productName"
+                      placeholder="Enter name of product"
+                      value={values.productName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="productName"
+                    />
+                    {errors.productName && touched.productName ? (
+                      <small style={{ color: '#ff0000' }}>
+                        {errors.productName}
+                      </small>
+                    ) : null}
+                  </FormGroup>
+                </Col>
+                <Col sm="12" md="6" lg="6">
+                  <FormGroup>
+                    <Label className="form-label" for="categoryId">
+                      Category <span style={{ color: '#ff0000' }}>*</span>
+                    </Label>
+                    <SelectComponent
+                      id="categoryId"
+                      name="categoryId"
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                      error={errors.categoryId}
+                      touched={touched.categoryId}
+                      options={cSelectOptions}
+                      optionComponent={OptionComponent}
+                      value={values.categoryId}
+                      placeholder="Select category.."
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row className="px-3">
+                <Col sm="12" md="6" lg="6">
+                  <FormGroup>
+                    <Label className="form-label" for="manufacturerId">
+                      Maufacturer <span style={{ color: '#ff0000' }}>*</span>
+                    </Label>
+                    <SelectComponent
+                      id="manufacturerId"
+                      name="manufacturerId"
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                      error={errors.manufacturerId}
+                      touched={touched.manufacturerId}
+                      options={mSelectOptions}
+                      optionComponent={OptionComponent}
+                      value={values.manufacturerId}
+                      placeholder="Select manufacturer.."
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row className="px-3 mb-2">
+                <Col sm="4" md="4" lg="4">
+                  <RippleButton type="submit" color="primary" block>
+                    <Collapse isOpen={btnLoading}>
+                      <Spinner color="white" className="mr-2" size="sm" />{' '}
+                      Saving . . .
+                    </Collapse>
+                    <Collapse isOpen={!btnLoading}>Save Product</Collapse>
+                  </RippleButton>
+                </Col>
+              </Row>
+            </Form>
+          )}
+        </Formik>
+      </PerfectScrollbar>
+    </div>
   )
 }
 

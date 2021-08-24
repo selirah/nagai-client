@@ -2,8 +2,8 @@ import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import productActions from 'redux/products/actions'
-import { Product } from 'classes'
+import territoryActions from 'redux/terrirtories/actions'
+import { Territory } from 'classes'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Edit3, Trash, AlertTriangle } from 'react-feather'
 import moment from 'moment'
@@ -17,20 +17,20 @@ import { IDataTableColumn } from 'react-data-table-component'
 import Table from 'components/DataTable'
 
 const {
-  getProductsRequest,
+  getTerritoryRequest,
   clearStates,
   setActiveLink,
-  deleteProductRequest,
-  setProduct,
+  deleteTerritoryRequest,
+  setTerritory,
   setQueryParams
-} = productActions
+} = territoryActions
 
 const List = () => {
   const dispatch: Dispatch = useDispatch()
-  const store = Selector((state) => state.products)
+  const store = Selector((state) => state.territories)
   const layoutStore = Selector((state) => state.layout)
   const [loading, setLoading] = useState(false)
-  const [products, setProducts] = useState<Product[]>([])
+  const [territories, setTerritories] = useState<Territory[]>([])
   const sweetAlert = withReactContent(SWAL)
   const [toggleDrawer, setToggleDrawer] = useState(false)
   const [pageSize, setPageSize] = useState(store.params.page)
@@ -40,22 +40,20 @@ const List = () => {
 
   useEffect(() => {
     const { params } = store
-    params.category = 0
-    params.manufacturer = 0
-    params.skip = 0
+    params.region = 0
     params.query = ''
     dispatch(setQueryParams(params))
-    dispatch(getProductsRequest(params))
+    dispatch(getTerritoryRequest(params))
     dispatch(clearStates())
     dispatch(setActiveLink('list'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleDelete = useCallback(
-    (id: string, name: string) => {
+    (id: number, name: string) => {
       sweetAlert.fire(deleteConfirmMessage(name)).then(function (res) {
         if (res.value) {
-          dispatch(deleteProductRequest(id))
+          dispatch(deleteTerritoryRequest(id))
         }
       })
     },
@@ -66,44 +64,46 @@ const List = () => {
     () => [
       {
         id: 1,
-        name: 'Product ID',
+        name: 'Locality',
         sortable: true,
-        selector: (row: Product) => row.id
+        selector: (row: Territory) => row.locality
       },
       {
         id: 2,
-        name: 'Name',
+        name: 'Region',
         sortable: true,
-        selector: (row: Product) => row.productName
+        selector: (row: Territory) => row.region.region
       },
       {
         id: 3,
-        name: 'Category',
+        name: 'Latitude',
         sortable: true,
-        selector: (row: Product) => row.category.category
+        selector: (row: Territory) => row.coordinates.lat
       },
       {
         id: 4,
-        name: 'Manufacturer',
+        name: 'Longitude',
         sortable: true,
-        selector: (row: Product) => row.manufacturer.name
+        selector: (row: Territory) => row.coordinates.lng
       },
       {
         id: 8,
         name: 'Created Date',
         sortable: true,
-        selector: (row: Product) => moment(row.createdAt).format("MMM Do, 'YY")
+        selector: (row: Territory) =>
+          moment(row.createdAt).format("MMM Do, 'YY")
       },
       {
         id: 9,
         name: 'Updated Date',
         sortable: true,
-        selector: (row: Product) => moment(row.updatedAt).format("MMM Do, 'YY")
+        selector: (row: Territory) =>
+          moment(row.updatedAt).format("MMM Do, 'YY")
       },
       {
-        cell: (row: Product) => (
+        cell: (row: Territory) => (
           <Fragment>
-            <Link to={`/admin/products/edit/${row.id}`}>
+            <Link to={`/admin/territories/edit/${row.id}`}>
               <Edit3
                 size={14}
                 className="mr-lg-1"
@@ -116,7 +116,7 @@ const List = () => {
               style={{ outline: 'none' }}
               color="#F44336"
               className="cursor-pointer"
-              onClick={() => handleDelete(row.id, row.productName)}
+              onClick={() => handleDelete(row.id, row.locality)}
             />
           </Fragment>
         )
@@ -126,14 +126,14 @@ const List = () => {
   )
 
   useEffect(() => {
-    const { loading, products, isDeleted, errors, count } = store
+    const { loading, territories, isDeleted, errors, count } = store
     const { mode } = layoutStore
     setLoading(loading)
-    if (products.length) {
-      setProducts(products)
+    if (territories.length) {
+      setTerritories(territories)
       setTotalRows(count)
     } else {
-      setProducts(products)
+      setTerritories(territories)
     }
     if (isDeleted) {
       sweetAlert.fire(deleteDone('Product')).then(function (res) {
@@ -166,7 +166,7 @@ const List = () => {
       }
       setCurrentPage(page)
       dispatch(setQueryParams(params))
-      dispatch(getProductsRequest(params))
+      dispatch(getTerritoryRequest(params))
     },
     [dispatch, pageSize, store, currentPage]
   )
@@ -176,14 +176,14 @@ const List = () => {
       const { params } = store
       params.page = newPerPage
       setPageSize(newPerPage)
-      dispatch(getProductsRequest(params))
+      dispatch(getTerritoryRequest(params))
     },
     [dispatch, store]
   )
 
-  const handleProductSelection = useCallback(
-    (product: Product) => {
-      dispatch(setProduct(product))
+  const handleTerritorySelection = useCallback(
+    (product: Territory) => {
+      dispatch(setTerritory(product))
       setToggleDrawer(!toggleDrawer)
     },
     [dispatch, toggleDrawer]
@@ -193,11 +193,11 @@ const List = () => {
     <Table
       columns={columns}
       currentPage={currentPage}
-      data={products}
+      data={territories}
       handlePageClick={handlePageClick}
       handlePerRowsChange={handlePerRowsChange}
       loading={loading}
-      onRowClicked={handleProductSelection}
+      onRowClicked={handleTerritorySelection}
       pageSize={pageSize}
       server
       theme={mode}
@@ -224,12 +224,12 @@ const List = () => {
           {renderList()}
         </PerfectScrollbar>
       </div>
-      {store.product ? (
-        <Drawer
-          toggleDrawer={toggleDrawer}
-          handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
-        />
-      ) : null}
+      {/* {store.territory ? (
+    <Drawer
+      toggleDrawer={toggleDrawer}
+      handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
+    />
+  ) : null} */}
     </Fragment>
   )
 }

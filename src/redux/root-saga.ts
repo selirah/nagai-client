@@ -4,6 +4,7 @@ import manufacturersSaga from './manufacturers/saga'
 import categoriesSaga from './categories/saga'
 import productsSaga from './products/saga'
 import stockSaga from './stock/saga'
+import territorySaga from './terrirtories/saga'
 
 export function* rootSaga(): Generator {
   yield all([
@@ -11,6 +12,7 @@ export function* rootSaga(): Generator {
     fork(manufacturersSaga),
     fork(categoriesSaga),
     fork(productsSaga),
-    fork(stockSaga)
+    fork(stockSaga),
+    fork(territorySaga)
   ])
 }

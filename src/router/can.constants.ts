@@ -3,6 +3,7 @@ const abilities = {
   Manufacturers: 'Manufacturers',
   Categories: 'Categories',
   Products: 'Products',
-  Stock: 'Stock'
+  Stock: 'Stock',
+  Territories: 'Territories'
 }
 export default abilities

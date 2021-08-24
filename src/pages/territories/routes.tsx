@@ -6,22 +6,27 @@ import Spinner from 'components/Spinner'
 const routes: RR[] = [
   {
     path: '',
-    component: lazy(() => import('containers/stock/List')),
+    component: lazy(() => import('containers/territories/List')),
     exact: true
   },
   {
-    path: 'add/:id',
-    component: lazy(() => import('containers/stock/Add')),
+    path: 'map',
+    component: lazy(() => import('containers/territories/Map')),
+    exact: true
+  },
+  {
+    path: 'add',
+    component: lazy(() => import('containers/territories/Add')),
     exact: true
   },
   {
     path: 'edit/:id',
-    component: lazy(() => import('containers/stock/Edit')),
+    component: lazy(() => import('containers/territories/Edit')),
     exact: true
   }
 ]
 
-const StockRoutes = () => {
+const TerritoryRoutes = () => {
   const { url } = useRouteMatch()
   return (
     <Suspense fallback={<Spinner />}>
@@ -36,4 +41,4 @@ const StockRoutes = () => {
   )
 }
 
-export default StockRoutes
+export default TerritoryRoutes

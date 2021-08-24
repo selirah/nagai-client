@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
-import { StockState, ActionTypes } from './types'
+import { TerritoryState, ActionTypes } from './types'
 
-export const initialState: StockState = {
+export const initialState: TerritoryState = {
   activeLink: 'list',
   count: 0,
   errors: null,
@@ -13,26 +13,16 @@ export const initialState: StockState = {
   params: {
     page: 10,
     skip: 0,
-    fromDate: '',
-    toDate: ''
+    region: 0
   },
-  stk: null,
-  stock: [],
-  units: [],
-  stockTrails: [],
-  stockTrailsCount: 0,
-  stockTrailsParams: {
-    page: 10,
-    skip: 0,
-    fromDate: '',
-    toDate: ''
-  },
-  loadStockTrails: false
+  regions: [],
+  territories: [],
+  territory: null
 }
 
-const reducer: Reducer<StockState> = (state = initialState, action) => {
+const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
   switch (action.type) {
-    case ActionTypes.ADD_STOCK_REQUEST:
+    case ActionTypes.ADD_TERRITORY_REQUEST:
       return {
         ...state,
         isSubmitting: true,
@@ -40,14 +30,14 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.ADD_STOCK_SUCCESS:
+    case ActionTypes.ADD_TERRITORY_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         isSucceeded: true
       }
 
-    case ActionTypes.ADD_STOCK_FAILURE:
+    case ActionTypes.ADD_TERRITORY_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -55,7 +45,7 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.UPDATE_STOCK_REQUEST:
+    case ActionTypes.UPDATE_TERRITORY_REQUEST:
       return {
         ...state,
         isSubmitting: true,
@@ -63,14 +53,14 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.UPDATE_STOCK_SUCCESS:
+    case ActionTypes.UPDATE_TERRITORY_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         isSucceeded: true
       }
 
-    case ActionTypes.UPDATE_STOCK_FAILURE:
+    case ActionTypes.UPDATE_TERRITORY_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -78,22 +68,22 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.DELETE_STOCK_REQUEST:
+    case ActionTypes.DELETE_TERRITORY_REQUEST:
       return {
         ...state,
         errors: initialState.errors,
         isDeleted: initialState.isDeleted
       }
 
-    case ActionTypes.DELETE_STOCK_SUCCESS:
+    case ActionTypes.DELETE_TERRITORY_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        stock: state.stock.filter((s) => s.id !== action.payload),
+        territories: state.territories.filter((t) => t.id !== action.payload),
         isDeleted: true
       }
 
-    case ActionTypes.DELETE_STOCK_FAILURE:
+    case ActionTypes.DELETE_TERRITORY_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -101,21 +91,21 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isDeleted: initialState.isDeleted
       }
 
-    case ActionTypes.GET_STOCK_REQUEST:
+    case ActionTypes.GET_TERRITORY_REQUEST:
       return {
         ...state,
         loading: true
       }
 
-    case ActionTypes.GET_STOCK_SUCCESS:
+    case ActionTypes.GET_TERRITORY_SUCCESS:
       return {
         ...state,
         loading: initialState.loading,
-        stock: action.payload.stock,
+        territories: action.payload.territories,
         count: action.payload.count
       }
 
-    case ActionTypes.GET_STOCK_FAILURE:
+    case ActionTypes.GET_TERRITORY_FAILURE:
       return {
         ...state,
         loading: initialState.loading,
@@ -129,8 +119,7 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         errors: initialState.errors,
         isDeleted: initialState.isDeleted,
         isSubmitting: initialState.isSubmitting,
-        loading: initialState.loading,
-        loadStockTrails: initialState.loadStockTrails
+        loading: initialState.loading
       }
 
     case ActionTypes.SET_ACTIVE_LINK:
@@ -139,10 +128,10 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         activeLink: action.payload
       }
 
-    case ActionTypes.SET_STOCK:
+    case ActionTypes.SET_TERRITORY:
       return {
         ...state,
-        stk: action.payload
+        territory: action.payload
       }
 
     case ActionTypes.SET_QUERY_PARAMS:
@@ -151,48 +140,21 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         params: action.payload
       }
 
-    case ActionTypes.GET_UNIT_REQUEST:
+    case ActionTypes.GET_REGIONS_REQUEST:
       return {
         ...state
       }
 
-    case ActionTypes.GET_UNIT_SUCCESS:
+    case ActionTypes.GET_REGIONS_SUCCESS:
       return {
         ...state,
-        units: action.payload
+        regions: action.payload
       }
 
-    case ActionTypes.GET_UNIT_FAILURE:
+    case ActionTypes.GET_REGIONS_FAILURE:
       return {
         ...state,
         errors: action.payload
-      }
-
-    case ActionTypes.GET_STOCK_TRAILS_REQUEST:
-      return {
-        ...state,
-        loadStockTrails: true
-      }
-
-    case ActionTypes.GET_STOCK_TRAILS_SUCCESS:
-      return {
-        ...state,
-        loadStockTrails: initialState.loadStockTrails,
-        stockTrails: action.payload.stockTrails,
-        stockTrailsCount: action.payload.count
-      }
-
-    case ActionTypes.GET_STOCK_TRAILS_FAILURE:
-      return {
-        ...state,
-        loadStockTrails: initialState.loading,
-        error: action.payload
-      }
-
-    case ActionTypes.SET_STOCK_TRIALS_PARAMS:
-      return {
-        ...state,
-        stockTrailsParams: action.payload
       }
 
     default:
@@ -200,4 +162,4 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
   }
 }
 
-export { reducer as stockReducer }
+export { reducer as territoryReducer }

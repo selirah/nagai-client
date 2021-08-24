@@ -9,19 +9,19 @@ import {
 import { Search, Menu } from 'react-feather'
 import { useDispatch } from 'react-redux'
 import { Dispatch, Selector } from 'redux/selector-dispatch'
-import productActions from 'redux/products/actions'
+import territoryActions from 'redux/terrirtories/actions'
 
 interface Props {
   handleMainSidebar: () => void
 }
 
-const { getProductsRequest } = productActions
+const { getTerritoryRequest } = territoryActions
 
 const SearchBar: React.FC<Props> = (props) => {
   const { handleMainSidebar } = props
   const [query, setQuery] = useState('')
   const dispatch: Dispatch = useDispatch()
-  const { activeLink, params } = Selector((state) => state.products)
+  const { activeLink, params } = Selector((state) => state.territories)
 
   const handleFilter = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
@@ -30,9 +30,7 @@ const SearchBar: React.FC<Props> = (props) => {
   const handleSearch = useCallback(() => {
     params.query = query
     params.skip = 0
-    params.manufacturer = 0
-    params.category = 0
-    dispatch(getProductsRequest(params))
+    dispatch(getTerritoryRequest(params))
   }, [dispatch, params, query])
 
   return (
@@ -57,7 +55,7 @@ const SearchBar: React.FC<Props> = (props) => {
             onChange={handleFilter}
             placeholder={
               activeLink !== 'add' && activeLink !== 'edit'
-                ? 'Search by name of product ..'
+                ? 'Search by locality ..'
                 : ''
             }
             disabled={activeLink === 'add' || activeLink === 'edit'}

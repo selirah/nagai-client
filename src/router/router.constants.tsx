@@ -96,6 +96,17 @@ const Routes: Route[] = [
       resource: abilities.Stock,
       action: 'read'
     }
+  },
+  {
+    path: PRIVATE_ROUTES.TERRITORIES,
+    component: lazy(() => import('pages/territories')),
+    exact: false,
+    className: 'todo-application',
+    appLayout: true,
+    meta: {
+      resource: abilities.Territories,
+      action: 'read'
+    }
   }
 ]
 

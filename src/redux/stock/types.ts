@@ -37,7 +37,6 @@ export type StockState = {
   readonly loading: boolean
   readonly isExporting: boolean
   readonly isSucceeded: boolean
-  readonly sortBy: 'asc' | 'desc' | 'normal'
   readonly activeLink: string
   readonly isDeleted: boolean
   readonly stk: Stock | null

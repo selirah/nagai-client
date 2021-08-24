@@ -7,4 +7,5 @@ export type Param = {
   query?: string
   category?: number
   manufacturer?: number
+  region?: number
 }

@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import productActions from 'redux/products/actions'
-import { ProductFields, OptionKey } from 'classes'
+import territoryActions from 'redux/terrirtories/actions'
+import { TerritoryFields, OptionKey } from 'classes'
 import { toast, Slide } from 'react-toastify'
 import RippleButton from 'core/components/ripple-button'
 import ToastBox from 'components/ToastBox'
@@ -26,14 +26,15 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
 import SelectComponent from 'components/Select'
 
-const { updateProductRequest, clearStates, setActiveLink } = productActions
+const { updateTerritoryRequest, clearStates, setActiveLink } = territoryActions
 
 const { Option } = components
 
 interface Fields {
-  productName: string
-  categoryId: any
-  manufacturerId: any
+  locality: string
+  regionId: any
+  lat: string
+  lng: string
 }
 
 type QueryParam = {
@@ -41,33 +42,31 @@ type QueryParam = {
 }
 
 const validateSchema = Yup.object().shape({
-  productName: Yup.string()
-    .min(2, 'Product name is too short!')
+  locality: Yup.string()
+    .min(2, 'Locality is too short!')
     .required('This is a required field'),
-  manufacturerId: Yup.object().required('This is a required field'),
-  categoryId: Yup.object().required('This is a required field')
+  regionId: Yup.object().required('This is a required field'),
+  lat: Yup.string().required('This is a required field'),
+  lng: Yup.string().required('This is a required field')
 })
 
 const Edit = () => {
   const dispatch: Dispatch = useDispatch()
   const { id } = useParams<QueryParam>()
-  const store = Selector((state) => state.products)
-  const { categories } = Selector((state) => state.categories)
-  const { manufacturers } = Selector((state) => state.manufacturers)
+  const store = Selector((state) => state.territories)
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
   const [err, setErr] = useState(null)
   const [values] = useState(() => {
-    const { products } = store
-    const item = products.find((p) => p.id === id)
+    const { territories } = store
+    const item = territories.find((t) => t.id === parseInt(id))
     const payload: Fields = {
-      productName: item ? item.productName : '',
-      categoryId: item
-        ? { label: item.category.category, value: item.category.id }
+      locality: item ? item.locality : '',
+      regionId: item
+        ? { label: item.region.region, value: item.region.id }
         : '',
-      manufacturerId: item
-        ? { label: item.manufacturer.name, value: item.manufacturer.id }
-        : ''
+      lat: item ? `${item.coordinates.lat}` : '',
+      lng: item ? `${item.coordinates.lng}` : ''
     }
     return payload
   })
@@ -80,13 +79,16 @@ const Edit = () => {
 
   const onSubmit = useCallback(
     (values: Fields) => {
-      const payload: ProductFields = {
-        categoryId: parseInt(values.categoryId.value),
-        manufacturerId: parseInt(values.manufacturerId.value),
-        productName: values.productName,
-        id: id
+      const payload: TerritoryFields = {
+        regionId: parseInt(values.regionId.value),
+        locality: values.locality,
+        coordinates: {
+          lat: parseFloat(values.lat),
+          lng: parseFloat(values.lng)
+        },
+        id: parseInt(id)
       }
-      dispatch(updateProductRequest(payload))
+      dispatch(updateTerritoryRequest(payload))
     },
     [dispatch, id]
   )
@@ -100,7 +102,7 @@ const Edit = () => {
         <ToastBox
           color="success"
           icon={<Coffee />}
-          message="Product has been updated successfully"
+          message="Territory has been updated successfully"
           title="Nice!"
         />,
         {
@@ -110,40 +112,23 @@ const Edit = () => {
           position: 'bottom-right'
         }
       )
-      history.push('/admin/products')
+      history.push('/admin/territories')
     }
   }, [store, history])
 
-  const categoryOptions: OptionKey[] = []
-  const manufacturerOptions: OptionKey[] = []
-
-  categories.map((c) => {
-    categoryOptions.push({
-      value: `${c.id}`,
-      label: c.category
+  const regionOptions: OptionKey[] = []
+  store.regions.map((r) => {
+    regionOptions.push({
+      value: `${r.id}`,
+      label: r.region
     })
-    return categoryOptions
+    return regionOptions
   })
 
-  manufacturers.map((m) => {
-    manufacturerOptions.push({
-      value: `${m.id}`,
-      label: m.name
-    })
-    return manufacturerOptions
-  })
-
-  const cSelectOptions = [
+  const rSelectOptions = [
     {
-      label: 'Select Category of Product',
-      options: categoryOptions
-    }
-  ]
-
-  const mSelectOptions = [
-    {
-      label: 'Select Manufacturer of Product',
-      options: manufacturerOptions
+      label: 'Select Region of Territory',
+      options: regionOptions
     }
   ]
 
@@ -203,7 +188,7 @@ const Edit = () => {
               <Row className="px-3">
                 <Col sm="12" md="12" lg="12">
                   <CardTitle tag="h2" className="font-weight-light">
-                    Update {values ? values.productName : null}
+                    Create a Territory
                   </CardTitle>
                 </Col>
               </Row>
@@ -211,41 +196,41 @@ const Edit = () => {
               <Row className="px-3">
                 <Col sm="12" md="6" lg="6">
                   <FormGroup>
-                    <Label className="form-label" for="productName">
-                      Product name <span style={{ color: '#ff0000' }}>*</span>
+                    <Label className="form-label" for="locality">
+                      Locality <span style={{ color: '#ff0000' }}>*</span>
                     </Label>
                     <Input
                       type="text"
-                      id="productName"
-                      placeholder="Enter name of product"
-                      value={values.productName}
+                      id="locality"
+                      placeholder="Enter locality of territory"
+                      value={values.locality}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      name="productName"
+                      name="locality"
                     />
-                    {errors.productName && touched.productName ? (
+                    {errors.locality && touched.locality ? (
                       <small style={{ color: '#ff0000' }}>
-                        {errors.productName}
+                        {errors.locality}
                       </small>
                     ) : null}
                   </FormGroup>
                 </Col>
                 <Col sm="12" md="6" lg="6">
                   <FormGroup>
-                    <Label className="form-label" for="categoryId">
-                      Category <span style={{ color: '#ff0000' }}>*</span>
+                    <Label className="form-label" for="regionId">
+                      Region <span style={{ color: '#ff0000' }}>*</span>
                     </Label>
                     <SelectComponent
-                      id="categoryId"
-                      name="categoryId"
+                      id="regionId"
+                      name="regionId"
                       onChange={setFieldValue}
                       onBlur={setFieldTouched}
-                      error={errors.categoryId}
-                      touched={touched.categoryId}
-                      options={cSelectOptions}
+                      error={errors.regionId}
+                      touched={touched.regionId}
+                      options={rSelectOptions}
                       optionComponent={OptionComponent}
-                      value={values.categoryId}
-                      placeholder="Select category.."
+                      value={values.regionId}
+                      placeholder="Select region.."
                     />
                   </FormGroup>
                 </Col>
@@ -253,21 +238,40 @@ const Edit = () => {
               <Row className="px-3">
                 <Col sm="12" md="6" lg="6">
                   <FormGroup>
-                    <Label className="form-label" for="manufacturerId">
-                      Maufacturer <span style={{ color: '#ff0000' }}>*</span>
+                    <Label className="form-label" for="latitude">
+                      Latitude <span style={{ color: '#ff0000' }}>*</span>
                     </Label>
-                    <SelectComponent
-                      id="manufacturerId"
-                      name="manufacturerId"
-                      onChange={setFieldValue}
-                      onBlur={setFieldTouched}
-                      error={errors.manufacturerId}
-                      touched={touched.manufacturerId}
-                      options={mSelectOptions}
-                      optionComponent={OptionComponent}
-                      value={values.manufacturerId}
-                      placeholder="Select manufacturer.."
+                    <Input
+                      type="text"
+                      id="latitude"
+                      placeholder="Enter Latitude of territory"
+                      value={values.lat}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="lat"
                     />
+                    {errors.lat && touched.lat ? (
+                      <small style={{ color: '#ff0000' }}>{errors.lat}</small>
+                    ) : null}
+                  </FormGroup>
+                </Col>
+                <Col sm="12" md="6" lg="6">
+                  <FormGroup>
+                    <Label className="form-label" for="longitude">
+                      Longitude <span style={{ color: '#ff0000' }}>*</span>
+                    </Label>
+                    <Input
+                      type="text"
+                      id="longitude"
+                      placeholder="Enter Longitude of territory"
+                      value={values.lng}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="lng"
+                    />
+                    {errors.lng && touched.lng ? (
+                      <small style={{ color: '#ff0000' }}>{errors.lng}</small>
+                    ) : null}
                   </FormGroup>
                 </Col>
               </Row>
@@ -278,7 +282,7 @@ const Edit = () => {
                       <Spinner color="white" className="mr-2" size="sm" />{' '}
                       Saving . . .
                     </Collapse>
-                    <Collapse isOpen={!btnLoading}>Update Details</Collapse>
+                    <Collapse isOpen={!btnLoading}>Save Territory</Collapse>
                   </RippleButton>
                 </Col>
               </Row>
