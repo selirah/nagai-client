@@ -370,11 +370,6 @@ const Add = () => {
                         onBlur={handleBlur}
                         name="comments"
                       />
-                      {errors.comments && touched.comments ? (
-                        <small style={{ color: '#ff0000' }}>
-                          {errors.comments}
-                        </small>
-                      ) : null}
                     </FormGroup>
                   </Col>
                 </Row>

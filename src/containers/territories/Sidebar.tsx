@@ -95,15 +95,15 @@ const Sidebar: React.FC<Props> = (props) => {
                   <span className="align-middle">Add Territory</span>
                 </ListGroupItem>
               </ListGroup>
+              <div className="mt-3 px-2 d-flex justify-content-between">
+                <h6 className="section-label mb-1">Group by category</h6>
+                <Grid size={14} />
+              </div>
               {store.regions.length ? (
                 <PerfectScrollbar
                   className="sidebar-menu-list"
                   options={{ wheelPropagation: false }}
                 >
-                  <div className="mt-3 px-2 d-flex justify-content-between">
-                    <h6 className="section-label mb-1">Group by category</h6>
-                    <Grid size={14} />
-                  </div>
                   <ListGroup className="list-group-labels">
                     {store.regions.map((r, i) => (
                       <ListGroupItem

@@ -6,14 +6,14 @@ import React, {
   useEffect
 } from 'react'
 import { Manufacturer } from 'classes'
-import { Card, CardHeader, CardBody, CardTitle, Badge } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api'
-import { getInitials } from 'utils'
 import { MapStylesDarkMode } from 'components/MapStyles'
 import { Selector } from 'redux/selector-dispatch'
 
 interface Props {
   manufacturer: Manufacturer
+  mode: string
   onClickMarker?: () => void
 }
 
@@ -30,7 +30,7 @@ const center = {
 }
 
 const MapMarker: React.FC<Props> = (props) => {
-  const { manufacturer } = props
+  const { manufacturer, mode } = props
   const [toggleWindow, setToggleWindow] = useState(false)
 
   const position = {
@@ -43,8 +43,11 @@ const MapMarker: React.FC<Props> = (props) => {
   }, [toggleWindow])
 
   const icon = {
-    url: require('assets/images/icons/location.png').default,
-    scaledSize: new google.maps.Size(40, 40),
+    url:
+      mode === 'dark'
+        ? require('assets/images/icons/greenMarker.png').default
+        : require('assets/images/icons/redMarker.png').default,
+    scaledSize: new google.maps.Size(30, 30),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(15, 15)
   }
@@ -60,6 +63,7 @@ const MapMarker: React.FC<Props> = (props) => {
         <MapInfoWindow
           manufacturer={manufacturer}
           onClickMarker={onClickMarker}
+          mode={mode}
         />
       ) : null}
     </Marker>
@@ -74,55 +78,29 @@ const MapInfoWindow: React.FC<Props> = (props) => {
     lng: manufacturer.coordinates.lng
   }
 
-  const renderAvatar = (manufacturer: Manufacturer) => {
-    if (manufacturer && manufacturer.logo) {
-      return (
-        <img
-          className="img-fluid w-100 h-100"
-          src={manufacturer.logo}
-          style={{ objectFit: 'cover', borderRadius: '100%' }}
-          alt="Card"
-        />
-      )
-    } else {
-      return (
-        <div
-          style={{ borderRadius: '100%' }}
-          className={`d-flex w-100 h-100 font-size-xl justify-content-center align-items-center avatar-variant-lg bg-info text-white`}
-        >
-          {getInitials(manufacturer.name)}
-        </div>
-      )
-    }
-  }
-
   return (
     <InfoWindow onCloseClick={onClickMarker} position={position}>
-      <Fragment>
-        <div className="d-flex justify-content-center profile-image-wrapper mb-2">
-          <div
-            className="profile-image"
-            style={{
-              width: '100px',
-              height: '100px',
-              overflow: 'hidden'
-            }}
-          >
-            {manufacturer ? renderAvatar(manufacturer) : ''}
-          </div>
+      <div id="iw-container">
+        <div className="iw-title">{manufacturer.name.toUpperCase()}</div>
+        <div className="iw-content">
+          <div className="iw-subTitle">Contact</div>
+          <p>
+            {manufacturer.location}
+            <br />
+            <br />
+            Phone. {manufacturer.phone}
+            <br />
+            e-mail: {manufacturer.email}
+          </p>
         </div>
-        <div className="d-flex justify-content-center">
-          <Badge className="text-uppercase" color="info" pill>
-            {manufacturer ? manufacturer.name.replace(/_/gi, ' ') : null}
-          </Badge>
-        </div>
-      </Fragment>
+        <div className="iw-bottom-gradient"></div>
+      </div>
     </InfoWindow>
   )
 }
 
 const MapLayout: React.FC<Props> = (props) => {
-  const { manufacturer } = props
+  const { manufacturer, mode } = props
   const store = Selector((state) => state.layout)
   const mapRef = useRef<any>()
 
@@ -177,7 +155,7 @@ const MapLayout: React.FC<Props> = (props) => {
               onLoad={onLoadMap}
               options={options}
             >
-              <MapMarker manufacturer={manufacturer} />
+              <MapMarker manufacturer={manufacturer} mode={mode} />
             </GoogleMap>
           </div>
           <hr className="m-0 mb-2" />

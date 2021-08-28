@@ -45,10 +45,15 @@ const Drawer: React.FC<Props> = (props) => {
       contentClassName="p-0"
       modalClassName="modal-slide-in sidebar-todo-modal"
     >
-      <ModalHeader handleToggleDrawer={handleToggleDrawer} id={stk!.id}>
-        <span className="ml-2">{`${stk?.product.productName.toUpperCase()} (${
-          stk ? stk.id : 'View'
-        })`}</span>
+      <ModalHeader
+        handleToggleDrawer={handleToggleDrawer}
+        id={stk ? stk.id : 0}
+      >
+        <span className="ml-2">
+          {stk
+            ? `${stk.product.productName.toUpperCase()} (${stk.id})`
+            : 'View'}
+        </span>
       </ModalHeader>
       <ModalBody className="flex-grow-1 pb-sm-0 py-3">
         <View />

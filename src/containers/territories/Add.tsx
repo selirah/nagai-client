@@ -35,6 +35,7 @@ interface Fields {
   regionId: any
   lat: string
   lng: string
+  description: string
 }
 
 const validateSchema = Yup.object().shape({
@@ -53,7 +54,8 @@ const Add = () => {
     regionId: '',
     locality: '',
     lat: '',
-    lng: ''
+    lng: '',
+    description: ''
   })
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
@@ -67,7 +69,8 @@ const Add = () => {
         coordinates: {
           lat: parseFloat(values.lat),
           lng: parseFloat(values.lng)
-        }
+        },
+        description: values.description
       }
       dispatch(addTerritoryRequest(payload))
     },
@@ -259,6 +262,24 @@ const Add = () => {
                     {errors.lng && touched.lng ? (
                       <small style={{ color: '#ff0000' }}>{errors.lng}</small>
                     ) : null}
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row className="px-3">
+                <Col sm="12" md="6" lg="6">
+                  <FormGroup>
+                    <Label className="form-label" for="description">
+                      Brief description, landmark, area bordered, etc
+                    </Label>
+                    <Input
+                      type="textarea"
+                      id="description"
+                      placeholder="Enter any description to remember about the territory"
+                      value={values.description}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="description"
+                    />
                   </FormGroup>
                 </Col>
               </Row>

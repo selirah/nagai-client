@@ -35,6 +35,7 @@ interface Fields {
   regionId: any
   lat: string
   lng: string
+  description: string
 }
 
 type QueryParam = {
@@ -66,7 +67,8 @@ const Edit = () => {
         ? { label: item.region.region, value: item.region.id }
         : '',
       lat: item ? `${item.coordinates.lat}` : '',
-      lng: item ? `${item.coordinates.lng}` : ''
+      lng: item ? `${item.coordinates.lng}` : '',
+      description: item ? item.description : ''
     }
     return payload
   })
@@ -86,7 +88,8 @@ const Edit = () => {
           lat: parseFloat(values.lat),
           lng: parseFloat(values.lng)
         },
-        id: parseInt(id)
+        id: parseInt(id),
+        description: values.description
       }
       dispatch(updateTerritoryRequest(payload))
     },
@@ -188,7 +191,7 @@ const Edit = () => {
               <Row className="px-3">
                 <Col sm="12" md="12" lg="12">
                   <CardTitle tag="h2" className="font-weight-light">
-                    Create a Territory
+                    Update {values ? values.locality : null}
                   </CardTitle>
                 </Col>
               </Row>
@@ -275,6 +278,24 @@ const Edit = () => {
                   </FormGroup>
                 </Col>
               </Row>
+              <Row className="px-3">
+                <Col sm="12" md="6" lg="6">
+                  <FormGroup>
+                    <Label className="form-label" for="description">
+                      Brief description, landmark, area bordered, etc
+                    </Label>
+                    <Input
+                      type="textarea"
+                      id="description"
+                      placeholder="Enter any description to remember about the territory"
+                      value={values.description}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="description"
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
               <Row className="px-3 mb-2">
                 <Col sm="4" md="4" lg="4">
                   <RippleButton type="submit" color="primary" block>
@@ -282,7 +303,7 @@ const Edit = () => {
                       <Spinner color="white" className="mr-2" size="sm" />{' '}
                       Saving . . .
                     </Collapse>
-                    <Collapse isOpen={!btnLoading}>Save Territory</Collapse>
+                    <Collapse isOpen={!btnLoading}>Update Territory</Collapse>
                   </RippleButton>
                 </Col>
               </Row>

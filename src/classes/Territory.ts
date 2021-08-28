@@ -8,6 +8,7 @@ export type Territory = {
     lng: number
   }
   regionId: number
+  description: string
   outlets: Outlet[]
   users: DBUser[]
   region: Region
@@ -28,6 +29,7 @@ export type TerritoryFields = {
     lng: number
   }
   regionId: number
+  description: string
 }
 
 export type Region = {

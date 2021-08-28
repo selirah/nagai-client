@@ -23,7 +23,7 @@ const View = () => {
             <Products products={store.manufacturer!.products} theme={mode} />
           </Col>
           <Col lg={{ size: 7, order: 2 }} sm={{ size: 12 }} xs={{ order: 2 }}>
-            <MapLayout manufacturer={store.manufacturer!} />
+            <MapLayout manufacturer={store.manufacturer!} mode={mode} />
           </Col>
         </Row>
       </section>

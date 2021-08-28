@@ -17,7 +17,7 @@ const Products: React.FC<Props> = (props) => {
     () => [
       {
         id: 1,
-        name: 'SKU',
+        name: 'ID',
         sortable: true,
         selector: (row: Product) => row.id
       },

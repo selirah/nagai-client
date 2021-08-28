@@ -30,3 +30,7 @@ export async function callApiDelete(
 ): Promise<AxiosResponse> {
   return await axios.delete(`${API_ENDPOINT}/api/v1/${path}/${param}`)
 }
+
+export async function callGoogleDirection(payload: any) {
+  return await payload.directionsService.route(payload.request)
+}

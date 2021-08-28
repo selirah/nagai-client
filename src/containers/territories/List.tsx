@@ -224,12 +224,12 @@ const List = () => {
           {renderList()}
         </PerfectScrollbar>
       </div>
-      {/* {store.territory ? (
-    <Drawer
-      toggleDrawer={toggleDrawer}
-      handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
-    />
-  ) : null} */}
+      {store.territory ? (
+        <Drawer
+          toggleDrawer={toggleDrawer}
+          handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
+        />
+      ) : null}
     </Fragment>
   )
 }

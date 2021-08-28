@@ -11,7 +11,7 @@ const routes: RR[] = [
   },
   {
     path: 'map',
-    component: lazy(() => import('containers/territories/Map')),
+    component: lazy(() => import('containers/territories/MapView')),
     exact: true
   },
   {

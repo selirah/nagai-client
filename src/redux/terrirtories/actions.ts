@@ -59,7 +59,16 @@ const territoryActions = {
     action(ActionTypes.GET_REGIONS_SUCCESS, data),
 
   getRegionsFailure: (error: any) =>
-    action(ActionTypes.GET_REGIONS_FAILURE, error)
+    action(ActionTypes.GET_REGIONS_FAILURE, error),
+
+  googleDirectionRequest: (payload: any) =>
+    action(ActionTypes.GOOGLE_DIRECTION_REQUEST, payload),
+
+  googleDirectionSuccess: (data: any) =>
+    action(ActionTypes.GOOGLE_DIRECTION_SUCCESS, data),
+
+  googleDirectionFailure: (error: any) =>
+    action(ActionTypes.GOOGLE_DIRECTION_FAILURE, error)
 }
 
 export default territoryActions

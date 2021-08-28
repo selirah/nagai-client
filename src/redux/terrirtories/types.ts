@@ -23,7 +23,10 @@ export enum ActionTypes {
   SET_QUERY_PARAMS = '@@territories/SET_QUERY_PARAMS',
   GET_REGIONS_REQUEST = '@@territories/GET_REGIONS_REQUEST',
   GET_REGIONS_SUCCESS = '@@territories/GET_REGIONS_SUCCESS',
-  GET_REGIONS_FAILURE = '@@territories/GET_REGIONS_FAILURE'
+  GET_REGIONS_FAILURE = '@@territories/GET_REGIONS_FAILURE',
+  GOOGLE_DIRECTION_REQUEST = '@@territories/GOOGLE_DIRECTION_REQUEST',
+  GOOGLE_DIRECTION_SUCCESS = '@@territories/GOOGLE_DIRECTION_SUCCESS',
+  GOOGLE_DIRECTION_FAILURE = '@@territories/GOOGLE_DIRECTION_FAILURE'
 }
 
 export type TerritoryState = {
@@ -39,4 +42,6 @@ export type TerritoryState = {
   readonly params: Param
   readonly count: number
   readonly regions: Region[]
+  readonly direction: any
+  readonly loadingDirection: boolean
 }

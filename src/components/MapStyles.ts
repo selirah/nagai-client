@@ -13,7 +13,7 @@ const MapStyles = [
     elementType: 'geometry.stroke',
     stylers: [
       {
-        color: '#a20c25'
+        color: '#9c9c9c'
       }
     ]
   },
@@ -133,7 +133,7 @@ const MapStyles = [
     elementType: 'all',
     stylers: [
       {
-        color: '#d4f1f9'
+        color: '#46bcec'
       },
       {
         visibility: 'on'

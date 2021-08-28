@@ -58,7 +58,7 @@ const NavbarUser: React.FC<NavbarUserProps> = (props) => {
       <ul className="nav navbar-nav align-items-center ml-auto">
         <IntlDropdown />
         <UserDropdown />
-        <NavItem className="d-none d-lg-block">
+        <NavItem className="d-block">
           <NavLink className="nav-link-style">
             <ThemeToggler />
           </NavLink>
