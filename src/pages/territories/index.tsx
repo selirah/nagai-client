@@ -7,14 +7,14 @@ import 'core/scss/react/apps/app-todo.scss'
 import { useDispatch } from 'react-redux'
 import { Dispatch, Selector } from 'redux/selector-dispatch'
 import { isEmpty } from 'utils'
-import territoryActions from 'redux/terrirtories/actions'
+import utilsActions from 'redux/utils/actions'
 
-const { getRegionsRequest } = territoryActions
+const { getRegionsRequest } = utilsActions
 
 const Territories = () => {
   const [mainSidebar, setMainSidebar] = useState(false)
   const dispatch: Dispatch = useDispatch()
-  const { regions } = Selector((state) => state.territories)
+  const { regions } = Selector((state) => state.utils)
 
   useEffect(() => {
     if (isEmpty(regions)) {

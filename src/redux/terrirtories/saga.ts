@@ -1,12 +1,6 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
-import {
-  callApiDelete,
-  callApiPost,
-  callApiPut,
-  callApiGet,
-  callGoogleDirection
-} from 'api'
+import { callApiDelete, callApiPost, callApiPut, callApiGet } from 'api'
 import territoryActions from './actions'
 import { TerritoryFields, Param } from 'classes'
 
@@ -91,37 +85,6 @@ function* getTerritories({
   }
 }
 
-function* getRegions(): Generator {
-  try {
-    const res: any = yield call(callApiGet, `utils/regions`)
-    yield put(territoryActions.getRegionsSuccess(res.data))
-  } catch (err) {
-    if (err && err.response) {
-      yield put(territoryActions.getRegionsFailure(err.response.data))
-    } else {
-      throw err
-    }
-  }
-}
-
-function* googleDirection({
-  payload
-}: {
-  type: string
-  payload: any
-}): Generator {
-  try {
-    const res: any = yield call(callGoogleDirection, payload)
-    if (res.status === 'OK') {
-      yield put(territoryActions.googleDirectionSuccess(res))
-    } else {
-      yield put(territoryActions.googleDirectionFailure(res))
-    }
-  } catch (err) {
-    yield put(territoryActions.googleDirectionFailure(err))
-  }
-}
-
 function* watchAddTerritory() {
   yield takeEvery(ActionTypes.ADD_TERRITORY_REQUEST, addTerritory)
 }
@@ -138,22 +101,12 @@ function* watchGetTerritories() {
   yield takeEvery(ActionTypes.GET_TERRITORY_REQUEST, getTerritories)
 }
 
-function* watchGetRegions() {
-  yield takeEvery(ActionTypes.GET_REGIONS_REQUEST, getRegions)
-}
-
-function* watchGoogleDirection() {
-  yield takeEvery(ActionTypes.GOOGLE_DIRECTION_REQUEST, googleDirection)
-}
-
 function* territorySaga(): Generator {
   yield all([
     fork(watchAddTerritory),
     fork(watchUpdateTerritory),
     fork(watchDeleteTerritory),
-    fork(watchGetTerritories),
-    fork(watchGetRegions),
-    fork(watchGoogleDirection)
+    fork(watchGetTerritories)
   ])
 }
 

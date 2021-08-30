@@ -22,6 +22,7 @@ export default function defineAbilityFor() {
         can('read', abilities.Products)
         can('read', abilities.Stock)
         can('read', abilities.Territories)
+        can('read', abilities.Outlets)
         break
       case userRoles.agent:
         cannot('read', abilities.Home)

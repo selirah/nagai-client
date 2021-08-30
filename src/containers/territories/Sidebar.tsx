@@ -17,6 +17,7 @@ const { setActiveLink, setQueryParams, getTerritoryRequest } = territoryActions
 const Sidebar: React.FC<Props> = (props) => {
   const { mainSidebar } = props
   const store = Selector((state) => state.territories)
+  const utils = Selector((state) => state.utils)
   const [active, setActive] = useState(store.activeLink)
   const dispatch: Dispatch = useDispatch()
 
@@ -99,13 +100,13 @@ const Sidebar: React.FC<Props> = (props) => {
                 <h6 className="section-label mb-1">Group by category</h6>
                 <Grid size={14} />
               </div>
-              {store.regions.length ? (
+              {utils.regions.length ? (
                 <PerfectScrollbar
                   className="sidebar-menu-list"
                   options={{ wheelPropagation: false }}
                 >
                   <ListGroup className="list-group-labels">
-                    {store.regions.map((r, i) => (
+                    {utils.regions.map((r, i) => (
                       <ListGroupItem
                         active={active === `${r.id}`}
                         className="d-flex align-items-center"

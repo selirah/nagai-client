@@ -10,11 +10,11 @@ import { Territory } from 'classes'
 import { toast, Slide } from 'react-toastify'
 import ToastBox from 'components/ToastBox'
 import { AlertTriangle } from 'react-feather'
-import territoryActions from 'redux/terrirtories/actions'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
+import utilsActions from 'redux/utils/actions'
 
-const { googleDirectionRequest } = territoryActions
+const { googleDirectionRequest } = utilsActions
 
 const center = {
   lat: 6.700071,
@@ -133,8 +133,8 @@ const Map: React.FC<MapProps> = (props) => {
     lng: -1.630783
   })
   const dispatch: Dispatch = useDispatch()
-  const store = Selector((state) => state.territories)
-  const [direction, setDirection] = useState(store.direction)
+  const utils = Selector((state) => state.utils)
+  const [direction, setDirection] = useState(utils.direction)
 
   const icon = {
     url:
@@ -192,7 +192,7 @@ const Map: React.FC<MapProps> = (props) => {
   }
 
   useEffect(() => {
-    const { direction, errors } = store
+    const { direction, errors } = utils
     setDirection(direction)
 
     if (errors) {
@@ -211,7 +211,7 @@ const Map: React.FC<MapProps> = (props) => {
         }
       )
     }
-  }, [store])
+  }, [utils])
 
   const onShowDirection = useCallback(
     (territory: Territory) => {

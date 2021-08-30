@@ -15,11 +15,8 @@ export const initialState: TerritoryState = {
     skip: 0,
     region: 0
   },
-  regions: [],
   territories: [],
-  territory: null,
-  direction: null,
-  loadingDirection: false
+  territory: null
 }
 
 const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
@@ -121,9 +118,7 @@ const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
         errors: initialState.errors,
         isDeleted: initialState.isDeleted,
         isSubmitting: initialState.isSubmitting,
-        loading: initialState.loading,
-        loadingDirection: initialState.loadingDirection,
-        direction: initialState.direction
+        loading: initialState.loading
       }
 
     case ActionTypes.SET_ACTIVE_LINK:
@@ -142,41 +137,6 @@ const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
       return {
         ...state,
         params: action.payload
-      }
-
-    case ActionTypes.GET_REGIONS_REQUEST:
-      return {
-        ...state
-      }
-
-    case ActionTypes.GET_REGIONS_SUCCESS:
-      return {
-        ...state,
-        regions: action.payload
-      }
-
-    case ActionTypes.GET_REGIONS_FAILURE:
-      return {
-        ...state,
-        errors: action.payload
-      }
-
-    case ActionTypes.GOOGLE_DIRECTION_REQUEST:
-      return {
-        ...state,
-        loadingDirection: true
-      }
-    case ActionTypes.GOOGLE_DIRECTION_SUCCESS:
-      return {
-        ...state,
-        loadingGoogleRoute: initialState.loadingDirection,
-        direction: action.payload
-      }
-    case ActionTypes.GOOGLE_DIRECTION_FAILURE:
-      return {
-        ...state,
-        loadingGoogleRoute: initialState.loadingDirection,
-        error: action.payload
       }
 
     default:

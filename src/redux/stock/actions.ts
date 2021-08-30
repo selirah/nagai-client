@@ -1,12 +1,5 @@
 import { action } from 'typesafe-actions'
-import {
-  StockObj,
-  Stock,
-  StockFields,
-  Param,
-  Unit,
-  StockTrailObj
-} from 'classes'
+import { StockObj, Stock, StockFields, Param, StockTrailObj } from 'classes'
 import { ActionTypes } from './types'
 
 const stockActions = {
@@ -50,12 +43,6 @@ const stockActions = {
 
   setQueryParams: (params: Param) =>
     action(ActionTypes.SET_QUERY_PARAMS, params),
-
-  getUnitRequest: () => action(ActionTypes.GET_UNIT_REQUEST),
-
-  getUnitSuccess: (data: Unit[]) => action(ActionTypes.GET_UNIT_SUCCESS, data),
-
-  getUnitFailure: (error: any) => action(ActionTypes.GET_UNIT_FAILURE, error),
 
   getStockTrailsRequest: (params: Param) =>
     action(ActionTypes.GET_STOCK_TRAILS_REQUEST, params),

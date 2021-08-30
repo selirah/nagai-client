@@ -70,6 +70,12 @@ const HorizontalNavigation = [
     title: 'Payments',
     icon: <Icons.BookOpen size={20} />,
     navLink: PRIVATE_ROUTES.PAYMENTS
+  },
+  {
+    id: 'users',
+    title: 'Users',
+    icon: <Icons.Users size={20} />,
+    navLink: PRIVATE_ROUTES.USERS
   }
 ]
 

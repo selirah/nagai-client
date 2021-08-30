@@ -10,12 +10,12 @@ import {
 import { MapStylesDarkMode } from 'components/MapStyles'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import territoryActions from 'redux/terrirtories/actions'
 import { toast, Slide } from 'react-toastify'
 import ToastBox from 'components/ToastBox'
 import { AlertTriangle } from 'react-feather'
+import utilsActions from 'redux/utils/actions'
 
-const { googleDirectionRequest, clearStates } = territoryActions
+const { googleDirectionRequest, clearStates } = utilsActions
 
 const center = {
   lat: 6.700071,
@@ -133,8 +133,8 @@ const Location: React.FC<LocationProps> = (props) => {
     lat: 6.700071,
     lng: -1.630783
   })
-  const store = Selector((state) => state.territories)
-  const [direction, setDirection] = useState(store.direction)
+  const utils = Selector((state) => state.utils)
+  const [direction, setDirection] = useState(utils.direction)
 
   const icon = {
     url:
@@ -176,7 +176,7 @@ const Location: React.FC<LocationProps> = (props) => {
   }, [])
 
   useEffect(() => {
-    const { direction, errors } = store
+    const { direction, errors } = utils
     setDirection(direction)
 
     if (errors) {
@@ -195,7 +195,7 @@ const Location: React.FC<LocationProps> = (props) => {
         }
       )
     }
-  }, [store])
+  }, [utils])
 
   const onLoadMap = useCallback((map) => {
     mapRef.current = map

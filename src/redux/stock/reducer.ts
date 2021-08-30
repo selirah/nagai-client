@@ -18,7 +18,6 @@ export const initialState: StockState = {
   },
   stk: null,
   stock: [],
-  units: [],
   stockTrails: [],
   stockTrailsCount: 0,
   stockTrailsParams: {
@@ -149,23 +148,6 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
       return {
         ...state,
         params: action.payload
-      }
-
-    case ActionTypes.GET_UNIT_REQUEST:
-      return {
-        ...state
-      }
-
-    case ActionTypes.GET_UNIT_SUCCESS:
-      return {
-        ...state,
-        units: action.payload
-      }
-
-    case ActionTypes.GET_UNIT_FAILURE:
-      return {
-        ...state,
-        errors: action.payload
       }
 
     case ActionTypes.GET_STOCK_TRAILS_REQUEST:

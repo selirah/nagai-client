@@ -8,7 +8,7 @@ import { LocaleWrapper } from 'contexts/i18n'
 import { PUBLIC_ROUTES } from 'router/constants'
 import { authorization } from 'utils/authorization'
 import authActions from 'redux/auth/actions'
-import { getItem, removeItem, removeAll } from 'utils/localstorage'
+import { getItem, removeItem } from 'utils/localstorage'
 import { User } from 'classes'
 import jwtDecode from 'jwt-decode'
 import { AbilityContext } from 'contexts/Can'
@@ -59,7 +59,6 @@ if (token) {
     removeItem('user')
     removeItem('token')
     removeItem('persist:root')
-    removeAll()
     window.location.href = PUBLIC_ROUTES.SIGN_IN
   }
 }

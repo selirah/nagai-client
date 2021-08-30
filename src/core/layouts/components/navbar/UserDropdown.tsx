@@ -13,7 +13,7 @@ import {
 } from 'reactstrap'
 import { LogOut, Settings, UserCheck } from 'react-feather'
 import defaultAvatar from 'assets/images/avatars/avatar.png'
-import { removeAll } from 'utils/localstorage'
+import { removeItem } from 'utils/localstorage'
 import { PUBLIC_ROUTES } from 'router/constants'
 
 const { logout } = authActions
@@ -25,7 +25,9 @@ const UserDropdown = () => {
   const userAvatar = (store.user && store.user.avatar) || defaultAvatar
 
   const onLogoutUser = useCallback(() => {
-    removeAll()
+    removeItem('user')
+    removeItem('token')
+    removeItem('persist:root')
     dispatch(logout())
   }, [dispatch])
 

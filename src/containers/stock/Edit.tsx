@@ -50,6 +50,7 @@ const Edit = () => {
   const dispatch: Dispatch = useDispatch()
   const { id } = useParams<QueryParam>()
   const store = Selector((state) => state.stock)
+  const utils = Selector((state) => state.utils)
   const productStore = Selector((state) => state.products)
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
@@ -116,7 +117,7 @@ const Edit = () => {
 
   const unitOptions: OptionKey[] = []
 
-  store.units.map((u) => {
+  utils.units.map((u) => {
     unitOptions.push({
       value: `${u.description}`,
       label: `${u.description}`

@@ -55,6 +55,7 @@ const Edit = () => {
   const dispatch: Dispatch = useDispatch()
   const { id } = useParams<QueryParam>()
   const store = Selector((state) => state.territories)
+  const utils = Selector((state) => state.utils)
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
   const [err, setErr] = useState(null)
@@ -120,7 +121,7 @@ const Edit = () => {
   }, [store, history])
 
   const regionOptions: OptionKey[] = []
-  store.regions.map((r) => {
+  utils.regions.map((r) => {
     regionOptions.push({
       value: `${r.id}`,
       label: r.region

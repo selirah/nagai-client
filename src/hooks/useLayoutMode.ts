@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react'
 import themeConfig from 'theme/themeConfig'
 import { useDispatch } from 'react-redux'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { /*Selector,*/ Dispatch } from 'redux/selector-dispatch'
 import layoutActions from 'redux/layout/actions'
 
 const { handleLayoutMode } = layoutActions
 
 export const useLayoutMode = () => {
   const dispatch: Dispatch = useDispatch()
-  const { mode } = Selector((state) => state.layout)
+  // const { mode } = Selector((state) => state.layout)
   const [layoutMode, setLayoutMode] = useState<any>(() => {
     try {
-      return mode ? mode : themeConfig.layout.mode
+      const skin = window.localStorage.getItem('mode')
+      return skin ? JSON.parse(skin) : themeConfig.layout.mode
     } catch (error) {
       console.log(error)
     }
@@ -22,6 +23,7 @@ export const useLayoutMode = () => {
       const valueToStore = value instanceof Function ? value(layoutMode) : value
       setLayoutMode(valueToStore)
       dispatch(handleLayoutMode(valueToStore))
+      window.localStorage.setItem('mode', JSON.stringify(valueToStore))
     } catch (error) {
       console.log(error)
     }

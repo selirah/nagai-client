@@ -50,6 +50,7 @@ const validateSchema = Yup.object().shape({
 const Add = () => {
   const dispatch: Dispatch = useDispatch()
   const store = Selector((state) => state.territories)
+  const utils = Selector((state) => state.utils)
   const [values] = useState<Fields>({
     regionId: '',
     locality: '',
@@ -107,7 +108,7 @@ const Add = () => {
   }, [store, history])
 
   const regionOptions: OptionKey[] = []
-  store.regions.map((r) => {
+  utils.regions.map((r) => {
     regionOptions.push({
       value: `${r.id}`,
       label: r.region

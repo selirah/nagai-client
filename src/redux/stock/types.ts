@@ -1,4 +1,4 @@
-import { Stock, Param, Unit, StockTrail } from 'classes'
+import { Stock, Param, StockTrail } from 'classes'
 
 export enum ActionTypes {
   SUBMITTING = '@@stock/SUBMITTING',
@@ -21,9 +21,6 @@ export enum ActionTypes {
   SET_ACTIVE_LINK = '@@stock/SET_ACTIVE_LINK',
   SET_STOCK = '@@stock/SET_STOCK',
   SET_QUERY_PARAMS = '@@stock/SET_QUERY_PARAMS',
-  GET_UNIT_REQUEST = '@@stock/GET_UNIT_REQUEST',
-  GET_UNIT_SUCCESS = '@@stock/GET_UNIT_SUCCESS',
-  GET_UNIT_FAILURE = '@@stock/GET_UNIT_FAILURE',
   GET_STOCK_TRAILS_REQUEST = '@@stock/GET_STOCK_TRAILS_REQUEST',
   GET_STOCK_TRAILS_SUCCESS = '@@stock/GET_STOCK_TRAILS_SUCCESS',
   GET_STOCK_TRAILS_FAILURE = '@@stock/GET_STOCK_TRAILS_FAILURE',
@@ -42,7 +39,6 @@ export type StockState = {
   readonly stk: Stock | null
   readonly params: Param
   readonly count: number
-  readonly units: Unit[]
   readonly stockTrails: StockTrail[]
   readonly stockTrailsParams: Param
   readonly stockTrailsCount: number

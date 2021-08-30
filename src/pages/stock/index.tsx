@@ -7,14 +7,14 @@ import 'core/scss/react/apps/app-todo.scss'
 import { useDispatch } from 'react-redux'
 import { Dispatch, Selector } from 'redux/selector-dispatch'
 import { isEmpty } from 'utils'
-import stockActions from 'redux/stock/actions'
+import utilsActions from 'redux/utils/actions'
 
-const { getUnitRequest } = stockActions
+const { getUnitRequest } = utilsActions
 
 const Stock = () => {
   const [mainSidebar, setMainSidebar] = useState(false)
   const dispatch: Dispatch = useDispatch()
-  const { units } = Selector((state) => state.stock)
+  const { units } = Selector((state) => state.utils)
 
   useEffect(() => {
     if (isEmpty(units)) {

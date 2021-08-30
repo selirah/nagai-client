@@ -49,6 +49,7 @@ const Add = () => {
   const { id } = useParams<QueryParam>()
   const dispatch: Dispatch = useDispatch()
   const store = Selector((state) => state.stock)
+  const utils = Selector((state) => state.utils)
   const productStore = Selector((state) => state.products)
   const [values] = useState<StockFields>({
     id: '',
@@ -109,7 +110,7 @@ const Add = () => {
 
   const unitOptions: OptionKey[] = []
 
-  store.units.map((u) => {
+  utils.units.map((u) => {
     unitOptions.push({
       value: `${u.description}`,
       label: `${u.description}`

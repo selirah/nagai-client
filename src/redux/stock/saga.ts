@@ -80,19 +80,6 @@ function* getStock({ payload }: { type: string; payload: Param }): Generator {
   }
 }
 
-function* getUnits(): Generator {
-  try {
-    const res: any = yield call(callApiGet, `utils/units`)
-    yield put(stockActions.getUnitSuccess(res.data))
-  } catch (err) {
-    if (err && err.response) {
-      yield put(stockActions.getUnitFailure(err.response.data))
-    } else {
-      throw err
-    }
-  }
-}
-
 function* getStockTrails({
   payload
 }: {
@@ -130,10 +117,6 @@ function* watchGetStock() {
   yield takeEvery(ActionTypes.GET_STOCK_REQUEST, getStock)
 }
 
-function* watchGetUnits() {
-  yield takeEvery(ActionTypes.GET_UNIT_REQUEST, getUnits)
-}
-
 function* watchGetStockTrails() {
   yield takeEvery(ActionTypes.GET_STOCK_TRAILS_REQUEST, getStockTrails)
 }
@@ -144,7 +127,6 @@ function* stockSaga(): Generator {
     fork(watchUpdateStock),
     fork(watchDeleteStock),
     fork(watchGetStock),
-    fork(watchGetUnits),
     fork(watchGetStockTrails)
   ])
 }
