@@ -1,4 +1,6 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useRef, useCallback, useState, useEffect } from 'react'
+import { Territory } from 'classes'
+import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
 import {
   GoogleMap,
   Marker,
@@ -6,15 +8,14 @@ import {
   DirectionsRenderer
 } from '@react-google-maps/api'
 import { MapStylesDarkMode } from 'components/MapStyles'
-import { Territory } from 'classes'
+import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { useDispatch } from 'react-redux'
+import territoryActions from 'redux/terrirtories/actions'
 import { toast, Slide } from 'react-toastify'
 import ToastBox from 'components/ToastBox'
 import { AlertTriangle } from 'react-feather'
-import territoryActions from 'redux/terrirtories/actions'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import { useDispatch } from 'react-redux'
 
-const { googleDirectionRequest } = territoryActions
+const { googleDirectionRequest, clearStates } = territoryActions
 
 const center = {
   lat: 6.700071,
@@ -32,11 +33,9 @@ const polylineOptions = {
   strokeWeight: 4
 }
 
-interface MapProps {
-  mode: string
-  territories: Territory[]
-  onLoadMap: (map: any) => void
-  mapRef: any
+interface LocationProps {
+  theme: string
+  territory: Territory
 }
 
 interface Props {
@@ -126,19 +125,20 @@ const MapInfoWindow: React.FC<Props> = (props) => {
   )
 }
 
-const Map: React.FC<MapProps> = (props) => {
-  const { mode, territories, onLoadMap, mapRef } = props
+const Location: React.FC<LocationProps> = (props) => {
+  const { theme, territory } = props
+  const dispatch: Dispatch = useDispatch()
+  const mapRef = useRef<any>()
   const [myPosition, setMyPosition] = useState({
     lat: 6.700071,
     lng: -1.630783
   })
-  const dispatch: Dispatch = useDispatch()
   const store = Selector((state) => state.territories)
   const [direction, setDirection] = useState(store.direction)
 
   const icon = {
     url:
-      mode === 'dark'
+      theme === 'dark'
         ? require('assets/images/icons/manMarkerDark.png').default
         : require('assets/images/icons/manMarkerLight.png').default,
     scaledSize: new google.maps.Size(30, 30),
@@ -147,6 +147,8 @@ const Map: React.FC<MapProps> = (props) => {
   }
 
   useEffect(() => {
+    dispatch(clearStates())
+    onLoadMarker(territory)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) =>
         setMyPosition({
@@ -173,24 +175,6 @@ const Map: React.FC<MapProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const options = {
-    styles: mode === 'dark' ? MapStylesDarkMode : null,
-    disableDefaultUI: false,
-    zoomControl: false
-  }
-
-  if (territories.length && mapRef.current !== undefined) {
-    let bounds: any = new google.maps.LatLngBounds()
-    territories.map((t) => {
-      bounds.extend({
-        lat: t.coordinates.lat,
-        lng: t.coordinates.lng
-      })
-      return bounds
-    })
-    mapRef.current.fitBounds(bounds)
-  }
-
   useEffect(() => {
     const { direction, errors } = store
     setDirection(direction)
@@ -213,6 +197,36 @@ const Map: React.FC<MapProps> = (props) => {
     }
   }, [store])
 
+  const onLoadMap = useCallback((map) => {
+    mapRef.current = map
+  }, [])
+
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng })
+    mapRef.current.setZoom(14)
+  }, [])
+
+  const onLoadMarker = useCallback(
+    (territory: Territory) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          panTo({
+            lat: territory.coordinates.lat,
+            lng: territory.coordinates.lng
+          })
+        },
+        () => null
+      )
+    },
+    [panTo]
+  )
+
+  const options = {
+    styles: theme === 'dark' ? MapStylesDarkMode : null,
+    disableDefaultUI: false,
+    zoomControl: false
+  }
+
   const onShowDirection = useCallback(
     (territory: Territory) => {
       const directionsService = new google.maps.DirectionsService()
@@ -233,35 +247,44 @@ const Map: React.FC<MapProps> = (props) => {
   )
 
   return (
-    <GoogleMap
-      mapContainerStyle={mapContainerStyle}
-      center={center}
-      zoom={8}
-      onLoad={onLoadMap}
-      options={options}
-    >
-      {territories.length
-        ? territories.map((t) => (
+    <Card className="border">
+      <CardHeader>
+        <CardTitle>Location on map</CardTitle>
+      </CardHeader>
+      <CardBody>
+        <hr className="m-0 mb-2" />
+        <div className="d-flex justify-content-between align-items-center text-left">
+          <GoogleMap
+            mapContainerStyle={mapContainerStyle}
+            center={center}
+            zoom={8}
+            onLoad={onLoadMap}
+            options={options}
+          >
             <MapMarker
-              key={t.id}
-              territory={t}
-              mode={mode}
+              territory={territory}
+              mode={theme}
               onShowDirection={onShowDirection}
             />
-          ))
-        : null}
-      <Marker position={myPosition} title="My Current Location" icon={icon} />
-      {direction ? (
-        <DirectionsRenderer
-          options={{
-            directions: direction,
-            polylineOptions: polylineOptions,
-            suppressMarkers: true
-          }}
-        />
-      ) : null}
-    </GoogleMap>
+            <Marker
+              position={myPosition}
+              title="My Current Location"
+              icon={icon}
+            />
+            {direction ? (
+              <DirectionsRenderer
+                options={{
+                  directions: direction,
+                  polylineOptions: polylineOptions,
+                  suppressMarkers: true
+                }}
+              />
+            ) : null}
+          </GoogleMap>
+        </div>
+      </CardBody>
+    </Card>
   )
 }
 
-export default Map
+export default Location

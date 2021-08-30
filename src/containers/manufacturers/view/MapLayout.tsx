@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useRef,
-  useCallback,
-  useState,
-  useEffect
-} from 'react'
+import React, { useRef, useCallback, useState, useEffect } from 'react'
 import { Manufacturer } from 'classes'
 import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api'
@@ -140,28 +134,26 @@ const MapLayout: React.FC<Props> = (props) => {
   }, [])
 
   return (
-    <Fragment>
-      <Card className="border">
-        <CardHeader>
-          <CardTitle>Address</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <hr className="m-0 mb-2" />
-          <div className="d-flex justify-content-between align-items-center text-left">
-            <GoogleMap
-              mapContainerStyle={mapContainerStyle}
-              center={center}
-              zoom={14}
-              onLoad={onLoadMap}
-              options={options}
-            >
-              <MapMarker manufacturer={manufacturer} mode={mode} />
-            </GoogleMap>
-          </div>
-          <hr className="m-0 mb-2" />
-        </CardBody>
-      </Card>
-    </Fragment>
+    <Card className="border">
+      <CardHeader>
+        <CardTitle>Address</CardTitle>
+      </CardHeader>
+      <CardBody>
+        <hr className="m-0 mb-2" />
+        <div className="d-flex justify-content-between align-items-center text-left">
+          <GoogleMap
+            mapContainerStyle={mapContainerStyle}
+            center={center}
+            zoom={14}
+            onLoad={onLoadMap}
+            options={options}
+          >
+            <MapMarker manufacturer={manufacturer} mode={mode} />
+          </GoogleMap>
+        </div>
+        <hr className="m-0 mb-2" />
+      </CardBody>
+    </Card>
   )
 }
 

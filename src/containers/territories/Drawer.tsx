@@ -21,7 +21,11 @@ const ModalHeader: React.FC<{
     <div className="modal-header d-flex align-items-center justify-content-between mb-1">
       <h5 className="modal-title">{children}</h5>
       <div className="todo-item-action d-flex align-items-center">
-        <RippleButton color="info" tag={Link} to={`/admin/stock/edit/${id}`}>
+        <RippleButton
+          color="info"
+          tag={Link}
+          to={`/admin/territories/edit/${id}`}
+        >
           Edit <Edit3 className="font-weight-normal ml-2" size={12} />
         </RippleButton>
         <span className="todo-item-favorite cursor-pointer mx-75"></span>

@@ -1,4 +1,4 @@
-import { Territory } from 'classes'
+import { Territory, Region } from 'classes'
 
 export type Outlet = {
   id: number
@@ -11,7 +11,7 @@ export type Outlet = {
   locality: string
   subLocality: string
   landmark: string
-  region: string
+  region: Region
   photo: string
   coordinates: {
     lat: number

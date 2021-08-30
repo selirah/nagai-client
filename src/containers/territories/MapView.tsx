@@ -18,7 +18,7 @@ const MapView = () => {
 
   useEffect(() => {
     const { params } = store
-    params.region = 2 // set to Ashanti region
+    params.region = 7 // set to Greater accra region
     params.query = ''
     dispatch(setQueryParams(params))
     dispatch(getTerritoryRequest(params))
