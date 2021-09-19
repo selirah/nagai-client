@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
-import { TerritoryState, ActionTypes } from './types'
+import { OutletState, ActionTypes } from './types'
 
-export const initialState: TerritoryState = {
+export const initialState: OutletState = {
   activeLink: 'list',
   count: 0,
   errors: null,
@@ -10,20 +10,19 @@ export const initialState: TerritoryState = {
   isSubmitting: false,
   isSucceeded: false,
   loading: false,
+  outlet: null,
+  outlets: [],
   params: {
     page: 10,
     skip: 0,
-    region: 7,
+    territory: 0,
     query: ''
-  },
-  territories: [],
-  territory: null,
-  searchedTerritories: []
+  }
 }
 
-const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
+const reducer: Reducer<OutletState> = (state = initialState, action) => {
   switch (action.type) {
-    case ActionTypes.ADD_TERRITORY_REQUEST:
+    case ActionTypes.ADD_OUTLETS_REQUEST:
       return {
         ...state,
         isSubmitting: true,
@@ -31,14 +30,14 @@ const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.ADD_TERRITORY_SUCCESS:
+    case ActionTypes.ADD_OUTLETS_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         isSucceeded: true
       }
 
-    case ActionTypes.ADD_TERRITORY_FAILURE:
+    case ActionTypes.ADD_OUTLETS_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -46,7 +45,7 @@ const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.UPDATE_TERRITORY_REQUEST:
+    case ActionTypes.UPDATE_OUTLETS_REQUEST:
       return {
         ...state,
         isSubmitting: true,
@@ -54,14 +53,14 @@ const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.UPDATE_TERRITORY_SUCCESS:
+    case ActionTypes.UPDATE_OUTLETS_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         isSucceeded: true
       }
 
-    case ActionTypes.UPDATE_TERRITORY_FAILURE:
+    case ActionTypes.UPDATE_OUTLETS_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -69,22 +68,22 @@ const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.DELETE_TERRITORY_REQUEST:
+    case ActionTypes.DELETE_OUTLETS_REQUEST:
       return {
         ...state,
         errors: initialState.errors,
         isDeleted: initialState.isDeleted
       }
 
-    case ActionTypes.DELETE_TERRITORY_SUCCESS:
+    case ActionTypes.DELETE_OUTLETS_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        territories: state.territories.filter((t) => t.id !== action.payload),
+        outlets: state.outlets.filter((o) => o.id !== action.payload),
         isDeleted: true
       }
 
-    case ActionTypes.DELETE_TERRITORY_FAILURE:
+    case ActionTypes.DELETE_OUTLETS_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -92,21 +91,21 @@ const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
         isDeleted: initialState.isDeleted
       }
 
-    case ActionTypes.GET_TERRITORY_REQUEST:
+    case ActionTypes.GET_OUTLETS_REQUEST:
       return {
         ...state,
         loading: true
       }
 
-    case ActionTypes.GET_TERRITORY_SUCCESS:
+    case ActionTypes.GET_OUTLETS_SUCCESS:
       return {
         ...state,
         loading: initialState.loading,
-        territories: action.payload.territories,
+        outlets: action.payload.outlets,
         count: action.payload.count
       }
 
-    case ActionTypes.GET_TERRITORY_FAILURE:
+    case ActionTypes.GET_OUTLETS_FAILURE:
       return {
         ...state,
         loading: initialState.loading,
@@ -129,10 +128,10 @@ const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
         activeLink: action.payload
       }
 
-    case ActionTypes.SET_TERRITORY:
+    case ActionTypes.SET_OUTLET:
       return {
         ...state,
-        territory: action.payload
+        outlet: action.payload
       }
 
     case ActionTypes.SET_QUERY_PARAMS:
@@ -141,35 +140,9 @@ const reducer: Reducer<TerritoryState> = (state = initialState, action) => {
         params: action.payload
       }
 
-    case ActionTypes.GET_TERRITORIES_SEARCH_REQUEST:
-      return {
-        ...state,
-        loading: true
-      }
-
-    case ActionTypes.GET_TERRITORIES_SEARCH_SUCCESS:
-      return {
-        ...state,
-        loading: initialState.loading,
-        searchedTerritories: action.payload
-      }
-
-    case ActionTypes.GET_TERRITORIES_SEARCH_FAILURE:
-      return {
-        ...state,
-        loading: initialState.loading,
-        error: action.payload
-      }
-
-    case ActionTypes.CLEAR_SEARCHED_TERRITORIES:
-      return {
-        ...state,
-        searchedTerritories: initialState.searchedTerritories
-      }
-
     default:
       return state
   }
 }
 
-export { reducer as territoryReducer }
+export { reducer as outletReducer }

@@ -19,6 +19,20 @@ export enum ActionTypes {
   EXPORT_OUTLETS_FAILURE = '@@outlets/EXPORT_OUTLETS_FAILURE',
   CLEAR_STATES = '@@outlets/CLEAR_STATES',
   SET_ACTIVE_LINK = '@@outlets/SET_ACTIVE_LINK',
-  SET_TERRITORY = '@@outlets/SET_TERRITORY',
+  SET_OUTLET = '@@outlets/SET_OUTLET',
   SET_QUERY_PARAMS = '@@outlets/SET_QUERY_PARAMS'
+}
+
+export type OutletState = {
+  readonly isSubmitting: boolean
+  readonly errors: any
+  readonly outlets: Outlet[]
+  readonly loading: boolean
+  readonly isExporting: boolean
+  readonly isSucceeded: boolean
+  readonly activeLink: string
+  readonly isDeleted: boolean
+  readonly outlet: Outlet | null
+  readonly params: Param
+  readonly count: number
 }

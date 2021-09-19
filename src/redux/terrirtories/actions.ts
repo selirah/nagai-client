@@ -45,7 +45,18 @@ const territoryActions = {
     action(ActionTypes.SET_TERRITORY, territory),
 
   setQueryParams: (params: Param) =>
-    action(ActionTypes.SET_QUERY_PARAMS, params)
+    action(ActionTypes.SET_QUERY_PARAMS, params),
+
+  getSearchedTerritoriesRequest: (query: string) =>
+    action(ActionTypes.GET_TERRITORIES_SEARCH_REQUEST, query),
+
+  getSearchedTerritoriesSuccess: (data: Territory[]) =>
+    action(ActionTypes.GET_TERRITORIES_SEARCH_SUCCESS, data),
+
+  getSearchedTerritoriesFailure: (error: any) =>
+    action(ActionTypes.GET_TERRITORIES_SEARCH_FAILURE, error),
+
+  clearSearchedTerritories: () => action(ActionTypes.CLEAR_SEARCHED_TERRITORIES)
 }
 
 export default territoryActions

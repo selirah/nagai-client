@@ -15,7 +15,7 @@ function* addProduct({
     if (res.status === 201) {
       yield put(productActions.addProductSuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(productActions.addProductFailure(err.response.data))
     } else {
@@ -35,7 +35,7 @@ function* updateProduct({
     if (res.status === 200) {
       yield put(productActions.updateProductSuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(productActions.updateProductFailure(err.response.data))
     } else {
@@ -55,7 +55,7 @@ function* deleteProduct({
     if (res.status === 200) {
       yield put(productActions.deleteProductSuccess(payload))
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(productActions.deleteProductFailure(err.response.data))
     } else {
@@ -76,7 +76,7 @@ function* getProducts({
       `products?page=${payload.page}&skip=${payload.skip}&category=${payload.category}&manufacturer=${payload.manufacturer}&query=${payload.query}`
     )
     yield put(productActions.getProductsSuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(productActions.getProductsFailure(err.response.data))
     } else {
@@ -97,7 +97,7 @@ function* getStockTrails({
       `stock-trails/product/${payload.id}?page=${payload.page}&skip=${payload.skip}&fromDate=${payload.fromDate}&toDate=${payload.toDate}`
     )
     yield put(productActions.getStockTrailsSuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(productActions.getStockTrailsFailure(err.response.data))
     } else {
@@ -115,7 +115,7 @@ function* getSearchedProducts({
   try {
     const res: any = yield call(callApiGet, `products/search?q=${payload}`)
     yield put(productActions.getSearchedProductsSuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(productActions.getSearchedProductsFailure(err.response.data))
     } else {

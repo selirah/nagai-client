@@ -6,6 +6,7 @@ import productsSaga from './products/saga'
 import stockSaga from './stock/saga'
 import territorySaga from './terrirtories/saga'
 import utilsSaga from './utils/saga'
+import outletSaga from './outlets/saga'
 
 export function* rootSaga(): Generator {
   yield all([
@@ -15,6 +16,7 @@ export function* rootSaga(): Generator {
     fork(productsSaga),
     fork(stockSaga),
     fork(territorySaga),
-    fork(utilsSaga)
+    fork(utilsSaga),
+    fork(outletSaga)
   ])
 }

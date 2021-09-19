@@ -15,7 +15,7 @@ function* addCategory({
     if (res.status === 201) {
       yield put(categoriesActions.addCategorySuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(categoriesActions.addCategoryFailure(err.response.data))
     } else {
@@ -35,7 +35,7 @@ function* updateCategory({
     if (res.status === 200) {
       yield put(categoriesActions.updateCategorySuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(categoriesActions.updateCategoryFailure(err.response.data))
     } else {
@@ -55,7 +55,7 @@ function* deleteCategory({
     if (res.status === 200) {
       yield put(categoriesActions.deleteCategorySuccess(payload))
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(categoriesActions.deleteCategoryFailure(err.response.data))
     } else {
@@ -68,7 +68,7 @@ function* getCategories(): Generator {
   try {
     const res: any = yield call(callApiGet, 'categories')
     yield put(categoriesActions.getCategoriesSuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(categoriesActions.getCategoriesFailure(err.response.data))
     } else {

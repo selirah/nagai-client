@@ -34,18 +34,12 @@ const Outlets: React.FC<Props> = (props) => {
       },
       {
         id: 4,
-        name: 'Region',
-        sortable: true,
-        selector: (row: Outlet) => row.region.region
-      },
-      {
-        id: 5,
         name: 'Lat',
         sortable: true,
         selector: (row: Outlet) => row.coordinates.lat
       },
       {
-        id: 6,
+        id: 5,
         name: 'Lng',
         sortable: true,
         selector: (row: Outlet) => row.coordinates.lng

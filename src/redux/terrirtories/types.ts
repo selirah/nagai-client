@@ -20,7 +20,11 @@ export enum ActionTypes {
   CLEAR_STATES = '@@territories/CLEAR_STATES',
   SET_ACTIVE_LINK = '@@territories/SET_ACTIVE_LINK',
   SET_TERRITORY = '@@territories/SET_TERRITORY',
-  SET_QUERY_PARAMS = '@@territories/SET_QUERY_PARAMS'
+  SET_QUERY_PARAMS = '@@territories/SET_QUERY_PARAMS',
+  GET_TERRITORIES_SEARCH_REQUEST = '@@territories/GET_TERRITORIES_SEARCH_REQUEST',
+  GET_TERRITORIES_SEARCH_SUCCESS = '@@territories/GET_TERRITORIES_SEARCH_SUCCESS',
+  GET_TERRITORIES_SEARCH_FAILURE = '@@territories/GET_TERRITORIES_SEARCH_FAILURE',
+  CLEAR_SEARCHED_TERRITORIES = '@@territories/CLEAR_SEARCHED_TERRITORIES'
 }
 
 export type TerritoryState = {
@@ -35,4 +39,5 @@ export type TerritoryState = {
   readonly territory: Territory | null
   readonly params: Param
   readonly count: number
+  readonly searchedTerritories: Territory[]
 }

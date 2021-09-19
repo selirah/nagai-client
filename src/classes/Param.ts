@@ -8,4 +8,5 @@ export type Param = {
   category?: number
   manufacturer?: number
   region?: number
+  territory?: number
 }

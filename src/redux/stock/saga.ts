@@ -15,7 +15,7 @@ function* addStock({
     if (res.status === 201) {
       yield put(stockActions.addStockSuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(stockActions.addStockFailure(err.response.data))
     } else {
@@ -35,7 +35,7 @@ function* updateStock({
     if (res.status === 200) {
       yield put(stockActions.updateStockSuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(stockActions.updateStockFailure(err.response.data))
     } else {
@@ -55,7 +55,7 @@ function* deleteStock({
     if (res.status === 200) {
       yield put(stockActions.deleteStockSuccess(payload))
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(stockActions.deleteStockFailure(err.response.data))
     } else {
@@ -71,7 +71,7 @@ function* getStock({ payload }: { type: string; payload: Param }): Generator {
       `stock?page=${payload.page}&skip=${payload.skip}&query=${payload.query}&fromDate=${payload.fromDate}&toDate=${payload.toDate}`
     )
     yield put(stockActions.getStockSuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(stockActions.getStockFailure(err.response.data))
     } else {
@@ -92,7 +92,7 @@ function* getStockTrails({
       `stock-trails/${payload.id}?page=${payload.page}&skip=${payload.skip}&fromDate=${payload.fromDate}&toDate=${payload.toDate}`
     )
     yield put(stockActions.getStockTrailsSuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(stockActions.getStockTrailsFailure(err.response.data))
     } else {

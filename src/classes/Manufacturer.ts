@@ -22,8 +22,8 @@ export type ManufacturerFields = {
   email: string
   phone: string
   coordinates: {
-    lat: number
-    lng: number
+    lat: string
+    lng: string
   }
   location: string
   logo: string

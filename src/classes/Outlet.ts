@@ -9,9 +9,9 @@ export type Outlet = {
   territoryId: number
   email: string
   locality: string
+  barcode: string
   subLocality: string
   landmark: string
-  region: Region
   photo: string
   coordinates: {
     lat: number
@@ -20,4 +20,28 @@ export type Outlet = {
   territory: Territory
   createdAt: Date
   updatedAt: Date
+}
+
+export type OutletObj = {
+  outlets: Outlet[]
+  count: number
+}
+
+export type OutletFields = {
+  id?: number
+  ownerName: string
+  outletName: string
+  mobile: string
+  telephone: string
+  barcode: string
+  territoryId: number
+  email: string
+  locality: string
+  subLocality: string
+  landmark: string
+  territory: string
+  coordinates: {
+    lat: number | string
+    lng: number | string
+  }
 }

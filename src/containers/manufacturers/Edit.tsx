@@ -27,18 +27,6 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 const { updateManufacturerRequest, clearStates, setActiveLink } =
   manufacturerActions
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-
-interface Fields {
-  name: string
-  email: string
-  phone: string
-  lat: string
-  lng: string
-  location: string
-}
-
 type QueryParam = {
   id: string
 }
@@ -48,7 +36,6 @@ const validateSchema = Yup.object().shape({
     'Please input a valid email in the form john@example.com'
   ),
   phone: Yup.string()
-    .matches(phoneRegExp, 'Please enter a valid phone number')
     .min(10, 'Phone number is too short!')
     .max(12, 'Phone number is too long!')
     .required('This is a required field'),
@@ -58,8 +45,10 @@ const validateSchema = Yup.object().shape({
   location: Yup.string()
     .min(2, 'Phone number is too short!')
     .required('This is a required field'),
-  lat: Yup.string().required('This is a required field'),
-  lng: Yup.string().required('This is a required field')
+  coordinates: Yup.object().shape({
+    lat: Yup.string().required('This is a required field'),
+    lng: Yup.string().required('This is a required field')
+  })
 })
 
 const Edit = () => {
@@ -75,8 +64,12 @@ const Edit = () => {
       email: item ? item.email : '',
       phone: item ? item.phone : '',
       location: item ? item.location : '',
-      lat: item ? `${item.coordinates.lat}` : '',
-      lng: item ? `${item.coordinates.lng}` : ''
+      coordinates: {
+        lat: item ? `${item.coordinates.lat}` : '',
+        lng: item ? `${item.coordinates.lng}` : ''
+      },
+      id: parseInt(id),
+      logo: ''
     }
     return payload
   })
@@ -90,22 +83,10 @@ const Edit = () => {
   }, [])
 
   const onSubmit = useCallback(
-    (values: Fields) => {
-      const payload: ManufacturerFields = {
-        coordinates: {
-          lat: parseFloat(values.lat),
-          lng: parseFloat(values.lng)
-        },
-        email: values.email,
-        location: values.location,
-        logo: '',
-        name: values.name,
-        phone: values.phone,
-        id: parseInt(id)
-      }
-      dispatch(updateManufacturerRequest(payload))
+    (values: ManufacturerFields) => {
+      dispatch(updateManufacturerRequest(values))
     },
-    [dispatch, id]
+    [dispatch]
   )
 
   useEffect(() => {
@@ -283,13 +264,18 @@ const Edit = () => {
                         type="text"
                         id="lat"
                         placeholder="Enter latitude of manufacturer"
-                        value={values.lat}
+                        value={values.coordinates.lat}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        name="lat"
+                        name="coordinates.lat"
                       />
-                      {errors.lat && touched.lat ? (
-                        <small style={{ color: '#ff0000' }}>{errors.lat}</small>
+                      {errors.coordinates &&
+                      errors.coordinates.lat &&
+                      touched.coordinates &&
+                      touched.coordinates.lat ? (
+                        <small style={{ color: '#ff0000' }}>
+                          {errors.coordinates.lat}
+                        </small>
                       ) : null}
                     </FormGroup>
                   </Col>
@@ -303,13 +289,18 @@ const Edit = () => {
                         type="text"
                         id="lng"
                         placeholder="Enter longitude of manufacturer"
-                        value={values.lng}
+                        value={values.coordinates.lng}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        name="lng"
+                        name="coordinates.lng"
                       />
-                      {errors.lng && touched.lng ? (
-                        <small style={{ color: '#ff0000' }}>{errors.lng}</small>
+                      {errors.coordinates &&
+                      errors.coordinates.lng &&
+                      touched.coordinates &&
+                      touched.coordinates.lng ? (
+                        <small style={{ color: '#ff0000' }}>
+                          {errors.coordinates.lng}
+                        </small>
                       ) : null}
                     </FormGroup>
                   </Col>

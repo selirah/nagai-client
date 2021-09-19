@@ -2,6 +2,8 @@ import { Reducer } from 'redux'
 import { LayoutState, ActionTypes } from './types'
 import themeConfig from 'theme/themeConfig'
 
+const skin = window.localStorage.getItem('mode')
+
 const initialMenuCollapsed = () => {
   const item = window.localStorage.getItem('menuCollapsed')
   return item ? JSON.parse(item) : themeConfig.layout.menu.isCollapsed
@@ -12,7 +14,7 @@ export const initialState: LayoutState = {
   menuCollapsed: initialMenuCollapsed(),
   menuHidden: themeConfig.layout.menu.isHidden,
   contentWidth: themeConfig.layout.contentWidth,
-  mode: themeConfig.layout.mode
+  mode: skin ? JSON.parse(skin) : themeConfig.layout.mode
 }
 
 const reducer: Reducer<LayoutState> = (state = initialState, action) => {

@@ -24,9 +24,6 @@ interface Props {
   errs: any
 }
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Please input a valid email in the form john@example.com')
@@ -35,7 +32,6 @@ const validationSchema = Yup.object().shape({
     .min(6, 'Password must be at least 6 characters')
     .required('This is a required field'),
   phone: Yup.string()
-    .matches(phoneRegExp, 'Please enter a valid phone number')
     .min(10, 'Phone number is too short!')
     .max(12, 'Phone number is too long!')
     .required('This is a required field'),

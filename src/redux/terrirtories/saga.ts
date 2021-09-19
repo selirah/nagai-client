@@ -15,7 +15,7 @@ function* addTerritory({
     if (res.status === 201) {
       yield put(territoryActions.addTerritorySuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(territoryActions.addTerritoryFailure(err.response.data))
     } else {
@@ -35,7 +35,7 @@ function* updateTerritory({
     if (res.status === 200) {
       yield put(territoryActions.updateTerritorySuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(territoryActions.updateTerritoryFailure(err.response.data))
     } else {
@@ -55,7 +55,7 @@ function* deleteTerritory({
     if (res.status === 200) {
       yield put(territoryActions.deleteTerritorySuccess(payload))
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(territoryActions.deleteTerritoryFailure(err.response.data))
     } else {
@@ -76,9 +76,29 @@ function* getTerritories({
       `territories?page=${payload.page}&skip=${payload.skip}&query=${payload.query}&region=${payload.region}`
     )
     yield put(territoryActions.getTerritorySuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(territoryActions.getTerritoryFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
+function* getSearchedTerritories({
+  payload
+}: {
+  type: string
+  payload: string
+}): Generator {
+  try {
+    const res: any = yield call(callApiGet, `territories/search?q=${payload}`)
+    yield put(territoryActions.getSearchedTerritoriesSuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(
+        territoryActions.getSearchedTerritoriesFailure(err.response.data)
+      )
     } else {
       throw err
     }
@@ -101,12 +121,20 @@ function* watchGetTerritories() {
   yield takeEvery(ActionTypes.GET_TERRITORY_REQUEST, getTerritories)
 }
 
+function* watchGetSearchedTerritories() {
+  yield takeEvery(
+    ActionTypes.GET_TERRITORIES_SEARCH_REQUEST,
+    getSearchedTerritories
+  )
+}
+
 function* territorySaga(): Generator {
   yield all([
     fork(watchAddTerritory),
     fork(watchUpdateTerritory),
     fork(watchDeleteTerritory),
-    fork(watchGetTerritories)
+    fork(watchGetTerritories),
+    fork(watchGetSearchedTerritories)
   ])
 }
 

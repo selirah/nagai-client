@@ -11,6 +11,7 @@ import { productsReducer, ProductState } from './products'
 import { stockReducer, StockState } from './stock'
 import { territoryReducer, TerritoryState } from './terrirtories'
 import { utilsReducer, UtilsState } from './utils'
+import { outletReducer, OutletState } from './outlets'
 
 export type ApplicationState = {
   auth: AuthState
@@ -22,6 +23,7 @@ export type ApplicationState = {
   stock: StockState
   territories: TerritoryState
   utils: UtilsState
+  outlets: OutletState
 }
 
 const persistConfig = {
@@ -36,7 +38,8 @@ const persistConfig = {
     'products',
     'stock',
     'territories',
-    'utils'
+    'utils',
+    'outlets'
   ]
 }
 
@@ -49,7 +52,8 @@ const appReducer = combineReducers({
   products: productsReducer,
   stock: stockReducer,
   territories: territoryReducer,
-  utils: utilsReducer
+  utils: utilsReducer,
+  outlets: outletReducer
 })
 
 const rootReducer = (state?: ApplicationState, action?: AnyAction) => {

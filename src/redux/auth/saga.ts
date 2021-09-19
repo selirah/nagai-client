@@ -27,7 +27,7 @@ function* login({
     yield setItem('token', token)
     yield setItem('user', user)
     yield put(authActions.loginSuccess(result))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(authActions.loginFailure(err.response.data))
     } else {
@@ -45,7 +45,7 @@ function* register({
   try {
     const res: any = yield call(callApiPost, 'users/register', payload)
     yield put(authActions.registerSuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(authActions.registerFailure(err.response.data))
     } else {
@@ -65,7 +65,7 @@ function* verifyAccount({
     if (res.status === 200) {
       yield put(authActions.verificationSuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(authActions.verificationFailure(err.response.data))
     } else {
@@ -85,7 +85,7 @@ function* resetPassword({
     if (res.status === 200) {
       yield put(authActions.resetPasswordSuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(authActions.resetPasswordFailure(err.response.data))
     } else {
@@ -100,7 +100,7 @@ function* resendCode({ payload }: { type: string; payload: any }): Generator {
     if (res.status === 200) {
       yield put(authActions.resendCodeSuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(authActions.resendCodeFailure(err.response.data))
     } else {

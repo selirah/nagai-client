@@ -15,7 +15,7 @@ function* addManufacturer({
     if (res.status === 201) {
       yield put(manufacturerActions.addManufacturerSuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(manufacturerActions.addManufacturerFailure(err.response.data))
     } else {
@@ -40,7 +40,7 @@ function* updateManufacturer({
     if (res.status) {
       yield put(manufacturerActions.updateManufacturerSuccess())
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(
         manufacturerActions.updateManufacturerFailure(err.response.data)
@@ -62,7 +62,7 @@ function* deleteManufacturer({
     if (res.status === 200) {
       yield put(manufacturerActions.deleteManufacturerSuccess(payload))
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(
         manufacturerActions.deleteManufacturerFailure(err.response.data)
@@ -77,7 +77,7 @@ function* getManufacturers(): Generator {
   try {
     const res: any = yield call(callApiGet, 'manufacturers')
     yield put(manufacturerActions.getManufacturersSuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(manufacturerActions.getManufacturersFailure(err.response.data))
     } else {
