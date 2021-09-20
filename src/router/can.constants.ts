@@ -5,6 +5,8 @@ const abilities = {
   Products: 'Products',
   Stock: 'Stock',
   Territories: 'Territories',
-  Outlets: 'Outlets'
+  UserTerritories: 'UserTerritories',
+  Outlets: 'Outlets',
+  Users: 'Users'
 }
 export default abilities

@@ -3,6 +3,7 @@ import { Outlet } from 'classes'
 import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
 import { IDataTableColumn } from 'react-data-table-component'
 import SimpleTable from 'components/SimpleTable'
+import moment from 'moment'
 
 interface Props {
   outlets: Outlet[]
@@ -18,13 +19,13 @@ const Outlets: React.FC<Props> = (props) => {
         id: 1,
         name: 'Outlet Name',
         sortable: true,
-        selector: (row: Outlet) => row.outletName
+        selector: (row: Outlet) => row.outletName.toUpperCase()
       },
       {
         id: 2,
         name: 'Owner Name',
         sortable: true,
-        selector: (row: Outlet) => row.ownerName
+        selector: (row: Outlet) => row.ownerName.toUpperCase()
       },
       {
         id: 3,
@@ -43,6 +44,30 @@ const Outlets: React.FC<Props> = (props) => {
         name: 'Lng',
         sortable: true,
         selector: (row: Outlet) => row.coordinates.lng
+      },
+      {
+        id: 6,
+        name: 'Locality',
+        sortable: true,
+        selector: (row: Outlet) => row.locality.toUpperCase()
+      },
+      {
+        id: 7,
+        name: 'Sub-locality',
+        sortable: true,
+        selector: (row: Outlet) => row.subLocality.toUpperCase()
+      },
+      {
+        id: 8,
+        name: 'Created Date',
+        sortable: true,
+        selector: (row: Outlet) => moment(row.createdAt).format("MMM Do, 'YY")
+      },
+      {
+        id: 9,
+        name: 'Updated Date',
+        sortable: true,
+        selector: (row: Outlet) => moment(row.updatedAt).format("MMM Do, 'YY")
       }
     ],
     []

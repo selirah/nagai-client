@@ -7,7 +7,7 @@ function* getRegions(): Generator {
   try {
     const res: any = yield call(callApiGet, `utils/regions`)
     yield put(utilsActions.getRegionsSuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(utilsActions.getRegionsFailure(err.response.data))
     } else {
@@ -29,7 +29,7 @@ function* googleDirection({
     } else {
       yield put(utilsActions.googleDirectionFailure(res))
     }
-  } catch (err) {
+  } catch (err: any) {
     yield put(utilsActions.googleDirectionFailure(err))
   }
 }
@@ -38,9 +38,22 @@ function* getUnits(): Generator {
   try {
     const res: any = yield call(callApiGet, `utils/units`)
     yield put(utilsActions.getUnitSuccess(res.data))
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.response) {
       yield put(utilsActions.getUnitFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
+function* getTerritories(): Generator {
+  try {
+    const res: any = yield call(callApiGet, `utils/territories`)
+    yield put(utilsActions.getTerritoriesSuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(utilsActions.getTerritoriesFailure(err.response.data))
     } else {
       throw err
     }
@@ -59,11 +72,16 @@ function* watchGetUnits() {
   yield takeEvery(ActionTypes.GET_UNIT_REQUEST, getUnits)
 }
 
+function* watchGetTerritories() {
+  yield takeEvery(ActionTypes.GET_TERRITORIES_REQUEST, getTerritories)
+}
+
 function* utilsSaga(): Generator {
   yield all([
     fork(watchGetRegions),
     fork(watchGoogleDirection),
-    fork(watchGetUnits)
+    fork(watchGetUnits),
+    fork(watchGetTerritories)
   ])
 }
 

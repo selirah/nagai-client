@@ -10,6 +10,11 @@ const routes: RR[] = [
     exact: true
   },
   {
+    path: 'map',
+    component: lazy(() => import('containers/outlets/MapView')),
+    exact: true
+  },
+  {
     path: 'add/:id',
     component: lazy(() => import('containers/outlets/Add')),
     exact: true

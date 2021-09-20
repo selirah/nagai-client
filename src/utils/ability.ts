@@ -22,19 +22,31 @@ export default function defineAbilityFor() {
         can('read', abilities.Products)
         can('read', abilities.Stock)
         can('read', abilities.Territories)
+        can('read', abilities.UserTerritories)
         can('read', abilities.Outlets)
+        can('read', abilities.Users)
         break
       case userRoles.agent:
-        cannot('read', abilities.Home)
-        cannot('read', abilities.Categories)
-        cannot('read', abilities.Manufacturers)
-        cannot('read', abilities.Products)
+        can('read', abilities.Home)
+        can('read', abilities.Categories)
+        can('read', abilities.Manufacturers)
+        can('read', abilities.Products)
+        can('read', abilities.Stock)
+        can('read', abilities.Territories)
+        cannot('read', abilities.UserTerritories)
+        can('read', abilities.Outlets)
+        cannot('read', abilities.Users)
         break
       case userRoles.dispatch:
-        cannot('read', abilities.Home)
+        can('read', abilities.Home)
         cannot('read', abilities.Categories)
         cannot('read', abilities.Manufacturers)
         cannot('read', abilities.Products)
+        cannot('read', abilities.Stock)
+        cannot('read', abilities.Territories)
+        cannot('read', abilities.UserTerritories)
+        cannot('read', abilities.Outlets)
+        cannot('read', abilities.Users)
         break
     }
   }

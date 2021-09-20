@@ -1,4 +1,4 @@
-import { Outlet, Param } from 'classes'
+import { Outlet, Param, Order } from 'classes'
 
 export enum ActionTypes {
   SUBMITTING = '@@outlets/SUBMITTING',
@@ -20,7 +20,11 @@ export enum ActionTypes {
   CLEAR_STATES = '@@outlets/CLEAR_STATES',
   SET_ACTIVE_LINK = '@@outlets/SET_ACTIVE_LINK',
   SET_OUTLET = '@@outlets/SET_OUTLET',
-  SET_QUERY_PARAMS = '@@outlets/SET_QUERY_PARAMS'
+  SET_QUERY_PARAMS = '@@outlets/SET_QUERY_PARAMS',
+  GET_ORDER_REQUEST = '@@outlets/GET_ORDER_REQUEST',
+  GET_ORDER_SUCCESS = '@@outlets/GET_ORDER_SUCCESS',
+  GET_ORDER_FAILURE = '@@outlets/GET_ORDER_FAILURE',
+  SET_ORDER_PARAMS = '@@outlets/SET_ORDER_PARAMS'
 }
 
 export type OutletState = {
@@ -35,4 +39,8 @@ export type OutletState = {
   readonly outlet: Outlet | null
   readonly params: Param
   readonly count: number
+  readonly orders: Order[]
+  readonly orderParams: Param
+  readonly orderCount: number
+  readonly loadOrders: boolean
 }

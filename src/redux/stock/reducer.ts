@@ -167,7 +167,7 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
     case ActionTypes.GET_STOCK_TRAILS_FAILURE:
       return {
         ...state,
-        loadStockTrails: initialState.loading,
+        loadStockTrails: initialState.loadStockTrails,
         error: action.payload
       }
 

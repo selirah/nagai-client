@@ -251,6 +251,7 @@ const Edit = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         name="barcode"
+                        disabled
                       />
                       {errors.barcode && touched.barcode ? (
                         <small style={{ color: '#ff0000' }}>

@@ -6,7 +6,8 @@ export const initialState: UtilsState = {
   errors: null,
   loading: false,
   regions: [],
-  units: []
+  units: [],
+  territories: []
 }
 
 const reducer: Reducer<UtilsState> = (state = initialState, action) => {
@@ -74,6 +75,26 @@ const reducer: Reducer<UtilsState> = (state = initialState, action) => {
         ...state,
         loading: initialState.loading,
         direction: initialState.direction
+      }
+
+    case ActionTypes.GET_TERRITORIES_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case ActionTypes.GET_TERRITORIES_SUCCESS:
+      return {
+        ...state,
+        territories: action.payload,
+        loading: initialState.loading
+      }
+
+    case ActionTypes.GET_TERRITORIES_FAILURE:
+      return {
+        ...state,
+        errors: action.payload,
+        loading: initialState.loading
       }
 
     default:

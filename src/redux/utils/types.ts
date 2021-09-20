@@ -1,4 +1,4 @@
-import { Unit, Region } from 'classes'
+import { Unit, Region, Territory } from 'classes'
 
 export enum ActionTypes {
   GET_REGIONS_REQUEST = '@@utils/GET_REGIONS_REQUEST',
@@ -10,7 +10,10 @@ export enum ActionTypes {
   GET_UNIT_REQUEST = '@@utils/GET_UNIT_REQUEST',
   GET_UNIT_SUCCESS = '@@utils/GET_UNIT_SUCCESS',
   GET_UNIT_FAILURE = '@@utils/GET_UNIT_FAILURE',
-  CLEAR_STATES = '@@utils/CLEAR_STATES'
+  CLEAR_STATES = '@@utils/CLEAR_STATES',
+  GET_TERRITORIES_REQUEST = '@@utils/GET_TERRITORIES_REQUEST',
+  GET_TERRITORIES_SUCCESS = '@@utils/GET_TERRITORIES_SUCCESS',
+  GET_TERRITORIES_FAILURE = '@@utils/GET_TERRITORIES_FAILURE'
 }
 
 export type UtilsState = {
@@ -19,4 +22,5 @@ export type UtilsState = {
   readonly regions: Region[]
   readonly direction: any
   readonly units: Unit[]
+  readonly territories: Territory[]
 }

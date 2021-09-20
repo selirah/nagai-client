@@ -1,16 +1,11 @@
-import { Outlet, DBUser } from 'classes'
+import { Outlet } from 'classes'
 
 export type Territory = {
   id: number
   locality: string
-  coordinates: {
-    lat: number
-    lng: number
-  }
   regionId: number
   description: string
   outlets: Outlet[]
-  users: DBUser[]
   region: Region
   createdAt: Date
   updatedAt: Date
@@ -24,11 +19,7 @@ export type TerritoryObj = {
 export type TerritoryFields = {
   id?: number
   locality: string
-  coordinates: {
-    lat: number
-    lng: number
-  }
-  regionId: number
+  regionId: number | string
   description: string
 }
 

@@ -6,7 +6,6 @@ import outletActions from 'redux/outlets/actions'
 import { Outlet } from 'classes'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Edit3, Trash, AlertTriangle } from 'react-feather'
-import moment from 'moment'
 import { deleteConfirmMessage, deleteDone } from 'utils'
 import SWAL from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -54,7 +53,7 @@ const List = () => {
     (id: number, name: string) => {
       sweetAlert.fire(deleteConfirmMessage(name)).then(function (res) {
         if (res.value) {
-          dispatch(deleteConfirmMessage(name))
+          dispatch(deleteOutletRequest(id))
         }
       })
     },
@@ -73,13 +72,13 @@ const List = () => {
         id: 2,
         name: 'Owner Name',
         sortable: true,
-        selector: (row: Outlet) => row.ownerName
+        selector: (row: Outlet) => row.ownerName.toUpperCase()
       },
       {
         id: 3,
         name: 'Outlet',
         sortable: true,
-        selector: (row: Outlet) => row.outletName
+        selector: (row: Outlet) => row.outletName.toUpperCase()
       },
       {
         id: 4,
@@ -91,19 +90,19 @@ const List = () => {
         id: 5,
         name: 'Territory',
         sortable: true,
-        selector: (row: Outlet) => row.territory.locality
+        selector: (row: Outlet) => row.territory.locality.toUpperCase()
       },
       {
         id: 6,
         name: 'Locality',
         sortable: true,
-        selector: (row: Outlet) => row.locality
+        selector: (row: Outlet) => row.locality.toUpperCase()
       },
       {
         id: 7,
         name: 'Sub-locality',
         sortable: true,
-        selector: (row: Outlet) => row.subLocality
+        selector: (row: Outlet) => row.subLocality.toUpperCase()
       },
       {
         cell: (row: Outlet) => (
@@ -229,6 +228,12 @@ const List = () => {
           {renderList()}
         </PerfectScrollbar>
       </div>
+      {store.outlet ? (
+        <Drawer
+          toggleDrawer={toggleDrawer}
+          handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
+        />
+      ) : null}
     </Fragment>
   )
 }

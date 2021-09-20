@@ -76,25 +76,13 @@ const List = () => {
       },
       {
         id: 3,
-        name: 'Latitude',
-        sortable: true,
-        selector: (row: Territory) => row.coordinates.lat
-      },
-      {
-        id: 4,
-        name: 'Longitude',
-        sortable: true,
-        selector: (row: Territory) => row.coordinates.lng
-      },
-      {
-        id: 8,
         name: 'Created Date',
         sortable: true,
         selector: (row: Territory) =>
           moment(row.createdAt).format("MMM Do, 'YY")
       },
       {
-        id: 9,
+        id: 4,
         name: 'Updated Date',
         sortable: true,
         selector: (row: Territory) =>

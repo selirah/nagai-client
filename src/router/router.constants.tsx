@@ -109,6 +109,17 @@ const Routes: Route[] = [
     }
   },
   {
+    path: PRIVATE_ROUTES.USER_TERRITORIES,
+    component: lazy(() => import('pages/user-territories')),
+    exact: false,
+    className: 'todo-application',
+    appLayout: true,
+    meta: {
+      resource: abilities.UserTerritories,
+      action: 'read'
+    }
+  },
+  {
     path: PRIVATE_ROUTES.OUTLETS,
     component: lazy(() => import('pages/outlets')),
     exact: false,
@@ -116,6 +127,17 @@ const Routes: Route[] = [
     appLayout: true,
     meta: {
       resource: abilities.Outlets,
+      action: 'read'
+    }
+  },
+  {
+    path: PRIVATE_ROUTES.USERS,
+    component: lazy(() => import('pages/users')),
+    exact: false,
+    className: 'todo-application',
+    appLayout: true,
+    meta: {
+      resource: abilities.Users,
       action: 'read'
     }
   }

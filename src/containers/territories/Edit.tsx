@@ -33,8 +33,6 @@ const { Option } = components
 interface Fields {
   locality: string
   regionId: any
-  lat: string
-  lng: string
   description: string
 }
 
@@ -67,8 +65,6 @@ const Edit = () => {
       regionId: item
         ? { label: item.region.region, value: item.region.id }
         : '',
-      lat: item ? `${item.coordinates.lat}` : '',
-      lng: item ? `${item.coordinates.lng}` : '',
       description: item ? item.description : ''
     }
     return payload
@@ -85,10 +81,6 @@ const Edit = () => {
       const payload: TerritoryFields = {
         regionId: parseInt(values.regionId.value),
         locality: values.locality,
-        coordinates: {
-          lat: parseFloat(values.lat),
-          lng: parseFloat(values.lng)
-        },
         id: parseInt(id),
         description: values.description
       }
@@ -236,46 +228,6 @@ const Edit = () => {
                       value={values.regionId}
                       placeholder="Select region.."
                     />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row className="px-3">
-                <Col sm="12" md="6" lg="6">
-                  <FormGroup>
-                    <Label className="form-label" for="latitude">
-                      Latitude <span style={{ color: '#ff0000' }}>*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      id="latitude"
-                      placeholder="Enter Latitude of territory"
-                      value={values.lat}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name="lat"
-                    />
-                    {errors.lat && touched.lat ? (
-                      <small style={{ color: '#ff0000' }}>{errors.lat}</small>
-                    ) : null}
-                  </FormGroup>
-                </Col>
-                <Col sm="12" md="6" lg="6">
-                  <FormGroup>
-                    <Label className="form-label" for="longitude">
-                      Longitude <span style={{ color: '#ff0000' }}>*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      id="longitude"
-                      placeholder="Enter Longitude of territory"
-                      value={values.lng}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name="lng"
-                    />
-                    {errors.lng && touched.lng ? (
-                      <small style={{ color: '#ff0000' }}>{errors.lng}</small>
-                    ) : null}
                   </FormGroup>
                 </Col>
               </Row>

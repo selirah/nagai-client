@@ -19,7 +19,7 @@ import {
   Spinner,
   UncontrolledTooltip
 } from 'reactstrap'
-import { List, Grid, Search, XCircle } from 'react-feather'
+import { List, Grid, Search, XCircle, Map } from 'react-feather'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import outletActions from 'redux/outlets/actions'
@@ -158,6 +158,16 @@ const Sidebar: React.FC<Props> = (props) => {
                 >
                   <List className="mr-75" size={18} />
                   <span className="align-middle">Outlets List</span>
+                </ListGroupItem>
+                <ListGroupItem
+                  action
+                  tag={Link}
+                  to={'/admin/outlets/map'}
+                  active={active === 'map'}
+                  onClick={() => handleActiveLink('map')}
+                >
+                  <Map className="mr-75" size={18} />
+                  <span className="align-middle">Map</span>
                 </ListGroupItem>
               </ListGroup>
               <Fragment>

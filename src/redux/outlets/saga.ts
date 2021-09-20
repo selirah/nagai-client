@@ -80,6 +80,22 @@ function* getOutlets({ payload }: { type: string; payload: Param }): Generator {
   }
 }
 
+function* getOrders({ payload }: { type: string; payload: Param }): Generator {
+  try {
+    const res: any = yield call(
+      callApiGet,
+      `orders/${payload.id}?page=${payload.page}&skip=${payload.skip}&fromDate=${payload.fromDate}&toDate=${payload.toDate}`
+    )
+    yield put(outletActions.getOrderSuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(outletActions.getOrderFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
 function* watchAddOutlet() {
   yield takeEvery(ActionTypes.ADD_OUTLETS_REQUEST, addOutlet)
 }
@@ -96,12 +112,17 @@ function* watchGetOutlets() {
   yield takeEvery(ActionTypes.GET_OUTLETS_REQUEST, getOutlets)
 }
 
+function* watchGetOrders() {
+  yield takeEvery(ActionTypes.GET_ORDER_REQUEST, getOrders)
+}
+
 function* outletSaga(): Generator {
   yield all([
     fork(watchAddOutlet),
     fork(watchUpdateOutlet),
     fork(watchDeleteOutlet),
-    fork(watchGetOutlets)
+    fork(watchGetOutlets),
+    fork(watchGetOrders)
   ])
 }
 

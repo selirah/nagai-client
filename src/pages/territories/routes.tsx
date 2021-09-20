@@ -10,11 +10,6 @@ const routes: RR[] = [
     exact: true
   },
   {
-    path: 'map',
-    component: lazy(() => import('containers/territories/MapView')),
-    exact: true
-  },
-  {
     path: 'add',
     component: lazy(() => import('containers/territories/Add')),
     exact: true

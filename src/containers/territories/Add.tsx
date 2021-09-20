@@ -30,22 +30,18 @@ const { addTerritoryRequest, clearStates, setActiveLink } = territoryActions
 
 const { Option } = components
 
-interface Fields {
-  locality: string
-  regionId: any
-  lat: string
-  lng: string
-  description: string
-}
-
 const validateSchema = Yup.object().shape({
   locality: Yup.string()
     .min(2, 'Locality is too short!')
     .required('This is a required field'),
-  regionId: Yup.object().required('This is a required field'),
-  lat: Yup.string().required('This is a required field'),
-  lng: Yup.string().required('This is a required field')
+  regionId: Yup.object().required('This is a required field')
 })
+
+interface Fields {
+  locality: string
+  regionId: any
+  description: string
+}
 
 const Add = () => {
   const dispatch: Dispatch = useDispatch()
@@ -54,8 +50,6 @@ const Add = () => {
   const [values] = useState<Fields>({
     regionId: '',
     locality: '',
-    lat: '',
-    lng: '',
     description: ''
   })
   const [btnLoading, setBtnLoading] = useState(false)
@@ -67,10 +61,6 @@ const Add = () => {
       const payload: TerritoryFields = {
         regionId: parseInt(values.regionId.value),
         locality: values.locality,
-        coordinates: {
-          lat: parseFloat(values.lat),
-          lng: parseFloat(values.lng)
-        },
         description: values.description
       }
       dispatch(addTerritoryRequest(payload))
@@ -223,46 +213,6 @@ const Add = () => {
                       value={values.regionId}
                       placeholder="Select region.."
                     />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row className="px-3">
-                <Col sm="12" md="6" lg="6">
-                  <FormGroup>
-                    <Label className="form-label" for="latitude">
-                      Latitude <span style={{ color: '#ff0000' }}>*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      id="latitude"
-                      placeholder="Enter Latitude of territory"
-                      value={values.lat}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name="lat"
-                    />
-                    {errors.lat && touched.lat ? (
-                      <small style={{ color: '#ff0000' }}>{errors.lat}</small>
-                    ) : null}
-                  </FormGroup>
-                </Col>
-                <Col sm="12" md="6" lg="6">
-                  <FormGroup>
-                    <Label className="form-label" for="longitude">
-                      Longitude <span style={{ color: '#ff0000' }}>*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      id="longitude"
-                      placeholder="Enter Longitude of territory"
-                      value={values.lng}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name="lng"
-                    />
-                    {errors.lng && touched.lng ? (
-                      <small style={{ color: '#ff0000' }}>{errors.lng}</small>
-                    ) : null}
                   </FormGroup>
                 </Col>
               </Row>

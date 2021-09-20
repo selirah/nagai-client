@@ -17,6 +17,15 @@ export const initialState: OutletState = {
     skip: 0,
     territory: 0,
     query: ''
+  },
+  orders: [],
+  orderCount: 0,
+  loadOrders: false,
+  orderParams: {
+    page: 10,
+    skip: 0,
+    fromDate: '',
+    toDate: ''
   }
 }
 
@@ -138,6 +147,33 @@ const reducer: Reducer<OutletState> = (state = initialState, action) => {
       return {
         ...state,
         params: action.payload
+      }
+
+    case ActionTypes.GET_ORDER_REQUEST:
+      return {
+        ...state,
+        loadOrders: true
+      }
+
+    case ActionTypes.GET_ORDER_SUCCESS:
+      return {
+        ...state,
+        loadOrders: initialState.loadOrders,
+        orders: action.payload.orders,
+        orderCount: action.payload.count
+      }
+
+    case ActionTypes.GET_ORDER_FAILURE:
+      return {
+        ...state,
+        loadOrders: initialState.loadOrders,
+        error: action.payload
+      }
+
+    case ActionTypes.SET_ORDER_PARAMS:
+      return {
+        ...state,
+        orderParams: action.payload
       }
 
     default:

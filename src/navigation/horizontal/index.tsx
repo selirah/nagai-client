@@ -48,6 +48,18 @@ const HorizontalNavigation = [
     navLink: PRIVATE_ROUTES.TERRITORIES
   },
   {
+    id: 'users',
+    title: 'Users',
+    icon: <Icons.Users size={20} />,
+    navLink: PRIVATE_ROUTES.USERS
+  },
+  {
+    id: 'user-territories',
+    title: 'User Territories',
+    icon: <Icons.MapPin size={20} />,
+    navLink: PRIVATE_ROUTES.USER_TERRITORIES
+  },
+  {
     id: 'orders',
     title: 'Orders',
     icon: <Icons.ShoppingCart size={20} />,
@@ -70,12 +82,6 @@ const HorizontalNavigation = [
     title: 'Payments',
     icon: <Icons.BookOpen size={20} />,
     navLink: PRIVATE_ROUTES.PAYMENTS
-  },
-  {
-    id: 'users',
-    title: 'Users',
-    icon: <Icons.Users size={20} />,
-    navLink: PRIVATE_ROUTES.USERS
   }
 ]
 

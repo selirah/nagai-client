@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { Region, Unit } from 'classes'
+import { Region, Unit, Territory } from 'classes'
 import { ActionTypes } from './types'
 
 const utilsActions = {
@@ -25,6 +25,14 @@ const utilsActions = {
   getUnitSuccess: (data: Unit[]) => action(ActionTypes.GET_UNIT_SUCCESS, data),
 
   getUnitFailure: (error: any) => action(ActionTypes.GET_UNIT_FAILURE, error),
+
+  getTerritoriesRequest: () => action(ActionTypes.GET_TERRITORIES_REQUEST),
+
+  getTerritoriesSuccess: (data: Territory[]) =>
+    action(ActionTypes.GET_TERRITORIES_SUCCESS, data),
+
+  getTerritoriesFailure: (error: any) =>
+    action(ActionTypes.GET_TERRITORIES_FAILURE, error),
 
   clearStates: () => action(ActionTypes.CLEAR_STATES)
 }

@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { Link } from 'react-router-dom'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { ListGroup, ListGroupItem } from 'reactstrap'
-import { PlusCircle, List, Map, Grid } from 'react-feather'
+import { PlusCircle, List, Grid } from 'react-feather'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import territoryActions from 'redux/terrirtories/actions'
 import { useDispatch } from 'react-redux'
@@ -23,9 +23,10 @@ const Sidebar: React.FC<Props> = (props) => {
 
   const handleActiveLink = useCallback(
     (value: string) => {
-      if (value === 'list' || value === 'map') {
+      if (value === 'list') {
         const { params } = store
         params.region = 0
+        params.skip = 0
         dispatch(setQueryParams(params))
         dispatch(getTerritoryRequest(params))
       }
@@ -39,6 +40,7 @@ const Sidebar: React.FC<Props> = (props) => {
       e.preventDefault()
       const { params } = store
       params.region = param
+      params.skip = 0
       dispatch(setQueryParams(params))
       dispatch(setActiveLink(activeLink))
       dispatch(getTerritoryRequest(params))
@@ -73,18 +75,6 @@ const Sidebar: React.FC<Props> = (props) => {
                   <List className="mr-75" size={18} />
                   <span className="align-middle">Territories</span>
                 </ListGroupItem>
-
-                <ListGroupItem
-                  action
-                  tag={Link}
-                  to={'/admin/territories/map'}
-                  active={active === 'map'}
-                  onClick={() => handleActiveLink('map')}
-                >
-                  <Map className="mr-75" size={18} />
-                  <span className="align-middle">Map View</span>
-                </ListGroupItem>
-
                 <ListGroupItem
                   action
                   tag={Link}

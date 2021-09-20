@@ -14,8 +14,8 @@ export type Outlet = {
   landmark: string
   photo: string
   coordinates: {
-    lat: number
-    lng: number
+    lat: string
+    lng: string
   }
   territory: Territory
   createdAt: Date
@@ -41,7 +41,7 @@ export type OutletFields = {
   landmark: string
   territory: string
   coordinates: {
-    lat: number | string
-    lng: number | string
+    lat: string
+    lng: string
   }
 }

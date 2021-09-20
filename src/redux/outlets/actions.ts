@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { OutletObj, Outlet, OutletFields, Param } from 'classes'
+import { OutletObj, Outlet, OutletFields, Param, OrderObj } from 'classes'
 import { ActionTypes } from './types'
 
 const outletActions = {
@@ -44,7 +44,18 @@ const outletActions = {
   setOutlet: (outlet: Outlet) => action(ActionTypes.SET_OUTLET, outlet),
 
   setQueryParams: (params: Param) =>
-    action(ActionTypes.SET_QUERY_PARAMS, params)
+    action(ActionTypes.SET_QUERY_PARAMS, params),
+
+  getOrderRequest: (params: Param) =>
+    action(ActionTypes.GET_ORDER_REQUEST, params),
+
+  getOrderSuccess: (data: OrderObj) =>
+    action(ActionTypes.GET_ORDER_SUCCESS, data),
+
+  getOrderFailure: (error: any) => action(ActionTypes.GET_ORDER_FAILURE, error),
+
+  setOrderParams: (params: Param) =>
+    action(ActionTypes.SET_ORDER_PARAMS, params)
 }
 
 export default outletActions
