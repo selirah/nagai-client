@@ -9,4 +9,5 @@ export type Param = {
   manufacturer?: number
   region?: number
   territory?: number
+  role?: string
 }

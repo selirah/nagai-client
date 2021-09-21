@@ -1,3 +1,5 @@
+import { UserTerritory } from 'classes'
+
 export type User = {
   id: number
   email: string
@@ -51,6 +53,35 @@ export type DBUser = {
   avatar: string
   isVerified: boolean
   role: string
+  userTerritories: UserTerritory
   createdAt: Date
   updatedAt: Date
 }
+
+export type UserObj = {
+  users: DBUser[]
+  count: number
+}
+
+export type UserFields = {
+  id?: number
+  email: string
+  phone: string
+  firstName: string
+  lastName: string
+  avatar?: string
+  isVerified: boolean
+  role: string
+}
+
+export const Roles = [
+  {
+    role: 'admin'
+  },
+  {
+    role: 'agent'
+  },
+  {
+    role: 'dispatch'
+  }
+]

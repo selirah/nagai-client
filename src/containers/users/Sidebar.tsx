@@ -3,21 +3,22 @@ import classnames from 'classnames'
 import { Link } from 'react-router-dom'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { ListGroup, ListGroupItem } from 'reactstrap'
-import { PlusCircle, List, Grid } from 'react-feather'
+import { UserPlus, Users, Grid } from 'react-feather'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
-import territoryActions from 'redux/terrirtories/actions'
+import userActions from 'redux/users/actions'
 import { useDispatch } from 'react-redux'
+import { Roles } from 'classes'
+import { userRoles } from 'utils/ability'
 
 interface Props {
   mainSidebar: boolean
 }
 
-const { setActiveLink, setQueryParams, getTerritoryRequest } = territoryActions
+const { setActiveLink, setQueryParams, getUsersRequest } = userActions
 
 const Sidebar: React.FC<Props> = (props) => {
   const { mainSidebar } = props
-  const store = Selector((state) => state.territories)
-  const utils = Selector((state) => state.utils)
+  const store = Selector((state) => state.users)
   const [active, setActive] = useState(store.activeLink)
   const dispatch: Dispatch = useDispatch()
 
@@ -25,10 +26,10 @@ const Sidebar: React.FC<Props> = (props) => {
     (value: string) => {
       if (value === 'list') {
         const { params } = store
-        params.region = 0
+        params.role = ''
         params.skip = 0
         dispatch(setQueryParams(params))
-        dispatch(getTerritoryRequest(params))
+        dispatch(getUsersRequest(params))
       }
       dispatch(setActiveLink(value))
     },
@@ -36,14 +37,14 @@ const Sidebar: React.FC<Props> = (props) => {
   )
 
   const handleQueryFilter = useCallback(
-    (e: MouseEvent<HTMLElement>, param: number, activeLink: string) => {
+    (e: MouseEvent<HTMLElement>, param: string, activeLink: string) => {
       e.preventDefault()
       const { params } = store
-      params.region = param
+      params.role = param
       params.skip = 0
       dispatch(setQueryParams(params))
       dispatch(setActiveLink(activeLink))
-      dispatch(getTerritoryRequest(params))
+      dispatch(getUsersRequest(params))
     },
     [dispatch, store]
   )
@@ -52,6 +53,17 @@ const Sidebar: React.FC<Props> = (props) => {
     const { activeLink } = store
     setActive(activeLink)
   }, [store])
+
+  const renderBullet = useCallback((role: string) => {
+    switch (role) {
+      case userRoles.admin:
+        return <span className="bullet bullet-sm bullet-primary mr-1"></span>
+      case userRoles.agent:
+        return <span className="bullet bullet-sm bullet-secondary mr-1"></span>
+      case userRoles.dispatch:
+        return <span className="bullet bullet-sm bullet-info mr-1"></span>
+    }
+  }, [])
 
   return (
     <div
@@ -68,46 +80,46 @@ const Sidebar: React.FC<Props> = (props) => {
                 <ListGroupItem
                   action
                   tag={Link}
-                  to={'/admin/territories'}
+                  to={'/admin/users'}
                   active={active === 'list'}
                   onClick={() => handleActiveLink('list')}
                 >
-                  <List className="mr-75" size={18} />
-                  <span className="align-middle">Territories</span>
+                  <Users className="mr-75" size={18} />
+                  <span className="align-middle">Users</span>
                 </ListGroupItem>
                 <ListGroupItem
                   action
                   tag={Link}
-                  to={'/admin/territories/add'}
+                  to={'/admin/users/add'}
                   active={active === 'add'}
                   onClick={() => handleActiveLink('add')}
                 >
-                  <PlusCircle className="mr-75" size={18} />
-                  <span className="align-middle">Add Territory</span>
+                  <UserPlus className="mr-75" size={18} />
+                  <span className="align-middle">Add User</span>
                 </ListGroupItem>
               </ListGroup>
               <div className="mt-3 px-2 d-flex justify-content-between">
-                <h6 className="section-label mb-1">Group by region</h6>
+                <h6 className="section-label mb-1">Group by role</h6>
                 <Grid size={14} />
               </div>
-              {utils.regions.length ? (
+              {Roles.length ? (
                 <PerfectScrollbar
                   className="sidebar-menu-list"
                   options={{ wheelPropagation: false }}
                 >
                   <ListGroup className="list-group-labels">
-                    {utils.regions.map((r, i) => (
+                    {Roles.map((r, i) => (
                       <ListGroupItem
-                        active={active === `${r.id}`}
+                        active={active === `${r.role}`}
                         className="d-flex align-items-center"
                         tag={Link}
                         to="#"
-                        onClick={(e) => handleQueryFilter(e, r.id, r.region)}
+                        onClick={(e) => handleQueryFilter(e, r.role, r.role)}
                         action
                         key={i}
                       >
-                        <span className="bullet bullet-sm bullet-info mr-1"></span>
-                        <span className="align-middle">{r.region}</span>
+                        {renderBullet(r.role)}
+                        <span className="align-middle">{r.role}</span>
                       </ListGroupItem>
                     ))}
                   </ListGroup>

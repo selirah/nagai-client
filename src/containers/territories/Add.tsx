@@ -31,9 +31,7 @@ const { addTerritoryRequest, clearStates, setActiveLink } = territoryActions
 const { Option } = components
 
 const validateSchema = Yup.object().shape({
-  locality: Yup.string()
-    .min(2, 'Locality is too short!')
-    .required('This is a required field'),
+  locality: Yup.string().required('This is a required field'),
   regionId: Yup.object().required('This is a required field')
 })
 

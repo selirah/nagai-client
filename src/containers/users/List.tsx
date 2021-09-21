@@ -2,11 +2,10 @@ import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import territoryActions from 'redux/terrirtories/actions'
-import { Territory } from 'classes'
+import userActions from 'redux/users/actions'
+import { DBUser } from 'classes'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Edit3, Trash, AlertTriangle } from 'react-feather'
-import moment from 'moment'
 import { deleteConfirmMessage, deleteDone } from 'utils'
 import SWAL from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -15,22 +14,24 @@ import ToastBox from 'components/ToastBox'
 import Drawer from './Drawer'
 import { IDataTableColumn } from 'react-data-table-component'
 import Table from 'components/DataTable'
+import { userRoles } from 'utils/ability'
+import { Badge } from 'reactstrap'
 
 const {
-  getTerritoryRequest,
+  getUsersRequest,
   clearStates,
   setActiveLink,
-  deleteTerritoryRequest,
-  setTerritory,
+  deleteUserRequest,
+  setUser,
   setQueryParams
-} = territoryActions
+} = userActions
 
 const List = () => {
   const dispatch: Dispatch = useDispatch()
-  const store = Selector((state) => state.territories)
+  const store = Selector((state) => state.users)
   const layoutStore = Selector((state) => state.layout)
   const [loading, setLoading] = useState(false)
-  const [territories, setTerritories] = useState<Territory[]>([])
+  const [users, setUsers] = useState<DBUser[]>([])
   const sweetAlert = withReactContent(SWAL)
   const [toggleDrawer, setToggleDrawer] = useState(false)
   const [pageSize, setPageSize] = useState(store.params.page)
@@ -40,10 +41,10 @@ const List = () => {
 
   useEffect(() => {
     const { params } = store
-    params.region = 0
+    params.role = ''
     params.query = ''
     dispatch(setQueryParams(params))
-    dispatch(getTerritoryRequest(params))
+    dispatch(getUsersRequest(params))
     dispatch(clearStates())
     dispatch(setActiveLink('list'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,45 +54,97 @@ const List = () => {
     (id: number, name: string) => {
       sweetAlert.fire(deleteConfirmMessage(name)).then(function (res) {
         if (res.value) {
-          dispatch(deleteTerritoryRequest(id))
+          dispatch(deleteUserRequest(id))
         }
       })
     },
     [dispatch, sweetAlert]
   )
 
+  const renderBadge = useCallback((role: string) => {
+    switch (role) {
+      case userRoles.admin:
+        return (
+          <Badge className="text-uppercase" color="primary" pill>
+            {role}
+          </Badge>
+        )
+      case userRoles.agent:
+        return (
+          <Badge className="text-uppercase" color="secondary" pill>
+            {role}
+          </Badge>
+        )
+      case userRoles.dispatch:
+        return (
+          <Badge className="text-uppercase" color="info" pill>
+            {role.toUpperCase()}
+          </Badge>
+        )
+    }
+  }, [])
+
+  const renderVerified = useCallback((verified: boolean) => {
+    switch (verified) {
+      case true:
+        return (
+          <Badge className="text-uppercase" color="success" pill>
+            Verified
+          </Badge>
+        )
+      case false:
+        return (
+          <Badge className="text-uppercase" color="danger" pill>
+            Not Verified
+          </Badge>
+        )
+    }
+  }, [])
+
   const columns: IDataTableColumn[] = useMemo(
     () => [
       {
         id: 1,
-        name: 'Locality',
+        name: 'First Name',
         sortable: true,
-        selector: (row: Territory) => row.locality.toUpperCase()
+        selector: (row: DBUser) =>
+          row.firstName ? row.firstName.toUpperCase() : null
       },
       {
         id: 2,
-        name: 'Region',
+        name: 'Last Name',
         sortable: true,
-        selector: (row: Territory) => row.region.region
+        selector: (row: DBUser) =>
+          row.lastName ? row.lastName.toUpperCase() : null
       },
       {
         id: 3,
-        name: 'Created Date',
+        name: 'Email',
         sortable: true,
-        selector: (row: Territory) =>
-          moment(row.createdAt).format("MMM Do, 'YY")
+        selector: (row: DBUser) => row.email
       },
       {
         id: 4,
-        name: 'Updated Date',
+        name: 'Phone',
         sortable: true,
-        selector: (row: Territory) =>
-          moment(row.updatedAt).format("MMM Do, 'YY")
+        selector: (row: DBUser) => row.phone
       },
       {
-        cell: (row: Territory) => (
+        id: 5,
+        name: 'Role',
+        sortable: true,
+        selector: (row: DBUser) => renderBadge(row.role)
+      },
+      {
+        id: 6,
+        name: 'Verified',
+        sortable: true,
+        selector: (row: DBUser) => renderVerified(row.isVerified)
+      },
+      {
+        cell: (row: DBUser) => (
           <Fragment>
-            <Link to={`/admin/territories/edit/${row.id}`}>
+            <Link to={`/admin/users/edit/${row.id}`}>
               <Edit3
                 size={14}
                 className="mr-lg-1"
@@ -104,27 +157,27 @@ const List = () => {
               style={{ outline: 'none' }}
               color="#F44336"
               className="cursor-pointer"
-              onClick={() => handleDelete(row.id, row.locality)}
+              onClick={() => handleDelete(row.id, row.firstName.toUpperCase())}
             />
           </Fragment>
         )
       }
     ],
-    [handleDelete]
+    [handleDelete, renderBadge, renderVerified]
   )
 
   useEffect(() => {
-    const { loading, territories, isDeleted, errors, count } = store
+    const { loading, users, isDeleted, errors, count } = store
     const { mode } = layoutStore
     setLoading(loading)
-    if (territories.length) {
-      setTerritories(territories)
+    if (users.length) {
+      setUsers(users)
       setTotalRows(count)
     } else {
-      setTerritories(territories)
+      setUsers(users)
     }
     if (isDeleted) {
-      sweetAlert.fire(deleteDone('Territory')).then(function (res) {
+      sweetAlert.fire(deleteDone('User')).then(function (res) {
         if (res.value) {
           dispatch(clearStates())
         }
@@ -154,7 +207,7 @@ const List = () => {
       }
       setCurrentPage(page)
       dispatch(setQueryParams(params))
-      dispatch(getTerritoryRequest(params))
+      dispatch(getUsersRequest(params))
     },
     [dispatch, pageSize, store, currentPage]
   )
@@ -164,14 +217,14 @@ const List = () => {
       const { params } = store
       params.page = newPerPage
       setPageSize(newPerPage)
-      dispatch(getTerritoryRequest(params))
+      dispatch(getUsersRequest(params))
     },
     [dispatch, store]
   )
 
-  const handleTerritorySelection = useCallback(
-    (territory: Territory) => {
-      dispatch(setTerritory(territory))
+  const handleUserSelection = useCallback(
+    (user: DBUser) => {
+      dispatch(setUser(user))
       setToggleDrawer(!toggleDrawer)
     },
     [dispatch, toggleDrawer]
@@ -181,11 +234,11 @@ const List = () => {
     <Table
       columns={columns}
       currentPage={currentPage}
-      data={territories}
+      data={users}
       handlePageClick={handlePageClick}
       handlePerRowsChange={handlePerRowsChange}
       loading={loading}
-      onRowClicked={handleTerritorySelection}
+      onRowClicked={handleUserSelection}
       pageSize={pageSize}
       server
       theme={mode}
@@ -212,7 +265,7 @@ const List = () => {
           {renderList()}
         </PerfectScrollbar>
       </div>
-      {store.territory ? (
+      {store.user ? (
         <Drawer
           toggleDrawer={toggleDrawer}
           handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}

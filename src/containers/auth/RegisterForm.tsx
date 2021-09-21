@@ -152,13 +152,14 @@ const RegisterForm: React.FC<Props> = (props) => {
           </FormGroup>
           <FormGroup>
             <CustomInput
-              type="switch"
+              type="checkbox"
               className="custom-control-Primary"
               id="terms"
               label="Accept terms and privacy policy"
               name="terms"
               onChange={handleChange}
               onBlur={handleBlur}
+              checked={values.terms}
             />
             {errors.terms && touched.terms ? (
               <small style={{ color: '#ff0000', fontWeight: 700 }}>
