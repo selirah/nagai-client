@@ -18,6 +18,11 @@ const routes: RR[] = [
     path: 'edit/:id',
     component: lazy(() => import('containers/users/Edit')),
     exact: true
+  },
+  {
+    path: 'assign-territories/:id',
+    component: lazy(() => import('containers/users/AssignTerritories')),
+    exact: true
   }
 ]
 

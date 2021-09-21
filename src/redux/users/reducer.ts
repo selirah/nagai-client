@@ -167,6 +167,52 @@ const reducer: Reducer<UserState> = (state = initialState, action) => {
         searchedUsers: initialState.searchedUsers
       }
 
+    case ActionTypes.ASSIGN_USER_TERRITORY_REQUEST:
+      return {
+        ...state,
+        isSubmitting: true,
+        errors: initialState.errors,
+        isSucceeded: initialState.isSucceeded
+      }
+
+    case ActionTypes.ASSIGN_USER_TERRITORY_SUCCESS:
+      return {
+        ...state,
+        isSubmitting: initialState.isSubmitting,
+        isSucceeded: true
+      }
+
+    case ActionTypes.ASSIGN_USER_TERRITORY_FAILURE:
+      return {
+        ...state,
+        isSubmitting: initialState.isSubmitting,
+        errors: action.payload,
+        isSucceeded: initialState.isSucceeded
+      }
+
+    case ActionTypes.UPDATE_USER_TERRITORY_REQUEST:
+      return {
+        ...state,
+        isSubmitting: true,
+        errors: initialState.errors,
+        isSucceeded: initialState.isSucceeded
+      }
+
+    case ActionTypes.UPDATE_USER_TERRITORY_SUCCESS:
+      return {
+        ...state,
+        isSubmitting: initialState.isSubmitting,
+        isSucceeded: true
+      }
+
+    case ActionTypes.UPDATE_USER_TERRITORY_FAILURE:
+      return {
+        ...state,
+        isSubmitting: initialState.isSubmitting,
+        errors: action.payload,
+        isSucceeded: initialState.isSucceeded
+      }
+
     default:
       return state
   }

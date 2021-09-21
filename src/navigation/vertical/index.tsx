@@ -54,12 +54,6 @@ const VerticalNavigation = [
     navLink: PRIVATE_ROUTES.USERS
   },
   {
-    id: 'user-territories',
-    title: 'User Territories',
-    icon: <Icons.MapPin size={20} />,
-    navLink: PRIVATE_ROUTES.USER_TERRITORIES
-  },
-  {
     id: 'orders',
     title: 'Orders',
     icon: <Icons.ShoppingCart size={20} />,

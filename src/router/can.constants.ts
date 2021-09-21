@@ -5,7 +5,6 @@ const abilities = {
   Products: 'Products',
   Stock: 'Stock',
   Territories: 'Territories',
-  UserTerritories: 'UserTerritories',
   Outlets: 'Outlets',
   Users: 'Users'
 }

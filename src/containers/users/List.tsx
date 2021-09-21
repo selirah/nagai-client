@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import userActions from 'redux/users/actions'
 import { DBUser } from 'classes'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { Edit3, Trash, AlertTriangle } from 'react-feather'
+import { Edit3, Trash, AlertTriangle, Map } from 'react-feather'
 import { deleteConfirmMessage, deleteDone } from 'utils'
 import SWAL from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -150,6 +150,14 @@ const List = () => {
                 className="mr-lg-1"
                 style={{ outline: 'none' }}
                 color="#40C4FF"
+              />
+            </Link>
+            <Link to={`/admin/users/assign-territories/${row.id}`}>
+              <Map
+                size={14}
+                className="mr-lg-1"
+                style={{ outline: 'none' }}
+                color="#7367f0"
               />
             </Link>
             <Trash

@@ -34,7 +34,15 @@ const utilsActions = {
   getTerritoriesFailure: (error: any) =>
     action(ActionTypes.GET_TERRITORIES_FAILURE, error),
 
-  clearStates: () => action(ActionTypes.CLEAR_STATES)
+  clearStates: () => action(ActionTypes.CLEAR_STATES),
+
+  setSearchText: (value: string, territories: Territory[]) => {
+    const res = territories.filter((item) => {
+      const blob = `${item.locality.toLowerCase()}${item.region.region.toLowerCase()}`
+      return blob.indexOf(value.replace(/ /gi, '').toLowerCase()) > -1
+    })
+    return action(ActionTypes.SEARCH_TEXT, { value, res })
+  }
 }
 
 export default utilsActions

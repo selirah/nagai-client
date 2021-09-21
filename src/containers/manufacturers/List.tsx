@@ -36,9 +36,7 @@ const List = () => {
   const [mode, setMode] = useState(layoutStore.mode)
 
   useEffect(() => {
-    if (isEmpty(manufacturers)) {
-      dispatch(getManufacturersRequest())
-    }
+    dispatch(getManufacturersRequest())
     dispatch(clearStates())
     dispatch(setActiveLink('list'))
     // eslint-disable-next-line react-hooks/exhaustive-deps

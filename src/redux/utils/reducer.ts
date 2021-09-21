@@ -7,7 +7,9 @@ export const initialState: UtilsState = {
   loading: false,
   regions: [],
   units: [],
-  territories: []
+  territories: [],
+  filtered: [],
+  searchText: ''
 }
 
 const reducer: Reducer<UtilsState> = (state = initialState, action) => {
@@ -95,6 +97,13 @@ const reducer: Reducer<UtilsState> = (state = initialState, action) => {
         ...state,
         errors: action.payload,
         loading: initialState.loading
+      }
+
+    case ActionTypes.SEARCH_TEXT:
+      return {
+        ...state,
+        searchText: action.payload.value,
+        filtered: action.payload.res
       }
 
     default:

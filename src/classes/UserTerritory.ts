@@ -6,3 +6,14 @@ export type UserTerritory = {
   territories: Territory[]
   user: DBUser
 }
+
+export type UserTerritoryObj = {
+  userTerritories: UserTerritory[]
+  count: number
+}
+
+export type UserTerritoryFields = {
+  id?: number
+  userId: number
+  territories: Territory[]
+}

@@ -71,10 +71,22 @@ interface Props {
   theme: string
   loading?: boolean
   onRowClick?: (row: any) => void
+  selectableRows?: boolean
+  onSelectedRowsChange?: (value: any) => void
+  selectableRowSelected?: (row: any) => boolean
 }
 
 const SimpleTable: React.FC<Props> = (props) => {
-  const { columns, data, theme, loading, onRowClick } = props
+  const {
+    columns,
+    data,
+    theme,
+    loading,
+    onRowClick,
+    selectableRows,
+    onSelectedRowsChange,
+    selectableRowSelected
+  } = props
 
   const renderEmptyList = () => <Empty />
 
@@ -104,6 +116,9 @@ const SimpleTable: React.FC<Props> = (props) => {
       progressPending={loading}
       progressComponent={renderLoader()}
       onRowClicked={onRowClick}
+      selectableRows={selectableRows}
+      onSelectedRowsChange={onSelectedRowsChange}
+      selectableRowSelected={selectableRowSelected}
     />
   )
 }

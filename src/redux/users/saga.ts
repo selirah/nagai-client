@@ -2,7 +2,7 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
 import { callApiDelete, callApiPost, callApiPut, callApiGet } from 'api'
 import userActions from './actions'
-import { UserFields, Param } from 'classes'
+import { UserFields, Param, UserTerritoryFields } from 'classes'
 
 function* addUser({
   payload
@@ -98,6 +98,51 @@ function* getSearchedUsers({
   }
 }
 
+function* assignUserTerritory({
+  payload
+}: {
+  type: string
+  payload: UserTerritoryFields
+}): Generator {
+  try {
+    const res: any = yield call(callApiPost, 'user-territories', payload)
+    if (res.status === 201) {
+      yield put(userActions.assignUserTerritorySuccess())
+    }
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(userActions.assignUserTerritoryFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
+function* updateUserTerritory({
+  payload
+}: {
+  type: string
+  payload: UserTerritoryFields
+}): Generator {
+  try {
+    const res: any = yield call(
+      callApiPut,
+      'user-territories',
+      payload,
+      payload.id
+    )
+    if (res.status === 200) {
+      yield put(userActions.updateUserTerritorySuccess())
+    }
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(userActions.updateUserTerritoryFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
 function* watchAddUser() {
   yield takeEvery(ActionTypes.ADD_USER_REQUEST, addUser)
 }
@@ -118,13 +163,29 @@ function* watchGetSearchedUsers() {
   yield takeEvery(ActionTypes.GET_USERS_SEARCH_REQUEST, getSearchedUsers)
 }
 
+function* watchAssignUserTerritory() {
+  yield takeEvery(
+    ActionTypes.ASSIGN_USER_TERRITORY_REQUEST,
+    assignUserTerritory
+  )
+}
+
+function* watchUpdateUserTerritory() {
+  yield takeEvery(
+    ActionTypes.UPDATE_USER_TERRITORY_REQUEST,
+    updateUserTerritory
+  )
+}
+
 function* userSaga(): Generator {
   yield all([
     fork(watchAddUser),
     fork(watchUpdateUser),
     fork(watchDeleteUser),
     fork(watchGetUsers),
-    fork(watchGetSearchedUsers)
+    fork(watchGetSearchedUsers),
+    fork(watchAssignUserTerritory),
+    fork(watchUpdateUserTerritory)
   ])
 }
 

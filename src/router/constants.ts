@@ -19,7 +19,6 @@ export const PRIVATE_ROUTES = {
   PRODUCTS: '/admin/products',
   OUTLETS: '/admin/outlets',
   TERRITORIES: '/admin/territories',
-  USER_TERRITORIES: '/admin/user-territories',
   STOCK: '/admin/stock',
   ORDERS: '/admin/orders',
   USERS: '/admin/users',

@@ -13,7 +13,8 @@ export enum ActionTypes {
   CLEAR_STATES = '@@utils/CLEAR_STATES',
   GET_TERRITORIES_REQUEST = '@@utils/GET_TERRITORIES_REQUEST',
   GET_TERRITORIES_SUCCESS = '@@utils/GET_TERRITORIES_SUCCESS',
-  GET_TERRITORIES_FAILURE = '@@utils/GET_TERRITORIES_FAILURE'
+  GET_TERRITORIES_FAILURE = '@@utils/GET_TERRITORIES_FAILURE',
+  SEARCH_TEXT = '@@manufacturers/SEARCH_TEXT'
 }
 
 export type UtilsState = {
@@ -23,4 +24,6 @@ export type UtilsState = {
   readonly direction: any
   readonly units: Unit[]
   readonly territories: Territory[]
+  readonly filtered: Territory[]
+  readonly searchText: string
 }

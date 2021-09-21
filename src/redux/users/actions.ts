@@ -1,5 +1,11 @@
 import { action } from 'typesafe-actions'
-import { UserObj, DBUser, UserFields, Param } from 'classes'
+import {
+  UserObj,
+  DBUser,
+  UserFields,
+  Param,
+  UserTerritoryFields
+} from 'classes'
 import { ActionTypes } from './types'
 
 const userActions = {
@@ -53,7 +59,25 @@ const userActions = {
   getSearchedUsersFailure: (error: any) =>
     action(ActionTypes.GET_USERS_SEARCH_FAILURE, error),
 
-  clearSearchedUsers: () => action(ActionTypes.CLEAR_SEARCHED_USERS)
+  clearSearchedUsers: () => action(ActionTypes.CLEAR_SEARCHED_USERS),
+
+  assignUserTerritoryRequest: (payload: UserTerritoryFields) =>
+    action(ActionTypes.ASSIGN_USER_TERRITORY_REQUEST, payload),
+
+  assignUserTerritorySuccess: () =>
+    action(ActionTypes.ASSIGN_USER_TERRITORY_SUCCESS),
+
+  assignUserTerritoryFailure: (error: any) =>
+    action(ActionTypes.ASSIGN_USER_TERRITORY_FAILURE, error),
+
+  updateUserTerritoryRequest: (payload: UserTerritoryFields) =>
+    action(ActionTypes.UPDATE_USER_TERRITORY_REQUEST, payload),
+
+  updateUserTerritorySuccess: () =>
+    action(ActionTypes.UPDATE_USER_TERRITORY_SUCCESS),
+
+  updateUserTerritoryFailure: (error: any) =>
+    action(ActionTypes.UPDATE_USER_TERRITORY_FAILURE, error)
 }
 
 export default userActions
