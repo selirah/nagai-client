@@ -13,6 +13,8 @@ import { territoryReducer, TerritoryState } from './terrirtories'
 import { utilsReducer, UtilsState } from './utils'
 import { outletReducer, OutletState } from './outlets'
 import { userReducer, UserState } from './users'
+import { orderReducer, OrderState } from './orders'
+import { invoiceReducer, InvoiceState } from './invoices'
 
 export type ApplicationState = {
   auth: AuthState
@@ -26,6 +28,8 @@ export type ApplicationState = {
   utils: UtilsState
   outlets: OutletState
   users: UserState
+  orders: OrderState
+  invoices: InvoiceState
 }
 
 const persistConfig = {
@@ -42,7 +46,9 @@ const persistConfig = {
     'territories',
     'utils',
     'outlets',
-    'users'
+    'users',
+    'orders',
+    'invoices'
   ]
 }
 
@@ -57,7 +63,9 @@ const appReducer = combineReducers({
   territories: territoryReducer,
   utils: utilsReducer,
   outlets: outletReducer,
-  users: userReducer
+  users: userReducer,
+  orders: orderReducer,
+  invoices: invoiceReducer
 })
 
 const rootReducer = (state?: ApplicationState, action?: AnyAction) => {

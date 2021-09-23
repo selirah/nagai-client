@@ -101,6 +101,24 @@ function* getStockTrails({
   }
 }
 
+function* getProductStock({
+  payload
+}: {
+  type: string
+  payload: string
+}): Generator {
+  try {
+    const res: any = yield call(callApiGet, `stock/${payload}`)
+    yield put(stockActions.getProductStockSuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(stockActions.getProductStockFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
 function* watchAddStock() {
   yield takeEvery(ActionTypes.ADD_STOCK_REQUEST, addStock)
 }
@@ -121,13 +139,18 @@ function* watchGetStockTrails() {
   yield takeEvery(ActionTypes.GET_STOCK_TRAILS_REQUEST, getStockTrails)
 }
 
+function* watchGetProductStock() {
+  yield takeEvery(ActionTypes.GET_PRODUCT_STOCK_FAILURE, getProductStock)
+}
+
 function* stockSaga(): Generator {
   yield all([
     fork(watchAddStock),
     fork(watchUpdateStock),
     fork(watchDeleteStock),
     fork(watchGetStock),
-    fork(watchGetStockTrails)
+    fork(watchGetStockTrails),
+    fork(watchGetProductStock)
   ])
 }
 

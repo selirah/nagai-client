@@ -54,7 +54,18 @@ const stockActions = {
     action(ActionTypes.GET_STOCK_TRAILS_FAILURE, error),
 
   setStockTrailsParams: (params: Param) =>
-    action(ActionTypes.SET_STOCK_TRIALS_PARAMS, params)
+    action(ActionTypes.SET_STOCK_TRIALS_PARAMS, params),
+
+  getProductStockRequest: (productId: string) =>
+    action(ActionTypes.GET_PRODUCT_STOCK_REQUEST, productId),
+
+  getProductStockSuccess: (data: Stock[]) =>
+    action(ActionTypes.GET_PRODUCT_STOCK_SUCCESS, data),
+
+  getProductStockFailure: (error: any) =>
+    action(ActionTypes.GET_PRODUCT_STOCK_FAILURE, error),
+
+  clearProductStock: () => action(ActionTypes.CLEAR_PRODUCT_STOCK)
 }
 
 export default stockActions

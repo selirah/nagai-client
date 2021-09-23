@@ -24,5 +24,6 @@ export const PRIVATE_ROUTES = {
   USERS: '/admin/users',
   DELIVERIES: '/admin/deliveries',
   SALES: '/admin/sales',
-  PAYMENTS: '/admin/payments'
+  PAYMENTS: '/admin/payments',
+  REPORTS: '/admin/reports'
 }

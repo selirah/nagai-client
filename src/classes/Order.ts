@@ -1,21 +1,25 @@
-import { Product, Outlet, DBUser } from 'classes'
+import { Product, Outlet, DBUser, Invoice } from 'classes'
 
 export type Item = {
   product: Product
   unit: string
   unitPrice: number
   quantity: number
+  sku: string
 }
 
 export type Order = {
   id: string
   items: Item[]
-  vat: number
-  discount: number
+  orderNumber: string
+  orderTotal: number
   outletId: number
   agentId: number
+  status: string
   outlet: Outlet
   agent: DBUser
+  invoice: Invoice
+  delivery: []
   createdAt: Date
   updatedAt: Date
 }
@@ -27,9 +31,9 @@ export type OrderObj = {
 
 export type OrderFields = {
   id?: string
+  orderNumber: string
   items: Item[]
-  vat: string | number
-  discount: string | number
+  orderTotal: number | string
   outletId: number | string
   agentId: number | string
 }

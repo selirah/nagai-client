@@ -3,13 +3,16 @@ import { PRIVATE_ROUTES } from 'router/constants'
 
 const VerticalNavigation = [
   {
+    header: 'Home'
+  },
+  {
     id: 'home',
     title: 'Dashboard',
     icon: <Icons.Home size={20} />,
     navLink: PRIVATE_ROUTES.HOME
   },
   {
-    header: 'Features'
+    header: 'Business and Territories'
   },
   {
     id: 'manufacturers',
@@ -18,10 +21,25 @@ const VerticalNavigation = [
     navLink: PRIVATE_ROUTES.MANUFACTURERS
   },
   {
+    id: 'territories',
+    title: 'Territories',
+    icon: <Icons.Map size={20} />,
+    navLink: PRIVATE_ROUTES.TERRITORIES
+  },
+  {
     id: 'outlets',
     title: 'Outlets',
     icon: <Icons.CloudLightning size={20} />,
     navLink: PRIVATE_ROUTES.OUTLETS
+  },
+  {
+    id: 'users',
+    title: 'Users',
+    icon: <Icons.Users size={20} />,
+    navLink: PRIVATE_ROUTES.USERS
+  },
+  {
+    header: 'Products and Stock'
   },
   {
     id: 'categories',
@@ -42,16 +60,7 @@ const VerticalNavigation = [
     navLink: PRIVATE_ROUTES.STOCK
   },
   {
-    id: 'territories',
-    title: 'Territories',
-    icon: <Icons.Map size={20} />,
-    navLink: PRIVATE_ROUTES.TERRITORIES
-  },
-  {
-    id: 'users',
-    title: 'Users',
-    icon: <Icons.Users size={20} />,
-    navLink: PRIVATE_ROUTES.USERS
+    header: 'Orders and Deliveries'
   },
   {
     id: 'orders',
@@ -66,6 +75,9 @@ const VerticalNavigation = [
     navLink: PRIVATE_ROUTES.DELIVERIES
   },
   {
+    header: 'Sales and Payments'
+  },
+  {
     id: 'sales',
     title: 'Sales',
     icon: <Icons.ShoppingBag size={20} />,
@@ -76,6 +88,15 @@ const VerticalNavigation = [
     title: 'Payments',
     icon: <Icons.BookOpen size={20} />,
     navLink: PRIVATE_ROUTES.PAYMENTS
+  },
+  {
+    header: 'Reports'
+  },
+  {
+    id: 'reports',
+    title: 'Reports',
+    icon: <Icons.BarChart2 size={20} />,
+    navLink: PRIVATE_ROUTES.REPORTS
   }
 ]
 

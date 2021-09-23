@@ -10,4 +10,5 @@ export type Param = {
   region?: number
   territory?: number
   role?: string
+  status?: string
 }

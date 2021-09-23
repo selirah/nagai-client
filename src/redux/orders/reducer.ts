@@ -1,7 +1,7 @@
 import { Reducer } from 'redux'
-import { StockState, ActionTypes } from './types'
+import { OrderState, ActionTypes } from './types'
 
-export const initialState: StockState = {
+export const initialState: OrderState = {
   activeLink: 'list',
   count: 0,
   errors: null,
@@ -10,30 +10,21 @@ export const initialState: StockState = {
   isSubmitting: false,
   isSucceeded: false,
   loading: false,
+  order: null,
+  orders: [],
   params: {
     page: 10,
     skip: 0,
+    query: '',
     fromDate: '',
     toDate: '',
-    query: ''
-  },
-  stk: null,
-  stock: [],
-  stockTrails: [],
-  stockTrailsCount: 0,
-  stockTrailsParams: {
-    page: 10,
-    skip: 0,
-    fromDate: '',
-    toDate: ''
-  },
-  loadStockTrails: false,
-  productStock: []
+    status: ''
+  }
 }
 
-const reducer: Reducer<StockState> = (state = initialState, action) => {
+const reducer: Reducer<OrderState> = (state = initialState, action) => {
   switch (action.type) {
-    case ActionTypes.ADD_STOCK_REQUEST:
+    case ActionTypes.ADD_ORDER_REQUEST:
       return {
         ...state,
         isSubmitting: true,
@@ -41,14 +32,14 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.ADD_STOCK_SUCCESS:
+    case ActionTypes.ADD_ORDER_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         isSucceeded: true
       }
 
-    case ActionTypes.ADD_STOCK_FAILURE:
+    case ActionTypes.ADD_ORDER_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -56,7 +47,7 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.UPDATE_STOCK_REQUEST:
+    case ActionTypes.UPDATE_ORDER_REQUEST:
       return {
         ...state,
         isSubmitting: true,
@@ -64,14 +55,14 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.UPDATE_STOCK_SUCCESS:
+    case ActionTypes.UPDATE_ORDER_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
         isSucceeded: true
       }
 
-    case ActionTypes.UPDATE_STOCK_FAILURE:
+    case ActionTypes.UPDATE_ORDER_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -79,22 +70,22 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isSucceeded: initialState.isSucceeded
       }
 
-    case ActionTypes.DELETE_STOCK_REQUEST:
+    case ActionTypes.DELETE_ORDER_REQUEST:
       return {
         ...state,
         errors: initialState.errors,
         isDeleted: initialState.isDeleted
       }
 
-    case ActionTypes.DELETE_STOCK_SUCCESS:
+    case ActionTypes.DELETE_ORDER_SUCCESS:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
-        stock: state.stock.filter((s) => s.id !== action.payload),
+        orders: state.orders.filter((o) => o.id !== action.payload),
         isDeleted: true
       }
 
-    case ActionTypes.DELETE_STOCK_FAILURE:
+    case ActionTypes.DELETE_ORDER_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,
@@ -102,21 +93,21 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         isDeleted: initialState.isDeleted
       }
 
-    case ActionTypes.GET_STOCK_REQUEST:
+    case ActionTypes.GET_ORDERS_REQUEST:
       return {
         ...state,
         loading: true
       }
 
-    case ActionTypes.GET_STOCK_SUCCESS:
+    case ActionTypes.GET_ORDERS_SUCCESS:
       return {
         ...state,
         loading: initialState.loading,
-        stock: action.payload.stock,
+        orders: action.payload.orders,
         count: action.payload.count
       }
 
-    case ActionTypes.GET_STOCK_FAILURE:
+    case ActionTypes.GET_ORDERS_FAILURE:
       return {
         ...state,
         loading: initialState.loading,
@@ -130,8 +121,7 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         errors: initialState.errors,
         isDeleted: initialState.isDeleted,
         isSubmitting: initialState.isSubmitting,
-        loading: initialState.loading,
-        loadStockTrails: initialState.loadStockTrails
+        loading: initialState.loading
       }
 
     case ActionTypes.SET_ACTIVE_LINK:
@@ -140,10 +130,10 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         activeLink: action.payload
       }
 
-    case ActionTypes.SET_STOCK:
+    case ActionTypes.SET_ORDER:
       return {
         ...state,
-        stk: action.payload
+        order: action.payload
       }
 
     case ActionTypes.SET_QUERY_PARAMS:
@@ -152,62 +142,9 @@ const reducer: Reducer<StockState> = (state = initialState, action) => {
         params: action.payload
       }
 
-    case ActionTypes.GET_STOCK_TRAILS_REQUEST:
-      return {
-        ...state,
-        loadStockTrails: true
-      }
-
-    case ActionTypes.GET_STOCK_TRAILS_SUCCESS:
-      return {
-        ...state,
-        loadStockTrails: initialState.loadStockTrails,
-        stockTrails: action.payload.stockTrails,
-        stockTrailsCount: action.payload.count
-      }
-
-    case ActionTypes.GET_STOCK_TRAILS_FAILURE:
-      return {
-        ...state,
-        loadStockTrails: initialState.loadStockTrails,
-        error: action.payload
-      }
-
-    case ActionTypes.SET_STOCK_TRIALS_PARAMS:
-      return {
-        ...state,
-        stockTrailsParams: action.payload
-      }
-
-    case ActionTypes.GET_PRODUCT_STOCK_REQUEST:
-      return {
-        ...state,
-        loading: true
-      }
-
-    case ActionTypes.GET_PRODUCT_STOCK_SUCCESS:
-      return {
-        ...state,
-        loading: initialState.loading,
-        productStock: action.payload
-      }
-
-    case ActionTypes.GET_PRODUCT_STOCK_FAILURE:
-      return {
-        ...state,
-        loading: initialState.loading,
-        error: action.payload
-      }
-
-    case ActionTypes.CLEAR_PRODUCT_STOCK:
-      return {
-        ...state,
-        productStock: initialState.productStock
-      }
-
     default:
       return state
   }
 }
 
-export { reducer as stockReducer }
+export { reducer as orderReducer }
