@@ -14,5 +14,7 @@
   "Sales": "Sales",
   "Payments": "Payments",
   "Categories": "Categories",
-  "Users": "Users"
+  "Users": "Users",
+  "Invoices": "Invoices",
+  "Reports": "Reports"
 }

@@ -1,4 +1,4 @@
-import { Order, Param } from 'classes'
+import { Order, Param, Item } from 'classes'
 
 export enum ActionTypes {
   SUBMITTING = '@@orders/SUBMITTING',
@@ -20,7 +20,10 @@ export enum ActionTypes {
   CLEAR_STATES = '@@orders/CLEAR_STATES',
   SET_ACTIVE_LINK = '@@orders/SET_ACTIVE_LINK',
   SET_ORDER = '@@orders/SET_ORDER',
-  SET_QUERY_PARAMS = '@@orders/SET_QUERY_PARAMS'
+  SET_QUERY_PARAMS = '@@orders/SET_QUERY_PARAMS',
+  ADD_TO_CART = '@@orders/ADD_TO_CART',
+  REMOVE_FROM_CART = '@@orders/REMOVE_FROM_CART',
+  CLEAR_CART = '@@orders/CLEAR_CART'
 }
 
 export type OrderState = {
@@ -35,4 +38,5 @@ export type OrderState = {
   readonly order: Order | null
   readonly params: Param
   readonly count: number
+  readonly cart: Item[]
 }

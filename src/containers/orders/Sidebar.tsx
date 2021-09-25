@@ -20,25 +20,27 @@ import {
   Spinner,
   UncontrolledTooltip
 } from 'reactstrap'
-import { List, Grid, Search, XCircle } from 'react-feather'
+import { ShoppingBag, Grid, Search, XCircle, PlusSquare } from 'react-feather'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import stockActions from 'redux/stock/actions'
 import { Product } from 'classes'
 import productActions from 'redux/products/actions'
+import orderActions from 'redux/orders/actions'
+import stockActions from 'redux/stock/actions'
 
 interface Props {
   mainSidebar: boolean
 }
 
-const { setActiveLink, setQueryParams, getStockRequest } = stockActions
-const { getSearchedProductsRequest, setProduct, clearSearchedProducts } =
-  productActions
+const { getSearchedProductsRequest, clearSearchedProducts } = productActions
+const { setActiveLink, setQueryParams, getOrdersRequest } = orderActions
+const { getProductStockRequest } = stockActions
 
 const Sidebar: React.FC<Props> = (props) => {
   const { mainSidebar } = props
-  const store = Selector((state) => state.stock)
+  const store = Selector((state) => state.orders)
   const productStore = Selector((state) => state.products)
+
   const [active, setActive] = useState(store.activeLink)
   const dispatch: Dispatch = useDispatch()
   const [query, setQuery] = useState('')
@@ -52,7 +54,7 @@ const Sidebar: React.FC<Props> = (props) => {
       if (value === 'list') {
         const { params } = store
         dispatch(setQueryParams(params))
-        dispatch(getStockRequest(params))
+        dispatch(getOrdersRequest(params))
       }
       dispatch(setActiveLink(value))
     },
@@ -84,8 +86,9 @@ const Sidebar: React.FC<Props> = (props) => {
     (e: MouseEvent<HTMLElement>, product: Product, activeLink: string) => {
       e.preventDefault()
       dispatch(setActiveLink(activeLink))
-      dispatch(setProduct(product))
-      history.push(`/admin/stock/add/${product.id}`)
+
+      dispatch(getProductStockRequest(product.id))
+      history.push(`/admin/orders/product-stock/${product.id}`)
     },
     [dispatch, history]
   )
@@ -160,12 +163,24 @@ const Sidebar: React.FC<Props> = (props) => {
                 <ListGroupItem
                   action
                   tag={Link}
-                  to={'/admin/stock'}
+                  to={'/admin/orders'}
                   active={active === 'list'}
                   onClick={() => handleActiveLink('list')}
                 >
-                  <List className="mr-75" size={18} />
-                  <span className="align-middle">Stock List</span>
+                  <ShoppingBag className="mr-75" size={18} />
+                  <span className="align-middle">Orders</span>
+                </ListGroupItem>
+              </ListGroup>
+              <ListGroup tag="div" className="list-group-filters">
+                <ListGroupItem
+                  action
+                  tag={Link}
+                  to={'/admin/orders/add'}
+                  active={active === 'add'}
+                  onClick={() => handleActiveLink('add')}
+                >
+                  <PlusSquare className="mr-75" size={18} />
+                  <span className="align-middle">Place Order</span>
                 </ListGroupItem>
               </ListGroup>
               <Fragment>

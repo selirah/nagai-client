@@ -5,6 +5,7 @@ export type Product = {
   productName: string
   categoryId: number
   manufacturerId: number
+  avatar: string
   stock: Stock[]
   category: Category
   manufacturer: Manufacturer
@@ -21,5 +22,6 @@ export type ProductFields = {
   id: string
   productName: string
   categoryId: number
+  avatar?: string
   manufacturerId: number
 }

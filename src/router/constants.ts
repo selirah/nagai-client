@@ -25,5 +25,6 @@ export const PRIVATE_ROUTES = {
   DELIVERIES: '/admin/deliveries',
   SALES: '/admin/sales',
   PAYMENTS: '/admin/payments',
-  REPORTS: '/admin/reports'
+  REPORTS: '/admin/reports',
+  INVOICES: '/admin/invoices'
 }

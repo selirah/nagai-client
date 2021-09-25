@@ -3,6 +3,7 @@ import { Sun, Moon, Menu } from 'react-feather'
 import { NavItem, NavLink, UncontrolledTooltip } from 'reactstrap'
 import IntlDropdown from './IntlDropdown'
 import UserDropdown from './UserDropdown'
+import CartDisplay from './Cart'
 
 interface NavbarUserProps {
   mode: 'light' | 'dark'
@@ -56,6 +57,7 @@ const NavbarUser: React.FC<NavbarUserProps> = (props) => {
         </NavItem>
       </ul>
       <ul className="nav navbar-nav align-items-center ml-auto">
+        <CartDisplay />
         <IntlDropdown />
         <UserDropdown />
         <NavItem className="d-block">

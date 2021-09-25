@@ -12,7 +12,7 @@ import {
   SkipForward
 } from 'react-feather'
 import Empty from './EmptyBox'
-import { ScaleLoader } from 'react-spinners'
+import { PuffLoader } from 'react-spinners'
 
 const customStyles: IDataTableStyles = {
   rows: {
@@ -92,7 +92,7 @@ const SimpleTable: React.FC<Props> = (props) => {
 
   const renderLoader = () => (
     <div className="mt-5 text-primary">
-      <ScaleLoader color="#0090fe" />
+      <PuffLoader color="#0090fe" />
     </div>
   )
 

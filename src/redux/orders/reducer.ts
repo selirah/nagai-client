@@ -19,7 +19,8 @@ export const initialState: OrderState = {
     fromDate: '',
     toDate: '',
     status: ''
-  }
+  },
+  cart: []
 }
 
 const reducer: Reducer<OrderState> = (state = initialState, action) => {
@@ -140,6 +141,24 @@ const reducer: Reducer<OrderState> = (state = initialState, action) => {
       return {
         ...state,
         params: action.payload
+      }
+
+    case ActionTypes.ADD_TO_CART:
+      return {
+        ...state,
+        cart: [action.payload, ...state.cart]
+      }
+
+    case ActionTypes.REMOVE_FROM_CART:
+      return {
+        ...state,
+        cart: state.cart.filter((_, index) => index !== action.payload)
+      }
+
+    case ActionTypes.CLEAR_CART:
+      return {
+        ...state,
+        cart: initialState.cart
       }
 
     default:

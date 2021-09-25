@@ -12,11 +12,20 @@ const Details: React.FC<Props> = (props) => {
   const { product } = props
 
   const renderAvatar = (product: Product) => {
-    if (product) {
+    if (product && product.avatar) {
+      return (
+        <img
+          className="img-fluid w-100 h-100"
+          src={product.avatar}
+          style={{ objectFit: 'cover', borderRadius: '100%' }}
+          alt="Card"
+        />
+      )
+    } else {
       return (
         <div
           style={{ borderRadius: '100%' }}
-          className={`d-flex w-100 h-100 font-size-xl justify-content-center align-items-center avatar-variant-lg bg-primary text-white`}
+          className={`d-flex w-100 h-100 font-size-xl justify-content-center align-items-center avatar-variant-lg bg-light-info`}
         >
           {getInitials(product.productName.toUpperCase())}
         </div>

@@ -140,7 +140,7 @@ function* watchGetStockTrails() {
 }
 
 function* watchGetProductStock() {
-  yield takeEvery(ActionTypes.GET_PRODUCT_STOCK_FAILURE, getProductStock)
+  yield takeEvery(ActionTypes.GET_PRODUCT_STOCK_REQUEST, getProductStock)
 }
 
 function* stockSaga(): Generator {

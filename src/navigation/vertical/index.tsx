@@ -12,7 +12,7 @@ const VerticalNavigation = [
     navLink: PRIVATE_ROUTES.HOME
   },
   {
-    header: 'Business and Territories'
+    header: 'Outlets and Territories'
   },
   {
     id: 'manufacturers',
@@ -65,8 +65,14 @@ const VerticalNavigation = [
   {
     id: 'orders',
     title: 'Orders',
-    icon: <Icons.ShoppingCart size={20} />,
+    icon: <Icons.ShoppingBag size={20} />,
     navLink: PRIVATE_ROUTES.ORDERS
+  },
+  {
+    id: 'invoices',
+    title: 'Invoices',
+    icon: <Icons.Paperclip size={20} />,
+    navLink: PRIVATE_ROUTES.INVOICES
   },
   {
     id: 'deliveries',
@@ -80,13 +86,13 @@ const VerticalNavigation = [
   {
     id: 'sales',
     title: 'Sales',
-    icon: <Icons.ShoppingBag size={20} />,
+    icon: <Icons.Briefcase size={20} />,
     navLink: PRIVATE_ROUTES.SALES
   },
   {
     id: 'payments',
     title: 'Payments',
-    icon: <Icons.BookOpen size={20} />,
+    icon: <Icons.DollarSign size={20} />,
     navLink: PRIVATE_ROUTES.PAYMENTS
   },
   {

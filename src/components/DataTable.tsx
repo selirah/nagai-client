@@ -11,7 +11,7 @@ import {
   SkipBack,
   SkipForward
 } from 'react-feather'
-import { ScaleLoader } from 'react-spinners'
+import { PuffLoader } from 'react-spinners'
 import Empty from './EmptyBox'
 
 const customStyles: IDataTableStyles = {
@@ -98,7 +98,7 @@ const DataTableComponent: React.FC<Props> = (props) => {
 
   const renderLoader = () => (
     <div className="mt-5 text-primary">
-      <ScaleLoader color="#0090fe" />
+      <PuffLoader color="#0090fe" />
     </div>
   )
 

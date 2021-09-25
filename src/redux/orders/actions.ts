@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { OrderObj, Order, OrderFields, Param, UserFields } from 'classes'
+import { OrderObj, Order, OrderFields, Param, UserFields, Item } from 'classes'
 import { ActionTypes } from './types'
 
 const orderActions = {
@@ -43,7 +43,13 @@ const orderActions = {
   setOrder: (order: Order) => action(ActionTypes.SET_ORDER, order),
 
   setQueryParams: (params: Param) =>
-    action(ActionTypes.SET_QUERY_PARAMS, params)
+    action(ActionTypes.SET_QUERY_PARAMS, params),
+
+  addToCart: (item: Item) => action(ActionTypes.ADD_TO_CART, item),
+
+  removeFromCart: (id: number) => action(ActionTypes.REMOVE_FROM_CART, id),
+
+  clearCart: () => action(ActionTypes.CLEAR_CART)
 }
 
 export default orderActions

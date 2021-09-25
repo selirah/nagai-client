@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { Region, Unit, Territory } from 'classes'
+import { Region, Unit, Territory, Outlet } from 'classes'
 import { ActionTypes } from './types'
 
 const utilsActions = {
@@ -42,7 +42,15 @@ const utilsActions = {
       return blob.indexOf(value.replace(/ /gi, '').toLowerCase()) > -1
     })
     return action(ActionTypes.SEARCH_TEXT, { value, res })
-  }
+  },
+
+  getOutletsRequest: () => action(ActionTypes.GET_OUTLETS_REQUEST),
+
+  getOutletsSuccess: (data: Outlet[]) =>
+    action(ActionTypes.GET_OUTLETS_SUCCESS, data),
+
+  getOutletsFailure: (error: any) =>
+    action(ActionTypes.GET_OUTLETS_FAILURE, error)
 }
 
 export default utilsActions

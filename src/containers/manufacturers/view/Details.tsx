@@ -27,7 +27,7 @@ const Details: React.FC<Props> = (props) => {
           style={{ borderRadius: '100%' }}
           className={`d-flex w-100 h-100 font-size-xl justify-content-center align-items-center avatar-variant-lg bg-light-info`}
         >
-          {getInitials(manufacturer.name)}
+          {getInitials(manufacturer.name.toUpperCase())}
         </div>
       )
     }
