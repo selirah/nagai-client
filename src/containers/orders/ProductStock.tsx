@@ -14,8 +14,10 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Form, FormGroup, Label, Input, Row, Col, CardTitle } from 'reactstrap'
 import { ShoppingCart } from 'react-feather'
+import CartDrawer from './CartDrawer'
 
-const { clearStates, setActiveLink, addToCart } = orderActions
+const { clearStates, setActiveLink, addToCart, clearCart, removeFromCart } =
+  orderActions
 
 type QueryParam = {
   id: string
@@ -53,6 +55,7 @@ const ProductStock = () => {
     validationSchema: validateSchema
   })
   const [cart, setCart] = useState<Item[]>([])
+  const [toggleDrawer, setToggleDrawer] = useState(false)
 
   useEffect(() => {
     dispatch(clearStates())
@@ -118,7 +121,20 @@ const ProductStock = () => {
 
   const renderStockList = () => (
     <div className="plans">
-      <div className="title">Select product type using the SKU</div>
+      <div className="title">
+        Select product type using the SKU
+        {cart.length ? (
+          <span className="ml-2">
+            <Link to="/admin/orders/add">
+              <small className="font-weight-bold">Generate order</small>
+            </Link>{' '}
+            |{' '}
+            <Link to="#" onClick={handleDrawer}>
+              <small className="font-weight-bold">View Cart</small>
+            </Link>
+          </span>
+        ) : null}
+      </div>
       {productStock.map((ps) => (
         <label className="plan mt-1" htmlFor={ps.id} key={ps.id}>
           <input
@@ -135,7 +151,7 @@ const ProductStock = () => {
               src={
                 ps.product.avatar
                   ? ps.product.avatar
-                  : require('assets/images/icons/brand-identity.svg').default
+                  : require('assets/images/icons/received.svg').default
               }
               width={100}
               alt=""
@@ -179,6 +195,21 @@ const ProductStock = () => {
     [setFieldValue, selectedStock]
   )
 
+  const handleDrawer = useCallback(() => {
+    setToggleDrawer(!toggleDrawer)
+  }, [toggleDrawer])
+
+  const removeItem = useCallback(
+    (index: number) => {
+      dispatch(removeFromCart(index))
+    },
+    [dispatch]
+  )
+
+  const emptyCart = useCallback(() => {
+    dispatch(clearCart())
+  }, [dispatch])
+
   return (
     <Fragment>
       <div className="list-group todo-task-list-wrapper">
@@ -217,6 +248,7 @@ const ProductStock = () => {
                     </CardTitle>
                   </Col>
                 </Row>
+
                 <Row className="px-0 mb-1">
                   <Col sm="12" md="6" lg="6">
                     <FormGroup>
@@ -261,21 +293,21 @@ const ProductStock = () => {
                 <Row className="px-0">
                   <Col sm="4" md="4" lg="4">
                     <RippleButton type="submit" color="primary">
-                      <ShoppingCart size={14} /> Add to Cart
+                      <ShoppingCart size={14} className="mr-2" /> Add to Cart
                     </RippleButton>
-                    {cart.length ? (
-                      <Link to="/admin/orders/add">
-                        <small className="ml-2 font-weight-bold">
-                          Generate order
-                        </small>
-                      </Link>
-                    ) : null}
                   </Col>
                 </Row>
               </Form>
             ) : null}
           </div>
         </PerfectScrollbar>
+        <CartDrawer
+          toggleDrawer={toggleDrawer}
+          handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
+          cart={cart}
+          removeItem={removeItem}
+          emptyCart={emptyCart}
+        />
       </div>
     </Fragment>
   )

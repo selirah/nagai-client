@@ -103,7 +103,7 @@ const Sidebar: React.FC<Props> = (props) => {
 
   const renderSpinner = () => (
     <div className="m-auto text-center mt-5">
-      <Spinner size={10} className="text-primary" />
+      <Spinner size="10" className="text-primary" />
     </div>
   )
 

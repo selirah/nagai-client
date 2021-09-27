@@ -1,5 +1,5 @@
 import React from 'react'
-import { X } from 'react-feather'
+import { ShoppingBag, X } from 'react-feather'
 import RippleButton from 'core/components/ripple-button'
 import { Modal, ModalBody } from 'reactstrap'
 import { Link } from 'react-router-dom'
@@ -30,7 +30,7 @@ const ModalHeader: React.FC<{ handleToggleDrawer: () => void }> = (props) => {
   )
 }
 
-const Drawer: React.FC<Props> = (props) => {
+const CartDrawer: React.FC<Props> = (props) => {
   const { handleToggleDrawer, toggleDrawer, cart, removeItem, emptyCart } =
     props
   const renderEmptyCart = () => <EmptyCart />
@@ -46,26 +46,24 @@ const Drawer: React.FC<Props> = (props) => {
     <div className="row justify-content-center m-0">
       <div className="col-md-8 col-sm-12 col-lg-8 mt-5 mb-5">
         <div className="card">
-          <div className="card-header p-2">
-            <div className="card-header-flex">
-              <h5 className="m-0">Cart Items ({cart.length})</h5>
-              {cart.length > 0 ? (
-                <RippleButton
-                  className="mt-0"
-                  size="sm"
-                  color="danger"
-                  onClick={() => emptyCart()}
-                >
-                  <Trash size={14} className="mr-2" />
-                  <span>Empty Cart</span>
-                </RippleButton>
-              ) : (
-                ''
-              )}
-            </div>
+          <div className="card-header d-flex justify-content-between">
+            <h5 className="m-0">Cart Items ({cart.length})</h5>
+            {cart.length > 0 ? (
+              <RippleButton
+                className="mt-0"
+                size="sm"
+                color="danger"
+                onClick={() => emptyCart()}
+              >
+                <Trash size={14} className="mr-2" />
+                <span>Empty Cart</span>
+              </RippleButton>
+            ) : (
+              ''
+            )}
           </div>
           <div className="card-body p-0">
-            <table className="table cart-table mb-0 table-responsive">
+            <table className="table cart-table mb-0">
               <thead>
                 <tr>
                   <th>Action</th>
@@ -98,7 +96,7 @@ const Drawer: React.FC<Props> = (props) => {
                           src={
                             ct.product.avatar
                               ? ct.product.avatar
-                              : require('assets/images/icons/brand-identity.svg')
+                              : require('assets/images/icons/received.svg')
                                   .default
                           }
                           alt=""
@@ -126,13 +124,25 @@ const Drawer: React.FC<Props> = (props) => {
               </tbody>
               <tfoot>
                 <tr>
-                  <th>&nbsp;</th>
-                  <th colSpan={4}>&nbsp;</th>
+                  <th colSpan={2}>
+                    <RippleButton
+                      className="mt-0"
+                      size="sm"
+                      color="secondary"
+                      tag={Link}
+                      to="/admin/orders/add"
+                      onClick={handleToggleDrawer}
+                    >
+                      <ShoppingBag size={14} className="mr-2" />
+                      <span>Generate Order</span>
+                    </RippleButton>
+                  </th>
+                  <th colSpan={3}>&nbsp;</th>
                   <th>
-                    <span className="text-danger">{cartTotalQty}</span>
+                    <span className="text-success">{cartTotalQty}</span>
                   </th>
                   <th className="text-right">
-                    <span className="text-danger">
+                    <span className="text-success">
                       GHC {cartTotalAmount.toFixed(2)}
                     </span>
                   </th>
@@ -165,4 +175,4 @@ const Drawer: React.FC<Props> = (props) => {
   )
 }
 
-export default Drawer
+export default CartDrawer

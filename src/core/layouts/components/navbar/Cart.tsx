@@ -4,7 +4,7 @@ import { Badge } from 'reactstrap'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import { Item } from 'classes'
-import Drawer from './Drawer'
+import CartDrawer from 'containers/orders/CartDrawer'
 import orderActions from 'redux/orders/actions'
 
 const { clearCart, removeFromCart } = orderActions
@@ -43,7 +43,7 @@ const CartDisplay = () => {
       <Badge className="cursor-pointer" onClick={handleDrawer} pill>
         {total}
       </Badge>
-      <Drawer
+      <CartDrawer
         toggleDrawer={toggleDrawer}
         handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
         cart={cart}
