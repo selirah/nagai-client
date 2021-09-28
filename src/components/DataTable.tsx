@@ -79,6 +79,8 @@ interface Props {
   theme: string
   loading: boolean
   onRowClicked?: (row: any) => void
+  expandableRows?: boolean
+  expandableRowsComponent?: any
 }
 
 const DataTableComponent: React.FC<Props> = (props) => {
@@ -93,7 +95,9 @@ const DataTableComponent: React.FC<Props> = (props) => {
     loading,
     server,
     theme,
-    totalRows
+    totalRows,
+    expandableRows,
+    expandableRowsComponent
   } = props
 
   const renderLoader = () => (
@@ -129,6 +133,8 @@ const DataTableComponent: React.FC<Props> = (props) => {
       progressComponent={renderLoader()}
       noDataComponent={renderEmptyList()}
       onRowClicked={onRowClicked}
+      expandableRows={expandableRows}
+      expandableRowsComponent={expandableRowsComponent}
     />
   )
 }

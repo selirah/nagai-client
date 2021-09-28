@@ -1,7 +1,7 @@
 export type Tax = {
   id: number
   tax: string
-  rate: number
+  rate: string
   createdAt: Date
   updatedAt: Date
 }

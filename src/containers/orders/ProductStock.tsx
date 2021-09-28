@@ -40,7 +40,10 @@ const ProductStock = () => {
   const [loading, setLoading] = useState(false)
   const [productStock, setProductStock] = useState<Stock[]>([])
   const [selectedStock, setSelectedStock] = useState<Stock | null>(null)
-  const [initValues] = useState<Field>({ quantity: '', total: '' })
+  const [initValues] = useState<Field>({
+    quantity: '',
+    total: ''
+  })
   const {
     handleChange,
     values,
@@ -115,6 +118,8 @@ const ProductStock = () => {
         }
       )
       setSelectedStock(null)
+      values.quantity = ''
+      values.total = ''
     },
     [dispatch, selectedStock]
   )

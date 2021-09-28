@@ -10,7 +10,8 @@ export const initialState: UtilsState = {
   territories: [],
   filtered: [],
   searchText: '',
-  outlets: []
+  outlets: [],
+  taxes: []
 }
 
 const reducer: Reducer<UtilsState> = (state = initialState, action) => {
@@ -121,6 +122,26 @@ const reducer: Reducer<UtilsState> = (state = initialState, action) => {
       }
 
     case ActionTypes.GET_OUTLETS_FAILURE:
+      return {
+        ...state,
+        errors: action.payload,
+        loading: initialState.loading
+      }
+
+    case ActionTypes.GET_TAXES_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case ActionTypes.GET_TAXES_SUCCESS:
+      return {
+        ...state,
+        taxes: action.payload,
+        loading: initialState.loading
+      }
+
+    case ActionTypes.GET_TAXES_FAILURE:
       return {
         ...state,
         errors: action.payload,

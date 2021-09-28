@@ -1,12 +1,10 @@
-import { useEffect, useState, Fragment, useCallback } from 'react'
-import { useHistory, Link } from 'react-router-dom'
+import { useEffect, useState, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import orderActions from 'redux/orders/actions'
-import { OrderFields, OptionKey } from 'classes'
-import { toast, Slide } from 'react-toastify'
+import { OrderFields, OptionKey, Tax, InvoiceFields } from 'classes'
 import RippleButton from 'core/components/ripple-button'
-import ToastBox from 'components/ToastBox'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import {
@@ -14,39 +12,38 @@ import {
   FormGroup,
   Label,
   Input,
-  Spinner,
-  Collapse,
   Row,
   Col,
   CardTitle,
-  Alert
+  CustomInput
 } from 'reactstrap'
-import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
 import SelectComponent from 'components/Select'
 import EmptyCart from 'components/EmptyCart'
-import { generateReadableNumbers } from 'utils'
+import { generateOrderNumber, generateInvoiceNumber } from 'utils'
 import CartDrawer from './CartDrawer'
+import SummaryDrawer from './SummaryDrawer'
 
-const {
-  addOrderRequest,
-  clearStates,
-  clearCart,
-  setActiveLink,
-  removeFromCart
-} = orderActions
+const { clearStates, clearCart, setActiveLink, removeFromCart } = orderActions
 
 const { Option } = components
 
 type Fields = {
   orderNumber: string
   outletId: any
-  orderTotal: number
+  orderTotal: string
+  invoiceNumber: string
+  taxes: any
+  discount: string
+  deliveryFee: string
+  finalAmount: string
 }
 
 const validateSchema = Yup.object().shape({
-  outletId: Yup.object().required('This is a required field')
+  outletId: Yup.object().required('This is a required field'),
+  discount: Yup.string().required('This is a required field'),
+  deliveryFee: Yup.string().required('This is a required field')
 })
 
 const Add = () => {
@@ -54,62 +51,76 @@ const Add = () => {
   const store = Selector((state) => state.orders)
   const authStore = Selector((state) => state.auth)
   const utilsStore = Selector((state) => state.utils)
-  const [btnLoading, setBtnLoading] = useState(false)
-  const history = useHistory()
-  const [err, setErr] = useState(null)
   const { cart } = store
   const cartTotalAmount = cart.reduce(
     (acc, data) => acc + data.unitPrice * data.quantity,
     0
   )
   const [values] = useState<Fields>({
-    orderNumber: generateReadableNumbers(),
-    orderTotal: cartTotalAmount,
-    outletId: ''
+    orderNumber: generateOrderNumber(),
+    orderTotal: `${cartTotalAmount.toFixed(2)}`,
+    outletId: '',
+    deliveryFee: '0.00',
+    discount: '0.00',
+    finalAmount: '',
+    invoiceNumber: generateInvoiceNumber(),
+    taxes: []
   })
   const [toggleDrawer, setToggleDrawer] = useState(false)
+  const [toggleSummary, setToggleSummary] = useState(false)
+  const [order, setOrder] = useState<OrderFields | null>(null)
+  const [invoice, setInvoice] = useState<InvoiceFields | null>(null)
 
   useEffect(() => {
-    dispatch(clearStates())
+    // dispatch(clearStates())
     dispatch(setActiveLink('add'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    const { isSubmitting, isSucceeded, errors } = store
-    setBtnLoading(isSubmitting)
-    setErr(errors)
-    if (isSucceeded) {
-      toast.success(
-        <ToastBox
-          color="success"
-          icon={<Coffee />}
-          message="Order is placed successfully. Add the order invoice"
-          title="Nice!"
-        />,
-        {
-          transition: Slide,
-          hideProgressBar: true,
-          autoClose: 5000,
-          position: 'bottom-right'
-        }
-      )
-      history.push('/admin/invoices/add')
-    }
-  }, [store, history])
+  const handleSummaryDrawer = useCallback(() => {
+    setToggleSummary(!toggleSummary)
+  }, [toggleSummary])
 
   const onSubmit = useCallback(
     (values: Fields) => {
-      const payload: OrderFields = {
+      let taxes: Tax[] = []
+      let taxable: number = 0
+      let total: number = 0
+      values.taxes.map((t: any) => {
+        const tax: Tax = JSON.parse(t)
+        taxes.push(tax)
+        taxable += parseFloat(tax.rate) * parseFloat(values.orderTotal)
+
+        return { taxable, taxes }
+      })
+
+      total =
+        parseFloat(values.orderTotal) -
+        parseFloat(values.discount) +
+        taxable +
+        parseFloat(values.deliveryFee)
+
+      const order: OrderFields = {
         orderNumber: values.orderNumber,
         orderTotal: values.orderTotal,
         items: cart,
         outletId: parseInt(values.outletId.value),
         agentId: authStore.user!.id
       }
-      dispatch(addOrderRequest(payload))
+      const invoice: InvoiceFields = {
+        deliveryFee: parseFloat(values.deliveryFee).toFixed(2),
+        discount: parseFloat(values.discount).toFixed(2),
+        finalAmount: total.toFixed(2),
+        invoiceNumber: values.invoiceNumber,
+        orderNumber: values.orderNumber,
+        taxes: taxes
+      }
+      setOrder(order)
+      setInvoice(invoice)
+      handleSummaryDrawer()
+      // dispatch(addOrderRequest(payload))
     },
-    [dispatch]
+    [authStore.user, cart, handleSummaryDrawer]
   )
 
   const renderEmptyCart = () => (
@@ -159,18 +170,6 @@ const Add = () => {
     )
   }
 
-  const renderError = (errors: any) => (
-    <Row className="px-3">
-      <Col sm="12" md="12" lg="12">
-        <Alert color="danger" className="p-2">
-          <small className="font-weight-bolder">
-            {errors.errors[0].message}
-          </small>
-        </Alert>
-      </Col>
-    </Row>
-  )
-
   return (
     <div className="list-group todo-task-list-wrapper">
       <PerfectScrollbar
@@ -205,17 +204,21 @@ const Add = () => {
               <Form className="mt-2" onSubmit={handleSubmit}>
                 <Row className="px-3">
                   <Col sm="12" md="12" lg="12">
-                    <CardTitle tag="h2" className="font-weight-light">
+                    <CardTitle
+                      tag="h2"
+                      className="font-weight-bold text-secondary"
+                    >
                       Prepare order for cart ({cart.length} items){' '}
                       <span className="ml-1">
                         <Link to="#" onClick={handleDrawer}>
-                          <small className="font-weight-bold">View Cart</small>
+                          <small className="font-weight-bolder">
+                            View Cart
+                          </small>
                         </Link>
                       </span>
                     </CardTitle>
                   </Col>
                 </Row>
-                {err ? renderError(err) : null}
                 <Row className="px-3">
                   <Col sm="12" md="6" lg="6">
                     <FormGroup>
@@ -274,14 +277,106 @@ const Add = () => {
                     </FormGroup>
                   </Col>
                 </Row>
-                <Row className="px-3 mb-2">
+                <Row className="px-3 mt-2">
+                  <Col sm="12" md="12" lg="12">
+                    <CardTitle
+                      tag="h2"
+                      className="font-weight-bold text-secondary"
+                    >
+                      Order Invoice
+                    </CardTitle>
+                  </Col>
+                </Row>
+                <Row className="px-3">
+                  <Col sm="12" md="6" lg="6">
+                    <FormGroup>
+                      <Label className="form-label" for="invoiceNumber">
+                        Invoice number{' '}
+                        <span style={{ color: '#ff0000' }}>*</span>
+                      </Label>
+                      <Input
+                        type="text"
+                        id="invoiceNumber"
+                        placeholder="Invoice number"
+                        value={values.invoiceNumber}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="invoiceNumber"
+                        disabled
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col sm="12" md="6" lg="6">
+                    <FormGroup>
+                      <Label className="form-label" for="taxes">
+                        Taxes
+                      </Label>
+                      {utilsStore.taxes.map((tax) => (
+                        <CustomInput
+                          type="checkbox"
+                          className="custom-control-Primary mb-1"
+                          id={tax.id}
+                          label={`${tax.tax} (${parseFloat(tax.rate) * 100}%)`}
+                          name={`taxes`}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={`${JSON.stringify(tax)}`}
+                          key={tax.id}
+                        />
+                      ))}
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row className="px-3">
+                  <Col sm="12" md="6" lg="6">
+                    <FormGroup>
+                      <Label className="form-label" for="discount">
+                        Discount in GHC{' '}
+                        <span style={{ color: '#ff0000' }}>*</span>
+                      </Label>
+                      <Input
+                        type="text"
+                        id="discount"
+                        placeholder="Enter discount"
+                        value={values.discount}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="discount"
+                      />
+                      {errors.discount && touched.discount ? (
+                        <small style={{ color: '#ff0000', fontWeight: 700 }}>
+                          {errors.discount}
+                        </small>
+                      ) : null}
+                    </FormGroup>
+                  </Col>
+                  <Col sm="12" md="6" lg="6">
+                    <FormGroup>
+                      <Label className="form-label" for="deliveryFee">
+                        Delivery fee in GHC{' '}
+                        <span style={{ color: '#ff0000' }}>*</span>
+                      </Label>
+                      <Input
+                        type="text"
+                        id="deliveryFee"
+                        placeholder="Delivery fee"
+                        value={values.deliveryFee}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="deliveryFee"
+                      />
+                      {errors.deliveryFee && touched.deliveryFee ? (
+                        <small style={{ color: '#ff0000', fontWeight: 700 }}>
+                          {errors.deliveryFee}
+                        </small>
+                      ) : null}
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row className="px-3 mb-2 mt-2">
                   <Col sm="4" md="4" lg="4">
                     <RippleButton type="submit" color="primary" block>
-                      <Collapse isOpen={btnLoading}>
-                        <Spinner color="white" className="mr-2" size="sm" />{' '}
-                        Saving . . .
-                      </Collapse>
-                      <Collapse isOpen={!btnLoading}>Place order</Collapse>
+                      Order Summary
                     </RippleButton>
                   </Col>
                 </Row>
@@ -298,6 +393,12 @@ const Add = () => {
         cart={cart}
         removeItem={removeItem}
         emptyCart={emptyCart}
+      />
+      <SummaryDrawer
+        toggleDrawer={toggleSummary}
+        handleToggleDrawer={() => setToggleSummary(!toggleSummary)}
+        invoice={invoice}
+        order={order}
       />
     </div>
   )

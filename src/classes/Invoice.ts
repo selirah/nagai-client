@@ -23,7 +23,7 @@ export type InvoiceFields = {
   invoiceNumber: string
   orderNumber: string
   taxes: Tax[]
-  discount: number
-  deliveryFee: number
-  finalAmount: number
+  discount: string
+  deliveryFee: string
+  finalAmount: string
 }

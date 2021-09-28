@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 import { Dispatch } from 'redux/selector-dispatch'
 import utilsActions from 'redux/utils/actions'
 
-const { getOutletsRequest } = utilsActions
+const { getOutletsRequest, getTaxesRequest } = utilsActions
 
 const Orders = () => {
   const [mainSidebar, setMainSidebar] = useState(false)
@@ -16,6 +16,7 @@ const Orders = () => {
 
   useEffect(() => {
     dispatch(getOutletsRequest())
+    dispatch(getTaxesRequest())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

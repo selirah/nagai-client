@@ -1,5 +1,6 @@
 import { Reducer } from 'redux'
 import { OrderState, ActionTypes } from './types'
+import { OrderStatus } from 'classes'
 
 export const initialState: OrderState = {
   activeLink: 'list',
@@ -18,7 +19,7 @@ export const initialState: OrderState = {
     query: '',
     fromDate: '',
     toDate: '',
-    status: ''
+    status: OrderStatus.ALL
   },
   cart: []
 }

@@ -48,8 +48,10 @@ const Details: React.FC<Props> = (props) => {
             <h6 className="mb-0">{stock ? stock.productId : null}</h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Name of Product</h6>
-            <h6 className="mb-0">
+            <h6 className="text-muted font-weight-bolder text-right">
+              Name of Product
+            </h6>
+            <h6 className="mb-0 text-right">
               {stock ? stock.product.productName.toUpperCase() : null}
             </h6>
           </div>
@@ -61,24 +63,27 @@ const Details: React.FC<Props> = (props) => {
             <h6 className="mb-0">{stock ? stock.id : null}</h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">SKU</h6>
-            <h6 className="mb-0">{stock ? stock.sku : null}</h6>
-          </div>
-          <div>
-            <h6 className="text-muted font-weight-bolder">Unit Price</h6>
-            <h6 className="mb-0">{stock ? `GHC ${stock.unitPrice}` : null}</h6>
+            <h6 className="text-muted font-weight-bolder text-right">SKU</h6>
+            <h6 className="mb-0 text-right">{stock ? stock.sku : null}</h6>
           </div>
         </div>
         <hr className="mb-2" />
         <div className="d-flex justify-content-between text-left">
           <div>
-            <h6 className="text-muted font-weight-bolder">
+            <h6 className="text-muted font-weight-bolder">Unit Price</h6>
+            <h6 className="mb-0">{stock ? `GHC ${stock.unitPrice}` : null}</h6>
+          </div>
+          <div>
+            <h6 className="text-muted font-weight-bolder text-right">
               Quantity Purchased
             </h6>
-            <h6 className="mb-0">
+            <h6 className="mb-0 text-right">
               {stock ? `${stock.quantityPurchased} ${stock.unit}` : null}
             </h6>
           </div>
+        </div>
+        <hr className="mb-2" />
+        <div className="d-flex justify-content-between text-left">
           <div>
             <h6 className="text-muted font-weight-bolder">Quantity in Stock</h6>
             <h6 className="mb-0">
@@ -86,8 +91,12 @@ const Details: React.FC<Props> = (props) => {
             </h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Stock Value</h6>
-            <h6 className="mb-0">{stock ? `GHC ${stock.stockValue}` : null}</h6>
+            <h6 className="text-muted font-weight-bolder text-right">
+              Stock Value
+            </h6>
+            <h6 className="mb-0 text-right">
+              {stock ? `GHC ${stock.stockValue}` : null}
+            </h6>
           </div>
         </div>
         <hr className="mb-2" />
@@ -99,23 +108,27 @@ const Details: React.FC<Props> = (props) => {
             </h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Reorder Quantity</h6>
-            <h6 className="mb-0">
-              {stock ? `${stock.reorderQuantity} ${stock.unit}` : null}
+            <h6 className="text-muted font-weight-bolder text-right">
+              Reorder Quantity
             </h6>
-          </div>
-          <div>
-            <h6 className="text-muted font-weight-bolder">Reorder Date</h6>
-            <h6 className="mb-0">
-              {stock ? moment(stock.reorderDate).format('MMM Do, YYYY') : null}
+            <h6 className="mb-0 text-right">
+              {stock ? `${stock.reorderQuantity} ${stock.unit}` : null}
             </h6>
           </div>
         </div>
         <hr className="mb-2" />
         <div className="d-flex justify-content-between text-left">
           <div>
-            <h6 className="text-muted font-weight-bolder">Date Updated</h6>
+            <h6 className="text-muted font-weight-bolder">Reorder Date</h6>
             <h6 className="mb-0">
+              {stock ? moment(stock.reorderDate).format('MMM Do, YYYY') : null}
+            </h6>
+          </div>
+          <div>
+            <h6 className="text-muted font-weight-bolder text-right">
+              Date Updated
+            </h6>
+            <h6 className="mb-0 text-right">
               {stock
                 ? moment(stock.updatedAt).format('MMM Do, YYYY, h:mm a')
                 : null}

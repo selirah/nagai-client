@@ -16,6 +16,7 @@ export type Order = {
   outletId: number
   agentId: number
   status: string
+  comments: string
   outlet: Outlet
   agent: DBUser
   invoice: Invoice
@@ -36,4 +37,12 @@ export type OrderFields = {
   orderTotal: number | string
   outletId: number | string
   agentId: number | string
+  comments?: string
+}
+
+export const OrderStatus = {
+  PENDING: 'PENDING',
+  DELIVERED: 'DELIVERED',
+  FAILED: 'FAILED',
+  ALL: 'ALL'
 }

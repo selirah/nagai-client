@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { Region, Unit, Territory, Outlet } from 'classes'
+import { Region, Unit, Territory, Outlet, Tax } from 'classes'
 import { ActionTypes } from './types'
 
 const utilsActions = {
@@ -50,7 +50,13 @@ const utilsActions = {
     action(ActionTypes.GET_OUTLETS_SUCCESS, data),
 
   getOutletsFailure: (error: any) =>
-    action(ActionTypes.GET_OUTLETS_FAILURE, error)
+    action(ActionTypes.GET_OUTLETS_FAILURE, error),
+
+  getTaxesRequest: () => action(ActionTypes.GET_TAXES_REQUEST),
+
+  getTaxesSuccess: (data: Tax[]) => action(ActionTypes.GET_TAXES_SUCCESS, data),
+
+  getTaxesFailure: (error: any) => action(ActionTypes.GET_TAXES_FAILURE, error)
 }
 
 export default utilsActions

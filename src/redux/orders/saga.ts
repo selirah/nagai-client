@@ -70,7 +70,7 @@ function* getOrders({ payload }: { type: string; payload: Param }): Generator {
       callApiGet,
       `orders?page=${payload.page}&skip=${payload.skip}&query=${payload.query}&fromDate=${payload.fromDate}&toDate=${payload.toDate}&status=${payload.status}`
     )
-    yield put(orderActions.getOrdersRequest(res.data))
+    yield put(orderActions.getOrdersSuccess(res.data))
   } catch (err: any) {
     if (err && err.response) {
       yield put(orderActions.getOrdersFailure(err.response.data))

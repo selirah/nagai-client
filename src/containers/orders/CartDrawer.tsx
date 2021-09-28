@@ -45,7 +45,7 @@ const CartDrawer: React.FC<Props> = (props) => {
   const renderCartItems = () => (
     <div className="row justify-content-center m-0">
       <div className="col-md-8 col-sm-12 col-lg-8 mt-5 mb-5">
-        <div className="card">
+        <div className="card product-card">
           <div className="card-header d-flex justify-content-between">
             <h5 className="m-0">Cart Items ({cart.length})</h5>
             {cart.length > 0 ? (
