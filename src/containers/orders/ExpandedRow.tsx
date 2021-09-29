@@ -1,17 +1,12 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Order, Item } from 'classes'
 import DataTable, {
   createTheme,
   IDataTableStyles,
   IDataTableColumn
 } from 'react-data-table-component'
-import {
-  ArrowDown,
-  ChevronLeft,
-  ChevronRight,
-  SkipBack,
-  SkipForward
-} from 'react-feather'
+import { ArrowDown } from 'react-feather'
+import RippleButton from 'core/components/ripple-button'
 import { Selector } from 'redux/selector-dispatch'
 
 const customStyles: IDataTableStyles = {
@@ -64,11 +59,20 @@ createTheme('dark', {
     button: '#b4b7bd',
     hover: '#b4b7bd',
     disabled: '#b4b7bd'
+  },
+  expander: {
+    fontColor: '#FFF',
+    backgroundColor: 'red',
+    collapsedButton:
+      'data:image/svg+xml,%3Csvg%20fill%3D%22%23757575%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M8.59%2016.34l4.58-4.59-4.58-4.59L10%205.75l6%206-6%206z%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0-.25h24v24H0z%22%20fill%3D%22none%22/%3E%0A%3C/svg%3E',
+    expandedButton:
+      'data:image/svg+xml,%3Csvg%20fill%3D%22%23757575%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M7.41%207.84L12%2012.42l4.59-4.58L18%209.25l-6%206-6-6z%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M0-.75h24v24H0z%22%20fill%3D%22none%22/%3E%0A%3C/svg%3E'
   }
 })
 
 const ExpandedRow = (props: any) => {
   const order: Order = props.data
+  const { handleOrderSelection } = props
   const layoutStore = Selector((state) => state.layout)
 
   const columns: IDataTableColumn[] = useMemo(
@@ -105,7 +109,7 @@ const ExpandedRow = (props: any) => {
       },
       {
         id: 6,
-        name: 'Unit Price',
+        name: 'Quantity',
         sortable: true,
         selector: (row: Item) => row.quantity
       },
@@ -121,7 +125,7 @@ const ExpandedRow = (props: any) => {
   )
 
   return (
-    <div className="row mt-2 mx-2">
+    <div className="row mt-2 mx-2 animate__animated animate__fadeIn">
       <div className="col-sm-12 col-lg-12">
         <hr className="mb-2" />
         <div className="d-lg-flex justify-content-between d-block">
@@ -144,6 +148,14 @@ const ExpandedRow = (props: any) => {
                 {order.outlet.subLocality.toUpperCase()}
               </span>
             </h6>
+            <RippleButton
+              color="secondary"
+              className="mt-1 mb-1"
+              size="sm"
+              onClick={() => handleOrderSelection(order)}
+            >
+              View Details
+            </RippleButton>
           </div>
           <div>
             <h6 className="font-weight-bolder mb-1">
@@ -167,6 +179,9 @@ const ExpandedRow = (props: any) => {
         columns={columns}
         data={order.items}
         theme={layoutStore.mode}
+        noHeader
+        sortIcon={<ArrowDown />}
+        customStyles={customStyles}
       />
     </div>
   )

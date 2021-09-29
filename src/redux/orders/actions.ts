@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { OrderObj, Order, OrderFields, Param, UserFields, Item } from 'classes'
+import { OrderObj, Order, OrderFields, Param, Item } from 'classes'
 import { ActionTypes } from './types'
 
 const orderActions = {
@@ -10,7 +10,7 @@ const orderActions = {
 
   addOrderFailure: (error: any) => action(ActionTypes.ADD_ORDER_FAILURE, error),
 
-  updateOrderRequest: (payload: UserFields) =>
+  updateOrderRequest: (payload: OrderFields) =>
     action(ActionTypes.UPDATE_ORDER_REQUEST, payload),
 
   updateOrderSuccess: () => action(ActionTypes.UPDATE_ORDER_SUCCESS),

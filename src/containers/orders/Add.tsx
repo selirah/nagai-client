@@ -25,7 +25,7 @@ import { generateOrderNumber, generateInvoiceNumber } from 'utils'
 import CartDrawer from './CartDrawer'
 import SummaryDrawer from './SummaryDrawer'
 
-const { clearStates, clearCart, setActiveLink, removeFromCart } = orderActions
+const { clearCart, setActiveLink, removeFromCart } = orderActions
 
 const { Option } = components
 
@@ -72,7 +72,6 @@ const Add = () => {
   const [invoice, setInvoice] = useState<InvoiceFields | null>(null)
 
   useEffect(() => {
-    // dispatch(clearStates())
     dispatch(setActiveLink('add'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -11,10 +11,8 @@ import { useDispatch } from 'react-redux'
 import orderActions from 'redux/orders/actions'
 import { Order, OrderStatus } from 'classes'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { Edit3, AlertTriangle } from 'react-feather'
+import { Edit3 } from 'react-feather'
 import moment from 'moment'
-import { toast, Slide } from 'react-toastify'
-import ToastBox from 'components/ToastBox'
 import Drawer from './Drawer'
 import { IDataTableColumn } from 'react-data-table-component'
 import Table from 'components/DataTable'
@@ -188,7 +186,9 @@ const List = () => {
       theme={mode}
       totalRows={totalRows}
       expandableRows
-      expandableRowsComponent={<ExpandedRow />}
+      expandableRowsComponent={
+        <ExpandedRow handleOrderSelection={handleOrderSelection} />
+      }
     />
   )
 
@@ -211,12 +211,12 @@ const List = () => {
           {renderList()}
         </PerfectScrollbar>
       </div>
-      {/* {store.order ? (
-    <Drawer
-      toggleDrawer={toggleDrawer}
-      handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
-    />
-  ) : null} */}
+      {store.order ? (
+        <Drawer
+          toggleDrawer={toggleDrawer}
+          handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
+        />
+      ) : null}
     </Fragment>
   )
 }
