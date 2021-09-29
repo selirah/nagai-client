@@ -7,6 +7,8 @@ const abilities = {
   Territories: 'Territories',
   Outlets: 'Outlets',
   Users: 'Users',
-  Orders: 'Orders'
+  Orders: 'Orders',
+  Invoices: 'Invoices',
+  Deliveries: 'Deliveries'
 }
 export default abilities

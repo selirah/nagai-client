@@ -2,8 +2,7 @@ import { Tax, Order } from 'classes'
 
 export type Invoice = {
   id: string
-  invoiceNumber: string
-  orderNumber: string
+  orderId: string
   taxes: Tax[]
   discount: string
   deliveryFee: string

@@ -1,43 +1,36 @@
-import React, {
-  useEffect,
-  useState,
-  Fragment,
-  useCallback,
-  useMemo
-} from 'react'
+import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import orderActions from 'redux/orders/actions'
-import { Order, OrderStatus } from 'classes'
+import invoiceActions from 'redux/invoices/actions'
+import { Invoice } from 'classes'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { Edit3 } from 'react-feather'
+import { Edit3, Trash, AlertTriangle } from 'react-feather'
 import moment from 'moment'
+import ToastBox from 'components/ToastBox'
 import Drawer from './Drawer'
 import { IDataTableColumn } from 'react-data-table-component'
 import Table from 'components/DataTable'
-import { Badge } from 'reactstrap'
-import ExpandedRow from './ExpandedRow'
 
 const {
-  getOrdersRequest,
+  getInvoicesRequest,
   clearStates,
   setActiveLink,
   setQueryParams,
-  setOrder
-} = orderActions
+  setInvoice
+} = invoiceActions
 
 const List = () => {
   const dispatch: Dispatch = useDispatch()
-  const store = Selector((state) => state.orders)
+  const store = Selector((state) => state.invoices)
   const layoutStore = Selector((state) => state.layout)
   const [loading, setLoading] = useState(false)
-  const [orders, setOrders] = useState<Order[]>([])
+  const [invoices, setInvoices] = useState<Invoice[]>([])
   const [toggleDrawer, setToggleDrawer] = useState(false)
   const [pageSize, setPageSize] = useState(store.params.page)
-  const [currentPage, setCurrentPage] = useState(1)
   const [mode, setMode] = useState(layoutStore.mode)
   const [totalRows, setTotalRows] = useState(store.count)
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     const { params } = store
@@ -45,102 +38,65 @@ const List = () => {
     params.query = ''
     params.fromDate = ''
     params.toDate = ''
-    params.status = OrderStatus.ALL
     dispatch(setQueryParams(params))
-    dispatch(getOrdersRequest(params))
+    dispatch(getInvoicesRequest(params))
     dispatch(clearStates())
     dispatch(setActiveLink('list'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const renderBadge = useCallback((role: string) => {
-    switch (role) {
-      case OrderStatus.PENDING:
-        return (
-          <Badge className="text-uppercase" color="primary" pill>
-            {role}
-          </Badge>
-        )
-      case OrderStatus.TRANSIT:
-        return (
-          <Badge className="text-uppercase" color="secondary" pill>
-            {role}
-          </Badge>
-        )
-      case OrderStatus.DELIVERED:
-        return (
-          <Badge className="text-uppercase" color="success" pill>
-            {role}
-          </Badge>
-        )
-      case OrderStatus.FAILED:
-        return (
-          <Badge className="text-uppercase" color="danger" pill>
-            {role.toUpperCase()}
-          </Badge>
-        )
-    }
   }, [])
 
   const columns: IDataTableColumn[] = useMemo(
     () => [
       {
         id: 1,
-        name: 'Order Number',
+        name: 'Invoice ID',
         sortable: true,
-        selector: (row: Order) => row.id
+        selector: (row: Invoice) => row.id
       },
       {
         id: 2,
-        name: 'Order Total',
+        name: 'Order ID',
         sortable: true,
-        selector: (row: Order) => `GHS ${row.orderTotal}`
+        selector: (row: Invoice) => row.orderId
       },
       {
         id: 3,
-        name: 'Status',
+        name: 'Discount',
         sortable: true,
-        selector: (row: Order) => renderBadge(row.status)
+        selector: (row: Invoice) => `GHC ${row.discount}`
       },
       {
         id: 4,
-        name: 'Agent',
+        name: 'Delivery Fee',
         sortable: true,
-        selector: (row: Order) =>
-          `${row.agent.firstName.toUpperCase()} ${row.agent.lastName.toUpperCase()}`
+        selector: (row: Invoice) => `GHC ${row.deliveryFee}`
       },
       {
         id: 5,
-        name: 'Order Date',
+        name: 'Overall Cost',
         sortable: true,
-        selector: (row: Order) =>
-          moment(row.createdAt).format("MMM Do, 'YY, h:mm a")
+        selector: (row: Invoice) => `GHC ${row.finalAmount}`
       },
       {
-        cell: (row: Order) => (
-          <Link to={`/admin/orders/edit/${row.id}`}>
-            <Edit3
-              size={14}
-              className="mr-lg-1"
-              style={{ outline: 'none' }}
-              color="#40C4FF"
-            />
-          </Link>
-        )
+        id: 5,
+        name: 'Date',
+        sortable: true,
+        selector: (row: Invoice) =>
+          moment(row.createdAt).format("MMM Do, 'YY, h:mm a")
       }
     ],
-    [renderBadge]
+    []
   )
 
   useEffect(() => {
-    const { loading, orders, count } = store
+    const { loading, invoices, count } = store
     const { mode } = layoutStore
     setLoading(loading)
-    if (orders.length) {
-      setOrders(orders)
+    if (invoices.length) {
+      setInvoices(invoices)
       setTotalRows(count)
     } else {
-      setOrders(orders)
+      setInvoices(invoices)
     }
     setMode(mode)
   }, [store, pageSize, layoutStore])
@@ -155,7 +111,7 @@ const List = () => {
       }
       setCurrentPage(page)
       dispatch(setQueryParams(params))
-      dispatch(getOrdersRequest(params))
+      dispatch(getInvoicesRequest(params))
     },
     [dispatch, pageSize, store, currentPage]
   )
@@ -165,14 +121,14 @@ const List = () => {
       const { params } = store
       params.page = newPerPage
       setPageSize(newPerPage)
-      dispatch(getOrdersRequest(params))
+      dispatch(getInvoicesRequest(params))
     },
     [dispatch, store]
   )
 
-  const handleOrderSelection = useCallback(
-    (order: Order) => {
-      dispatch(setOrder(order))
+  const handleInvoiceSelection = useCallback(
+    (invoice: Invoice) => {
+      dispatch(setInvoice(invoice))
       setToggleDrawer(!toggleDrawer)
     },
     [dispatch, toggleDrawer]
@@ -182,19 +138,15 @@ const List = () => {
     <Table
       columns={columns}
       currentPage={currentPage}
-      data={orders}
+      data={invoices}
       handlePageClick={handlePageClick}
       handlePerRowsChange={handlePerRowsChange}
       loading={loading}
-      onRowClicked={handleOrderSelection}
+      onRowClicked={handleInvoiceSelection}
       pageSize={pageSize}
       server
       theme={mode}
       totalRows={totalRows}
-      expandableRows
-      expandableRowsComponent={
-        <ExpandedRow handleOrderSelection={handleOrderSelection} />
-      }
     />
   )
 
@@ -217,7 +169,7 @@ const List = () => {
           {renderList()}
         </PerfectScrollbar>
       </div>
-      {store.order ? (
+      {store.invoice ? (
         <Drawer
           toggleDrawer={toggleDrawer}
           handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}

@@ -40,6 +40,10 @@ const options = [
     label: OrderStatus.PENDING
   },
   {
+    value: OrderStatus.TRANSIT,
+    label: OrderStatus.TRANSIT
+  },
+  {
     value: OrderStatus.DELIVERED,
     label: OrderStatus.DELIVERED
   },

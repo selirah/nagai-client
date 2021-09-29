@@ -140,6 +140,17 @@ const Routes: Route[] = [
       resource: abilities.Orders,
       action: 'read'
     }
+  },
+  {
+    path: PRIVATE_ROUTES.INVOICES,
+    component: lazy(() => import('pages/invoices')),
+    exact: false,
+    className: 'todo-application',
+    appLayout: true,
+    meta: {
+      resource: abilities.Invoices,
+      action: 'read'
+    }
   }
 ]
 

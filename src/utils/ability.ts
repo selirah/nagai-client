@@ -25,6 +25,7 @@ export default function defineAbilityFor() {
         can('read', abilities.Outlets)
         can('read', abilities.Users)
         can('read', abilities.Orders)
+        can('read', abilities.Invoices)
         break
       case userRoles.agent:
         can('read', abilities.Home)
@@ -36,6 +37,7 @@ export default function defineAbilityFor() {
         can('read', abilities.Outlets)
         cannot('read', abilities.Users)
         can('read', abilities.Orders)
+        can('read', abilities.Invoices)
         break
       case userRoles.dispatch:
         can('read', abilities.Home)
@@ -46,6 +48,8 @@ export default function defineAbilityFor() {
         cannot('read', abilities.Territories)
         cannot('read', abilities.Outlets)
         cannot('read', abilities.Users)
+        cannot('read', abilities.Orders)
+        cannot('read', abilities.Invoices)
         break
     }
   }

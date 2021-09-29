@@ -45,5 +45,6 @@ export const OrderStatus = {
   PENDING: 'PENDING',
   DELIVERED: 'DELIVERED',
   FAILED: 'FAILED',
+  TRANSIT: 'TRANSIT',
   ALL: 'ALL'
 }
