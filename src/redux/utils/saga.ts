@@ -86,6 +86,19 @@ function* getTaxes(): Generator {
   }
 }
 
+function* getUsers({ payload }: { type: string; payload: string }): Generator {
+  try {
+    const res: any = yield call(callApiGet, `utils/users?role=${payload}`)
+    yield put(utilsActions.getUsersSuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(utilsActions.getUsersFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
 function* watchGetRegions() {
   yield takeEvery(ActionTypes.GET_REGIONS_REQUEST, getRegions)
 }
@@ -110,6 +123,10 @@ function* watchGetTaxes() {
   yield takeEvery(ActionTypes.GET_TAXES_REQUEST, getTaxes)
 }
 
+function* watchGetUsers() {
+  yield takeEvery(ActionTypes.GET_USERS_REQUEST, getUsers)
+}
+
 function* utilsSaga(): Generator {
   yield all([
     fork(watchGetRegions),
@@ -117,7 +134,8 @@ function* utilsSaga(): Generator {
     fork(watchGetUnits),
     fork(watchGetTerritories),
     fork(watchGetOutlets),
-    fork(watchGetTaxes)
+    fork(watchGetTaxes),
+    fork(watchGetUsers)
   ])
 }
 

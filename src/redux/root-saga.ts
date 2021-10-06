@@ -10,6 +10,7 @@ import outletSaga from './outlets/saga'
 import userSaga from './users/saga'
 import orderSaga from './orders/saga'
 import invoiceSaga from './invoices/saga'
+import deliverySaga from './deliveries/saga'
 
 export function* rootSaga(): Generator {
   yield all([
@@ -23,6 +24,7 @@ export function* rootSaga(): Generator {
     fork(outletSaga),
     fork(userSaga),
     fork(orderSaga),
-    fork(invoiceSaga)
+    fork(invoiceSaga),
+    fork(deliverySaga)
   ])
 }

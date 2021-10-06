@@ -4,7 +4,8 @@ import React, {
   useEffect,
   Fragment,
   MouseEvent,
-  ChangeEvent
+  ChangeEvent,
+  KeyboardEvent
 } from 'react'
 import classnames from 'classnames'
 import { Link, useHistory } from 'react-router-dom'
@@ -71,6 +72,16 @@ const Sidebar: React.FC<Props> = (props) => {
       dispatch(getSearchedTerritoriesRequest(query))
     }
   }, [query, dispatch])
+
+  const onKeyPress = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (query && e.key !== undefined && e.key === 'Enter') {
+        setSearch(true)
+        dispatch(getSearchedTerritoriesRequest(query))
+      }
+    },
+    [query, dispatch]
+  )
 
   const handleQueryFilter = useCallback(
     (e: MouseEvent<HTMLElement>, territory: Territory, activeLink: string) => {
@@ -181,6 +192,7 @@ const Sidebar: React.FC<Props> = (props) => {
                       value={query}
                       onChange={handleChange}
                       placeholder="territory area"
+                      onKeyPress={onKeyPress}
                     />
                     <InputGroupAddon
                       addonType="append"

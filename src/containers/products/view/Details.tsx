@@ -57,28 +57,35 @@ const Details: React.FC<Props> = (props) => {
             <h6 className="mb-0">{product ? product.id : null}</h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Name of Product</h6>
-            <h6 className="mb-0">
+            <h6 className="text-muted font-weight-bolder text-right">
+              Name of Product
+            </h6>
+            <h6 className="mb-0 text-right">
               {product ? product.productName.toUpperCase() : null}
             </h6>
           </div>
+        </div>
+        <hr className="mb-2" />
+        <div className="d-flex justify-content-between align-items-center text-left">
           <div>
             <h6 className="text-muted font-weight-bolder">Category</h6>
             <h6 className="mb-0">
               {product ? product.category.category.toUpperCase() : null}
             </h6>
           </div>
-        </div>
-        <hr className="mb-2" />
-        <div className="d-flex justify-content-between align-items-center text-left">
           <div className="mb-1">
-            <h6 className="text-muted font-weight-bolder">Date added</h6>
-            <h6 className="mb-0">
+            <h6 className="text-muted font-weight-bolder text-right">
+              Date added
+            </h6>
+            <h6 className="mb-0 text-right">
               {product
                 ? moment(product.createdAt).format('MMM Do, YYYY')
                 : null}
             </h6>
           </div>
+        </div>
+        <hr className="mb-2" />
+        <div className="d-flex justify-content-between align-items-center text-left">
           <div className="mb-1">
             <h6 className="text-muted font-weight-bolder">Manufacturer</h6>
             <h6 className="mb-0">

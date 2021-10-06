@@ -7,8 +7,9 @@ import 'core/scss/react/apps/app-todo.scss'
 import { useDispatch } from 'react-redux'
 import { Dispatch } from 'redux/selector-dispatch'
 import utilsActions from 'redux/utils/actions'
+import { userRoles } from 'utils/ability'
 
-const { getOutletsRequest, getTaxesRequest } = utilsActions
+const { getOutletsRequest, getTaxesRequest, getUsersRequest } = utilsActions
 
 const Orders = () => {
   const [mainSidebar, setMainSidebar] = useState(false)
@@ -17,6 +18,7 @@ const Orders = () => {
   useEffect(() => {
     dispatch(getOutletsRequest())
     dispatch(getTaxesRequest())
+    dispatch(getUsersRequest(userRoles.dispatch))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

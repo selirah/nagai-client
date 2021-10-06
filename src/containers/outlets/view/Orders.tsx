@@ -43,31 +43,16 @@ const Orders: React.FC<Props> = (props) => {
         id: 1,
         name: 'Order Number',
         sortable: true,
-        selector: (row: Order) => row.orderNumber
+        selector: (row: Order) => row.id
       },
       {
         id: 2,
-        name: 'Items',
+        name: 'Order Total',
         sortable: true,
-        selector: (row: Order) => JSON.stringify(row.items)
+        selector: (row: Order) => `GHS ${row.orderTotal}`
       },
       {
         id: 3,
-        name: 'Order Total',
-        sortable: true,
-        selector: (row: Order) => `GHS ${row.orderTotal.toFixed(2)}`
-      },
-      {
-        id: 4,
-        name: 'Agent',
-        sortable: true,
-        selector: (row: Order) =>
-          row.agent.firstName
-            ? `${row.agent.firstName.toUpperCase()} ${row.agent.lastName.toUpperCase()}`
-            : row.agent.email
-      },
-      {
-        id: 5,
         name: 'Created Date',
         sortable: true,
         selector: (row: Order) => moment(row.createdAt).format("MMM Do, 'YY")

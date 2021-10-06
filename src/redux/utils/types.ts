@@ -1,4 +1,4 @@
-import { Unit, Region, Territory, Outlet, Tax } from 'classes'
+import { Unit, Region, Territory, Outlet, Tax, DBUser } from 'classes'
 
 export enum ActionTypes {
   GET_REGIONS_REQUEST = '@@utils/GET_REGIONS_REQUEST',
@@ -20,7 +20,10 @@ export enum ActionTypes {
   GET_OUTLETS_FAILURE = '@@utils/GET_OUTLETS_FAILURE',
   GET_TAXES_REQUEST = '@@utils/GET_TAXES_REQUEST',
   GET_TAXES_SUCCESS = '@@utils/GET_TAXES_SUCCESS',
-  GET_TAXES_FAILURE = '@@utils/GET_TAXES_FAILURE'
+  GET_TAXES_FAILURE = '@@utils/GET_TAXES_FAILURE',
+  GET_USERS_REQUEST = '@@utils/GET_USERS_REQUEST',
+  GET_USERS_SUCCESS = '@@utils/GET_USERS_SUCCESS',
+  GET_USERS_FAILURE = '@@utils/GET_USERS_FAILURE'
 }
 
 export type UtilsState = {
@@ -34,4 +37,5 @@ export type UtilsState = {
   readonly searchText: string
   readonly outlets: Outlet[]
   readonly taxes: Tax[]
+  readonly users: DBUser[]
 }

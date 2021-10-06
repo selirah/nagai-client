@@ -13,6 +13,7 @@ export type Outlet = {
   subLocality: string
   landmark: string
   photo: string
+  region: string
   coordinates: {
     lat: string
     lng: string
@@ -35,6 +36,7 @@ export type OutletFields = {
   telephone: string
   barcode: string
   territoryId: number
+  region: any
   email: string
   locality: string
   subLocality: string

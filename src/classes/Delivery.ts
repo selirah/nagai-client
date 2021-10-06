@@ -2,12 +2,15 @@ import { Order, DBUser } from 'classes'
 
 export type Delivery = {
   id: string
-  deliveryNumber: string
-  orderNumber: string
+  orderId: string
   dispatchId: number
   isDelivered: boolean
   deliveryDate: Date
-  reason: string
+  coordinates: {
+    lat: number
+    lng: number
+  }
+  comments: string
   order: Order
   dispatch: DBUser
   createdAt: Date
@@ -21,10 +24,13 @@ export type DeliveryObj = {
 
 export type DeliveryFields = {
   id?: string
-  deliveryNumber: string
-  orderNumber: string
+  orderId: string
   dispatchId: number
-  isDelivered: boolean
-  deliveryDate: Date
-  reason: string
+  isDelivered?: boolean
+  deliveryDate?: Date
+  coordinates?: {
+    lat: number
+    lng: number
+  }
+  comments?: string
 }

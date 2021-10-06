@@ -5,7 +5,8 @@ import { isUserLoggedIn } from 'utils'
 export const userRoles = {
   admin: 'admin',
   agent: 'agent',
-  dispatch: 'dispatch'
+  dispatch: 'dispatch',
+  all: 'all'
 }
 
 export default function defineAbilityFor() {

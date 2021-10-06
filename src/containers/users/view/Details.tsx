@@ -112,8 +112,10 @@ const Details: React.FC<Props> = (props) => {
             </h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Last Name</h6>
-            <h6 className="mb-0">
+            <h6 className="text-muted font-weight-bolder text-right">
+              Last Name
+            </h6>
+            <h6 className="mb-0 text-right">
               {user
                 ? user.lastName
                   ? user.lastName.toUpperCase()
@@ -121,24 +123,29 @@ const Details: React.FC<Props> = (props) => {
                 : null}
             </h6>
           </div>
+        </div>
+        <hr className="mb-2" />
+        <div className="d-flex justify-content-between align-items-center text-left">
           <div>
             <h6 className="text-muted font-weight-bolder">Phone</h6>
             <h6 className="mb-0">{user ? user.phone : null}</h6>
+          </div>
+          <div>
+            <h6 className="text-muted font-weight-bolder text-right">Email</h6>
+            <h6 className="mb-0 text-right">{user ? user.email : null}</h6>
           </div>
         </div>
         <hr className="mb-2" />
         <div className="d-flex justify-content-between align-items-center text-left">
           <div>
-            <h6 className="text-muted font-weight-bolder">Email</h6>
-            <h6 className="mb-0">{user ? user.email : null}</h6>
-          </div>
-          <div>
             <h6 className="text-muted font-weight-bolder">Role</h6>
             <h6 className="mb-0">{user ? renderBadge(user.role) : null}</h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Verified</h6>
-            <h6 className="mb-0">
+            <h6 className="text-muted font-weight-bolder text-right">
+              Verified
+            </h6>
+            <h6 className="mb-0 text-right">
               {user ? renderVerified(user.isVerified) : null}
             </h6>
           </div>
@@ -152,8 +159,10 @@ const Details: React.FC<Props> = (props) => {
             </h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Date modified</h6>
-            <h6 className="mb-0">
+            <h6 className="text-muted font-weight-bolder text-right">
+              Date modified
+            </h6>
+            <h6 className="mb-0 text-right">
               {user ? moment(user.updatedAt).format('MMM Do, YYYY') : null}
             </h6>
           </div>

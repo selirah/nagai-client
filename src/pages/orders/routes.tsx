@@ -28,6 +28,11 @@ const routes: RR[] = [
     path: 'add-invoice/:id',
     component: lazy(() => import('containers/orders/AddInvoice')),
     exact: true
+  },
+  {
+    path: 'assign-dispatch/:id',
+    component: lazy(() => import('containers/orders/AssignDispatch')),
+    exact: true
   }
 ]
 

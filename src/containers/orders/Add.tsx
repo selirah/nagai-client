@@ -109,6 +109,7 @@ const Add = () => {
       const invoice: InvoiceFields = {
         deliveryFee: parseFloat(values.deliveryFee).toFixed(2),
         discount: parseFloat(values.discount).toFixed(2),
+        outletId: parseInt(values.outletId.value),
         finalAmount: total.toFixed(2),
         invoiceNumber: values.invoiceNumber,
         orderNumber: values.orderNumber,

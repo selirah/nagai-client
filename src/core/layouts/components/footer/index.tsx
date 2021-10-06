@@ -12,8 +12,12 @@ const Footer: React.FC<FooterProps> = (props) => {
     <p className="clearfix mb-0">
       <span className="float-md-left d-block d-md-inline-block mt-25">
         COPYRIGHT © {new Date().getFullYear()}{' '}
-        <a href="https://pces.mk" target="_blank" rel="noopener noreferrer">
-          EDWARDSELIRAH.COM
+        <a
+          href="https://nagaiconsult.mk"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          NAGAI
         </a>
         <span className="d-none d-sm-inline-block">, All rights Reserved</span>
       </span>

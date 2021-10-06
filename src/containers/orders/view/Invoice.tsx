@@ -1,7 +1,6 @@
 import React from 'react'
 import { Order } from 'classes'
 import { Card, CardBody, CardTitle, CardHeader } from 'reactstrap'
-import 'react-datepicker/dist/react-datepicker.css'
 
 interface Props {
   order: Order | null
@@ -25,11 +24,11 @@ const Invoice: React.FC<Props> = (props) => {
           <th>Product</th>
           <th className="text-left">Name</th>
           <th>SKU</th>
-          <th>Price</th>
+          <th>Price (GHC)</th>
           <th>Qty</th>
           <th className="text-right">
             <span id="amount" className="amount">
-              Sub-total
+              Total (GHC)
             </span>
           </th>
         </tr>
@@ -61,10 +60,10 @@ const Invoice: React.FC<Props> = (props) => {
                   <p>{ct.sku}</p>
                 </div>
               </td>
-              <td>GHC {ct.unitPrice}</td>
+              <td>{ct.unitPrice}</td>
               <td>{ct.quantity}</td>
               <td className="text-right">
-                GHC {(ct.unitPrice * ct.quantity).toFixed(2)}
+                {(ct.unitPrice * ct.quantity).toFixed(2)}
               </td>
             </tr>
           ))}
@@ -92,10 +91,10 @@ const Invoice: React.FC<Props> = (props) => {
           <th></th>
           <th></th>
           <th>Property</th>
-          <th>Value</th>
+          <th>Value (GHC)</th>
           <th className="text-right">
             <span id="amount" className="amount">
-              Sub-total
+              Total (GHC)
             </span>
           </th>
         </tr>
@@ -104,22 +103,18 @@ const Invoice: React.FC<Props> = (props) => {
         <tr>
           <td colSpan={2}></td>
           <td>Order Total</td>
-          <td>{order ? `GHC ${order.orderTotal}` : null}</td>
-          <td className="text-right">
-            {order ? `GHC ${order.orderTotal}` : null}
-          </td>
+          <td>{order ? `${order.orderTotal}` : null}</td>
+          <td className="text-right">{order ? `${order.orderTotal}` : null}</td>
         </tr>
         <tr>
           <td colSpan={2}></td>
           <td>Discount</td>
           <td>
-            {order
-              ? `GHC ${parseFloat(order.invoice.discount).toFixed(2)}`
-              : null}
+            {order ? `${parseFloat(order.invoice.discount).toFixed(2)}` : null}
           </td>
           <td className="text-right">
             {order
-              ? `- GHC ${parseFloat(order.invoice.discount).toFixed(2)}`
+              ? `- ${parseFloat(order.invoice.discount).toFixed(2)}`
               : null}
           </td>
         </tr>
@@ -128,12 +123,12 @@ const Invoice: React.FC<Props> = (props) => {
           <td>Delivery Fee</td>
           <td>
             {order
-              ? `GHC ${parseFloat(order.invoice.deliveryFee).toFixed(2)}`
+              ? `${parseFloat(order.invoice.deliveryFee).toFixed(2)}`
               : null}
           </td>
           <td className="text-right">
             {order
-              ? `+ GHC ${parseFloat(order.invoice.deliveryFee).toFixed(2)}`
+              ? `+ ${parseFloat(order.invoice.deliveryFee).toFixed(2)}`
               : null}
           </td>
         </tr>
@@ -143,7 +138,7 @@ const Invoice: React.FC<Props> = (props) => {
               <td colSpan={2}></td>
               <td>{t.tax}</td>
               <td>{`${parseFloat(t.rate) * 100}%`}</td>
-              <td className="text-right">{`+ GHC ${(
+              <td className="text-right">{`+ ${(
                 parseFloat(t.rate) * cartTotalAmount
               ).toFixed(2)}`}</td>
             </tr>

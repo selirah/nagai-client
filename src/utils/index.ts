@@ -55,6 +55,35 @@ export const deleteDone = (item: string) => {
   return payload
 }
 
+export const pickUpOrderConfirmation = (item: string) => {
+  const payload: any = {
+    title: `Are you sure?`,
+    text: `Do you want to pick up order with number ${item}`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Confirm Pickup',
+    customClass: {
+      confirmButton: 'btn btn-secondary',
+      cancelButton: 'btn btn-danger ml-1'
+    },
+    cancelButtonText: 'Cancel',
+    buttonsStyling: false
+  }
+  return payload
+}
+
+export const pickUpDone = () => {
+  const payload: any = {
+    title: 'Done!',
+    text: `Order has been set for dispatch`,
+    icon: 'success',
+    customClass: {
+      confirmButton: 'btn btn-success'
+    }
+  }
+  return payload
+}
+
 export const getInitials = (str: string) => {
   const results: string[] = []
   const wordArray = str.split(' ')
@@ -92,4 +121,8 @@ export const generateInvoiceNumber = () => {
   now += now + Math.floor(Math.random() * 10)
   // format
   return [now.slice(0, 4), now.slice(5, 10)].join('')
+}
+
+export const numberWithCommas = (x: any) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }

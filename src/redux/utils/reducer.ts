@@ -11,7 +11,8 @@ export const initialState: UtilsState = {
   filtered: [],
   searchText: '',
   outlets: [],
-  taxes: []
+  taxes: [],
+  users: []
 }
 
 const reducer: Reducer<UtilsState> = (state = initialState, action) => {
@@ -142,6 +143,26 @@ const reducer: Reducer<UtilsState> = (state = initialState, action) => {
       }
 
     case ActionTypes.GET_TAXES_FAILURE:
+      return {
+        ...state,
+        errors: action.payload,
+        loading: initialState.loading
+      }
+
+    case ActionTypes.GET_USERS_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case ActionTypes.GET_USERS_SUCCESS:
+      return {
+        ...state,
+        users: action.payload,
+        loading: initialState.loading
+      }
+
+    case ActionTypes.GET_USERS_FAILURE:
       return {
         ...state,
         errors: action.payload,

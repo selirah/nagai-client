@@ -11,7 +11,6 @@ export type Item = {
 export type Order = {
   id: string
   items: Item[]
-  orderNumber: string
   orderTotal: number
   outletId: number
   agentId: number
@@ -46,5 +45,6 @@ export const OrderStatus = {
   DELIVERED: 'DELIVERED',
   FAILED: 'FAILED',
   TRANSIT: 'TRANSIT',
-  ALL: 'ALL'
+  ALL: 'ALL',
+  DISPATCH: 'DISPATCH'
 }

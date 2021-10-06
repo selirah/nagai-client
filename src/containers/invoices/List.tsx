@@ -1,13 +1,10 @@
 import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
-import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import invoiceActions from 'redux/invoices/actions'
 import { Invoice } from 'classes'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { Edit3, Trash, AlertTriangle } from 'react-feather'
 import moment from 'moment'
-import ToastBox from 'components/ToastBox'
 import Drawer from './Drawer'
 import { IDataTableColumn } from 'react-data-table-component'
 import Table from 'components/DataTable'
@@ -78,7 +75,7 @@ const List = () => {
         selector: (row: Invoice) => `GHC ${row.finalAmount}`
       },
       {
-        id: 5,
+        id: 6,
         name: 'Date',
         sortable: true,
         selector: (row: Invoice) =>

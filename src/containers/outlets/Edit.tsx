@@ -3,8 +3,7 @@ import { useHistory, useParams } from 'react-router'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import outletActions from 'redux/outlets/actions'
-import territoryActions from 'redux/terrirtories/actions'
-import { OutletFields, Territory } from 'classes'
+import { OutletFields, Territory, OptionKey } from 'classes'
 import { toast, Slide } from 'react-toastify'
 import RippleButton from 'core/components/ripple-button'
 import ToastBox from 'components/ToastBox'
@@ -24,16 +23,18 @@ import {
 } from 'reactstrap'
 import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import { components } from 'react-select'
+import SelectComponent from 'components/Select'
 
 const { updateOutletRequest, clearStates, setActiveLink } = outletActions
-const { setTerritory } = territoryActions
 
 const validateSchema = Yup.object().shape({
   ownerName: Yup.string().required('This is a required field'),
   outletName: Yup.string().required('This is a required field'),
   mobile: Yup.string()
     .min(10, 'Phone number is too short!')
-    .max(12, 'Phone number is too long!'),
+    .max(12, 'Phone number is too long!')
+    .required('This is a required field'),
   barcode: Yup.string().required('This is a required field'),
   email: Yup.string().email(
     'Please input a valid email in the form john@example.com'
@@ -43,18 +44,21 @@ const validateSchema = Yup.object().shape({
   coordinates: Yup.object().shape({
     lat: Yup.string().required('This is a required field'),
     lng: Yup.string().required('This is a required field')
-  })
+  }),
+  region: Yup.object().required('This is a required field')
 })
 
 type QueryParam = {
   id: string
 }
 
+const { Option } = components
+
 const Edit = () => {
   const dispatch: Dispatch = useDispatch()
   const { id } = useParams<QueryParam>()
   const store = Selector((state) => state.outlets)
-  const territoryStore = Selector((state) => state.territories)
+  const utilsStore = Selector((state) => state.utils)
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
   const [err, setErr] = useState(null)
@@ -78,9 +82,15 @@ const Edit = () => {
         lat: item ? item.coordinates.lat : '',
         lng: item ? item.coordinates.lng : ''
       },
-      territory: item ? item.territory.locality : ''
+      territory: item ? item.territory.locality : '',
+      region: item
+        ? {
+            label: item.region ? item.region : '',
+            value: item.region ? item.region : ''
+          }
+        : ''
     }
-    item && dispatch(setTerritory(item.territory))
+    item && setTer(item.territory)
     return payload
   })
 
@@ -92,10 +102,8 @@ const Edit = () => {
 
   useEffect(() => {
     const { isSubmitting, isSucceeded, errors } = store
-    const { territory } = territoryStore
     setBtnLoading(isSubmitting)
     setErr(errors)
-    setTer(territory)
     if (isSucceeded) {
       toast.success(
         <ToastBox
@@ -113,10 +121,11 @@ const Edit = () => {
       )
       history.push('/admin/outlets')
     }
-  }, [store, history, id, territoryStore, values])
+  }, [store, history, id, values])
 
   const onSubmit = useCallback(
     (values: OutletFields) => {
+      values.region = values.region.value
       dispatch(updateOutletRequest(values))
     },
     [dispatch]
@@ -133,6 +142,32 @@ const Edit = () => {
       </Col>
     </Row>
   )
+
+  const regionOptions: OptionKey[] = []
+  utilsStore.regions.map((r) => {
+    regionOptions.push({
+      value: `${r.region}`,
+      label: r.region
+    })
+    return regionOptions
+  })
+
+  const rSelectOptions = [
+    {
+      label: 'Select Region of Territory',
+      options: regionOptions
+    }
+  ]
+
+  const OptionComponent = ({ data, ...props }: any) => {
+    return (
+      <Option {...props}>
+        <div className="d-flex justify-content-start align-items-center">
+          <div className="profile-user-info">{data.label}</div>
+        </div>
+      </Option>
+    )
+  }
 
   return (
     <Fragment>
@@ -161,7 +196,9 @@ const Edit = () => {
               errors,
               handleChange,
               handleBlur,
-              handleSubmit
+              handleSubmit,
+              setFieldValue,
+              setFieldTouched
             }) => (
               <Form className="mt-2" onSubmit={handleSubmit}>
                 <Row className="px-3">
@@ -408,6 +445,27 @@ const Edit = () => {
                     </FormGroup>
                   </Col>
                   <Col sm="12" md="4" lg="4">
+                    <FormGroup>
+                      <Label className="form-label" for="region">
+                        Region <span style={{ color: '#ff0000' }}>*</span>
+                      </Label>
+                      <SelectComponent
+                        id="region"
+                        name="region"
+                        onChange={setFieldValue}
+                        onBlur={setFieldTouched}
+                        error={errors.region}
+                        touched={touched.region}
+                        options={rSelectOptions}
+                        optionComponent={OptionComponent}
+                        value={values.region}
+                        placeholder="Select region.."
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row className="px-3">
+                  <Col sm="12" md="6" lg="6">
                     <FormGroup>
                       <Label className="form-label" for="landmark">
                         Brief description, landmark, area bordered, etc

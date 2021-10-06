@@ -1,23 +1,25 @@
-import React, {
-  useEffect,
-  useState,
-  Fragment,
-  useCallback,
-  useMemo
-} from 'react'
+import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import orderActions from 'redux/orders/actions'
-import { Order, OrderStatus } from 'classes'
+import { Order, OrderStatus, DeliveryFields } from 'classes'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { Edit3 } from 'react-feather'
+import { Edit3, AlertTriangle, Truck } from 'react-feather'
 import moment from 'moment'
 import Drawer from './Drawer'
 import { IDataTableColumn } from 'react-data-table-component'
 import Table from 'components/DataTable'
 import { Badge } from 'reactstrap'
 import ExpandedRow from './ExpandedRow'
+import { pickUpOrderConfirmation, pickUpDone } from 'utils'
+import SWAL from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import deliveryActions from 'redux/deliveries/actions'
+import { toast, Slide } from 'react-toastify'
+import ToastBox from 'components/ToastBox'
+import RippleButton from 'core/components/ripple-button'
+import { userRoles } from 'utils/ability'
 
 const {
   getOrdersRequest,
@@ -27,10 +29,14 @@ const {
   setOrder
 } = orderActions
 
+const { addDeliveryRequest } = deliveryActions
+
 const List = () => {
   const dispatch: Dispatch = useDispatch()
   const store = Selector((state) => state.orders)
   const layoutStore = Selector((state) => state.layout)
+  const authStore = Selector((state) => state.auth)
+  const deliveryStore = Selector((state) => state.deliveries)
   const [loading, setLoading] = useState(false)
   const [orders, setOrders] = useState<Order[]>([])
   const [toggleDrawer, setToggleDrawer] = useState(false)
@@ -38,6 +44,7 @@ const List = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [mode, setMode] = useState(layoutStore.mode)
   const [totalRows, setTotalRows] = useState(store.count)
+  const sweetAlert = withReactContent(SWAL)
 
   useEffect(() => {
     const { params } = store
@@ -49,38 +56,61 @@ const List = () => {
     dispatch(setQueryParams(params))
     dispatch(getOrdersRequest(params))
     dispatch(clearStates())
+    dispatch(deliveryActions.clearStates())
     dispatch(setActiveLink('list'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const renderBadge = useCallback((role: string) => {
-    switch (role) {
+  const renderBadge = useCallback((status: string) => {
+    switch (status) {
       case OrderStatus.PENDING:
         return (
           <Badge className="text-uppercase" color="primary" pill>
-            {role}
+            {status}
           </Badge>
         )
       case OrderStatus.TRANSIT:
         return (
           <Badge className="text-uppercase" color="secondary" pill>
-            {role}
+            {status}
           </Badge>
         )
       case OrderStatus.DELIVERED:
         return (
           <Badge className="text-uppercase" color="success" pill>
-            {role}
+            {status}
           </Badge>
         )
       case OrderStatus.FAILED:
         return (
           <Badge className="text-uppercase" color="danger" pill>
-            {role.toUpperCase()}
+            {status.toUpperCase()}
+          </Badge>
+        )
+
+      case OrderStatus.DISPATCH:
+        return (
+          <Badge className="text-uppercase" color="info" pill>
+            {status.toUpperCase()}
           </Badge>
         )
     }
   }, [])
+
+  const handleDispatchOrder = useCallback(
+    (id: string) => {
+      sweetAlert.fire(pickUpOrderConfirmation(id)).then(function (res) {
+        if (res.value) {
+          const payload: DeliveryFields = {
+            dispatchId: authStore.user!.id,
+            orderId: id
+          }
+          dispatch(addDeliveryRequest(payload))
+        }
+      })
+    },
+    [dispatch, sweetAlert, authStore]
+  )
 
   const columns: IDataTableColumn[] = useMemo(
     () => [
@@ -118,23 +148,42 @@ const List = () => {
       },
       {
         cell: (row: Order) => (
-          <Link to={`/admin/orders/edit/${row.id}`}>
-            <Edit3
-              size={14}
-              className="mr-lg-1"
-              style={{ outline: 'none' }}
-              color="#40C4FF"
-            />
-          </Link>
+          <Fragment>
+            <Link to={`/admin/orders/edit/${row.id}`}>
+              <Edit3
+                size={14}
+                className="mr-lg-1"
+                style={{ outline: 'none' }}
+                color="#40C4FF"
+              />
+            </Link>
+            {!row.delivery ? (
+              authStore.user!.role === userRoles.admin ||
+              authStore.user!.role === userRoles.agent ? (
+                <Link to={`/admin/orders/assign-dispatch/${row.id}`}>
+                  <RippleButton size="sm" color="secondary">
+                    <Truck size={14} /> Assign
+                  </RippleButton>
+                </Link>
+              ) : (
+                <RippleButton
+                  size="sm"
+                  color="secondary"
+                  onClick={() => handleDispatchOrder(row.id)}
+                >
+                  <Truck size={14} /> Pick up
+                </RippleButton>
+              )
+            ) : null}
+          </Fragment>
         )
       }
     ],
-    [renderBadge]
+    [renderBadge, handleDispatchOrder, authStore]
   )
 
   useEffect(() => {
     const { loading, orders, count } = store
-    const { mode } = layoutStore
     setLoading(loading)
     if (orders.length) {
       setOrders(orders)
@@ -142,8 +191,36 @@ const List = () => {
     } else {
       setOrders(orders)
     }
+  }, [store, pageSize])
+
+  useEffect(() => {
+    const { mode } = layoutStore
     setMode(mode)
-  }, [store, pageSize, layoutStore])
+  }, [layoutStore])
+
+  useEffect(() => {
+    const { errors, isSucceeded } = deliveryStore
+    if (isSucceeded) {
+      sweetAlert.fire(pickUpDone()).then(function (res) {
+        if (res.value) {
+          const { params } = store
+          dispatch(deliveryActions.clearStates())
+          dispatch(getOrdersRequest(params))
+        }
+      })
+    }
+    if (errors) {
+      toast.error(
+        <ToastBox
+          color="danger"
+          icon={<AlertTriangle />}
+          message={JSON.stringify(errors)}
+          title="Ooops . . ."
+        />,
+        { transition: Slide, hideProgressBar: true, autoClose: 5000 }
+      )
+    }
+  }, [deliveryStore, dispatch, sweetAlert, store])
 
   const handlePageClick = useCallback(
     (page: number) => {

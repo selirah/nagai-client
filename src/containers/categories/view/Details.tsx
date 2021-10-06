@@ -49,10 +49,10 @@ const Details: React.FC<Props> = (props) => {
             </h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">
+            <h6 className="text-muted font-weight-bolder text-right">
               Number of products
             </h6>
-            <h6 className="mb-0">
+            <h6 className="mb-0 text-right">
               {category ? category.products.length : null}
             </h6>
           </div>

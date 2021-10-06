@@ -114,7 +114,8 @@ const SearchBar: React.FC<Props> = (props) => {
             disabled={
               activeLink === 'add' ||
               activeLink === 'edit' ||
-              activeLink === 'product-stock'
+              activeLink === 'product-stock' ||
+              activeLink === 'dispatch'
             }
             className="border"
           />
@@ -131,7 +132,8 @@ const SearchBar: React.FC<Props> = (props) => {
             disabled={
               activeLink === 'add' ||
               activeLink === 'edit' ||
-              activeLink === 'product-stock'
+              activeLink === 'product-stock' ||
+              activeLink === 'dispatch'
             }
           />
         </div>
@@ -148,7 +150,8 @@ const SearchBar: React.FC<Props> = (props) => {
           disabled={
             activeLink === 'add' ||
             activeLink === 'edit' ||
-            activeLink === 'product-stock'
+            activeLink === 'product-stock' ||
+            activeLink === 'dispatch'
           }
         />
         <Button
@@ -158,7 +161,8 @@ const SearchBar: React.FC<Props> = (props) => {
           disabled={
             activeLink === 'add' ||
             activeLink === 'edit' ||
-            activeLink === 'product-stock'
+            activeLink === 'product-stock' ||
+            activeLink === 'dispatch'
           }
         >
           Filter

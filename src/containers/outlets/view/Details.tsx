@@ -58,8 +58,10 @@ const Details: React.FC<Props> = (props) => {
             </h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Outlet Name</h6>
-            <h6 className="mb-0">
+            <h6 className="text-muted font-weight-bolder text-right">
+              Outlet Name
+            </h6>
+            <h6 className="mb-0 text-right">
               {outlet ? outlet.outletName.toUpperCase() : null}
             </h6>
           </div>
@@ -71,27 +73,34 @@ const Details: React.FC<Props> = (props) => {
             <h6 className="mb-0">{outlet ? outlet.barcode : null}</h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Mobile</h6>
-            <h6 className="mb-0">{outlet ? outlet.mobile : null}</h6>
-          </div>
-          <div>
-            <h6 className="text-muted font-weight-bolder">Tel</h6>
-            <h6 className="mb-0">{outlet ? outlet.telephone : null}</h6>
+            <h6 className="text-muted font-weight-bolder text-right">Mobile</h6>
+            <h6 className="mb-0 text-right">{outlet ? outlet.mobile : null}</h6>
           </div>
         </div>
         <hr className="mb-2" />
         <div className="d-flex justify-content-between text-left">
           <div>
-            <h6 className="text-muted font-weight-bolder">Email</h6>
-            <h6 className="mb-0">{outlet ? outlet.email : null}</h6>
+            <h6 className="text-muted font-weight-bolder">Tel</h6>
+            <h6 className="mb-0">{outlet ? outlet.telephone : null}</h6>
           </div>
+          <div>
+            <h6 className="text-muted font-weight-bolder text-right">Email</h6>
+            <h6 className="mb-0 text-right">{outlet ? outlet.email : null}</h6>
+          </div>
+        </div>
+        <hr className="mb-2" />
+        <div className="d-flex justify-content-between text-left">
           <div>
             <h6 className="text-muted font-weight-bolder">Locality</h6>
             <h6 className="mb-0">{outlet ? outlet.locality : null}</h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Sub-locality</h6>
-            <h6 className="mb-0">{outlet ? outlet.subLocality : null}</h6>
+            <h6 className="text-muted font-weight-bolder text-right">
+              Sub-locality
+            </h6>
+            <h6 className="mb-0 text-right">
+              {outlet ? outlet.subLocality : null}
+            </h6>
           </div>
         </div>
         <hr className="mb-2" />
@@ -101,9 +110,21 @@ const Details: React.FC<Props> = (props) => {
             <h6 className="mb-0">{outlet ? outlet.coordinates.lat : null}</h6>
           </div>
           <div>
-            <h6 className="text-muted font-weight-bolder">Lng</h6>
-            <h6 className="mb-0">{outlet ? outlet.coordinates.lng : null}</h6>
+            <h6 className="text-muted font-weight-bolder text-right">Lng</h6>
+            <h6 className="mb-0 text-right">
+              {outlet ? outlet.coordinates.lng : null}
+            </h6>
           </div>
+        </div>
+        <hr className="mb-2" />
+        <div className="d-flex justify-content-between text-left">
+          <div>
+            <h6 className="text-muted font-weight-bolder">Region</h6>
+            <h6 className="mb-0">{outlet ? outlet.region : null}</h6>
+          </div>
+        </div>
+        <hr className="mb-2" />
+        <div className="d-flex justify-content-between text-left">
           <div>
             <h6 className="text-muted font-weight-bolder">Landmark</h6>
             <h6 className="mb-0">{outlet ? outlet.landmark : null}</h6>

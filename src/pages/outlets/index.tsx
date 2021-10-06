@@ -10,7 +10,7 @@ import { Dispatch, Selector } from 'redux/selector-dispatch'
 import { isEmpty } from 'utils'
 import { Territory } from 'classes'
 
-const { getTerritoriesRequest } = utilsActions
+const { getTerritoriesRequest, getRegionsRequest } = utilsActions
 
 const Outlets = () => {
   const [mainSidebar, setMainSidebar] = useState(false)
@@ -21,6 +21,9 @@ const Outlets = () => {
   useEffect(() => {
     if (isEmpty(utilsStore.territories)) {
       dispatch(getTerritoriesRequest())
+    }
+    if (isEmpty(utilsStore.regions)) {
+      dispatch(getRegionsRequest())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
