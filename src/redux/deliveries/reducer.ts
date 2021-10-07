@@ -18,7 +18,9 @@ export const initialState: DeliveryState = {
     query: '',
     fromDate: '',
     toDate: ''
-  }
+  },
+  tracking: null,
+  loadTracking: false
 }
 
 const reducer: Reducer<DeliveryState> = (state = initialState, action) => {
@@ -139,6 +141,26 @@ const reducer: Reducer<DeliveryState> = (state = initialState, action) => {
       return {
         ...state,
         params: action.payload
+      }
+
+    case ActionTypes.GET_TRACKING_REQUEST:
+      return {
+        ...state,
+        loadTracking: true
+      }
+
+    case ActionTypes.GET_TRACKING_SUCCESS:
+      return {
+        ...state,
+        loadTracking: initialState.loadTracking,
+        tracking: action.payload
+      }
+
+    case ActionTypes.GET_TRACKING_FAILURE:
+      return {
+        ...state,
+        loadTracking: initialState.loadTracking,
+        error: action.payload
       }
 
     default:

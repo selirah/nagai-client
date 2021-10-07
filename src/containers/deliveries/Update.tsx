@@ -1,14 +1,12 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useHistory, useParams } from 'react-router'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import orderActions from 'redux/orders/actions'
-import { OrderFields, OrderStatus, Order } from 'classes'
+import deliveryActions from 'redux/deliveries/actions'
+import { DeliveryFields } from 'classes'
 import { toast, Slide } from 'react-toastify'
 import RippleButton from 'core/components/ripple-button'
 import ToastBox from 'components/ToastBox'
 import { Formik } from 'formik'
-import * as Yup from 'yup'
 import {
   Form,
   FormGroup,
@@ -19,81 +17,38 @@ import {
   Row,
   Col,
   CardTitle,
-  Alert
+  Alert,
+  CustomInput
 } from 'reactstrap'
+import { useHistory, useParams } from 'react-router-dom'
 import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { components } from 'react-select'
-import SelectComponent from 'components/Select'
 
-const { clearStates, setActiveLink, updateOrderRequest } = orderActions
-
-const { Option } = components
+const { updateDeliveryRequest, clearStates, setActiveLink } = deliveryActions
 
 type QueryParam = {
   id: string
 }
 
-const options = [
-  {
-    value: OrderStatus.PENDING,
-    label: OrderStatus.PENDING
-  },
-  {
-    value: OrderStatus.DISPATCH,
-    label: OrderStatus.DISPATCH
-  },
-  {
-    value: OrderStatus.TRANSIT,
-    label: OrderStatus.TRANSIT
-  },
-  {
-    value: OrderStatus.DELIVERED,
-    label: OrderStatus.DELIVERED
-  },
-  {
-    value: OrderStatus.FAILED,
-    label: OrderStatus.FAILED
-  }
-]
-
-const selectOptions = [
-  {
-    label: 'Select Status of Order',
-    options: options
-  }
-]
-
-interface Fields {
-  status: any
-  comments: string
-}
-
-const validateSchema = Yup.object().shape({
-  status: Yup.object().required('This is a required field')
-})
-
-const Edit = () => {
-  const dispatch: Dispatch = useDispatch()
+const Update = () => {
   const { id } = useParams<QueryParam>()
-  const store = Selector((state) => state.orders)
+  const dispatch: Dispatch = useDispatch()
+  const store = Selector((state) => state.deliveries)
+  const [values] = useState(() => {
+    const { deliveries } = store
+    const item = deliveries.find((d) => d.id === id)
+    const payload: DeliveryFields = {
+      orderId: item ? item.orderId : '',
+      dispatchId: item ? item.dispatchId : 0,
+      isDelivered: item ? item.isDelivered : false,
+      id: id,
+      comments: item ? item.comments : ''
+    }
+    return payload
+  })
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
   const [err, setErr] = useState(null)
-  const [order, setOrd] = useState<Order | null>(null)
-  const [values] = useState(() => {
-    const { orders } = store
-    const item = orders.find((o) => o.id === id)
-    const payload: Fields = {
-      status: item ? { label: item.status, value: item.status } : '',
-      comments: item && item.comments ? item.comments : ''
-    }
-    if (item !== undefined) {
-      setOrd(item)
-    }
-
-    return payload
-  })
 
   useEffect(() => {
     dispatch(clearStates())
@@ -102,33 +57,22 @@ const Edit = () => {
   }, [])
 
   const onSubmit = useCallback(
-    (values: Fields) => {
-      const payload: OrderFields = {
-        status: values.status.value,
-        id: id,
-        comments: values.comments,
-        agentId: order ? order.agentId : '',
-        items: order ? order.items : [],
-        orderNumber: id,
-        orderTotal: order ? order.orderTotal : '',
-        outletId: order ? order.outletId : ''
-      }
-      dispatch(updateOrderRequest(payload))
+    (values: DeliveryFields) => {
+      dispatch(updateDeliveryRequest(values))
     },
-    [dispatch, id, order]
+    [dispatch]
   )
 
   useEffect(() => {
     const { isSubmitting, isSucceeded, errors } = store
     setBtnLoading(isSubmitting)
     setErr(errors)
-
     if (isSucceeded) {
       toast.success(
         <ToastBox
           color="success"
           icon={<Coffee />}
-          message="Order has been updated successfully"
+          message="Delivery has been updated successfully"
           title="Nice!"
         />,
         {
@@ -138,19 +82,9 @@ const Edit = () => {
           position: 'bottom-right'
         }
       )
-      history.push('/admin/orders')
+      history.push('/admin/deliveries')
     }
   }, [store, history])
-
-  const OptionComponent = ({ data, ...props }: any) => {
-    return (
-      <Option {...props}>
-        <div className="d-flex justify-content-start align-items-center">
-          <div className="profile-user-info">{data.label}</div>
-        </div>
-      </Option>
-    )
-  }
 
   const renderError = (errors: any) => (
     <Row className="px-3">
@@ -179,47 +113,35 @@ const Edit = () => {
           }
         }}
       >
-        <Formik
-          initialValues={values}
-          onSubmit={(values) => onSubmit(values)}
-          validationSchema={validateSchema}
-        >
-          {({
-            values,
-            touched,
-            errors,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            setFieldValue,
-            setFieldTouched
-          }) => (
+        <Formik initialValues={values} onSubmit={(values) => onSubmit(values)}>
+          {({ values, handleChange, handleBlur, handleSubmit }) => (
             <Form className="mt-2" onSubmit={handleSubmit}>
               <Row className="px-3">
                 <Col sm="12" md="12" lg="12">
-                  <CardTitle tag="h2" className="font-weight-light">
-                    Update Order
+                  <CardTitle
+                    tag="h2"
+                    className="font-weight-light text-primary font-weight-bold"
+                  >
+                    Update delivery details
                   </CardTitle>
                 </Col>
               </Row>
               {err ? renderError(err) : null}
               <Row className="px-3">
                 <Col sm="12" md="6" lg="6">
+                  <Label className="form-label" for="isDelivered">
+                    Delivery status
+                  </Label>
                   <FormGroup>
-                    <Label className="form-label" for="status">
-                      Status <span style={{ color: '#ff0000' }}>*</span>
-                    </Label>
-                    <SelectComponent
-                      id="status"
-                      name="status"
-                      onChange={setFieldValue}
-                      onBlur={setFieldTouched}
-                      error={errors.status}
-                      touched={touched.status}
-                      options={selectOptions}
-                      optionComponent={OptionComponent}
-                      value={values.status}
-                      placeholder="Select Status.."
+                    <CustomInput
+                      type="switch"
+                      className="custom-control-Primary"
+                      id="isDelivered"
+                      label="Switch if order has been successfully delivered"
+                      name="isDelivered"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      checked={values.isDelivered}
                     />
                   </FormGroup>
                 </Col>
@@ -233,7 +155,7 @@ const Edit = () => {
                     <Input
                       type="textarea"
                       id="comments"
-                      placeholder="Add comment"
+                      placeholder="Type any comment related to this order delivery"
                       value={values.comments}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -249,7 +171,7 @@ const Edit = () => {
                       <Spinner color="white" className="mr-2" size="sm" />{' '}
                       Saving . . .
                     </Collapse>
-                    <Collapse isOpen={!btnLoading}>Update Order</Collapse>
+                    <Collapse isOpen={!btnLoading}>Update</Collapse>
                   </RippleButton>
                 </Col>
               </Row>
@@ -261,4 +183,4 @@ const Edit = () => {
   )
 }
 
-export default Edit
+export default Update

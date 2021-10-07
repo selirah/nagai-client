@@ -1,9 +1,8 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useHistory, useParams } from 'react-router'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import orderActions from 'redux/orders/actions'
-import { OrderFields, OrderStatus, Order } from 'classes'
+import deliveryActions from 'redux/deliveries/actions'
+import { DeliveryFields, OptionKey } from 'classes'
 import { toast, Slide } from 'react-toastify'
 import RippleButton from 'core/components/ripple-button'
 import ToastBox from 'components/ToastBox'
@@ -21,79 +20,54 @@ import {
   CardTitle,
   Alert
 } from 'reactstrap'
+import { useHistory, useParams } from 'react-router-dom'
 import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
 import SelectComponent from 'components/Select'
 
-const { clearStates, setActiveLink, updateOrderRequest } = orderActions
-
-const { Option } = components
+const { updateDeliveryRequest, clearStates, setActiveLink } = deliveryActions
 
 type QueryParam = {
   id: string
 }
 
-const options = [
-  {
-    value: OrderStatus.PENDING,
-    label: OrderStatus.PENDING
-  },
-  {
-    value: OrderStatus.DISPATCH,
-    label: OrderStatus.DISPATCH
-  },
-  {
-    value: OrderStatus.TRANSIT,
-    label: OrderStatus.TRANSIT
-  },
-  {
-    value: OrderStatus.DELIVERED,
-    label: OrderStatus.DELIVERED
-  },
-  {
-    value: OrderStatus.FAILED,
-    label: OrderStatus.FAILED
-  }
-]
-
-const selectOptions = [
-  {
-    label: 'Select Status of Order',
-    options: options
-  }
-]
+const { Option } = components
 
 interface Fields {
-  status: any
-  comments: string
+  orderId: string
+  dispatchId: any
+  isDelivered: boolean
 }
 
 const validateSchema = Yup.object().shape({
-  status: Yup.object().required('This is a required field')
+  orderId: Yup.string().required('This is a required field'),
+  dispatchId: Yup.object().required('This is a required field')
 })
 
 const Edit = () => {
-  const dispatch: Dispatch = useDispatch()
   const { id } = useParams<QueryParam>()
-  const store = Selector((state) => state.orders)
+  const dispatch: Dispatch = useDispatch()
+  const store = Selector((state) => state.deliveries)
+  const { users } = Selector((state) => state.utils)
+  const [values] = useState(() => {
+    const { deliveries } = store
+    const item = deliveries.find((d) => d.id === id)
+    const payload: Fields = {
+      orderId: item ? item.orderId : '',
+      dispatchId: item
+        ? {
+            label: `${item.dispatch.firstName.toUpperCase()} ${item.dispatch.lastName.toUpperCase()}`,
+            value: item.dispatch.id
+          }
+        : '',
+      isDelivered: item ? item.isDelivered : false
+    }
+    return payload
+  })
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
   const [err, setErr] = useState(null)
-  const [order, setOrd] = useState<Order | null>(null)
-  const [values] = useState(() => {
-    const { orders } = store
-    const item = orders.find((o) => o.id === id)
-    const payload: Fields = {
-      status: item ? { label: item.status, value: item.status } : '',
-      comments: item && item.comments ? item.comments : ''
-    }
-    if (item !== undefined) {
-      setOrd(item)
-    }
-
-    return payload
-  })
 
   useEffect(() => {
     dispatch(clearStates())
@@ -103,32 +77,27 @@ const Edit = () => {
 
   const onSubmit = useCallback(
     (values: Fields) => {
-      const payload: OrderFields = {
-        status: values.status.value,
+      const payload: DeliveryFields = {
+        dispatchId: parseInt(values.dispatchId.value),
+        orderId: values.orderId,
         id: id,
-        comments: values.comments,
-        agentId: order ? order.agentId : '',
-        items: order ? order.items : [],
-        orderNumber: id,
-        orderTotal: order ? order.orderTotal : '',
-        outletId: order ? order.outletId : ''
+        isDelivered: values.isDelivered
       }
-      dispatch(updateOrderRequest(payload))
+      dispatch(updateDeliveryRequest(payload))
     },
-    [dispatch, id, order]
+    [dispatch, id]
   )
 
   useEffect(() => {
     const { isSubmitting, isSucceeded, errors } = store
     setBtnLoading(isSubmitting)
     setErr(errors)
-
     if (isSucceeded) {
       toast.success(
         <ToastBox
           color="success"
           icon={<Coffee />}
-          message="Order has been updated successfully"
+          message="Delivery has been updated successfully"
           title="Nice!"
         />,
         {
@@ -138,9 +107,26 @@ const Edit = () => {
           position: 'bottom-right'
         }
       )
-      history.push('/admin/orders')
+      history.push('/admin/deliveries')
     }
   }, [store, history])
+
+  const dispatchOptions: OptionKey[] = []
+
+  users.map((u) => {
+    dispatchOptions.push({
+      value: `${u.id}`,
+      label: `${u.firstName.toUpperCase()} ${u.lastName.toUpperCase()}`
+    })
+    return dispatchOptions
+  })
+
+  const selectOptions = [
+    {
+      label: 'Select Dispatch for Order',
+      options: dispatchOptions
+    }
+  ]
 
   const OptionComponent = ({ data, ...props }: any) => {
     return (
@@ -197,8 +183,11 @@ const Edit = () => {
             <Form className="mt-2" onSubmit={handleSubmit}>
               <Row className="px-3">
                 <Col sm="12" md="12" lg="12">
-                  <CardTitle tag="h2" className="font-weight-light">
-                    Update Order
+                  <CardTitle
+                    tag="h2"
+                    className="font-weight-light text-secondary font-weight-bold"
+                  >
+                    Update delivery details
                   </CardTitle>
                 </Col>
               </Row>
@@ -206,50 +195,56 @@ const Edit = () => {
               <Row className="px-3">
                 <Col sm="12" md="6" lg="6">
                   <FormGroup>
-                    <Label className="form-label" for="status">
-                      Status <span style={{ color: '#ff0000' }}>*</span>
+                    <Label className="form-label" for="orderId">
+                      Order Number <span style={{ color: '#ff0000' }}>*</span>
                     </Label>
-                    <SelectComponent
-                      id="status"
-                      name="status"
-                      onChange={setFieldValue}
-                      onBlur={setFieldTouched}
-                      error={errors.status}
-                      touched={touched.status}
-                      options={selectOptions}
-                      optionComponent={OptionComponent}
-                      value={values.status}
-                      placeholder="Select Status.."
+                    <Input
+                      type="text"
+                      id="orderId"
+                      placeholder="order ID"
+                      value={values.orderId}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="orderId"
+                      disabled
                     />
+                    {errors.orderId && touched.orderId ? (
+                      <small style={{ color: '#ff0000' }}>
+                        {errors.orderId}
+                      </small>
+                    ) : null}
                   </FormGroup>
                 </Col>
               </Row>
               <Row className="px-3">
                 <Col sm="12" md="6" lg="6">
                   <FormGroup>
-                    <Label className="form-label" for="comments">
-                      Comments
+                    <Label className="form-label" for="dispatchId">
+                      Dispatch <span style={{ color: '#ff0000' }}>*</span>
                     </Label>
-                    <Input
-                      type="textarea"
-                      id="comments"
-                      placeholder="Add comment"
-                      value={values.comments}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name="comments"
+                    <SelectComponent
+                      id="dispatchId"
+                      name="dispatchId"
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                      error={errors.dispatchId}
+                      touched={touched.dispatchId}
+                      options={selectOptions}
+                      optionComponent={OptionComponent}
+                      value={values.dispatchId}
+                      placeholder="Select dispatch rider.."
                     />
                   </FormGroup>
                 </Col>
               </Row>
               <Row className="px-3 mb-2">
                 <Col sm="4" md="4" lg="4">
-                  <RippleButton type="submit" color="primary" block>
+                  <RippleButton type="submit" color="secondary" block>
                     <Collapse isOpen={btnLoading}>
                       <Spinner color="white" className="mr-2" size="sm" />{' '}
                       Saving . . .
                     </Collapse>
-                    <Collapse isOpen={!btnLoading}>Update Order</Collapse>
+                    <Collapse isOpen={!btnLoading}>Update</Collapse>
                   </RippleButton>
                 </Col>
               </Row>

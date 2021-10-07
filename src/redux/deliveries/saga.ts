@@ -85,6 +85,24 @@ function* getDeliveries({
   }
 }
 
+function* getTracking({
+  payload
+}: {
+  type: string
+  payload: string
+}): Generator {
+  try {
+    const res: any = yield call(callApiGet, `deliveries/track/${payload}`)
+    yield put(deliveryActions.getTrackingSuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(deliveryActions.getTrackingFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
 function* watchAddDelivery() {
   yield takeEvery(ActionTypes.ADD_DELIVERY_REQUEST, addDelivery)
 }
@@ -101,12 +119,17 @@ function* watchGetDeliveries() {
   yield takeEvery(ActionTypes.GET_DELIVERIES_REQUEST, getDeliveries)
 }
 
+function* watchGetTracking() {
+  yield takeEvery(ActionTypes.GET_TRACKING_REQUEST, getTracking)
+}
+
 function* invoiceSaga(): Generator {
   yield all([
     fork(watchAddDelivery),
     fork(watchUpdateDelivery),
     fork(watchDeleteDelivery),
-    fork(watchGetDeliveries)
+    fork(watchGetDeliveries),
+    fork(watchGetTracking)
   ])
 }
 

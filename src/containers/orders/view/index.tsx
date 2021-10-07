@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { Selector } from 'redux/selector-dispatch'
 import { Row, Col } from 'reactstrap'
 import Invoice from './Invoice'
-import Delivery from './Delivery'
 import Location from './Location'
 
 const View = () => {
@@ -23,7 +22,6 @@ const View = () => {
             <Invoice order={store.order} />
           </Col>
           <Col lg={{ size: 6, order: 1 }} sm={{ size: 12 }} xs={{ order: 2 }}>
-            <Delivery delivery={store.order!.delivery} />
             <Location outlet={store.order!.outlet} theme={mode} />
           </Col>
         </Row>

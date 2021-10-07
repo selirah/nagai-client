@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { DeliveryObj, Delivery, Param, DeliveryFields } from 'classes'
+import { DeliveryObj, Delivery, Param, DeliveryFields, Tracking } from 'classes'
 import { ActionTypes } from './types'
 
 const deliveryActions = {
@@ -19,7 +19,7 @@ const deliveryActions = {
   updateDeliveryFailure: (error: any) =>
     action(ActionTypes.UPDATE_DELIVERY_FAILURE, error),
 
-  deleteDeliveryRequest: (id: number) =>
+  deleteDeliveryRequest: (id: string) =>
     action(ActionTypes.DELETE_DELIVERY_REQUEST, id),
 
   deleteDeliverySuccess: (id: number) =>
@@ -45,7 +45,16 @@ const deliveryActions = {
     action(ActionTypes.SET_DELIVERY, delivery),
 
   setQueryParams: (params: Param) =>
-    action(ActionTypes.SET_QUERY_PARAMS, params)
+    action(ActionTypes.SET_QUERY_PARAMS, params),
+
+  getTrackingRequest: (id: string) =>
+    action(ActionTypes.GET_TRACKING_REQUEST, id),
+
+  getTrackingSuccess: (data: Tracking) =>
+    action(ActionTypes.GET_TRACKING_SUCCESS, data),
+
+  getTrackingFailure: (error: any) =>
+    action(ActionTypes.GET_TRACKING_FAILURE, error)
 }
 
 export default deliveryActions

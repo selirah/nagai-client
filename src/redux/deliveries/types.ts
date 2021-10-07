@@ -1,4 +1,4 @@
-import { Delivery, Param } from 'classes'
+import { Delivery, Param, Tracking } from 'classes'
 
 export enum ActionTypes {
   SUBMITTING = '@@deliveries/SUBMITTING',
@@ -20,7 +20,10 @@ export enum ActionTypes {
   CLEAR_STATES = '@@deliveries/CLEAR_STATES',
   SET_ACTIVE_LINK = '@@deliveries/SET_ACTIVE_LINK',
   SET_DELIVERY = '@@deliveries/SET_DELIVERY',
-  SET_QUERY_PARAMS = '@@deliveries/SET_QUERY_PARAMS'
+  SET_QUERY_PARAMS = '@@deliveries/SET_QUERY_PARAMS',
+  GET_TRACKING_REQUEST = '@@deliveries/GET_TRACKING_REQUEST',
+  GET_TRACKING_SUCCESS = '@@deliveries/GET_TRACKING_SUCCESS',
+  GET_TRACKING_FAILURE = '@@deliveries/GET_TRACKING_FAILURE'
 }
 
 export type DeliveryState = {
@@ -35,4 +38,6 @@ export type DeliveryState = {
   readonly delivery: Delivery | null
   readonly params: Param
   readonly count: number
+  readonly tracking: Tracking | null
+  readonly loadTracking: boolean
 }

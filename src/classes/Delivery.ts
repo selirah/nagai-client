@@ -1,4 +1,4 @@
-import { Order, DBUser } from 'classes'
+import { Order, DBUser, Outlet } from 'classes'
 
 export type Delivery = {
   id: string
@@ -33,4 +33,9 @@ export type DeliveryFields = {
     lng: number
   }
   comments?: string
+}
+
+export type Tracking = {
+  delivery: Delivery
+  outlet: Outlet
 }

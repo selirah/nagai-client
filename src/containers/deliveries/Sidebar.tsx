@@ -3,20 +3,20 @@ import classnames from 'classnames'
 import { Link } from 'react-router-dom'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { ListGroup, ListGroupItem } from 'reactstrap'
-import { Paperclip } from 'react-feather'
+import { Truck } from 'react-feather'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
-import invoiceActions from 'redux/invoices/actions'
+import deliveryActions from 'redux/deliveries/actions'
 import { useDispatch } from 'react-redux'
 
 interface Props {
   mainSidebar: boolean
 }
 
-const { setActiveLink } = invoiceActions
+const { setActiveLink } = deliveryActions
 
 const Sidebar: React.FC<Props> = (props) => {
   const { mainSidebar } = props
-  const store = Selector((state) => state.invoices)
+  const store = Selector((state) => state.deliveries)
   const [active, setActive] = useState(store.activeLink)
   const dispatch: Dispatch = useDispatch()
 
@@ -54,8 +54,8 @@ const Sidebar: React.FC<Props> = (props) => {
                   active={active === 'list'}
                   onClick={() => handleActiveLink('list')}
                 >
-                  <Paperclip className="mr-75" size={18} />
-                  <span className="align-middle">Invoices</span>
+                  <Truck className="mr-75" size={18} />
+                  <span className="align-middle">Deliveries</span>
                 </ListGroupItem>
               </ListGroup>
             </PerfectScrollbar>
