@@ -7,8 +7,8 @@ export type Delivery = {
   isDelivered: boolean
   deliveryDate: Date
   coordinates: {
-    lat: number
-    lng: number
+    lat: string
+    lng: string
   }
   comments: string
   order: Order

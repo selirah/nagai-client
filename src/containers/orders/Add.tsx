@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import orderActions from 'redux/orders/actions'
-import { OrderFields, OptionKey, Tax, InvoiceFields } from 'classes'
+import { OrderFields, OptionKey, Tax, InvoiceFields, SaleFields } from 'classes'
 import RippleButton from 'core/components/ripple-button'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -21,7 +21,11 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
 import SelectComponent from 'components/Select'
 import EmptyCart from 'components/EmptyCart'
-import { generateOrderNumber, generateInvoiceNumber } from 'utils'
+import {
+  generateOrderNumber,
+  generateInvoiceNumber,
+  generateSaleNumber
+} from 'utils'
 import CartDrawer from './CartDrawer'
 import SummaryDrawer from './SummaryDrawer'
 
@@ -70,6 +74,7 @@ const Add = () => {
   const [toggleSummary, setToggleSummary] = useState(false)
   const [order, setOrder] = useState<OrderFields | null>(null)
   const [invoice, setInvoice] = useState<InvoiceFields | null>(null)
+  const [sale, setSale] = useState<SaleFields | null>(null)
 
   useEffect(() => {
     dispatch(setActiveLink('add'))
@@ -115,8 +120,17 @@ const Add = () => {
         orderNumber: values.orderNumber,
         taxes: taxes
       }
+      const sale: SaleFields = {
+        id: generateSaleNumber(),
+        amount: total.toFixed(2),
+        amountLeft: '0.00',
+        amountPaid: '0.00',
+        invoiceId: values.invoiceNumber,
+        orderId: values.orderNumber
+      }
       setOrder(order)
       setInvoice(invoice)
+      setSale(sale)
       handleSummaryDrawer()
       // dispatch(addOrderRequest(payload))
     },
@@ -399,6 +413,7 @@ const Add = () => {
         handleToggleDrawer={() => setToggleSummary(!toggleSummary)}
         invoice={invoice}
         order={order}
+        sale={sale}
       />
     </div>
   )

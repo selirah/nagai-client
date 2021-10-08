@@ -8,6 +8,8 @@ import View from './view'
 interface Props {
   toggleDrawer: boolean
   handleToggleDrawer: () => void
+  onLoadMap: (map: any) => void
+  mapRef: any
 }
 
 const ModalHeader: React.FC<{
@@ -29,7 +31,7 @@ const ModalHeader: React.FC<{
 }
 
 const Drawer: React.FC<Props> = (props) => {
-  const { handleToggleDrawer, toggleDrawer } = props
+  const { handleToggleDrawer, toggleDrawer, onLoadMap, mapRef } = props
   const { delivery } = Selector((state) => state.deliveries)
 
   return (
@@ -44,7 +46,7 @@ const Drawer: React.FC<Props> = (props) => {
         <span className="ml-2">{delivery ? delivery.id : 'View'}</span>
       </ModalHeader>
       <ModalBody className="flex-grow-1 pb-sm-0 py-3">
-        <View />
+        <View onLoadMap={onLoadMap} mapRef={mapRef} />
       </ModalBody>
     </Modal>
   )

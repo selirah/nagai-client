@@ -10,11 +10,12 @@ import {
   Collapse,
   Spinner
 } from 'reactstrap'
-import { InvoiceFields, OrderFields } from 'classes'
+import { InvoiceFields, OrderFields, SaleFields } from 'classes'
 import EmptyCart from 'components/EmptyCart'
 import orderActions from 'redux/orders/actions'
 import invoiceActions from 'redux/invoices/actions'
 import stockActions from 'redux/stock/actions'
+import saleActions from 'redux/sales/actions'
 import { useHistory } from 'react-router-dom'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
@@ -26,10 +27,12 @@ interface Props {
   handleToggleDrawer: () => void
   order: OrderFields | null
   invoice: InvoiceFields | null
+  sale: SaleFields | null
 }
 
 const { addOrderRequest, clearCart } = orderActions
-const { addInvoiceRequest, clearStates } = invoiceActions
+const { addInvoiceRequest } = invoiceActions
+const { addSaleRequest, clearStates } = saleActions
 const { clearProductStock } = stockActions
 
 const ModalHeader: React.FC<{ handleToggleDrawer: () => void }> = (props) => {
@@ -48,10 +51,11 @@ const ModalHeader: React.FC<{ handleToggleDrawer: () => void }> = (props) => {
 }
 
 const SummaryDrawer: React.FC<Props> = (props) => {
-  const { handleToggleDrawer, toggleDrawer, order, invoice } = props
+  const { handleToggleDrawer, toggleDrawer, order, invoice, sale } = props
   const dispatch: Dispatch = useDispatch()
   const orderStore = Selector((state) => state.orders)
   const invoiceStore = Selector((state) => state.invoices)
+  const saleStore = Selector((state) => state.sales)
   const [err, setErr] = useState(null)
   const [btnLoading, setBtnLoading] = useState(false)
   const [btnText, setBtnText] = useState('')
@@ -103,6 +107,16 @@ const SummaryDrawer: React.FC<Props> = (props) => {
     setErr(errors)
     setBtnText('Saving invoice ... ')
     if (isSucceeded) {
+      dispatch(addSaleRequest(sale!))
+    }
+  }, [invoiceStore, dispatch, sale])
+
+  useEffect(() => {
+    const { isSubmitting, isSucceeded, errors } = saleStore
+    setBtnLoading(isSubmitting)
+    setErr(errors)
+    setBtnText('Saving sales ... ')
+    if (isSucceeded) {
       toast.success(
         <ToastBox
           color="success"
@@ -122,7 +136,7 @@ const SummaryDrawer: React.FC<Props> = (props) => {
       dispatch(clearProductStock())
       history.push('/admin/orders')
     }
-  }, [invoiceStore, handleToggleDrawer, history, dispatch])
+  }, [dispatch, handleToggleDrawer, history, saleStore])
 
   const renderCartItems = () => (
     <table className="table cart-table mb-0">

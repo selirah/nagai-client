@@ -1,4 +1,11 @@
-import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
+import {
+  useEffect,
+  useState,
+  Fragment,
+  useCallback,
+  useMemo,
+  useRef
+} from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import deliveryActions from 'redux/deliveries/actions'
@@ -41,6 +48,7 @@ const List = () => {
   const [totalRows, setTotalRows] = useState(store.count)
   const [currentPage, setCurrentPage] = useState(1)
   const sweetAlert = withReactContent(SWAL)
+  const mapRef = useRef<any>()
 
   useEffect(() => {
     const { params } = store
@@ -223,6 +231,10 @@ const List = () => {
     [dispatch, store]
   )
 
+  const onLoadMap = useCallback((map) => {
+    mapRef.current = map
+  }, [])
+
   const renderList = () => (
     <Table
       columns={columns}
@@ -266,6 +278,8 @@ const List = () => {
         <Drawer
           toggleDrawer={toggleDrawer}
           handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
+          onLoadMap={onLoadMap}
+          mapRef={mapRef}
         />
       ) : null}
     </Fragment>

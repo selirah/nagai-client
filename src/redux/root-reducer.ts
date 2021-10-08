@@ -16,6 +16,7 @@ import { userReducer, UserState } from './users'
 import { orderReducer, OrderState } from './orders'
 import { invoiceReducer, InvoiceState } from './invoices'
 import { deliveryReducer, DeliveryState } from './deliveries'
+import { saleReducer, SaleState } from './sales'
 
 export type ApplicationState = {
   auth: AuthState
@@ -32,6 +33,7 @@ export type ApplicationState = {
   orders: OrderState
   invoices: InvoiceState
   deliveries: DeliveryState
+  sales: SaleState
 }
 
 const persistConfig = {
@@ -51,7 +53,8 @@ const persistConfig = {
     'users',
     'orders',
     'invoices',
-    'deliveries'
+    'deliveries',
+    'sales'
   ]
 }
 
@@ -69,7 +72,8 @@ const appReducer = combineReducers({
   users: userReducer,
   orders: orderReducer,
   invoices: invoiceReducer,
-  deliveries: deliveryReducer
+  deliveries: deliveryReducer,
+  sales: saleReducer
 })
 
 const rootReducer = (state?: ApplicationState, action?: AnyAction) => {

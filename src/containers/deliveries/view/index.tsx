@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { Row, Col } from 'reactstrap'
 import { Tracking as Track } from 'classes'
@@ -8,14 +8,23 @@ import deliveryActions from 'redux/deliveries/actions'
 import { PuffLoader } from 'react-spinners'
 import Empty from 'components/EmptyBox'
 import Details from './Details'
+import Outlet from './Outlet'
 
 const { getTrackingRequest } = deliveryActions
 
-const View = () => {
+interface Props {
+  onLoadMap: (map: any) => void
+  mapRef: any
+}
+
+const View: React.FC<Props> = (props) => {
+  const { onLoadMap, mapRef } = props
   const dispatch: Dispatch = useDispatch()
   const store = Selector((state) => state.deliveries)
+  const layoutStore = Selector((state) => state.layout)
   const [tracking, setTracking] = useState<Track | null>(null)
   const [loading, setLoading] = useState(false)
+  const [mode, setMode] = useState(layoutStore.mode)
 
   useEffect(() => {
     const { delivery } = store
@@ -25,9 +34,11 @@ const View = () => {
 
   useEffect(() => {
     const { tracking, loadTracking } = store
+    const { mode } = layoutStore
     setLoading(loadTracking)
     setTracking(tracking)
-  }, [store])
+    setMode(mode)
+  }, [store, layoutStore])
 
   const renderLoader = () => (
     <div className="d-flex h-100 justify-content-center align-items-center">
@@ -45,9 +56,15 @@ const View = () => {
     <Fragment>
       <Col lg={{ size: 6, order: 1 }} sm={{ size: 12 }} xs={{ order: 1 }}>
         <Details tracking={tracking!} />
+        <Outlet outlet={tracking!.outlet} />
       </Col>
       <Col lg={{ size: 6, order: 1 }} sm={{ size: 12 }} xs={{ order: 1 }}>
-        <Tracking tracking={tracking!} />
+        <Tracking
+          tracking={tracking!}
+          mode={mode}
+          onLoadMap={onLoadMap}
+          mapRef={mapRef}
+        />
       </Col>
     </Fragment>
   )
@@ -56,13 +73,11 @@ const View = () => {
     <div id="user-profile" className="mt-2">
       <section id="profile-info">
         <Row className="d-flex justify-content-center">
-          <Col lg={{ size: 12, order: 1 }} sm={{ size: 12 }} xs={{ order: 1 }}>
-            {loading
-              ? renderLoader()
-              : renderTracking()
-              ? renderTracking()
-              : renderEmpty()}
-          </Col>
+          {loading
+            ? renderLoader()
+            : !loading && tracking
+            ? renderTracking()
+            : renderEmpty()}
         </Row>
       </section>
     </div>

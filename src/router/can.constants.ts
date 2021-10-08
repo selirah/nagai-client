@@ -9,6 +9,7 @@ const abilities = {
   Users: 'Users',
   Orders: 'Orders',
   Invoices: 'Invoices',
-  Deliveries: 'Deliveries'
+  Deliveries: 'Deliveries',
+  Sales: 'Sales'
 }
 export default abilities

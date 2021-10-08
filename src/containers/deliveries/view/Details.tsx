@@ -24,7 +24,7 @@ const Details: React.FC<Props> = (props) => {
       return (
         <div
           style={{ borderRadius: '100%' }}
-          className={`d-flex w-100 h-100 font-size-xl justify-content-center align-items-center avatar-variant-lg bg-light-info`}
+          className={`d-flex w-100 h-100 font-size-xl justify-content-center align-items-center avatar-variant-lg bg-light-primary`}
         >
           {getInitials(
             `${dispatch.firstName.toUpperCase()} ${dispatch.lastName.toUpperCase()}`

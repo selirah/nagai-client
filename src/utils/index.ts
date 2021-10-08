@@ -123,6 +123,14 @@ export const generateInvoiceNumber = () => {
   return [now.slice(0, 4), now.slice(5, 10)].join('')
 }
 
+export const generateSaleNumber = () => {
+  let now = Date.now().toString() // '1492341545873'
+  // pad with extra random digit
+  now += now + Math.floor(Math.random() * 10)
+  // format
+  return [now.slice(5, 10), now.slice(0, 4)].join('')
+}
+
 export const numberWithCommas = (x: any) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
