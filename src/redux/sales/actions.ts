@@ -30,7 +30,7 @@ const saleActions = {
 
   setActiveLink: (link: string) => action(ActionTypes.SET_ACTIVE_LINK, link),
 
-  setSale: (Sale: Sale) => action(ActionTypes.SET_SALE, Sale),
+  setSale: (sale: Sale) => action(ActionTypes.SET_SALE, sale),
 
   setQueryParams: (params: Param) =>
     action(ActionTypes.SET_QUERY_PARAMS, params)

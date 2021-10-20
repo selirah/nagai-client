@@ -2,8 +2,8 @@ import { useEffect, useState, useCallback } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import orderActions from 'redux/orders/actions'
-import { OrderFields, OrderStatus, Order } from 'classes'
+import saleActions from 'redux/sales/actions'
+import { SaleFields, SaleStatus, Sale } from 'classes'
 import { toast, Slide } from 'react-toastify'
 import RippleButton from 'core/components/ripple-button'
 import ToastBox from 'components/ToastBox'
@@ -26,7 +26,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
 import SelectComponent from 'components/Select'
 
-const { clearStates, setActiveLink, updateOrderRequest } = orderActions
+const { clearStates, setActiveLink, updateSaleRequest } = saleActions
 
 const { Option } = components
 
@@ -36,24 +36,20 @@ type QueryParam = {
 
 const options = [
   {
-    value: OrderStatus.PENDING,
-    label: OrderStatus.PENDING
+    value: SaleStatus.PENDING,
+    label: SaleStatus.PENDING
   },
   {
-    value: OrderStatus.DISPATCH,
-    label: OrderStatus.DISPATCH
+    value: SaleStatus.PAYING,
+    label: SaleStatus.PAYING
   },
   {
-    value: OrderStatus.TRANSIT,
-    label: OrderStatus.TRANSIT
+    value: SaleStatus.PAID,
+    label: SaleStatus.PAID
   },
-  // {
-  //   value: OrderStatus.DELIVERED,
-  //   label: OrderStatus.DELIVERED
-  // },
   {
-    value: OrderStatus.FAILED,
-    label: OrderStatus.FAILED
+    value: SaleStatus.FAILED,
+    label: SaleStatus.FAILED
   }
 ]
 
@@ -76,20 +72,20 @@ const validateSchema = Yup.object().shape({
 const Edit = () => {
   const dispatch: Dispatch = useDispatch()
   const { id } = useParams<QueryParam>()
-  const store = Selector((state) => state.orders)
+  const store = Selector((state) => state.sales)
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
   const [err, setErr] = useState(null)
-  const [order, setOrd] = useState<Order | null>(null)
+  const [sale, setSale] = useState<Sale | null>(null)
   const [values] = useState(() => {
-    const { orders } = store
-    const item = orders.find((o) => o.id === id)
+    const { sales } = store
+    const item = sales.find((s) => s.id === id)
     const payload: Fields = {
       status: item ? { label: item.status, value: item.status } : '',
-      comments: item && item.comments ? item.comments : ''
+      comments: item ? item.comments : ''
     }
     if (item !== undefined) {
-      setOrd(item)
+      setSale(item)
     }
 
     return payload
@@ -103,19 +99,19 @@ const Edit = () => {
 
   const onSubmit = useCallback(
     (values: Fields) => {
-      const payload: OrderFields = {
+      const payload: SaleFields = {
         status: values.status.value,
         id: id,
         comments: values.comments,
-        agentId: order ? order.agentId : '',
-        items: order ? order.items : [],
-        orderNumber: id,
-        orderTotal: order ? order.orderTotal : '',
-        outletId: order ? order.outletId : ''
+        orderId: sale ? sale.orderId : '',
+        invoiceId: sale ? sale.invoiceId : '',
+        amount: sale ? sale.amount : '',
+        amountPaid: sale ? sale.amountPaid : '',
+        amountLeft: sale ? sale.amountLeft : ''
       }
-      dispatch(updateOrderRequest(payload))
+      dispatch(updateSaleRequest(payload))
     },
-    [dispatch, id, order]
+    [dispatch, id, sale]
   )
 
   useEffect(() => {
@@ -128,7 +124,7 @@ const Edit = () => {
         <ToastBox
           color="success"
           icon={<Coffee />}
-          message="Order has been updated successfully"
+          message="Sales has been updated successfully"
           title="Nice!"
         />,
         {
@@ -138,7 +134,7 @@ const Edit = () => {
           position: 'bottom-right'
         }
       )
-      history.push('/admin/orders')
+      history.push('/admin/sales')
     }
   }, [store, history])
 
@@ -198,7 +194,7 @@ const Edit = () => {
               <Row className="px-3">
                 <Col sm="12" md="12" lg="12">
                   <CardTitle tag="h2" className="font-weight-light">
-                    Update Order {order ? order.id : null}
+                    Update Sale {sale ? sale.id : null}
                   </CardTitle>
                 </Col>
               </Row>
@@ -220,7 +216,6 @@ const Edit = () => {
                       optionComponent={OptionComponent}
                       value={values.status}
                       placeholder="Select Status.."
-                      isDisabled={values.status.value === OrderStatus.DELIVERED}
                     />
                   </FormGroup>
                 </Col>
@@ -239,19 +234,13 @@ const Edit = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       name="comments"
-                      disabled={values.status.value === OrderStatus.DELIVERED}
                     />
                   </FormGroup>
                 </Col>
               </Row>
               <Row className="px-3 mb-2">
                 <Col sm="4" md="4" lg="4">
-                  <RippleButton
-                    type="submit"
-                    color="primary"
-                    block
-                    disabled={values.status.value === OrderStatus.DELIVERED}
-                  >
+                  <RippleButton type="submit" color="primary" block>
                     <Collapse isOpen={btnLoading}>
                       <Spinner color="white" className="mr-2" size="sm" />{' '}
                       Saving . . .

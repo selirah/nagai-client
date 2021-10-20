@@ -1,7 +1,7 @@
 import { Sale, Param } from 'classes'
 
 export enum ActionTypes {
-  SUBMITTING = '@@SALES/SUBMITTING',
+  SUBMITTING = '@@sales/SUBMITTING',
   GET_SALES_REQUEST = '@@sales/GET_SALES_REQUEST',
   GET_SALES_SUCCESS = '@@sales/GET_SALES_SUCCESS',
   GET_SALES_FAILURE = '@@sales/GET_SALES_FAILURE',

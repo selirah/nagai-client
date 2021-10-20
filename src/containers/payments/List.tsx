@@ -1,32 +1,35 @@
 import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import saleActions from 'redux/sales/actions'
-import { Sale, SaleStatus } from 'classes'
+import paymentActions from 'redux/payments/actions'
+import { Payment } from 'classes'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import moment from 'moment'
-import Drawer from './Drawer'
 import { IDataTableColumn } from 'react-data-table-component'
 import Table from 'components/DataTable'
-import { Badge } from 'reactstrap'
 import { Edit3 } from 'react-feather'
 import { Link } from 'react-router-dom'
 import RippleButton from 'core/components/ripple-button'
 
-const { getSalesRequest, clearStates, setActiveLink, setQueryParams, setSale } =
-  saleActions
+const {
+  getPaymentsRequest,
+  clearStates,
+  setActiveLink,
+  setQueryParams,
+  setPayment
+} = paymentActions
 
 const List = () => {
   const dispatch: Dispatch = useDispatch()
-  const store = Selector((state) => state.sales)
+  const store = Selector((state) => state.payments)
   const layoutStore = Selector((state) => state.layout)
   const [loading, setLoading] = useState(false)
-  const [sales, setSales] = useState<Sale[]>([])
-  const [toggleDrawer, setToggleDrawer] = useState(false)
+  const [payments, setPayments] = useState<Payment[]>([])
   const [pageSize, setPageSize] = useState(store.params.page)
   const [mode, setMode] = useState(layoutStore.mode)
   const [totalRows, setTotalRows] = useState(store.count)
   const [currentPage, setCurrentPage] = useState(1)
+  // const [toggleDrawer, setToggleDrawer] = useState(false)
 
   useEffect(() => {
     const { params } = store
@@ -34,41 +37,11 @@ const List = () => {
     params.query = ''
     params.fromDate = ''
     params.toDate = ''
-    params.status = SaleStatus.ALL
     dispatch(setQueryParams(params))
-    dispatch(getSalesRequest(params))
+    dispatch(getPaymentsRequest(params))
     dispatch(clearStates())
     dispatch(setActiveLink('list'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const renderBadge = useCallback((status: string) => {
-    switch (status) {
-      case SaleStatus.PENDING:
-        return (
-          <Badge className="text-uppercase" color="primary" pill>
-            {status}
-          </Badge>
-        )
-      case SaleStatus.PAYING:
-        return (
-          <Badge className="text-uppercase" color="secondary" pill>
-            {status}
-          </Badge>
-        )
-      case SaleStatus.PAID:
-        return (
-          <Badge className="text-uppercase" color="success" pill>
-            {status}
-          </Badge>
-        )
-      case SaleStatus.FAILED:
-        return (
-          <Badge className="text-uppercase" color="danger" pill>
-            {status.toUpperCase()}
-          </Badge>
-        )
-    }
   }, [])
 
   const columns: IDataTableColumn[] = useMemo(
@@ -77,55 +50,44 @@ const List = () => {
         id: 1,
         name: 'Sale ID',
         sortable: true,
-        selector: (row: Sale) => row.id
+        selector: (row: Payment) => row.saleId
       },
       {
         id: 2,
-        name: 'Order ID',
+        name: 'Amount',
         sortable: true,
-        selector: (row: Sale) => row.orderId
+        selector: (row: Payment) => `GHC ${row.amount}`
       },
       {
         id: 3,
-        name: 'Invoice ID',
+        name: 'Payer',
         sortable: true,
-        selector: (row: Sale) => row.invoiceId
+        selector: (row: Payment) => row.payer.toUpperCase()
       },
       {
         id: 4,
-        name: 'Amount',
+        name: 'Phone',
         sortable: true,
-        selector: (row: Sale) => `GHC ${row.amount}`
+        selector: (row: Payment) => row.payerPhone
       },
       {
         id: 5,
-        name: 'Amount Paid',
+        name: 'Payee',
         sortable: true,
-        selector: (row: Sale) => `GHC ${row.amountPaid}`
+        selector: (row: Payment) =>
+          `${row.payee.firstName.toUpperCase()} ${row.payee.lastName.toUpperCase()}`
       },
       {
         id: 6,
-        name: 'Amount Left',
+        name: 'Created Date',
         sortable: true,
-        selector: (row: Sale) => `GHC ${row.amountLeft}`
-      },
-      {
-        id: 7,
-        name: 'Status',
-        sortable: true,
-        selector: (row: Sale) => renderBadge(row.status)
-      },
-      {
-        id: 6,
-        name: 'Date',
-        sortable: true,
-        selector: (row: Sale) =>
+        selector: (row: Payment) =>
           moment(row.createdAt).format("MMM Do, 'YY, h:mm a")
       },
       {
-        cell: (row: Sale) => (
+        cell: (row: Payment) => (
           <Fragment>
-            <Link to={`/admin/sales/edit/${row.id}`}>
+            <Link to={`/admin/payments/edit/${row.id}`}>
               <Edit3
                 size={14}
                 className="mr-lg-1"
@@ -133,29 +95,23 @@ const List = () => {
                 color="#40C4FF"
               />
             </Link>
-            <RippleButton
-              tag={Link}
-              to={`/admin/payments/add/${row.id}`}
-              size="sm"
-            >
-              Pay
-            </RippleButton>
+            <RippleButton size="sm">Receipt</RippleButton>
           </Fragment>
         )
       }
     ],
-    [renderBadge]
+    []
   )
 
   useEffect(() => {
-    const { loading, sales, count } = store
+    const { loading, payments, count } = store
     const { mode } = layoutStore
     setLoading(loading)
-    if (sales.length) {
-      setSales(sales)
+    if (payments.length) {
+      setPayments(payments)
       setTotalRows(count)
     } else {
-      setSales(sales)
+      setPayments(payments)
     }
     setMode(mode)
   }, [store, pageSize, layoutStore])
@@ -170,7 +126,7 @@ const List = () => {
       }
       setCurrentPage(page)
       dispatch(setQueryParams(params))
-      dispatch(getSalesRequest(params))
+      dispatch(getPaymentsRequest(params))
     },
     [dispatch, pageSize, store, currentPage]
   )
@@ -180,24 +136,24 @@ const List = () => {
       const { params } = store
       params.page = newPerPage
       setPageSize(newPerPage)
-      dispatch(getSalesRequest(params))
+      dispatch(getPaymentsRequest(params))
     },
     [dispatch, store]
   )
 
   const handleSaleSelection = useCallback(
-    (sale: Sale) => {
-      dispatch(setSale(sale))
-      setToggleDrawer(!toggleDrawer)
+    (payment: Payment) => {
+      dispatch(setPayment(payment))
+      // setToggleDrawer(!toggleDrawer)
     },
-    [dispatch, toggleDrawer]
+    [dispatch /*, toggleDrawer*/]
   )
 
   const renderList = () => (
     <Table
       columns={columns}
       currentPage={currentPage}
-      data={sales}
+      data={payments}
       handlePageClick={handlePageClick}
       handlePerRowsChange={handlePerRowsChange}
       loading={loading}
@@ -228,12 +184,12 @@ const List = () => {
           {renderList()}
         </PerfectScrollbar>
       </div>
-      {store.sale ? (
+      {/* {store.payment ? (
         <Drawer
           toggleDrawer={toggleDrawer}
           handleToggleDrawer={() => setToggleDrawer(!toggleDrawer)}
         />
-      ) : null}
+      ) : null} */}
     </Fragment>
   )
 }

@@ -6,17 +6,22 @@ import Spinner from 'components/Spinner'
 const routes: RR[] = [
   {
     path: '',
-    component: lazy(() => import('containers/sales/List')),
+    component: lazy(() => import('containers/payments/List')),
+    exact: true
+  },
+  {
+    path: 'add/:id',
+    component: lazy(() => import('containers/payments/Add')),
     exact: true
   },
   {
     path: 'edit/:id',
-    component: lazy(() => import('containers/sales/Edit')),
+    component: lazy(() => import('containers/payments/Edit')),
     exact: true
   }
 ]
 
-const SalesRoutes = () => {
+const PaymentsRoutes = () => {
   const { url } = useRouteMatch()
   return (
     <Suspense fallback={<Spinner />}>
@@ -31,4 +36,4 @@ const SalesRoutes = () => {
   )
 }
 
-export default SalesRoutes
+export default PaymentsRoutes

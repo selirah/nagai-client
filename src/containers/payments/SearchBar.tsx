@@ -3,68 +3,23 @@ import { InputGroup, Input, Button } from 'reactstrap'
 import { Menu } from 'react-feather'
 import { useDispatch } from 'react-redux'
 import { Dispatch, Selector } from 'redux/selector-dispatch'
-import saleActions from 'redux/sales/actions'
+import paymentActions from 'redux/payments/actions'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import Select, { components } from 'react-select'
-import { SaleStatus } from 'classes'
 
-const { Option } = components
-
-const { getSalesRequest } = saleActions
+const { getPaymentsRequest } = paymentActions
 
 interface Props {
   handleMainSidebar: () => void
-}
-
-const options = [
-  {
-    value: SaleStatus.PENDING,
-    label: SaleStatus.PENDING
-  },
-  {
-    value: SaleStatus.PAYING,
-    label: SaleStatus.PAYING
-  },
-  {
-    value: SaleStatus.PAID,
-    label: SaleStatus.PAID
-  },
-  {
-    value: SaleStatus.FAILED,
-    label: SaleStatus.FAILED
-  },
-  {
-    value: SaleStatus.ALL,
-    label: SaleStatus.ALL
-  }
-]
-
-const SelectOptions = [
-  {
-    label: 'Status',
-    options: options
-  }
-]
-
-const customStyles = {
-  container: (base: any) => ({
-    ...base,
-    flex: 1,
-    width: 120,
-    border: 0,
-    boxShadow: 'none'
-  })
 }
 
 const SearchBar: React.FC<Props> = (props) => {
   const { handleMainSidebar } = props
   const [query, setQuery] = useState('')
   const dispatch: Dispatch = useDispatch()
-  const { activeLink, params } = Selector((state) => state.sales)
+  const { activeLink, params } = Selector((state) => state.payments)
   const [dateRange, setDateRange] = useState<Date[] | null[]>([null, null])
   const [startDate, endDate] = dateRange
-  const [status, setStatus] = useState('')
 
   const handleFilter = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
@@ -75,23 +30,8 @@ const SearchBar: React.FC<Props> = (props) => {
     params.skip = 0
     params.fromDate = startDate ? new Date(startDate).toISOString() : ''
     params.toDate = endDate ? new Date(endDate).toISOString() : ''
-    params.status = status ? status : SaleStatus.ALL
-    dispatch(getSalesRequest(params))
-  }, [dispatch, params, query, startDate, endDate, status])
-
-  const handleChange = useCallback((e) => {
-    setStatus(e.value)
-  }, [])
-
-  const OptionComponent = ({ data, ...props }: any) => {
-    return (
-      <Option {...props}>
-        <div className="d-flex justify-content-start align-items-center">
-          <div className="">{data.label}</div>
-        </div>
-      </Option>
-    )
-  }
+    dispatch(getPaymentsRequest(params))
+  }, [dispatch, params, query, startDate, endDate])
 
   return (
     <div className="app-fixed-search d-flex align-items-center">
@@ -108,25 +48,13 @@ const SearchBar: React.FC<Props> = (props) => {
             onChange={handleFilter}
             placeholder={
               activeLink !== 'add' && activeLink !== 'edit'
-                ? 'Search by sales id, order number, invoice number'
+                ? 'Search by sales id'
                 : ''
             }
-            disabled={activeLink === 'edit'}
+            disabled={activeLink === 'edit' || activeLink === 'add'}
             className="border"
           />
         </InputGroup>
-        <div className="mr-1">
-          <Select
-            options={SelectOptions}
-            onChange={handleChange}
-            className="react-select"
-            classNamePrefix="select"
-            components={{ Option: OptionComponent }}
-            styles={customStyles}
-            placeholder="STATUS"
-            isDisabled={activeLink === 'edit'}
-          />
-        </div>
 
         <DatePicker
           selectsRange
@@ -137,7 +65,7 @@ const SearchBar: React.FC<Props> = (props) => {
           endDate={endDate}
           className="form-control border"
           placeholderText="select date range"
-          disabled={activeLink === 'edit'}
+          disabled={activeLink === 'edit' || activeLink === 'add'}
         />
         <Button
           color="primary"

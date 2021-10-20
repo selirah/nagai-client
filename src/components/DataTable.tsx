@@ -41,6 +41,9 @@ const customStyles: IDataTableStyles = {
   pagination: {
     pageButtonsStyle: {
       color: '#b4b7bd'
+    },
+    style: {
+      fontFamily: 'Play'
     }
   }
 }

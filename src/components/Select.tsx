@@ -18,6 +18,7 @@ interface Props {
   touched?: any
   value: any
   placeholder?: string
+  isDisabled?: boolean
 }
 
 const SelectComponent: React.FC<Props> = (props) => {
@@ -31,7 +32,8 @@ const SelectComponent: React.FC<Props> = (props) => {
     error,
     touched,
     value,
-    placeholder
+    placeholder,
+    isDisabled
   } = props
 
   const handleChange = (e: OptionKey) => {
@@ -55,6 +57,7 @@ const SelectComponent: React.FC<Props> = (props) => {
         components={{ Option: optionComponent }}
         value={value}
         placeholder={placeholder}
+        isDisabled={isDisabled}
       />
       {error && touched ? (
         <small style={{ color: '#ff0000' }}>{error}</small>

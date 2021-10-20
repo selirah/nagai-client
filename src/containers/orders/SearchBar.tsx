@@ -129,7 +129,7 @@ const SearchBar: React.FC<Props> = (props) => {
             components={{ Option: OptionComponent }}
             styles={customStyles}
             placeholder="STATUS"
-            disabled={
+            isDisabled={
               activeLink === 'add' ||
               activeLink === 'edit' ||
               activeLink === 'product-stock' ||

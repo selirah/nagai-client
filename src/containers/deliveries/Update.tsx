@@ -142,6 +142,7 @@ const Update = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       checked={values.isDelivered}
+                      disabled={values.isDelivered}
                     />
                   </FormGroup>
                 </Col>
