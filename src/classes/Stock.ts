@@ -42,3 +42,10 @@ export type Unit = {
   unit: string
   description: string
 }
+
+export type StockStats = {
+  'Stock Quantity': string
+  'Stock Value': string
+  'Reorder Quantity': string
+  'Product ID': string
+}

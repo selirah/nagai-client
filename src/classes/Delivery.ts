@@ -39,3 +39,8 @@ export type Tracking = {
   delivery: Delivery
   outlet: Outlet
 }
+
+export type DeliveryStats = {
+  count: any
+  delivered: any
+}

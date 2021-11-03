@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useHistory, useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router-dom'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import orderActions from 'redux/orders/actions'

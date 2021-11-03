@@ -48,3 +48,8 @@ export const OrderStatus = {
   ALL: 'ALL',
   DISPATCH: 'DISPATCH'
 }
+
+export type OrderStats = {
+  count: string
+  status: string
+}

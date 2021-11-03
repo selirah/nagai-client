@@ -29,3 +29,8 @@ export type InvoiceFields = {
   deliveryFee: string
   finalAmount: string
 }
+
+export type InvoiceStats = {
+  'Total Amount': string
+  'Order ID': string
+}

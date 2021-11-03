@@ -26,3 +26,8 @@ export type PaymentFields = {
   payerPhone: string
   comments?: string
 }
+
+export type PaymentStats = {
+  'Total Payment': string
+  'Sale ID': string
+}

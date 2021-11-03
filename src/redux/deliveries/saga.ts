@@ -123,7 +123,7 @@ function* watchGetTracking() {
   yield takeEvery(ActionTypes.GET_TRACKING_REQUEST, getTracking)
 }
 
-function* invoiceSaga(): Generator {
+function* deliverySaga(): Generator {
   yield all([
     fork(watchAddDelivery),
     fork(watchUpdateDelivery),
@@ -133,4 +133,4 @@ function* invoiceSaga(): Generator {
   ])
 }
 
-export default invoiceSaga
+export default deliverySaga

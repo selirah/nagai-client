@@ -25,3 +25,8 @@ export type ProductFields = {
   avatar?: string
   manufacturerId: number
 }
+
+export type ProductStats = {
+  'Product Count': string
+  Category: string
+}

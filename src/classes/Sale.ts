@@ -39,3 +39,9 @@ export const SaleStatus = {
   ALL: 'ALL',
   PAID: 'PAID'
 }
+
+export type SaleStats = {
+  'Total Amount': any
+  'Amount Paid': any
+  'Amount Left': any
+}
