@@ -6,7 +6,10 @@ import {
   PaymentStats,
   ProductStats,
   StockStats,
-  InvoiceStats
+  InvoiceStats,
+  OutletStats,
+  ManufacturerStats,
+  TerritoryStats
 } from 'classes'
 
 export enum ActionTypes {
@@ -32,7 +35,16 @@ export enum ActionTypes {
   GET_STOCK_STAT_FAILURE = '@@home/GET_STOCK_STAT_FAILURE',
   GET_INVOICE_STAT_REQUEST = '@@home/GET_INVOICE_STAT_REQUEST',
   GET_INVOICE_STAT_SUCCESS = '@@home/GET_INVOICE_STAT_SUCCESS',
-  GET_INVOICE_STAT_FAILURE = '@@home/GET_INVOICE_STAT_FAILURE'
+  GET_INVOICE_STAT_FAILURE = '@@home/GET_INVOICE_STAT_FAILURE',
+  GET_OUTLET_STAT_REQUEST = '@@home/GET_OUTLET_STAT_REQUEST',
+  GET_OUTLET_STAT_SUCCESS = '@@home/GET_OUTLET_STAT_SUCCESS',
+  GET_OUTLET_STAT_FAILURE = '@@home/GET_OUTLET_STAT_FAILURE',
+  GET_MANU_STAT_REQUEST = '@@home/GET_MANU_STAT_REQUEST',
+  GET_MANU_STAT_SUCCESS = '@@home/GET_MANU_STAT_SUCCESS',
+  GET_MANU_STAT_FAILURE = '@@home/GET_MANU_STAT_FAILURE',
+  GET_TERRITORY_STAT_REQUEST = '@@home/GET_TERRITORY_STAT_REQUEST',
+  GET_TERRITORY_STAT_SUCCESS = '@@home/GET_TERRITORY_STAT_SUCCESS',
+  GET_TERRITORY_STAT_FAILURE = '@@home/GET_TERRITORY_STAT_FAILURE'
 }
 
 export type HomeState = {
@@ -46,5 +58,8 @@ export type HomeState = {
   readonly products: ProductStats[]
   readonly stock: StockStats[]
   readonly invoices: InvoiceStats[]
+  readonly outlets: OutletStats[]
+  readonly manufacturers: ManufacturerStats[]
+  readonly territories: TerritoryStats[]
   readonly errors: any
 }

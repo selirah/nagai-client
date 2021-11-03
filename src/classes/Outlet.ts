@@ -47,3 +47,8 @@ export type OutletFields = {
     lng: string
   }
 }
+
+export type OutletStats = {
+  'Total Outlets': string
+  Region: string
+}

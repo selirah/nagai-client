@@ -7,7 +7,10 @@ import {
   PaymentStats,
   ProductStats,
   StockStats,
-  InvoiceStats
+  InvoiceStats,
+  OutletStats,
+  ManufacturerStats,
+  TerritoryStats
 } from 'classes'
 import { ActionTypes } from './types'
 
@@ -78,7 +81,34 @@ const homeActions = {
     action(ActionTypes.GET_INVOICE_STAT_SUCCESS, data),
 
   getInvoiceStatFailure: (error: any) =>
-    action(ActionTypes.GET_INVOICE_STAT_FAILURE, error)
+    action(ActionTypes.GET_INVOICE_STAT_FAILURE, error),
+
+  getOutletStatRequest: (params: Param) =>
+    action(ActionTypes.GET_OUTLET_STAT_REQUEST, params),
+
+  getOutletStatSuccess: (data: OutletStats[]) =>
+    action(ActionTypes.GET_OUTLET_STAT_SUCCESS, data),
+
+  getOutletStatFailure: (error: any) =>
+    action(ActionTypes.GET_OUTLET_STAT_FAILURE, error),
+
+  getManuStatRequest: (params: Param) =>
+    action(ActionTypes.GET_MANU_STAT_REQUEST, params),
+
+  getManuStatSuccess: (data: ManufacturerStats[]) =>
+    action(ActionTypes.GET_MANU_STAT_SUCCESS, data),
+
+  getManuStatFailure: (error: any) =>
+    action(ActionTypes.GET_MANU_STAT_FAILURE, error),
+
+  getTerritoryStatRequest: (params: Param) =>
+    action(ActionTypes.GET_TERRITORY_STAT_REQUEST, params),
+
+  getTerritoryStatSuccess: (data: TerritoryStats[]) =>
+    action(ActionTypes.GET_TERRITORY_STAT_SUCCESS, data),
+
+  getTerritoryStatFailure: (error: any) =>
+    action(ActionTypes.GET_TERRITORY_STAT_FAILURE, error)
 }
 
 export default homeActions

@@ -28,3 +28,8 @@ export type ManufacturerFields = {
   location: string
   logo: string
 }
+
+export type ManufacturerStats = {
+  'Product Count': '1'
+  Manufacturer: 'Voltic Ghana Ltd'
+}

@@ -29,3 +29,8 @@ export type Region = {
   abbreviation: string
   capital: string
 }
+
+export type TerritoryStats = {
+  'Total Territories': string
+  Region: string
+}

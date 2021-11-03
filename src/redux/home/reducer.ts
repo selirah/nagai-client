@@ -13,6 +13,9 @@ export const initialState: HomeState = {
   products: [],
   stock: [],
   invoices: [],
+  outlets: [],
+  manufacturers: [],
+  territories: [],
   params: {
     fromDate: '',
     toDate: '',
@@ -179,6 +182,66 @@ const reducer: Reducer<HomeState> = (state = initialState, action) => {
       }
 
     case ActionTypes.GET_INVOICE_STAT_FAILURE:
+      return {
+        ...state,
+        loading: initialState.loading,
+        error: action.payload
+      }
+
+    case ActionTypes.GET_OUTLET_STAT_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case ActionTypes.GET_OUTLET_STAT_SUCCESS:
+      return {
+        ...state,
+        loading: initialState.loading,
+        outlets: action.payload
+      }
+
+    case ActionTypes.GET_OUTLET_STAT_FAILURE:
+      return {
+        ...state,
+        loading: initialState.loading,
+        error: action.payload
+      }
+
+    case ActionTypes.GET_MANU_STAT_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case ActionTypes.GET_MANU_STAT_SUCCESS:
+      return {
+        ...state,
+        loading: initialState.loading,
+        manufacturers: action.payload
+      }
+
+    case ActionTypes.GET_MANU_STAT_FAILURE:
+      return {
+        ...state,
+        loading: initialState.loading,
+        error: action.payload
+      }
+
+    case ActionTypes.GET_TERRITORY_STAT_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case ActionTypes.GET_TERRITORY_STAT_SUCCESS:
+      return {
+        ...state,
+        loading: initialState.loading,
+        territories: action.payload
+      }
+
+    case ActionTypes.GET_TERRITORY_STAT_FAILURE:
       return {
         ...state,
         loading: initialState.loading,

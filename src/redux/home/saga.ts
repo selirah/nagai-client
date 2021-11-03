@@ -151,6 +151,69 @@ function* getInvoiceStats({
   }
 }
 
+function* getOutletStats({
+  payload
+}: {
+  type: string
+  payload: Param
+}): Generator {
+  try {
+    const res: any = yield call(
+      callApiGet,
+      `statistics/outlets?fromDate=${payload.fromDate}&toDate=${payload.toDate}`
+    )
+    yield put(homeActions.getOutletStatSuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(homeActions.getOutletStatFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
+function* getManuStats({
+  payload
+}: {
+  type: string
+  payload: Param
+}): Generator {
+  try {
+    const res: any = yield call(
+      callApiGet,
+      `statistics/manufacturers?fromDate=${payload.fromDate}&toDate=${payload.toDate}`
+    )
+    yield put(homeActions.getManuStatSuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(homeActions.getManuStatFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
+function* getTerritoryStats({
+  payload
+}: {
+  type: string
+  payload: Param
+}): Generator {
+  try {
+    const res: any = yield call(
+      callApiGet,
+      `statistics/territories?fromDate=${payload.fromDate}&toDate=${payload.toDate}`
+    )
+    yield put(homeActions.getTerritoryStatSuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(homeActions.getTerritoryStatFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
 function* watchGetOrderStats() {
   yield takeEvery(ActionTypes.GET_ORDER_STAT_REQUEST, getOrderStats)
 }
@@ -179,6 +242,18 @@ function* watchGetInvoiceStats() {
   yield takeEvery(ActionTypes.GET_INVOICE_STAT_REQUEST, getInvoiceStats)
 }
 
+function* watchGetOutletStats() {
+  yield takeEvery(ActionTypes.GET_OUTLET_STAT_REQUEST, getOutletStats)
+}
+
+function* watchGetManuStats() {
+  yield takeEvery(ActionTypes.GET_MANU_STAT_REQUEST, getManuStats)
+}
+
+function* watchGetTerritoryStats() {
+  yield takeEvery(ActionTypes.GET_TERRITORY_STAT_REQUEST, getTerritoryStats)
+}
+
 function* homeSaga(): Generator {
   yield all([
     fork(watchGetOrderStats),
@@ -187,7 +262,10 @@ function* homeSaga(): Generator {
     fork(watchGetPaymentStats),
     fork(watchGetProductStats),
     fork(watchGetStockStats),
-    fork(watchGetInvoiceStats)
+    fork(watchGetInvoiceStats),
+    fork(watchGetOutletStats),
+    fork(watchGetManuStats),
+    fork(watchGetTerritoryStats)
   ])
 }
 
