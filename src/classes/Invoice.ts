@@ -1,4 +1,6 @@
-import { Tax, Order, Outlet } from 'classes'
+import { Tax } from './Tax'
+import { Order } from './Order'
+import { Outlet } from './Outlet'
 
 export type Invoice = {
   id: string

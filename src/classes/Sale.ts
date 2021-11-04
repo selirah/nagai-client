@@ -1,4 +1,6 @@
-import { Invoice, Order, Payment } from 'classes'
+import { Invoice } from './Invoice'
+import { Order } from './Order'
+import { Payment } from './Payment'
 
 export type Sale = {
   id: string

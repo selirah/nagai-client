@@ -1,4 +1,4 @@
-import { Outlet } from 'classes'
+import { Outlet } from './Outlet'
 
 export type Territory = {
   id: number

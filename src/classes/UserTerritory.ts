@@ -1,4 +1,5 @@
-import { Territory, DBUser } from 'classes'
+import { Territory } from './Territory'
+import { DBUser } from './Auth'
 
 export type UserTerritory = {
   id: number

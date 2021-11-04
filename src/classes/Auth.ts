@@ -1,4 +1,4 @@
-import { UserTerritory } from 'classes'
+import { UserTerritory } from './UserTerritory'
 
 export type User = {
   id: number

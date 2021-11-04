@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState, useEffect } from 'react'
 import { Selector } from 'redux/selector-dispatch'
 import { Row, Col } from 'reactstrap'

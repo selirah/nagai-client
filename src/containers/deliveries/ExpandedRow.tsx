@@ -9,7 +9,7 @@ import { ArrowDown, Map } from 'react-feather'
 import RippleButton from 'core/components/ripple-button'
 import { Selector } from 'redux/selector-dispatch'
 import { Badge } from 'reactstrap'
-import { numberWithCommas } from 'utils'
+import { numberWithCommas } from 'utils/index'
 import { userRoles } from 'utils/ability'
 
 const customStyles: IDataTableStyles = {

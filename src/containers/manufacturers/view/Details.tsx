@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { Manufacturer } from 'classes'
 import { Card, CardHeader, CardBody, Badge } from 'reactstrap'
-import { getInitials } from 'utils'
+import { getInitials } from 'utils/index'
 
 interface Props {
   manufacturer: Manufacturer | null

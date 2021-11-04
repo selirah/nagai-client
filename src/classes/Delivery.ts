@@ -1,4 +1,6 @@
-import { Order, DBUser, Outlet } from 'classes'
+import { Order } from './Order'
+import { DBUser } from './Auth'
+import { Outlet } from './Outlet'
 
 export type Delivery = {
   id: string

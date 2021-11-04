@@ -1,4 +1,6 @@
-import { Stock, Category, Manufacturer } from 'classes'
+import { Stock } from './Stock'
+import { Category } from './Category'
+import { Manufacturer } from './Manufacturer'
 
 export type Product = {
   id: string

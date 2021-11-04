@@ -1,4 +1,8 @@
-import { Product, Outlet, DBUser, Invoice, Delivery } from 'classes'
+import { Product } from './Product'
+import { Outlet } from './Outlet'
+import { DBUser } from './Auth'
+import { Invoice } from './Invoice'
+import { Delivery } from './Delivery'
 
 export type Item = {
   product: Product

@@ -1,4 +1,4 @@
-import { DBUser } from 'classes'
+import { DBUser } from './Auth'
 
 export type Payment = {
   id: string

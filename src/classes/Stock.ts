@@ -1,4 +1,5 @@
-import { Product, StockTrail } from 'classes'
+import { Product } from './Product'
+import { StockTrail } from './StockTrail'
 
 export type Stock = {
   id: string

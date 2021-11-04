@@ -1,6 +1,6 @@
 import React from 'react'
 import { Invoice } from 'classes'
-import { numberWithCommas } from 'utils'
+import { numberWithCommas } from 'utils/index'
 import moment from 'moment'
 
 interface Props {

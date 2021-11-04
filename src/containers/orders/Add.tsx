@@ -25,7 +25,7 @@ import {
   generateOrderNumber,
   generateInvoiceNumber,
   generateSaleNumber
-} from 'utils'
+} from 'utils/index'
 import CartDrawer from './CartDrawer'
 import SummaryDrawer from './SummaryDrawer'
 

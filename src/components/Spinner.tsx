@@ -1,4 +1,3 @@
-import React from 'react'
 import { SpinnerWrapper } from './Style'
 
 const Spinner = () => (
