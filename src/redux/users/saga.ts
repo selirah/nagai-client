@@ -2,7 +2,13 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
 import { callApiDelete, callApiPost, callApiPut, callApiGet } from 'api'
 import userActions from './actions'
-import { UserFields, Param, UserTerritoryFields } from 'classes'
+import {
+  UserFields,
+  Param,
+  UserTerritoryFields,
+  ChangePassword,
+  Company
+} from 'classes'
 
 function* addUser({
   payload
@@ -143,6 +149,92 @@ function* updateUserTerritory({
   }
 }
 
+function* getUser({ payload }: { type: string; payload: number }): Generator {
+  try {
+    const res: any = yield call(callApiGet, `user/${payload}`)
+    yield put(userActions.getUserSuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(userActions.getUserFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
+function* changePassword({
+  payload
+}: {
+  type: string
+  payload: ChangePassword
+}): Generator {
+  try {
+    const res: any = yield call(callApiPost, 'user/change-password', payload)
+    if (res.status === 200) {
+      yield put(userActions.changePasswordSuccess())
+    }
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(userActions.changePasswordFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
+function* addCompany({
+  payload
+}: {
+  type: string
+  payload: Company
+}): Generator {
+  try {
+    const res: any = yield call(callApiPost, 'company', payload)
+    if (res.status === 201) {
+      yield put(userActions.addCompanySuccess())
+    }
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(userActions.addCompanyFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
+function* updateCompany({
+  payload
+}: {
+  type: string
+  payload: Company
+}): Generator {
+  try {
+    const res: any = yield call(callApiPut, 'company', payload, payload.id)
+    if (res.status === 200) {
+      yield put(userActions.updateCompanySuccess())
+    }
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(userActions.updateCompanyFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
+function* getCompany(): Generator {
+  try {
+    const res: any = yield call(callApiGet, 'company')
+    yield put(userActions.getCompanySuccess(res.data))
+  } catch (err: any) {
+    if (err && err.response) {
+      yield put(userActions.getCompanyFailure(err.response.data))
+    } else {
+      throw err
+    }
+  }
+}
+
 function* watchAddUser() {
   yield takeEvery(ActionTypes.ADD_USER_REQUEST, addUser)
 }
@@ -177,6 +269,26 @@ function* watchUpdateUserTerritory() {
   )
 }
 
+function* watchGetUser() {
+  yield takeEvery(ActionTypes.GET_USER_REQUEST, getUser)
+}
+
+function* watchChangePassword() {
+  yield takeEvery(ActionTypes.CHANGE_PASSWORD_REQUEST, changePassword)
+}
+
+function* watchGetCompany() {
+  yield takeEvery(ActionTypes.GET_COMPANY_REQUEST, getCompany)
+}
+
+function* watchAddCompany() {
+  yield takeEvery(ActionTypes.ADD_COMPANY_REQUEST, addCompany)
+}
+
+function* watchUpdateCompany() {
+  yield takeEvery(ActionTypes.UPDATE_COMPANY_REQUEST, updateCompany)
+}
+
 function* userSaga(): Generator {
   yield all([
     fork(watchAddUser),
@@ -185,7 +297,12 @@ function* userSaga(): Generator {
     fork(watchGetUsers),
     fork(watchGetSearchedUsers),
     fork(watchAssignUserTerritory),
-    fork(watchUpdateUserTerritory)
+    fork(watchUpdateUserTerritory),
+    fork(watchGetUser),
+    fork(watchChangePassword),
+    fork(watchGetCompany),
+    fork(watchAddCompany),
+    fork(watchUpdateCompany)
   ])
 }
 

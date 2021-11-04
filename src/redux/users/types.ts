@@ -1,4 +1,4 @@
-import { DBUser, Param } from 'classes'
+import { DBUser, Param, Company } from 'classes'
 
 export enum ActionTypes {
   SUBMITTING = '@@users/SUBMITTING',
@@ -30,7 +30,22 @@ export enum ActionTypes {
   ASSIGN_USER_TERRITORY_FAILURE = '@@users/ASSIGN_USER_TERRITORY_FAILURE',
   UPDATE_USER_TERRITORY_REQUEST = '@@users/UPDATE_USER_TERRITORY_REQUEST',
   UPDATE_USER_TERRITORY_SUCCESS = '@@users/UPDATE_USER_TERRITORY_SUCCESS',
-  UPDATE_USER_TERRITORY_FAILURE = '@@users/UPDATE_USER_TERRITORY_FAILURE'
+  UPDATE_USER_TERRITORY_FAILURE = '@@users/UPDATE_USER_TERRITORY_FAILURE',
+  GET_USER_REQUEST = '@@users/GET_USER_REQUEST',
+  GET_USER_SUCCESS = '@@users/GET_USER_SUCCESS',
+  GET_USER_FAILURE = '@@users/GET_USER_FAILURE',
+  CHANGE_PASSWORD_REQUEST = '@@users/CHANGE_PASSWORD_REQUEST',
+  CHANGE_PASSWORD_SUCCESS = '@@users/CHANGE_PASSWORD_SUCCESS',
+  CHANGE_PASSWORD_FAILURE = '@@users/CHANGE_PASSWORD_FAILURE',
+  GET_COMPANY_REQUEST = '@@users/GET_COMPANY_REQUEST',
+  GET_COMPANY_SUCCESS = '@@users/GET_COMPANY_SUCCESS',
+  GET_COMPANY_FAILURE = '@@users/GET_COMPANY_FAILURE',
+  ADD_COMPANY_REQUEST = '@@users/ADD_COMPANY_REQUEST',
+  ADD_COMPANY_SUCCESS = '@@users/ADD_COMPANY_SUCCESS',
+  ADD_COMPANY_FAILURE = '@@users/ADD_COMPANY_FAILURE',
+  UPDATE_COMPANY_REQUEST = '@@users/UPDATE_COMPANY_REQUEST',
+  UPDATE_COMPANY_SUCCESS = '@@users/UPDATE_COMPANY_SUCCESS',
+  UPDATE_COMPANY_FAILURE = '@@users/UPDATE_COMPANY_FAILURE'
 }
 
 export type UserState = {
@@ -40,10 +55,12 @@ export type UserState = {
   readonly loading: boolean
   readonly isExporting: boolean
   readonly isSucceeded: boolean
+  readonly changePassword: boolean
   readonly activeLink: string
   readonly isDeleted: boolean
   readonly user: DBUser | null
   readonly params: Param
   readonly count: number
   readonly searchedUsers: DBUser[]
+  readonly company: Company | null
 }

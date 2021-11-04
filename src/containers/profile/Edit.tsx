@@ -21,7 +21,7 @@ import {
   CustomInput,
   Alert
 } from 'reactstrap'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
@@ -53,34 +53,29 @@ interface Fields {
   isVerified: boolean
 }
 
-type QueryParam = {
-  id: string
-}
-
 const Edit = () => {
   const dispatch: Dispatch = useDispatch()
-  const { id } = useParams<QueryParam>()
   const store = Selector((state) => state.users)
+  const authStore = Selector((state) => state.auth)
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
   const [err, setErr] = useState(null)
-  const [values] = useState(() => {
-    const { users } = store
-    const item = users.find((u) => u.id === parseInt(id))
+  const [values, setValues] = useState(() => {
+    const { user } = store
     const payload: Fields = {
-      firstName: item ? item.firstName : '',
-      lastName: item ? item.lastName : '',
-      email: item ? item.email : '',
-      phone: item ? item.phone : '',
-      role: item ? { label: item.role, value: item.role } : '',
-      isVerified: item ? item.isVerified : false
+      firstName: user ? user.firstName : '',
+      lastName: user ? user.lastName : '',
+      email: user ? user.email : '',
+      phone: user ? user.phone : '',
+      role: user ? { label: user.role, value: user.role } : '',
+      isVerified: user ? user.isVerified : false
     }
     return payload
   })
 
   useEffect(() => {
     dispatch(clearStates())
-    dispatch(setActiveLink('edit'))
+    dispatch(setActiveLink('list'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -93,12 +88,24 @@ const Edit = () => {
         email: values.email,
         phone: values.phone,
         isVerified: values.isVerified,
-        id: parseInt(id)
+        id: authStore.user!.id
       }
       dispatch(updateUserRequest(payload))
     },
-    [dispatch, id]
+    [dispatch, authStore]
   )
+
+  useEffect(() => {
+    const { user } = store
+    setValues({
+      firstName: user ? user.firstName : '',
+      lastName: user ? user.lastName : '',
+      email: user ? user.email : '',
+      phone: user ? user.phone : '',
+      role: user ? { label: user.role, value: user.role } : '',
+      isVerified: user ? user.isVerified : false
+    })
+  }, [store])
 
   useEffect(() => {
     const { isSubmitting, isSucceeded, errors } = store
@@ -109,7 +116,7 @@ const Edit = () => {
         <ToastBox
           color="success"
           icon={<Coffee />}
-          message="User has been updated successfully"
+          message="Profile has been updated successfully"
           title="Nice!"
         />,
         {
@@ -119,7 +126,7 @@ const Edit = () => {
           position: 'bottom-right'
         }
       )
-      history.push('/admin/users')
+      history.push('/admin/profile')
     }
   }, [store, history])
 
@@ -195,7 +202,7 @@ const Edit = () => {
               <Row className="px-3">
                 <Col sm="12" md="12" lg="12">
                   <CardTitle tag="h2" className="font-weight-light">
-                    Update {values ? `${values.email}'s details` : null}
+                    Update Profile
                   </CardTitle>
                 </Col>
               </Row>
@@ -301,22 +308,26 @@ const Edit = () => {
                       optionComponent={OptionComponent}
                       value={values.role}
                       placeholder="Select role of user.."
+                      isDisabled
                     />
                   </FormGroup>
                 </Col>
                 <Col sm="12" md="6" lg="6">
                   <Label className="form-label" for="isVerified">
-                    Verify user
+                    {values.isVerified
+                      ? 'You are Verified'
+                      : 'You are not verified'}
                   </Label>
                   <FormGroup>
                     <CustomInput
                       type="switch"
                       className="custom-control-Primary"
                       id="isVerified"
-                      label="Switch to verify user automatically"
+                      label="account verification"
                       name="isVerified"
                       onChange={handleChange}
                       checked={values.isVerified}
+                      disabled
                     />
                   </FormGroup>
                 </Col>
@@ -328,7 +339,7 @@ const Edit = () => {
                       <Spinner color="white" className="mr-2" size="sm" />{' '}
                       Saving . . .
                     </Collapse>
-                    <Collapse isOpen={!btnLoading}>Update User</Collapse>
+                    <Collapse isOpen={!btnLoading}>Update Profile</Collapse>
                   </RippleButton>
                 </Col>
               </Row>

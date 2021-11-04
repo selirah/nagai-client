@@ -184,6 +184,39 @@ const Routes: Route[] = [
       resource: abilities.Payments,
       action: 'read'
     }
+  },
+  {
+    path: PRIVATE_ROUTES.PROFILE,
+    component: lazy(() => import('pages/profile')),
+    exact: false,
+    className: 'todo-application',
+    appLayout: true,
+    meta: {
+      resource: abilities.Profile,
+      action: 'read'
+    }
+  },
+  {
+    path: PRIVATE_ROUTES.SETTINGS,
+    component: lazy(() => import('pages/settings')),
+    exact: false,
+    className: 'todo-application',
+    appLayout: true,
+    meta: {
+      resource: abilities.Settings,
+      action: 'read'
+    }
+  },
+  {
+    path: PRIVATE_ROUTES.REPORTS,
+    component: lazy(() => import('pages/reports')),
+    exact: false,
+    className: 'todo-application',
+    appLayout: true,
+    meta: {
+      resource: abilities.Reports,
+      action: 'read'
+    }
   }
 ]
 

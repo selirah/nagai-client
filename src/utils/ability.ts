@@ -30,6 +30,9 @@ export default function defineAbilityFor() {
         can('read', abilities.Deliveries)
         can('read', abilities.Sales)
         can('read', abilities.Payments)
+        can('read', abilities.Profile)
+        can('read', abilities.Settings)
+        can('read', abilities.Reports)
         break
       case userRoles.agent:
         can('read', abilities.Home)
@@ -45,6 +48,9 @@ export default function defineAbilityFor() {
         can('read', abilities.Deliveries)
         can('read', abilities.Sales)
         can('read', abilities.Payments)
+        can('read', abilities.Profile)
+        can('read', abilities.Settings)
+        cannot('read', abilities.Reports)
         break
       case userRoles.dispatch:
         can('read', abilities.Home)
@@ -60,6 +66,9 @@ export default function defineAbilityFor() {
         can('read', abilities.Deliveries)
         cannot('read', abilities.Sales)
         cannot('read', abilities.Payments)
+        can('read', abilities.Profile)
+        can('read', abilities.Settings)
+        cannot('read', abilities.Reports)
         break
     }
   }

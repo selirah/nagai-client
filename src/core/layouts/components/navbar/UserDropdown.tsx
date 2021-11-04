@@ -14,7 +14,7 @@ import {
 import { LogOut, Settings, UserCheck } from 'react-feather'
 import defaultAvatar from 'assets/images/avatars/avatar.png'
 import { removeItem } from 'utils/localstorage'
-import { PUBLIC_ROUTES } from 'router/constants'
+import { PUBLIC_ROUTES, PRIVATE_ROUTES } from 'router/constants'
 
 const { logout } = authActions
 
@@ -44,11 +44,11 @@ const UserDropdown = () => {
       </DropdownToggle>
       <DropdownMenu right>
         <Collapse isOpen={true}>
-          <DropdownItem tag={Link} to={PUBLIC_ROUTES.LANDING}>
+          <DropdownItem tag={Link} to={PRIVATE_ROUTES.PROFILE}>
             <UserCheck size={14} className="mr-75" />
             <span className="align-middle">Profile</span>
           </DropdownItem>
-          <DropdownItem tag={Link} to={PUBLIC_ROUTES.LANDING}>
+          <DropdownItem tag={Link} to={PRIVATE_ROUTES.SETTINGS}>
             <Settings size={14} className="mr-75" />
             <span className="align-middle">Settings</span>
           </DropdownItem>

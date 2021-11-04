@@ -85,3 +85,18 @@ export const Roles = [
     role: 'dispatch'
   }
 ]
+
+export type ChangePassword = {
+  oldPassword: string
+  newPassword: string
+  id: number
+}
+
+export type Company = {
+  id: number
+  name: string
+  email: string
+  phone: string
+  smsID: string
+  logo: string
+}

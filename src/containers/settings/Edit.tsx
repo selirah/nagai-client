@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { Selector, Dispatch } from 'redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import userActions from 'redux/users/actions'
-import { UserFields, OptionKey, Roles } from 'classes'
+import { Company } from 'classes'
 import { toast, Slide } from 'react-toastify'
 import RippleButton from 'core/components/ripple-button'
 import ToastBox from 'components/ToastBox'
@@ -18,22 +18,17 @@ import {
   Row,
   Col,
   CardTitle,
-  CustomInput,
   Alert
 } from 'reactstrap'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { components } from 'react-select'
-import SelectComponent from 'components/Select'
 
-const { updateUserRequest, clearStates, setActiveLink } = userActions
-
-const { Option } = components
+const { addCompanyRequest, updateCompanyRequest, clearStates, setActiveLink } =
+  userActions
 
 const validateSchema = Yup.object().shape({
-  firstName: Yup.string().required('This is a required field'),
-  lastName: Yup.string().required('This is a required field'),
+  name: Yup.string().required('This is a required field'),
   email: Yup.string()
     .email('Please input a valid email in the form john@example.com')
     .required('This is a required field'),
@@ -41,64 +36,58 @@ const validateSchema = Yup.object().shape({
     .min(10, 'Phone number is too short!')
     .max(12, 'Phone number is too long!')
     .required('This is a required field'),
-  role: Yup.object().required('This is a required field')
+  smsID: Yup.string()
+    .max(11, 'SMS ID is too long!')
+    .required('This is a required field')
 })
-
-interface Fields {
-  firstName: string
-  lastName: string
-  email: string
-  phone: string
-  role: any
-  isVerified: boolean
-}
-
-type QueryParam = {
-  id: string
-}
 
 const Edit = () => {
   const dispatch: Dispatch = useDispatch()
-  const { id } = useParams<QueryParam>()
   const store = Selector((state) => state.users)
   const [btnLoading, setBtnLoading] = useState(false)
   const history = useHistory()
   const [err, setErr] = useState(null)
-  const [values] = useState(() => {
-    const { users } = store
-    const item = users.find((u) => u.id === parseInt(id))
-    const payload: Fields = {
-      firstName: item ? item.firstName : '',
-      lastName: item ? item.lastName : '',
-      email: item ? item.email : '',
-      phone: item ? item.phone : '',
-      role: item ? { label: item.role, value: item.role } : '',
-      isVerified: item ? item.isVerified : false
+  const [values, setValues] = useState(() => {
+    const { company } = store
+    const payload: Company = {
+      name: company ? company.name : '',
+      email: company ? company.email : '',
+      phone: company ? company.phone : '',
+      logo: company ? company.logo : '',
+      id: company ? company.id : 0,
+      smsID: company ? company.smsID : ''
     }
     return payload
   })
 
   useEffect(() => {
     dispatch(clearStates())
-    dispatch(setActiveLink('edit'))
+    dispatch(setActiveLink('list'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onSubmit = useCallback(
-    (values: Fields) => {
-      const payload: UserFields = {
-        role: values.role.value,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phone: values.phone,
-        isVerified: values.isVerified,
-        id: parseInt(id)
+    (values: Company) => {
+      if (values.id === 0) {
+        dispatch(addCompanyRequest(values))
+      } else {
+        dispatch(updateCompanyRequest(values))
       }
-      dispatch(updateUserRequest(payload))
     },
-    [dispatch, id]
+    [dispatch]
   )
+
+  useEffect(() => {
+    const { company } = store
+    setValues({
+      name: company ? company.name : '',
+      email: company ? company.email : '',
+      phone: company ? company.phone : '',
+      logo: company ? company.logo : '',
+      id: company ? company.id : 0,
+      smsID: company ? company.smsID : ''
+    })
+  }, [store])
 
   useEffect(() => {
     const { isSubmitting, isSucceeded, errors } = store
@@ -109,7 +98,7 @@ const Edit = () => {
         <ToastBox
           color="success"
           icon={<Coffee />}
-          message="User has been updated successfully"
+          message="Comapny has been updated successfully"
           title="Nice!"
         />,
         {
@@ -119,35 +108,9 @@ const Edit = () => {
           position: 'bottom-right'
         }
       )
-      history.push('/admin/users')
+      history.push('/admin/settings')
     }
   }, [store, history])
-
-  const rolesOptions: OptionKey[] = []
-  Roles.map((r) => {
-    rolesOptions.push({
-      value: `${r.role}`,
-      label: r.role
-    })
-    return rolesOptions
-  })
-
-  const selectOptions = [
-    {
-      label: 'Select Role for User',
-      options: rolesOptions
-    }
-  ]
-
-  const OptionComponent = ({ data, ...props }: any) => {
-    return (
-      <Option {...props}>
-        <div className="d-flex justify-content-start align-items-center">
-          <div className="profile-user-info">{data.label}</div>
-        </div>
-      </Option>
-    )
-  }
 
   const renderError = (errors: any) => (
     <Row className="px-3">
@@ -187,15 +150,13 @@ const Edit = () => {
             errors,
             handleChange,
             handleBlur,
-            handleSubmit,
-            setFieldValue,
-            setFieldTouched
+            handleSubmit
           }) => (
             <Form className="mt-2" onSubmit={handleSubmit}>
               <Row className="px-3">
                 <Col sm="12" md="12" lg="12">
                   <CardTitle tag="h2" className="font-weight-light">
-                    Update {values ? `${values.email}'s details` : null}
+                    Update Company
                   </CardTitle>
                 </Col>
               </Row>
@@ -203,48 +164,23 @@ const Edit = () => {
               <Row className="px-3">
                 <Col sm="12" md="6" lg="6">
                   <FormGroup>
-                    <Label className="form-label" for="firstName">
-                      First name <span style={{ color: '#ff0000' }}>*</span>
+                    <Label className="form-label" for="name">
+                      Name <span style={{ color: '#ff0000' }}>*</span>
                     </Label>
                     <Input
                       type="text"
-                      id="firstName"
-                      placeholder="Enter first name of user"
-                      value={values.firstName}
+                      id="name"
+                      placeholder="Enter name of company"
+                      value={values.name}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      name="firstName"
+                      name="name"
                     />
-                    {errors.firstName && touched.firstName ? (
-                      <small style={{ color: '#ff0000' }}>
-                        {errors.firstName}
-                      </small>
+                    {errors.name && touched.name ? (
+                      <small style={{ color: '#ff0000' }}>{errors.name}</small>
                     ) : null}
                   </FormGroup>
                 </Col>
-                <Col sm="12" md="6" lg="6">
-                  <FormGroup>
-                    <Label className="form-label" for="lastName">
-                      Last name <span style={{ color: '#ff0000' }}>*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      id="lastName"
-                      placeholder="Enter last name of user"
-                      value={values.lastName}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name="lastName"
-                    />
-                    {errors.lastName && touched.lastName ? (
-                      <small style={{ color: '#ff0000' }}>
-                        {errors.lastName}
-                      </small>
-                    ) : null}
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row className="px-3">
                 <Col sm="12" md="6" lg="6">
                   <FormGroup>
                     <Label className="form-label" for="email">
@@ -253,7 +189,7 @@ const Edit = () => {
                     <Input
                       type="text"
                       id="email"
-                      placeholder="Enter email of user"
+                      placeholder="Enter email of company"
                       value={values.email}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -264,6 +200,8 @@ const Edit = () => {
                     ) : null}
                   </FormGroup>
                 </Col>
+              </Row>
+              <Row className="px-3">
                 <Col sm="12" md="6" lg="6">
                   <FormGroup>
                     <Label className="form-label" for="phone">
@@ -272,7 +210,7 @@ const Edit = () => {
                     <Input
                       type="text"
                       id="phone"
-                      placeholder="Enter phone number of user"
+                      placeholder="Enter phone number of company"
                       value={values.phone}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -283,44 +221,27 @@ const Edit = () => {
                     ) : null}
                   </FormGroup>
                 </Col>
-              </Row>
-              <Row className="px-3">
                 <Col sm="12" md="6" lg="6">
                   <FormGroup>
-                    <Label className="form-label" for="role">
-                      Role <span style={{ color: '#ff0000' }}>*</span>
+                    <Label className="form-label" for="smsID">
+                      SMS ID <span style={{ color: '#ff0000' }}>*</span>
                     </Label>
-                    <SelectComponent
-                      id="role"
-                      name="role"
-                      onChange={setFieldValue}
-                      onBlur={setFieldTouched}
-                      error={errors.role}
-                      touched={touched.role}
-                      options={selectOptions}
-                      optionComponent={OptionComponent}
-                      value={values.role}
-                      placeholder="Select role of user.."
-                    />
-                  </FormGroup>
-                </Col>
-                <Col sm="12" md="6" lg="6">
-                  <Label className="form-label" for="isVerified">
-                    Verify user
-                  </Label>
-                  <FormGroup>
-                    <CustomInput
-                      type="switch"
-                      className="custom-control-Primary"
-                      id="isVerified"
-                      label="Switch to verify user automatically"
-                      name="isVerified"
+                    <Input
+                      type="text"
+                      id="smsID"
+                      placeholder="Enter SMS ID of company"
+                      value={values.smsID}
                       onChange={handleChange}
-                      checked={values.isVerified}
+                      onBlur={handleBlur}
+                      name="smsID"
                     />
+                    {errors.smsID && touched.smsID ? (
+                      <small style={{ color: '#ff0000' }}>{errors.smsID}</small>
+                    ) : null}
                   </FormGroup>
                 </Col>
               </Row>
+
               <Row className="px-3 mb-2">
                 <Col sm="4" md="4" lg="4">
                   <RippleButton type="submit" color="primary" block>
@@ -328,7 +249,7 @@ const Edit = () => {
                       <Spinner color="white" className="mr-2" size="sm" />{' '}
                       Saving . . .
                     </Collapse>
-                    <Collapse isOpen={!btnLoading}>Update User</Collapse>
+                    <Collapse isOpen={!btnLoading}>Update Profile</Collapse>
                   </RippleButton>
                 </Col>
               </Row>

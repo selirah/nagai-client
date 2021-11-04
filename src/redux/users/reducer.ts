@@ -9,6 +9,7 @@ export const initialState: UserState = {
   isExporting: false,
   isSubmitting: false,
   isSucceeded: false,
+  changePassword: false,
   loading: false,
   params: {
     page: 10,
@@ -18,7 +19,8 @@ export const initialState: UserState = {
   },
   users: [],
   user: null,
-  searchedUsers: []
+  searchedUsers: [],
+  company: null
 }
 
 const reducer: Reducer<UserState> = (state = initialState, action) => {
@@ -120,7 +122,8 @@ const reducer: Reducer<UserState> = (state = initialState, action) => {
         errors: initialState.errors,
         isDeleted: initialState.isDeleted,
         isSubmitting: initialState.isSubmitting,
-        loading: initialState.loading
+        loading: initialState.loading,
+        changePassword: initialState.changePassword
       }
 
     case ActionTypes.SET_ACTIVE_LINK:
@@ -206,6 +209,115 @@ const reducer: Reducer<UserState> = (state = initialState, action) => {
       }
 
     case ActionTypes.UPDATE_USER_TERRITORY_FAILURE:
+      return {
+        ...state,
+        isSubmitting: initialState.isSubmitting,
+        errors: action.payload,
+        isSucceeded: initialState.isSucceeded
+      }
+
+    case ActionTypes.GET_USER_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case ActionTypes.GET_USER_SUCCESS:
+      return {
+        ...state,
+        loading: initialState.loading,
+        user: action.payload
+      }
+
+    case ActionTypes.GET_USER_FAILURE:
+      return {
+        ...state,
+        loading: initialState.loading,
+        error: action.payload
+      }
+
+    case ActionTypes.CHANGE_PASSWORD_REQUEST:
+      return {
+        ...state,
+        isSubmitting: true,
+        errors: initialState.errors,
+        changePassword: initialState.isSucceeded
+      }
+
+    case ActionTypes.CHANGE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isSubmitting: initialState.isSubmitting,
+        changePassword: true
+      }
+
+    case ActionTypes.CHANGE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isSubmitting: initialState.isSubmitting,
+        errors: action.payload,
+        changePassword: initialState.changePassword
+      }
+
+    case ActionTypes.GET_COMPANY_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case ActionTypes.GET_COMPANY_SUCCESS:
+      return {
+        ...state,
+        loading: initialState.loading,
+        company: action.payload
+      }
+
+    case ActionTypes.GET_COMPANY_FAILURE:
+      return {
+        ...state,
+        loading: initialState.loading,
+        error: action.payload
+      }
+
+    case ActionTypes.ADD_COMPANY_REQUEST:
+      return {
+        ...state,
+        isSubmitting: true,
+        errors: initialState.errors,
+        isSucceeded: initialState.isSucceeded
+      }
+
+    case ActionTypes.ADD_COMPANY_SUCCESS:
+      return {
+        ...state,
+        isSubmitting: initialState.isSubmitting,
+        isSucceeded: true
+      }
+
+    case ActionTypes.ADD_COMPANY_FAILURE:
+      return {
+        ...state,
+        isSubmitting: initialState.isSubmitting,
+        errors: action.payload,
+        isSucceeded: initialState.isSucceeded
+      }
+
+    case ActionTypes.UPDATE_COMPANY_REQUEST:
+      return {
+        ...state,
+        isSubmitting: true,
+        errors: initialState.errors,
+        isSucceeded: initialState.isSucceeded
+      }
+
+    case ActionTypes.UPDATE_COMPANY_SUCCESS:
+      return {
+        ...state,
+        isSubmitting: initialState.isSubmitting,
+        isSucceeded: true
+      }
+
+    case ActionTypes.UPDATE_COMPANY_FAILURE:
       return {
         ...state,
         isSubmitting: initialState.isSubmitting,

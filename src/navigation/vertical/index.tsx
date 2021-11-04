@@ -94,16 +94,16 @@ const VerticalNavigation = [
     title: 'Payments',
     icon: <Icons.DollarSign size={20} />,
     navLink: PRIVATE_ROUTES.PAYMENTS
-  },
-  {
-    header: 'Reports'
-  },
-  {
-    id: 'reports',
-    title: 'Reports',
-    icon: <Icons.BarChart2 size={20} />,
-    navLink: PRIVATE_ROUTES.REPORTS
   }
+  // {
+  //   header: 'Reports'
+  // }
+  // {
+  //   id: 'reports',
+  //   title: 'Reports',
+  //   icon: <Icons.BarChart2 size={20} />,
+  //   navLink: PRIVATE_ROUTES.REPORTS
+  // }
 ]
 
 export default VerticalNavigation

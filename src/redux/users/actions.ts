@@ -4,7 +4,9 @@ import {
   DBUser,
   UserFields,
   Param,
-  UserTerritoryFields
+  UserTerritoryFields,
+  ChangePassword,
+  Company
 } from 'classes'
 import { ActionTypes } from './types'
 
@@ -77,7 +79,46 @@ const userActions = {
     action(ActionTypes.UPDATE_USER_TERRITORY_SUCCESS),
 
   updateUserTerritoryFailure: (error: any) =>
-    action(ActionTypes.UPDATE_USER_TERRITORY_FAILURE, error)
+    action(ActionTypes.UPDATE_USER_TERRITORY_FAILURE, error),
+
+  getUserRequest: (payload: number) =>
+    action(ActionTypes.GET_USER_REQUEST, payload),
+
+  getUserSuccess: (user: DBUser) => action(ActionTypes.GET_USER_SUCCESS, user),
+
+  getUserFailure: (error: any) => action(ActionTypes.GET_USER_FAILURE, error),
+
+  changePasswordRequest: (payload: ChangePassword) =>
+    action(ActionTypes.CHANGE_PASSWORD_REQUEST, payload),
+
+  changePasswordSuccess: () => action(ActionTypes.CHANGE_PASSWORD_SUCCESS),
+
+  changePasswordFailure: (error: any) =>
+    action(ActionTypes.CHANGE_PASSWORD_FAILURE, error),
+
+  addCompanyRequest: (payload: Company) =>
+    action(ActionTypes.ADD_COMPANY_REQUEST, payload),
+
+  addCompanySuccess: () => action(ActionTypes.ADD_COMPANY_SUCCESS),
+
+  addCompanyFailure: (error: any) =>
+    action(ActionTypes.ADD_COMPANY_FAILURE, error),
+
+  updateCompanyRequest: (payload: Company) =>
+    action(ActionTypes.UPDATE_COMPANY_REQUEST, payload),
+
+  updateCompanySuccess: () => action(ActionTypes.UPDATE_COMPANY_SUCCESS),
+
+  updateCompanyFailure: (error: any) =>
+    action(ActionTypes.UPDATE_COMPANY_FAILURE, error),
+
+  getCompanyRequest: () => action(ActionTypes.GET_COMPANY_REQUEST),
+
+  getCompanySuccess: (user: Company) =>
+    action(ActionTypes.GET_COMPANY_SUCCESS, user),
+
+  getCompanyFailure: (error: any) =>
+    action(ActionTypes.GET_COMPANY_FAILURE, error)
 }
 
 export default userActions
