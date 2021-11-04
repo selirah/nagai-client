@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from 'react'
+import { useEffect, useCallback, useState, useRef } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import RegisterForm from 'containers/auth/RegisterForm'
 import { RegisterFields } from 'classes'
@@ -14,8 +14,12 @@ import Logo from './Logo'
 import 'core/scss/base/pages/page-auth.scss'
 import themeConfig from 'theme/themeConfig'
 import ToastBox from 'components/ToastBox'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const { registerRequest, clearStates } = authActions
+
+const SITE_KEY = process.env.REACT_APP_SITE_KEY
+const DELAY = 1500
 
 const Register = () => {
   const store = Selector((state) => state.auth)
@@ -34,12 +38,25 @@ const Register = () => {
   const source = require(`assets/images/pages/${illustration}`).default
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState(null)
+  const [load, setLoad] = useState(false)
+  const [expired, setExpired] = useState(false)
+  const reCaptchaRef = useRef<any>()
+  const [isMounted, setIsMounted] = useState(false)
 
   const onRegisterSubmit = useCallback(
     (values: RegisterFields) => {
-      dispatch(registerRequest(values))
+      reCaptchaRef.current
+        .executeAsync()
+        .then((value: string) => {
+          if (value && !expired) {
+            dispatch(registerRequest(values))
+          }
+        })
+        .catch((err: any) => {
+          console.log(err)
+        })
     },
-    [dispatch]
+    [dispatch, expired]
   )
 
   useEffect(() => {
@@ -47,6 +64,13 @@ const Register = () => {
     if (isAuthenticated) {
       history.push(PRIVATE_ROUTES.HOME)
     } else {
+      dispatch(clearStates())
+    }
+    setTimeout(() => {
+      setLoad(true)
+    }, DELAY)
+    return () => {
+      setIsMounted(!isMounted)
       dispatch(clearStates())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,6 +95,10 @@ const Register = () => {
       history.push(PUBLIC_ROUTES.VERIFY_ACCOUNT)
     }
   }, [store, history])
+
+  const handleRecaptcha = useCallback((value) => {
+    if (value === null) setExpired(true)
+  }, [])
 
   return (
     <div className="auth-wrapper auth-v2">
@@ -98,6 +126,15 @@ const Register = () => {
             <CardText className="mb-2 text-muted">
               Enter your details to register
             </CardText>
+            {load && (
+              <ReCAPTCHA
+                theme={mode}
+                size="invisible"
+                ref={reCaptchaRef}
+                sitekey={`${SITE_KEY}`}
+                onChange={handleRecaptcha}
+              />
+            )}
             <RegisterForm
               initialValues={initialValues}
               isSubmitting={isSubmitting}

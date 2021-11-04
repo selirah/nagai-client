@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import VerifyForm from 'containers/auth/VerifyForm'
 import { VerifyFields, ResetResendFields } from 'classes'
@@ -14,8 +14,12 @@ import Logo from './Logo'
 import 'core/scss/base/pages/page-auth.scss'
 import themeConfig from 'theme/themeConfig'
 import ToastBox from 'components/ToastBox'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const { verificationRequest, clearStates, resendCodeRequest } = authActions
+
+const SITE_KEY = process.env.REACT_APP_SITE_KEY
+const DELAY = 1500
 
 const Verify = () => {
   const store = Selector((state) => state.auth)
@@ -28,16 +32,29 @@ const Verify = () => {
   const [isSubmitting, setIsSubmiting] = useState(false)
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [load, setLoad] = useState(false)
+  const [expired, setExpired] = useState(false)
+  const reCaptchaRef = useRef<any>()
+  const [isMounted, setIsMounted] = useState(false)
 
   const illustration =
     mode === 'dark' ? 'reset-password-v2-dark.svg' : 'reset-password-v2.svg'
   const source = require(`assets/images/pages/${illustration}`).default
 
   const onVerifySubmit = useCallback(
-    (value: VerifyFields) => {
-      dispatch(verificationRequest(value))
+    (values: VerifyFields) => {
+      reCaptchaRef.current
+        .executeAsync()
+        .then((value: string) => {
+          if (value && !expired) {
+            dispatch(verificationRequest(values))
+          }
+        })
+        .catch((err: any) => {
+          console.log(err)
+        })
     },
-    [dispatch]
+    [dispatch, expired]
   )
 
   const resendCode = useCallback(async () => {
@@ -55,6 +72,13 @@ const Verify = () => {
     if (isAuthenticated) {
       history.push(PRIVATE_ROUTES.HOME)
     } else {
+      dispatch(clearStates())
+    }
+    setTimeout(() => {
+      setLoad(true)
+    }, DELAY)
+    return () => {
+      setIsMounted(!isMounted)
       dispatch(clearStates())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,6 +110,10 @@ const Verify = () => {
     }
   }, [store, history, startTimer, time])
 
+  const handleRecaptcha = useCallback((value) => {
+    if (value === null) setExpired(true)
+  }, [])
+
   return (
     <div className="auth-wrapper auth-v2">
       <Row className="auth-inner m-0">
@@ -114,6 +142,15 @@ const Verify = () => {
               you via email and sms into the box below to verify your account.
               This code expires after 24 hours
             </CardText>
+            {load && (
+              <ReCAPTCHA
+                theme={mode}
+                size="invisible"
+                ref={reCaptchaRef}
+                sitekey={`${SITE_KEY}`}
+                onChange={handleRecaptcha}
+              />
+            )}
             <VerifyForm
               initialValues={initialValues}
               isSubmitting={isSubmitting}

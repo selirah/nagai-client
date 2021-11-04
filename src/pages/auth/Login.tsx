@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import LoginForm from 'containers/auth/LoginForm'
 import { LoginFields } from 'classes'
@@ -13,8 +13,12 @@ import Logo from './Logo'
 import 'core/scss/base/pages/page-auth.scss'
 import { FormattedMessage } from 'react-intl'
 import themeConfig from 'theme/themeConfig'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const { loginRequest, clearStates } = authActions
+
+const SITE_KEY = process.env.REACT_APP_SITE_KEY
+const DELAY = 1500
 
 const Login = () => {
   const store = Selector((state) => state.auth)
@@ -31,12 +35,25 @@ const Login = () => {
   const source = require(`assets/images/pages/${illustration}`).default
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState(null)
+  const [load, setLoad] = useState(false)
+  const [expired, setExpired] = useState(false)
+  const reCaptchaRef = useRef<any>()
+  const [isMounted, setIsMounted] = useState(false)
 
   const onLoginSubmit = useCallback(
     (values: LoginFields) => {
-      dispatch(loginRequest(values))
+      reCaptchaRef.current
+        .executeAsync()
+        .then((value: string) => {
+          if (value && !expired) {
+            dispatch(loginRequest(values))
+          }
+        })
+        .catch((err: any) => {
+          console.log(err)
+        })
     },
-    [dispatch]
+    [dispatch, expired]
   )
 
   useEffect(() => {
@@ -44,7 +61,14 @@ const Login = () => {
     if (isAuthenticated) {
       setRedirectToReferrer(true)
     }
-    dispatch(clearStates())
+
+    setTimeout(() => {
+      setLoad(true)
+    }, DELAY)
+    return () => {
+      setIsMounted(!isMounted)
+      dispatch(clearStates())
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -64,6 +88,10 @@ const Login = () => {
   if (redirectToReferer && store.user) {
     window.location.href = from.pathname
   }
+
+  const handleRecaptcha = useCallback((value) => {
+    if (value === null) setExpired(true)
+  }, [])
 
   return (
     <div className="auth-wrapper auth-v2">
@@ -91,6 +119,15 @@ const Login = () => {
             <CardText className="mb-2 text-muted">
               <FormattedMessage id="Please sign-in to your account" />
             </CardText>
+            {load && (
+              <ReCAPTCHA
+                theme={mode}
+                size="invisible"
+                ref={reCaptchaRef}
+                sitekey={`${SITE_KEY}`}
+                onChange={handleRecaptcha}
+              />
+            )}
             <LoginForm
               initialValues={initialValues}
               isSubmitting={isSubmitting}
