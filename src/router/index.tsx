@@ -1,6 +1,6 @@
 import { Suspense, lazy, useContext } from 'react'
-import { useLayout, useRouterTransition } from 'hooks'
-import LayoutWrapper from 'core/layouts/components/layout-wrapper'
+import { useLayout, useRouterTransition } from '@hooks/index'
+import LayoutWrapper from '@core/layouts/components/layout-wrapper'
 import {
   BrowserRouter as AppRouter,
   Route,
@@ -8,14 +8,14 @@ import {
   Redirect
 } from 'react-router-dom'
 import { DefaultRoute, Routes } from './router.constants'
-import BlankLayout from 'core/layouts/BlankLayout'
-import HorizontalLayout from 'layouts/HorizontalLayout'
-import VerticalLayout from 'layouts/VerticalLayout'
-import ErrorBoundary from 'pages/ErrorBoundary'
+import BlankLayout from '@core/layouts/BlankLayout'
+import HorizontalLayout from '@layouts/HorizontalLayout'
+import VerticalLayout from '@layouts/VerticalLayout'
+import ErrorBoundary from '@pages/ErrorBoundary'
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from './constants'
-import { Route as RR } from 'classes'
-import { AbilityContext } from 'contexts/Can'
-import { isUserLoggedIn } from 'utils'
+import { Route as RR } from '@classes/Route'
+import { AbilityContext } from '@contexts/Can'
+import { isUserLoggedIn } from '@utils/index'
 
 const Router = () => {
   const [layout, setLayout] = useLayout()
@@ -47,9 +47,9 @@ const Router = () => {
     return { LayoutRoutes, LayoutPaths }
   }
 
-  const NotAuthorized = lazy(() => import('pages/NotAuthorized'))
+  const NotAuthorized = lazy(() => import('@pages/NotAuthorized'))
 
-  const Error = lazy(() => import('pages/Error'))
+  const Error = lazy(() => import('@pages/Error'))
 
   /**
    ** Final Route Component Checks for Login & User Role and then redirects to the route

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import themeConfig from 'theme/themeConfig'
+import themeConfig from '@theme/themeConfig'
 
 export const useFooterType = () => {
   const [footerType, setFooterType] = useState<any>(() => {

@@ -8,9 +8,9 @@ import {
 } from 'reactstrap'
 import { Search, Menu } from 'react-feather'
 import { useDispatch } from 'react-redux'
-import { Dispatch, Selector } from 'redux/selector-dispatch'
-import userActions from 'redux/users/actions'
-import utilsActions from 'redux/utils/actions'
+import { Dispatch, Selector } from '@redux/selector-dispatch'
+import userActions from '@redux/users/actions'
+import utilsActions from '@redux/utils/actions'
 interface Props {
   handleMainSidebar: () => void
 }

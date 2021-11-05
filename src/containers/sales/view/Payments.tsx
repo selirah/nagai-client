@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
-import { Payment } from 'classes'
+import { Payment } from '@classes/index'
 import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
 import { IDataTableColumn } from 'react-data-table-component'
-import SimpleTable from 'components/SimpleTable'
+import SimpleTable from '@components/SimpleTable'
 import moment from 'moment'
 
 interface Props {

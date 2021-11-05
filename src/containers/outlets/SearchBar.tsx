@@ -2,10 +2,10 @@ import React, { ChangeEvent, useCallback, useState } from 'react'
 import { InputGroup, Input, Button } from 'reactstrap'
 import { Menu } from 'react-feather'
 import { useDispatch } from 'react-redux'
-import { Dispatch, Selector } from 'redux/selector-dispatch'
-import outletActions from 'redux/outlets/actions'
+import { Dispatch, Selector } from '@redux/selector-dispatch'
+import outletActions from '@redux/outlets/actions'
 import Select, { components } from 'react-select'
-import { Territory, OptionKey } from 'classes'
+import { Territory, OptionKey } from '@classes/index'
 
 interface Props {
   handleMainSidebar: () => void

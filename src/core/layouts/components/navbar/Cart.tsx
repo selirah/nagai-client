@@ -1,11 +1,11 @@
 import { useState, useEffect, Fragment, useCallback } from 'react'
 import { ShoppingCart } from 'react-feather'
 import { Badge } from 'reactstrap'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import { Item } from 'classes'
-import CartDrawer from 'containers/orders/CartDrawer'
-import orderActions from 'redux/orders/actions'
+import { Item } from '@classes/Order'
+import CartDrawer from '@containers/orders/CartDrawer'
+import orderActions from '@redux/orders/actions'
 
 const { clearCart, removeFromCart } = orderActions
 

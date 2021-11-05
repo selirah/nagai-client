@@ -1,5 +1,5 @@
 import * as Icons from 'react-feather'
-import { PRIVATE_ROUTES } from 'router/constants'
+import { PRIVATE_ROUTES } from '@router/constants'
 
 const HorizontalNavigation = [
   {

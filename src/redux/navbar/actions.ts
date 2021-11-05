@@ -1,4 +1,4 @@
-import { Bookmark } from 'classes'
+import { Bookmark } from '@classes/index'
 import { action } from 'typesafe-actions'
 import { ActionTypes } from './types'
 

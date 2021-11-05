@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
-import { Order, Item } from 'classes'
+import { Order, Item } from '@classes/index'
 import DataTable, {
   createTheme,
   IDataTableStyles,
   IDataTableColumn
 } from 'react-data-table-component'
 import { ArrowDown } from 'react-feather'
-import RippleButton from 'core/components/ripple-button'
-import { Selector } from 'redux/selector-dispatch'
+import RippleButton from '@core/components/ripple-button'
+import { Selector } from '@redux/selector-dispatch'
 
 const customStyles: IDataTableStyles = {
   rows: {

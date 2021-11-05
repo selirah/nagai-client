@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 import { UserPlus, Users, Grid } from 'react-feather'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import userActions from 'redux/users/actions'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
+import userActions from '@redux/users/actions'
 import { useDispatch } from 'react-redux'
-import { Roles } from 'classes'
-import { userRoles } from 'utils/ability'
+import { Roles } from '@classes/index'
+import { userRoles } from '@utils/ability'
 
 interface Props {
   mainSidebar: boolean

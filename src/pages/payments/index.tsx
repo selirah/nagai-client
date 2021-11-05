@@ -1,9 +1,9 @@
 import { useState, useCallback, Fragment } from 'react'
-import Sidebar from 'containers/payments/Sidebar'
-import SearchBar from 'containers/payments/SearchBar'
+import Sidebar from '@containers/payments/Sidebar'
+import SearchBar from '@containers/payments/SearchBar'
 import classnames from 'classnames'
 import PaymentsRoutes from './routes'
-import 'core/scss/react/apps/app-todo.scss'
+import '@core/scss/react/apps/app-todo.scss'
 
 const Payments = () => {
   const [mainSidebar, setMainSidebar] = useState(false)

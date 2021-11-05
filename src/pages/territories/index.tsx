@@ -1,13 +1,13 @@
 import { useState, useCallback, Fragment, useEffect } from 'react'
-import SearchBar from 'containers/territories/SearchBar'
-import Sidebar from 'containers/territories/Sidebar'
+import SearchBar from '@containers/territories/SearchBar'
+import Sidebar from '@containers/territories/Sidebar'
 import classnames from 'classnames'
 import TerritoryRoutes from './routes'
-import 'core/scss/react/apps/app-todo.scss'
+import '@core/scss/react/apps/app-todo.scss'
 import { useDispatch } from 'react-redux'
-import { Dispatch, Selector } from 'redux/selector-dispatch'
-import { isEmpty } from 'utils'
-import utilsActions from 'redux/utils/actions'
+import { Dispatch, Selector } from '@redux/selector-dispatch'
+import { isEmpty } from '@utils/index'
+import utilsActions from '@redux/utils/actions'
 
 const { getRegionsRequest } = utilsActions
 

@@ -1,4 +1,4 @@
-import { Manufacturer } from 'classes'
+import { Manufacturer } from '@classes/index'
 import { Reducer } from 'redux'
 import moment from 'moment'
 import { ManufacturerState, ActionTypes } from './types'

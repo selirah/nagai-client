@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from 'react'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import deliveryActions from 'redux/deliveries/actions'
-import { DeliveryFields } from 'classes'
+import deliveryActions from '@redux/deliveries/actions'
+import { DeliveryFields } from '@classes/index'
 import { toast, Slide } from 'react-toastify'
-import RippleButton from 'core/components/ripple-button'
-import ToastBox from 'components/ToastBox'
+import RippleButton from '@core/components/ripple-button'
+import ToastBox from '@components/ToastBox'
 import { Formik } from 'formik'
 import {
   Form,

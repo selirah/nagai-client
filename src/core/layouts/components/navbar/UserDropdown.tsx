@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import Avatar from 'core/components/avatar'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import Avatar from '@core/components/avatar'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import authActions from 'redux/auth/actions'
+import authActions from '@redux/auth/actions'
 import {
   UncontrolledDropdown,
   DropdownMenu,
@@ -12,9 +12,9 @@ import {
   Collapse
 } from 'reactstrap'
 import { LogOut, Settings, UserCheck } from 'react-feather'
-import defaultAvatar from 'assets/images/avatars/avatar.png'
-import { removeItem } from 'utils/localstorage'
-import { PUBLIC_ROUTES, PRIVATE_ROUTES } from 'router/constants'
+import defaultAvatar from '@assets/images/avatars/avatar.png'
+import { removeItem } from '@utils/localstorage'
+import { PUBLIC_ROUTES, PRIVATE_ROUTES } from '@router/constants'
 
 const { logout } = authActions
 

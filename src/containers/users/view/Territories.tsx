@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import moment from 'moment'
-import { Territory, UserTerritory } from 'classes'
+import { Territory, UserTerritory } from '@classes/index'
 import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
 import { IDataTableColumn } from 'react-data-table-component'
-import SimpleTable from 'components/SimpleTable'
+import SimpleTable from '@components/SimpleTable'
 
 interface Props {
   userTerritories: UserTerritory

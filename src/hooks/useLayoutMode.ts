@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import themeConfig from 'theme/themeConfig'
+import themeConfig from '@theme/themeConfig'
 import { useDispatch } from 'react-redux'
-import { /*Selector,*/ Dispatch } from 'redux/selector-dispatch'
-import layoutActions from 'redux/layout/actions'
+import { /*Selector,*/ Dispatch } from '@redux/selector-dispatch'
+import layoutActions from '@redux/layout/actions'
 
 const { handleLayoutMode } = layoutActions
 

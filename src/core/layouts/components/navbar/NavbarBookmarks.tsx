@@ -9,7 +9,7 @@ import React, {
 import { Link } from 'react-router-dom'
 import * as Icons from 'react-feather'
 import classnames from 'classnames'
-import Autocomplete from 'core/components/autocomplete'
+import Autocomplete from '@core/components/autocomplete'
 import {
   NavItem,
   NavLink,
@@ -20,9 +20,9 @@ import {
   DropdownItem
 } from 'reactstrap'
 import { useDispatch } from 'react-redux'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import navbarActions from 'redux/navbar/actions'
-import { Bookmark } from 'classes'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
+import navbarActions from '@redux/navbar/actions'
+import { Bookmark } from '@classes/Bookmark'
 
 const { getBookmarksRequest, updateBookmarkRequest, handleSearchQuery } =
   navbarActions

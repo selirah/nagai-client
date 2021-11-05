@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Disc, X, Circle } from 'react-feather'
-import themeConfig from 'theme/themeConfig'
+import themeConfig from '@theme/themeConfig'
 
 interface NavMenuHeaderProps {
   menuCollapsed: boolean

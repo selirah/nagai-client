@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { RegisterFields } from 'classes'
+import { RegisterFields } from '@classes/index'
 import {
   Form,
   FormGroup,
@@ -14,8 +14,8 @@ import {
   Col,
   Alert
 } from 'reactstrap'
-import RippleButton from 'core/components/ripple-button'
-import InputPasswordToggle from 'core/components/input-password-toggle'
+import RippleButton from '@core/components/ripple-button'
+import InputPasswordToggle from '@core/components/input-password-toggle'
 
 interface Props {
   initialValues: RegisterFields

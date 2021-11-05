@@ -1,9 +1,9 @@
 import { useState, useCallback, Fragment } from 'react'
-import SearchBar from 'containers/products/SearchBar'
-import Sidebar from 'containers/products/Sidebar'
+import SearchBar from '@containers/products/SearchBar'
+import Sidebar from '@containers/products/Sidebar'
 import classnames from 'classnames'
 import ProductRoutes from './routes'
-import 'core/scss/react/apps/app-todo.scss'
+import '@core/scss/react/apps/app-todo.scss'
 
 const Products = () => {
   const [mainSidebar, setMainSidebar] = useState(false)

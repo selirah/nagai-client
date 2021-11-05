@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'core/layouts/VerticalLayout'
+import Layout from '@core/layouts/VerticalLayout'
 
 interface VerticalLayoutProps {
   navbar: any

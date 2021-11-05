@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import moment from 'moment'
-import { Product } from 'classes'
+import { Product } from '@classes/index'
 import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
 import { IDataTableColumn } from 'react-data-table-component'
-import SimpleTable from 'components/SimpleTable'
+import SimpleTable from '@components/SimpleTable'
 
 interface Props {
   products: Product[]

@@ -1,20 +1,20 @@
 import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import userActions from 'redux/users/actions'
-import utilsActions from 'redux/utils/actions'
-import { Territory, UserTerritoryFields } from 'classes'
+import userActions from '@redux/users/actions'
+import utilsActions from '@redux/utils/actions'
+import { Territory, UserTerritoryFields } from '@classes/index'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import SWAL from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { toast, Slide } from 'react-toastify'
-import ToastBox from 'components/ToastBox'
+import ToastBox from '@components/ToastBox'
 import { IDataTableColumn } from 'react-data-table-component'
-import Table from 'components/SimpleTable'
-import { isEmpty } from 'utils'
+import Table from '@components/SimpleTable'
+import { isEmpty } from '@utils/index'
 import moment from 'moment'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 import { Collapse, Spinner, Row, Col, Alert } from 'reactstrap'
 import { Coffee } from 'react-feather'
 
@@ -136,7 +136,7 @@ const AssignTerritories = () => {
       const user = store.users.find((u) => u.id === parseInt(id))
       if (user !== undefined) {
         if (user.userTerritories) {
-          user.userTerritories.territories.map((t) => {
+          user.userTerritories.territories.map((t: any) => {
             if (t.id === row.id) {
               return t.id === row.id ? (isPresent = true) : false
             } else {

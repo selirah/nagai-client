@@ -21,11 +21,11 @@ import {
   UncontrolledTooltip
 } from 'reactstrap'
 import { List, Grid, Search, XCircle, Map } from 'react-feather'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import outletActions from 'redux/outlets/actions'
-import { Territory } from 'classes'
-import territoryActions from 'redux/terrirtories/actions'
+import outletActions from '@redux/outlets/actions'
+import { Territory } from '@classes/index'
+import territoryActions from '@redux/terrirtories/actions'
 
 interface Props {
   mainSidebar: boolean

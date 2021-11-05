@@ -1,8 +1,8 @@
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 import { Link } from 'react-router-dom'
-import notAuthImage from 'assets/images/pages/not-authorized.svg'
-import { PUBLIC_ROUTES } from 'router/constants'
-import themeConfig from 'theme/themeConfig'
+import notAuthImage from '@assets/images/pages/not-authorized.svg'
+import { PUBLIC_ROUTES } from '@router/constants'
+import themeConfig from '@theme/themeConfig'
 
 const NotAuthorized = () => (
   <div className="misc-wrapper">

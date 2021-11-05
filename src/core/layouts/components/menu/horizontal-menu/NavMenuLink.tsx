@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import navigation from 'navigation/horizontal'
+import navigation from '@navigation/horizontal'
 import classnames from 'classnames'
-import { /*isNavLinkActive,*/ search, getAllParents } from 'core/layouts/Utils'
+import { /*isNavLinkActive,*/ search, getAllParents } from '@core/layouts/Utils'
 
 interface NavMenuLinkProps {
   item: any

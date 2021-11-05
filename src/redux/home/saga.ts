@@ -1,8 +1,8 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
-import { callApiGet } from 'api'
+import { callApiGet } from '@api/index'
 import homeActions from './actions'
-import { Param } from 'classes'
+import { Param } from '@classes/Param'
 
 function* getOrderStats({
   payload

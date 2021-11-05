@@ -1,4 +1,4 @@
-import { Order, Param, Item } from 'classes'
+import { Order, Param, Item } from '@classes/index'
 
 export enum ActionTypes {
   SUBMITTING = '@@orders/SUBMITTING',

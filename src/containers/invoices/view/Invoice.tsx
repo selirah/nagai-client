@@ -1,5 +1,5 @@
 import React from 'react'
-import { Invoice } from 'classes'
+import { Invoice } from '@classes/index'
 import { Card, CardBody, CardTitle, CardHeader } from 'reactstrap'
 import InvoiceView from './InvoiceView'
 

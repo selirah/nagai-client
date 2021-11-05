@@ -1,8 +1,9 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
-import { callApiDelete, callApiPost, callApiPut, callApiGet } from 'api'
+import { callApiDelete, callApiPost, callApiPut, callApiGet } from '@api/index'
 import orderActions from './actions'
-import { OrderFields, Param } from 'classes'
+import { OrderFields } from '@classes/Order'
+import { Param } from '@classes/Param'
 
 function* addOrder({
   payload

@@ -1,4 +1,4 @@
-import { DeliveryStats } from 'classes'
+import { DeliveryStats } from '@classes/index'
 import { Reducer } from 'redux'
 import { HomeState, ActionTypes } from './types'
 

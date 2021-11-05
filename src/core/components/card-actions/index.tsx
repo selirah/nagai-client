@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 import classnames from 'classnames'
-import UILoader from 'core/components/ui-loader'
+import UILoader from '@core/components/ui-loader'
 import { ChevronDown, RotateCw, X } from 'react-feather'
 import { Card, CardHeader, CardTitle, Collapse } from 'reactstrap'
 

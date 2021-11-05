@@ -1,9 +1,9 @@
 import { useState, useCallback, Fragment } from 'react'
-import SearchBar from 'containers/users/SearchBar'
-import Sidebar from 'containers/users/Sidebar'
+import SearchBar from '@containers/users/SearchBar'
+import Sidebar from '@containers/users/Sidebar'
 import classnames from 'classnames'
 import UsersRoutes from './routes'
-import 'core/scss/react/apps/app-todo.scss'
+import '@core/scss/react/apps/app-todo.scss'
 
 const Users = () => {
   const [mainSidebar, setMainSidebar] = useState(false)

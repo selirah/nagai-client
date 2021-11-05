@@ -7,7 +7,7 @@ import {
   DropdownItem,
   DropdownToggle
 } from 'reactstrap'
-import { IntlContext } from 'contexts/i18n'
+import { IntlContext } from '@contexts/i18n'
 
 const langObj: any = {
   en: 'English',

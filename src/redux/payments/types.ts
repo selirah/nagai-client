@@ -1,4 +1,4 @@
-import { Payment, Param } from 'classes'
+import { Payment, Param } from '@classes/index'
 
 export enum ActionTypes {
   SUBMITTING = '@@payments/SUBMITTING',

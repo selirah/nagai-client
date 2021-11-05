@@ -1,27 +1,27 @@
 import { lazy, Suspense } from 'react'
 import { Route, useRouteMatch, Switch } from 'react-router-dom'
-import { Route as RR } from 'classes'
-import Spinner from 'components/Spinner'
+import { Route as RR } from '@classes/index'
+import Spinner from '@components/Spinner'
 
 const routes: RR[] = [
   {
     path: '',
-    component: lazy(() => import('containers/outlets/List')),
+    component: lazy(() => import('@containers/outlets/List')),
     exact: true
   },
   {
     path: 'map',
-    component: lazy(() => import('containers/outlets/MapView')),
+    component: lazy(() => import('@containers/outlets/MapView')),
     exact: true
   },
   {
     path: 'add/:id',
-    component: lazy(() => import('containers/outlets/Add')),
+    component: lazy(() => import('@containers/outlets/Add')),
     exact: true
   },
   {
     path: 'edit/:id',
-    component: lazy(() => import('containers/outlets/Edit')),
+    component: lazy(() => import('@containers/outlets/Edit')),
     exact: true
   }
 ]

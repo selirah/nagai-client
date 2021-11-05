@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
-import { Outlet } from 'classes'
+import { Outlet } from '@classes/index'
 import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
 import { IDataTableColumn } from 'react-data-table-component'
-import SimpleTable from 'components/SimpleTable'
+import SimpleTable from '@components/SimpleTable'
 import moment from 'moment'
 
 interface Props {

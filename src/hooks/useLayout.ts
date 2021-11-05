@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import themeConfig from 'theme/themeConfig'
+import themeConfig from '@theme/themeConfig'
 
 export const useLayout = () => {
   const [lastLayout, setLastLayout] = useState<any>(null)

@@ -1,4 +1,4 @@
-import { Territory, Param } from 'classes'
+import { Territory, Param } from '@classes/index'
 
 export enum ActionTypes {
   SUBMITTING = '@@territories/SUBMITTING',

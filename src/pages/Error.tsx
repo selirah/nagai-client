@@ -1,7 +1,7 @@
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 import { Link } from 'react-router-dom'
-import errorImage from 'assets/images/pages/error.svg'
-import 'core/scss/base/pages/page-misc.scss'
+import errorImage from '@assets/images/pages/error.svg'
+import '@core/scss/base/pages/page-misc.scss'
 
 const Error = () => (
   <div className="misc-wrapper">

@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { PaymentObj, Payment, Param, PaymentFields } from 'classes'
+import { PaymentObj, Payment, Param, PaymentFields } from '@classes/index'
 import { ActionTypes } from './types'
 
 const paymentActions = {

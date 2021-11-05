@@ -1,11 +1,11 @@
 import { useState, useCallback, Fragment, useEffect } from 'react'
-import SearchBar from 'containers/settings/SearchBar'
-import Sidebar from 'containers/settings/Sidebar'
+import SearchBar from '@containers/settings/SearchBar'
+import Sidebar from '@containers/settings/Sidebar'
 import classnames from 'classnames'
-import 'core/scss/react/apps/app-todo.scss'
+import '@core/scss/react/apps/app-todo.scss'
 import SettingsRoutes from './routes'
-import userActions from 'redux/users/actions'
-import { Dispatch } from 'redux/selector-dispatch'
+import userActions from '@redux/users/actions'
+import { Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 
 const { getCompanyRequest } = userActions

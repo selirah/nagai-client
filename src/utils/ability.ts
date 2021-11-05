@@ -1,6 +1,6 @@
 import { AbilityBuilder, Ability } from '@casl/ability'
-import abilities from 'router/can.constants'
-import { isUserLoggedIn } from 'utils'
+import abilities from '@router/can.constants'
+import { isUserLoggedIn } from '@utils/index'
 
 export const userRoles = {
   admin: 'admin',

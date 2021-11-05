@@ -6,25 +6,25 @@ import {
   useMemo,
   useRef
 } from 'react'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import deliveryActions from 'redux/deliveries/actions'
-import { Delivery, OrderStatus } from 'classes'
+import deliveryActions from '@redux/deliveries/actions'
+import { Delivery, OrderStatus } from '@classes/index'
 import { Link } from 'react-router-dom'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import moment from 'moment'
 import Drawer from './Drawer'
 import { IDataTableColumn } from 'react-data-table-component'
 import { Edit3, Trash, AlertTriangle, Map } from 'react-feather'
-import Table from 'components/DataTable'
-import { deleteConfirmMessage, deleteDone } from 'utils/index'
+import Table from '@components/DataTable'
+import { deleteConfirmMessage, deleteDone } from '@utils/index'
 import SWAL from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { Badge } from 'reactstrap'
 import ExpandedRow from './ExpandedRow'
-import { userRoles } from 'utils/ability'
+import { userRoles } from '@utils/ability'
 import { toast, Slide } from 'react-toastify'
-import ToastBox from 'components/ToastBox'
+import ToastBox from '@components/ToastBox'
 
 const {
   getDeliveriesRequest,

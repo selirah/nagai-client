@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 import { Edit3 } from 'react-feather'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import userActions from 'redux/users/actions'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
+import userActions from '@redux/users/actions'
 import { useDispatch } from 'react-redux'
 
 interface Props {

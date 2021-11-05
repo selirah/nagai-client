@@ -1,12 +1,12 @@
 import { useEffect, useState, Fragment, useCallback } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import stockActions from 'redux/stock/actions'
-import { StockFields, OptionKey, Product } from 'classes'
+import stockActions from '@redux/stock/actions'
+import { StockFields, OptionKey, Product } from '@classes/index'
 import { toast, Slide } from 'react-toastify'
-import RippleButton from 'core/components/ripple-button'
-import ToastBox from 'components/ToastBox'
+import RippleButton from '@core/components/ripple-button'
+import ToastBox from '@components/ToastBox'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import {
@@ -24,9 +24,9 @@ import {
 import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
-import SelectComponent from 'components/Select'
-import DatePickerComponent from 'components/DatePicker'
-import productActions from 'redux/products/actions'
+import SelectComponent from '@components/Select'
+import DatePickerComponent from '@components/DatePicker'
+import productActions from '@redux/products/actions'
 
 const { updateStockRequest, clearStates, setActiveLink } = stockActions
 const { setProduct } = productActions

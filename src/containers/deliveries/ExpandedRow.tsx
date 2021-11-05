@@ -1,16 +1,16 @@
 import { useMemo, useCallback } from 'react'
-import { Delivery, Item, OrderStatus } from 'classes'
+import { Delivery, Item, OrderStatus } from '@classes/index'
 import DataTable, {
   createTheme,
   IDataTableStyles,
   IDataTableColumn
 } from 'react-data-table-component'
 import { ArrowDown, Map } from 'react-feather'
-import RippleButton from 'core/components/ripple-button'
-import { Selector } from 'redux/selector-dispatch'
+import RippleButton from '@core/components/ripple-button'
+import { Selector } from '@redux/selector-dispatch'
 import { Badge } from 'reactstrap'
-import { numberWithCommas } from 'utils/index'
-import { userRoles } from 'utils/ability'
+import { numberWithCommas } from '@utils/index'
+import { userRoles } from '@utils/ability'
 
 const customStyles: IDataTableStyles = {
   rows: {

@@ -8,8 +8,8 @@ import {
 } from 'reactstrap'
 import { Search, Menu } from 'react-feather'
 import { useDispatch } from 'react-redux'
-import { Dispatch, Selector } from 'redux/selector-dispatch'
-import productActions from 'redux/products/actions'
+import { Dispatch, Selector } from '@redux/selector-dispatch'
+import productActions from '@redux/products/actions'
 
 interface Props {
   handleMainSidebar: () => void

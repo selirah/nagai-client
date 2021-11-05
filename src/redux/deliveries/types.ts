@@ -1,4 +1,4 @@
-import { Delivery, Param, Tracking } from 'classes'
+import { Delivery, Param, Tracking } from '@classes/index'
 
 export enum ActionTypes {
   SUBMITTING = '@@deliveries/SUBMITTING',

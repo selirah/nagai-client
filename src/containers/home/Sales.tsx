@@ -9,13 +9,13 @@ import {
   ResponsiveContainer,
   Tooltip
 } from 'recharts'
-import { SaleStats } from 'classes'
+import { SaleStats } from '@classes/index'
 import { useDispatch } from 'react-redux'
-import { Dispatch, Selector } from 'redux/selector-dispatch'
-import homeActions from 'redux/home/actions'
+import { Dispatch, Selector } from '@redux/selector-dispatch'
+import homeActions from '@redux/home/actions'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 import { PuffLoader } from 'react-spinners'
 
 const { getSaleStatRequest, setQueryParams, setActiveLink } = homeActions

@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { SaleObj, Sale, Param, SaleFields } from 'classes'
+import { SaleObj, Sale, Param, SaleFields } from '@classes/index'
 import { ActionTypes } from './types'
 
 const saleActions = {

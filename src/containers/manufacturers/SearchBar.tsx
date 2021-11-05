@@ -12,8 +12,8 @@ import {
 } from 'reactstrap'
 import { Search, MoreVertical, Menu } from 'react-feather'
 import { useDispatch } from 'react-redux'
-import { Dispatch, Selector } from 'redux/selector-dispatch'
-import manufacturerActions from 'redux/manufacturers/actions'
+import { Dispatch, Selector } from '@redux/selector-dispatch'
+import manufacturerActions from '@redux/manufacturers/actions'
 
 interface Props {
   handleMainSidebar: () => void

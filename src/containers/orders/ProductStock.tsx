@@ -1,15 +1,15 @@
 import { useEffect, useState, Fragment, useCallback, ChangeEvent } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import orderActions from 'redux/orders/actions'
-import { Stock, Item } from 'classes'
-import EmptyStock from 'components/EmptyStock'
+import orderActions from '@redux/orders/actions'
+import { Stock, Item } from '@classes/index'
+import EmptyStock from '@components/EmptyStock'
 import { PuffLoader } from 'react-spinners'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 import { toast, Slide } from 'react-toastify'
-import ToastBox from 'components/ToastBox'
+import ToastBox from '@components/ToastBox'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Form, FormGroup, Label, Input, Row, Col, CardTitle } from 'reactstrap'
@@ -156,7 +156,7 @@ const ProductStock = () => {
               src={
                 ps.product.avatar
                   ? ps.product.avatar
-                  : require('assets/images/icons/received.svg').default
+                  : require('@assets/images/icons/received.svg').default
               }
               width={100}
               alt=""

@@ -1,4 +1,4 @@
-import { Category } from 'classes'
+import { Category } from '@classes/index'
 
 export enum ActionTypes {
   SUBMITTING = '@@categories/SUBMITTING',

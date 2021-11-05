@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 
 interface Props {
   productId: string
@@ -15,7 +15,7 @@ const EmptyStock: React.FC<Props> = (props) => {
         <h4>Product not Stocked</h4>
         <img
           alt="empty"
-          src={require('assets/images/icons/empty-box.svg').default}
+          src={require('@assets/images/icons/empty-box.svg').default}
           width={100}
         />
         <p>

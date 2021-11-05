@@ -3,9 +3,9 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import classnames from 'classnames'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 import * as Icons from 'react-feather'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import homeActions from 'redux/home/actions'
+import homeActions from '@redux/home/actions'
 
 interface Props {
   mainSidebar: boolean

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 import { PlusCircle, List, Grid } from 'react-feather'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import territoryActions from 'redux/terrirtories/actions'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
+import territoryActions from '@redux/terrirtories/actions'
 import { useDispatch } from 'react-redux'
 
 interface Props {

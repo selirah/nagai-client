@@ -2,12 +2,12 @@ import React, { ChangeEvent, useCallback, useState } from 'react'
 import { InputGroup, Input, Button } from 'reactstrap'
 import { Menu } from 'react-feather'
 import { useDispatch } from 'react-redux'
-import { Dispatch, Selector } from 'redux/selector-dispatch'
-import orderActions from 'redux/orders/actions'
+import { Dispatch, Selector } from '@redux/selector-dispatch'
+import orderActions from '@redux/orders/actions'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import Select, { components } from 'react-select'
-import { OrderStatus } from 'classes'
+import { OrderStatus } from '@classes/index'
 
 const { Option } = components
 

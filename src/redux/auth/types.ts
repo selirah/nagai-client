@@ -1,4 +1,4 @@
-import { User } from 'classes'
+import { User } from '@classes/index'
 
 export enum ActionTypes {
   SUBMITTING = '@@auth/SUBMITTING',

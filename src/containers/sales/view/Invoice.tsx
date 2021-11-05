@@ -1,5 +1,5 @@
 import React from 'react'
-import { Sale } from 'classes'
+import { Sale } from '@classes/index'
 import { Card, CardBody, CardTitle, CardHeader } from 'reactstrap'
 
 interface Props {
@@ -46,7 +46,7 @@ const Invoice: React.FC<Props> = (props) => {
                     src={
                       ct.product.avatar
                         ? ct.product.avatar
-                        : require('assets/images/icons/received.svg').default
+                        : require('@assets/images/icons/received.svg').default
                     }
                     alt=""
                     loading="lazy"

@@ -3,8 +3,8 @@ import { NavLink, useLocation, matchPath } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Badge } from 'reactstrap'
 import classnames from 'classnames'
-import navigation from 'navigation/vertical'
-import { search, getAllParents } from 'core/layouts/Utils'
+import navigation from '@navigation/vertical'
+import { search, getAllParents } from '@core/layouts/Utils'
 
 interface NavMenuLinkProps {
   item: any

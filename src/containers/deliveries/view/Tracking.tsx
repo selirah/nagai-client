@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { Tracking } from 'classes'
+import { Tracking } from '@classes/index'
 import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api'
-import { MapStylesDarkMode } from 'components/MapStyles'
+import { MapStylesDarkMode } from '@components/MapStyles'
 
 const center = {
   lat: 6.700071,
@@ -45,8 +45,8 @@ const MapMarker: React.FC<Props> = (props) => {
   const icon = {
     url:
       mode === 'dark'
-        ? require('assets/images/icons/greenMarker.png').default
-        : require('assets/images/icons/redMarker.png').default,
+        ? require('@assets/images/icons/greenMarker.png').default
+        : require('@assets/images/icons/redMarker.png').default,
     scaledSize: new google.maps.Size(30, 30),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(15, 0)
@@ -105,8 +105,8 @@ const TrackingComponent: React.FC<TrackingProps> = (props) => {
   const icon = {
     url:
       mode === 'dark'
-        ? require('assets/images/icons/delivery-truck.png').default
-        : require('assets/images/icons/delivery-truck.png').default,
+        ? require('@assets/images/icons/delivery-truck.png').default
+        : require('@assets/images/icons/delivery-truck.png').default,
     scaledSize: new google.maps.Size(30, 30),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(15, 0)

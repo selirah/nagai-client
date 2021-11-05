@@ -1,4 +1,4 @@
-import { Unit, Region, Territory, Outlet, Tax, DBUser } from 'classes'
+import { Unit, Region, Territory, Outlet, Tax, DBUser } from '@classes/index'
 
 export enum ActionTypes {
   GET_REGIONS_REQUEST = '@@utils/GET_REGIONS_REQUEST',

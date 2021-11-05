@@ -1,19 +1,19 @@
 import { useEffect, useCallback, useState, useRef } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import ForgottenForm from 'containers/auth/ForgottenForm'
-import { ResetResendFields } from 'classes'
-import authActions from 'redux/auth/actions'
+import ForgottenForm from '@containers/auth/ForgottenForm'
+import { ResetResendFields } from '@classes/index'
+import authActions from '@redux/auth/actions'
 import { useDispatch } from 'react-redux'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import { PRIVATE_ROUTES, PUBLIC_ROUTES } from 'router/constants'
-import { useLayoutMode } from 'hooks'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '@router/constants'
+import { useLayoutMode } from '@hooks/index'
 import { Coffee } from 'react-feather'
 import { toast, Slide } from 'react-toastify'
 import { Row, Col, CardTitle, CardText, Label } from 'reactstrap'
 import Logo from './Logo'
-import 'core/scss/base/pages/page-auth.scss'
-import themeConfig from 'theme/themeConfig'
-import ToastBox from 'components/ToastBox'
+import '@core/scss/base/pages/page-auth.scss'
+import themeConfig from '@theme/themeConfig'
+import ToastBox from '@components/ToastBox'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 const { resetPasswordRequest, clearStates } = authActions
@@ -31,7 +31,7 @@ const Forgotten = () => {
   }
   const illustration =
     mode === 'dark' ? 'forgot-password-v2-dark.svg' : 'forgot-password-v2.svg'
-  const source = require(`assets/images/pages/${illustration}`).default
+  const source = require(`@assets/images/pages/${illustration}`).default
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState(null)
   const [load, setLoad] = useState(false)

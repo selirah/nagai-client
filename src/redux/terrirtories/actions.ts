@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { TerritoryObj, Territory, TerritoryFields, Param } from 'classes'
+import { TerritoryObj, Territory, TerritoryFields, Param } from '@classes/index'
 import { ActionTypes } from './types'
 
 const territoryActions = {

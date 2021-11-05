@@ -1,5 +1,11 @@
 import { action } from 'typesafe-actions'
-import { OutletObj, Outlet, OutletFields, Param, OrderObj } from 'classes'
+import {
+  OutletObj,
+  Outlet,
+  OutletFields,
+  Param,
+  OrderObj
+} from '@classes/index'
 import { ActionTypes } from './types'
 
 const outletActions = {

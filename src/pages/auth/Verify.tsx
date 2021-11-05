@@ -1,19 +1,19 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useHistory, Link } from 'react-router-dom'
-import VerifyForm from 'containers/auth/VerifyForm'
-import { VerifyFields, ResetResendFields } from 'classes'
-import authActions from 'redux/auth/actions'
+import VerifyForm from '@containers/auth/VerifyForm'
+import { VerifyFields, ResetResendFields } from '@classes/index'
+import authActions from '@redux/auth/actions'
 import { useDispatch } from 'react-redux'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import { PRIVATE_ROUTES, PUBLIC_ROUTES } from 'router/constants'
-import { useLayoutMode, useTimer } from 'hooks'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '@router/constants'
+import { useLayoutMode, useTimer } from '@hooks/index'
 import { Coffee } from 'react-feather'
 import { toast, Slide } from 'react-toastify'
 import { Row, Col, CardTitle, CardText, Label, Spinner } from 'reactstrap'
 import Logo from './Logo'
-import 'core/scss/base/pages/page-auth.scss'
-import themeConfig from 'theme/themeConfig'
-import ToastBox from 'components/ToastBox'
+import '@core/scss/base/pages/page-auth.scss'
+import themeConfig from '@theme/themeConfig'
+import ToastBox from '@components/ToastBox'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 const { verificationRequest, clearStates, resendCodeRequest } = authActions
@@ -39,7 +39,7 @@ const Verify = () => {
 
   const illustration =
     mode === 'dark' ? 'reset-password-v2-dark.svg' : 'reset-password-v2.svg'
-  const source = require(`assets/images/pages/${illustration}`).default
+  const source = require(`@assets/images/pages/${illustration}`).default
 
   const onVerifySubmit = useCallback(
     (values: VerifyFields) => {

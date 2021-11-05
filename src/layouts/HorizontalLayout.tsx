@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from 'core/layouts/HorizontalLayout'
+import Layout from '@core/layouts/HorizontalLayout'
 
 interface HorizontalLayoutProps {
   navbar: any

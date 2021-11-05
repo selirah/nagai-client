@@ -1,7 +1,7 @@
 import React from 'react'
-import { Outlet as Out } from 'classes'
+import { Outlet as Out } from '@classes/index'
 import { Card, CardHeader, CardBody, Badge } from 'reactstrap'
-import { getInitials } from 'utils/index'
+import { getInitials } from '@utils/index'
 
 interface Props {
   outlet: Out | null

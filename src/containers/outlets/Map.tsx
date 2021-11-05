@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api'
-import { MapStylesDarkMode } from 'components/MapStyles'
-import { Outlet } from 'classes'
+import { MapStylesDarkMode } from '@components/MapStyles'
+import { Outlet } from '@classes/index'
 
 const center = {
   lat: 6.700071,
@@ -44,8 +44,8 @@ const MapMarker: React.FC<Props> = (props) => {
   const icon = {
     url:
       mode === 'dark'
-        ? require('assets/images/icons/greenMarker.png').default
-        : require('assets/images/icons/redMarker.png').default,
+        ? require('@assets/images/icons/greenMarker.png').default
+        : require('@assets/images/icons/redMarker.png').default,
     scaledSize: new google.maps.Size(30, 30),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(15, 0)

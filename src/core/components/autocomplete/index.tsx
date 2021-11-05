@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom'
 import classnames from 'classnames'
 import { AlertCircle } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { useOnClickOutside } from 'hooks'
+import { useOnClickOutside } from '@hooks/index'
 import 'scss/base/bootstrap-extended/_include.scss'
 import './index.scss'
 

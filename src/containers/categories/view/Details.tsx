@@ -1,8 +1,8 @@
 import React from 'react'
 import moment from 'moment'
-import { Category } from 'classes'
+import { Category } from '@classes/index'
 import { Card, CardHeader, CardBody, Badge } from 'reactstrap'
-import { getInitials } from 'utils/index'
+import { getInitials } from '@utils/index'
 
 interface Props {
   category: Category | null

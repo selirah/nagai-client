@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 import { DollarSign } from 'react-feather'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import paymentActions from 'redux/payments/actions'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
+import paymentActions from '@redux/payments/actions'
 import { useDispatch } from 'react-redux'
 
 interface Props {

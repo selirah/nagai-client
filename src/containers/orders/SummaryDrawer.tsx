@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState, useCallback } from 'react'
 import { ShoppingBag, X } from 'react-feather'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 import {
   Modal,
   ModalBody,
@@ -10,17 +10,17 @@ import {
   Collapse,
   Spinner
 } from 'reactstrap'
-import { InvoiceFields, OrderFields, SaleFields } from 'classes'
-import EmptyCart from 'components/EmptyCart'
-import orderActions from 'redux/orders/actions'
-import invoiceActions from 'redux/invoices/actions'
-import stockActions from 'redux/stock/actions'
-import saleActions from 'redux/sales/actions'
+import { InvoiceFields, OrderFields, SaleFields } from '@classes/index'
+import EmptyCart from '@components/EmptyCart'
+import orderActions from '@redux/orders/actions'
+import invoiceActions from '@redux/invoices/actions'
+import stockActions from '@redux/stock/actions'
+import saleActions from '@redux/sales/actions'
 import { useHistory } from 'react-router-dom'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import { toast, Slide } from 'react-toastify'
-import ToastBox from 'components/ToastBox'
+import ToastBox from '@components/ToastBox'
 
 interface Props {
   toggleDrawer: boolean
@@ -164,7 +164,7 @@ const SummaryDrawer: React.FC<Props> = (props) => {
                     src={
                       ct.product.avatar
                         ? ct.product.avatar
-                        : require('assets/images/icons/received.svg').default
+                        : require('@assets/images/icons/received.svg').default
                     }
                     alt=""
                     loading="lazy"

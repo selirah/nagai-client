@@ -1,4 +1,4 @@
-import { Category } from 'classes'
+import { Category } from '@classes/index'
 import { Reducer } from 'redux'
 import { CategoryState, ActionTypes } from './types'
 

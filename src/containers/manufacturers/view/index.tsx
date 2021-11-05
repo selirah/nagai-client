@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Selector } from 'redux/selector-dispatch'
+import { Selector } from '@redux/selector-dispatch'
 import { Row, Col } from 'reactstrap'
 import Details from './Details'
 import MapLayout from './MapLayout'

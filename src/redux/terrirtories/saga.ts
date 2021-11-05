@@ -1,8 +1,9 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
-import { callApiDelete, callApiPost, callApiPut, callApiGet } from 'api'
+import { callApiDelete, callApiPost, callApiPut, callApiGet } from '@api/index'
 import territoryActions from './actions'
-import { TerritoryFields, Param } from 'classes'
+import { TerritoryFields } from '@classes/Territory'
+import { Param } from '@classes/Param'
 
 function* addTerritory({
   payload

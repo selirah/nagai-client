@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { Route } from 'classes'
+import { Route } from '@classes/Route'
 import { PUBLIC_ROUTES, PRIVATE_ROUTES } from './constants'
 import abilities from './can.constants'
 
@@ -9,7 +9,7 @@ const DefaultRoute = PRIVATE_ROUTES.HOME
 const Routes: Route[] = [
   {
     path: PRIVATE_ROUTES.HOME,
-    component: lazy(() => import('pages/home')),
+    component: lazy(() => import('@pages/home')),
     exact: true,
     meta: {
       resource: abilities.Home,
@@ -18,7 +18,7 @@ const Routes: Route[] = [
   },
   {
     path: PUBLIC_ROUTES.SIGN_IN,
-    component: lazy(() => import('pages/auth/Login')),
+    component: lazy(() => import('@pages/auth/Login')),
     layout: 'BlankLayout',
     meta: {
       authRoute: true
@@ -26,7 +26,7 @@ const Routes: Route[] = [
   },
   {
     path: PUBLIC_ROUTES.SIGN_UP,
-    component: lazy(() => import('pages/auth/Register')),
+    component: lazy(() => import('@pages/auth/Register')),
     layout: 'BlankLayout',
     meta: {
       authRoute: true
@@ -34,7 +34,7 @@ const Routes: Route[] = [
   },
   {
     path: PUBLIC_ROUTES.VERIFY_ACCOUNT,
-    component: lazy(() => import('pages/auth/Verify')),
+    component: lazy(() => import('@pages/auth/Verify')),
     layout: 'BlankLayout',
     meta: {
       authRoute: true
@@ -42,7 +42,7 @@ const Routes: Route[] = [
   },
   {
     path: PUBLIC_ROUTES.FORGOT_PASSWORD,
-    component: lazy(() => import('pages/auth/Forgotten')),
+    component: lazy(() => import('@pages/auth/Forgotten')),
     layout: 'BlankLayout',
     meta: {
       authRoute: true
@@ -50,12 +50,12 @@ const Routes: Route[] = [
   },
   {
     path: PUBLIC_ROUTES.ERROR,
-    component: lazy(() => import('pages/Error')),
+    component: lazy(() => import('@pages/Error')),
     layout: 'BlankLayout'
   },
   {
     path: PRIVATE_ROUTES.MANUFACTURERS,
-    component: lazy(() => import('pages/manufacturers')),
+    component: lazy(() => import('@pages/manufacturers')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -66,7 +66,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.CATEGORIES,
-    component: lazy(() => import('pages/categories')),
+    component: lazy(() => import('@pages/categories')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -77,7 +77,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.PRODUCTS,
-    component: lazy(() => import('pages/products')),
+    component: lazy(() => import('@pages/products')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -88,7 +88,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.STOCK,
-    component: lazy(() => import('pages/stock')),
+    component: lazy(() => import('@pages/stock')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -99,7 +99,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.TERRITORIES,
-    component: lazy(() => import('pages/territories')),
+    component: lazy(() => import('@pages/territories')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -110,7 +110,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.OUTLETS,
-    component: lazy(() => import('pages/outlets')),
+    component: lazy(() => import('@pages/outlets')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -121,7 +121,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.USERS,
-    component: lazy(() => import('pages/users')),
+    component: lazy(() => import('@pages/users')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -132,7 +132,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.ORDERS,
-    component: lazy(() => import('pages/orders')),
+    component: lazy(() => import('@pages/orders')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -143,7 +143,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.INVOICES,
-    component: lazy(() => import('pages/invoices')),
+    component: lazy(() => import('@pages/invoices')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -154,7 +154,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.DELIVERIES,
-    component: lazy(() => import('pages/deliveries')),
+    component: lazy(() => import('@pages/deliveries')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -165,7 +165,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.SALES,
-    component: lazy(() => import('pages/sales')),
+    component: lazy(() => import('@pages/sales')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -176,7 +176,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.PAYMENTS,
-    component: lazy(() => import('pages/payments')),
+    component: lazy(() => import('@pages/payments')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -187,7 +187,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.PROFILE,
-    component: lazy(() => import('pages/profile')),
+    component: lazy(() => import('@pages/profile')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -198,7 +198,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.SETTINGS,
-    component: lazy(() => import('pages/settings')),
+    component: lazy(() => import('@pages/settings')),
     exact: false,
     className: 'todo-application',
     appLayout: true,
@@ -209,7 +209,7 @@ const Routes: Route[] = [
   },
   {
     path: PRIVATE_ROUTES.REPORTS,
-    component: lazy(() => import('pages/reports')),
+    component: lazy(() => import('@pages/reports')),
     exact: false,
     className: 'todo-application',
     appLayout: true,

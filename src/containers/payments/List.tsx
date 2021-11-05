@@ -1,15 +1,15 @@
 import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import paymentActions from 'redux/payments/actions'
-import { Payment } from 'classes'
+import paymentActions from '@redux/payments/actions'
+import { Payment } from '@classes/index'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import moment from 'moment'
 import { IDataTableColumn } from 'react-data-table-component'
-import Table from 'components/DataTable'
+import Table from '@components/DataTable'
 import { Edit3 } from 'react-feather'
 import { Link } from 'react-router-dom'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 
 const {
   getPaymentsRequest,

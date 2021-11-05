@@ -1,11 +1,11 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
-import { callApiPost } from 'api'
+import { callApiPost } from '@api/index'
 import jwtDecode from 'jwt-decode'
-import { authorization } from 'utils/authorization'
+import { authorization } from '@utils/authorization'
 import authActions from './actions'
-import { LoginFields, RegisterFields, User, Auth } from 'classes'
-import { setItem } from 'utils/localstorage'
+import { LoginFields, RegisterFields, User, Auth } from '@classes/Auth'
+import { setItem } from '@utils/localstorage'
 
 function setAuthorization(token: string): User {
   const user: User = jwtDecode(JSON.stringify({ token }))

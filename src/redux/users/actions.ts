@@ -7,7 +7,7 @@ import {
   UserTerritoryFields,
   ChangePassword,
   Company
-} from 'classes'
+} from '@classes/index'
 import { ActionTypes } from './types'
 
 const userActions = {

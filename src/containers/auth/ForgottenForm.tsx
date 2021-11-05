@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { ResetResendFields } from 'classes'
+import { ResetResendFields } from '@classes/index'
 import {
   Form,
   FormGroup,
@@ -13,7 +13,7 @@ import {
   Col,
   Alert
 } from 'reactstrap'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 
 interface Props {
   initialValues: ResetResendFields

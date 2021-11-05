@@ -1,17 +1,17 @@
 import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import saleActions from 'redux/sales/actions'
-import { Sale, SaleStatus } from 'classes'
+import saleActions from '@redux/sales/actions'
+import { Sale, SaleStatus } from '@classes/index'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import moment from 'moment'
 import Drawer from './Drawer'
 import { IDataTableColumn } from 'react-data-table-component'
-import Table from 'components/DataTable'
+import Table from '@components/DataTable'
 import { Badge } from 'reactstrap'
 import { Edit3 } from 'react-feather'
 import { Link } from 'react-router-dom'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 
 const { getSalesRequest, clearStates, setActiveLink, setQueryParams, setSale } =
   saleActions

@@ -1,4 +1,4 @@
-import { DBUser, Param, Company } from 'classes'
+import { DBUser, Param, Company } from '@classes/index'
 
 export enum ActionTypes {
   SUBMITTING = '@@users/SUBMITTING',

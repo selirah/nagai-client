@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useState, useEffect } from 'react'
-import { Outlet } from 'classes'
+import { Outlet } from '@classes/index'
 import { Card, CardHeader, CardBody, CardTitle } from 'reactstrap'
 import {
   GoogleMap,
@@ -7,13 +7,13 @@ import {
   InfoWindow,
   DirectionsRenderer
 } from '@react-google-maps/api'
-import { MapStylesDarkMode } from 'components/MapStyles'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { MapStylesDarkMode } from '@components/MapStyles'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
 import { toast, Slide } from 'react-toastify'
-import ToastBox from 'components/ToastBox'
+import ToastBox from '@components/ToastBox'
 import { AlertTriangle } from 'react-feather'
-import utilsActions from 'redux/utils/actions'
+import utilsActions from '@redux/utils/actions'
 
 const { googleDirectionRequest, clearStates } = utilsActions
 
@@ -63,8 +63,8 @@ const MapMarker: React.FC<Props> = (props) => {
   const icon = {
     url:
       mode === 'dark'
-        ? require('assets/images/icons/greenMarker.png').default
-        : require('assets/images/icons/redMarker.png').default,
+        ? require('@assets/images/icons/greenMarker.png').default
+        : require('@assets/images/icons/redMarker.png').default,
     scaledSize: new google.maps.Size(30, 30),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(15, 0)
@@ -137,8 +137,8 @@ const Location: React.FC<LocationProps> = (props) => {
   const icon = {
     url:
       theme === 'dark'
-        ? require('assets/images/icons/manMarkerDark.png').default
-        : require('assets/images/icons/manMarkerLight.png').default,
+        ? require('@assets/images/icons/manMarkerDark.png').default
+        : require('@assets/images/icons/manMarkerLight.png').default,
     scaledSize: new google.maps.Size(30, 30),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(15, 0)

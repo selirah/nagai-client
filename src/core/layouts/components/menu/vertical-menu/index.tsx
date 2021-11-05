@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useRef } from 'react'
-import navigation from 'navigation/vertical'
+import navigation from '@navigation/vertical'
 import classnames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import NavMenuHeader from './NavMenuHeader'

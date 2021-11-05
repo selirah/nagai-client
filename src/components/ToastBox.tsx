@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import Avatar from 'core/components/avatar'
+import Avatar from '@core/components/avatar'
 
 interface ToastBoxProps {
   color: 'success' | 'warning' | 'danger' | 'info' | 'dark' | 'primary'

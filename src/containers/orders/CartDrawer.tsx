@@ -1,11 +1,10 @@
 import React from 'react'
-import { ShoppingBag, X } from 'react-feather'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 import { Modal, ModalBody } from 'reactstrap'
 import { Link } from 'react-router-dom'
-import { Item } from 'classes'
-import EmptyCart from 'components/EmptyCart'
-import { Trash2, Trash } from 'react-feather'
+import { Item } from '@classes/Order'
+import EmptyCart from '@components/EmptyCart'
+import { Trash2, Trash, ShoppingBag, X } from 'react-feather'
 
 interface Props {
   toggleDrawer: boolean
@@ -96,7 +95,7 @@ const CartDrawer: React.FC<Props> = (props) => {
                           src={
                             ct.product.avatar
                               ? ct.product.avatar
-                              : require('assets/images/icons/received.svg')
+                              : require('@assets/images/icons/received.svg')
                                   .default
                           }
                           alt=""

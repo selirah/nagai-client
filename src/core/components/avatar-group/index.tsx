@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import classnames from 'classnames'
 import { UncontrolledTooltip } from 'reactstrap'
-import Avatar from 'core/components/avatar'
+import Avatar from '@core/components/avatar'
 
 interface AvatarGroupProps {
   data: any[]

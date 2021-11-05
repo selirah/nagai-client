@@ -1,5 +1,11 @@
 import { action } from 'typesafe-actions'
-import { DeliveryObj, Delivery, Param, DeliveryFields, Tracking } from 'classes'
+import {
+  DeliveryObj,
+  Delivery,
+  Param,
+  DeliveryFields,
+  Tracking
+} from '@classes/index'
 import { ActionTypes } from './types'
 
 const deliveryActions = {

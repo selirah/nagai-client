@@ -1,8 +1,8 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
-import { callApiDelete, callApiPost, callApiPut, callApiGet } from 'api'
+import { callApiDelete, callApiPost, callApiPut, callApiGet } from '@api/index'
 import categoriesActions from './actions'
-import { Category } from 'classes'
+import { Category } from '@classes/Category'
 
 function* addCategory({
   payload

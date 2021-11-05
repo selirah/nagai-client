@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { AbilityContext } from 'contexts/Can'
+import { AbilityContext } from '@contexts/Can'
 
 /**
  * Return which component to render based on it's data/context

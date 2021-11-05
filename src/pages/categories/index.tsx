@@ -1,8 +1,8 @@
 import { useState, useCallback, Fragment } from 'react'
-import SearchBar from 'containers/categories/Searchbar'
-import Sidebar from 'containers/categories/Sidebar'
+import SearchBar from '@containers/categories/Searchbar'
+import Sidebar from '@containers/categories/Sidebar'
 import classnames from 'classnames'
-import 'core/scss/react/apps/app-todo.scss'
+import '@core/scss/react/apps/app-todo.scss'
 import CategoryRoutes from './routes'
 
 const Categories = () => {

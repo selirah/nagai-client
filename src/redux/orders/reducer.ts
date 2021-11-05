@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 import { OrderState, ActionTypes } from './types'
-import { OrderStatus } from 'classes'
+import { OrderStatus } from '@classes/Order'
 
 export const initialState: OrderState = {
   activeLink: 'list',

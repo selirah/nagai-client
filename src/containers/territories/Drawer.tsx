@@ -1,8 +1,8 @@
 import React from 'react'
 import { X, Edit3 } from 'react-feather'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 import { Modal, ModalBody } from 'reactstrap'
-import { Selector } from 'redux/selector-dispatch'
+import { Selector } from '@redux/selector-dispatch'
 import View from './view'
 import { Link } from 'react-router-dom'
 

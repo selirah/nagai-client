@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import navigation from 'navigation/horizontal'
+import navigation from '@navigation/horizontal'
 import NavMenuItems from './NavMenuItems'
 
 interface HorizontalMenuProps {

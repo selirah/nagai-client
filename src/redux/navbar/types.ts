@@ -1,4 +1,4 @@
-import { Bookmark } from 'classes'
+import { Bookmark } from '@classes/index'
 
 export enum ActionTypes {
   HANDLE_SEARCH_QUERY = '@@navbar/HANDLE_SEARCH_QUERY',

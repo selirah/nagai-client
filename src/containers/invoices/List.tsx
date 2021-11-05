@@ -1,13 +1,13 @@
 import { useEffect, useState, Fragment, useCallback, useMemo } from 'react'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import invoiceActions from 'redux/invoices/actions'
-import { Invoice } from 'classes'
+import invoiceActions from '@redux/invoices/actions'
+import { Invoice } from '@classes/index'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import moment from 'moment'
 import Drawer from './Drawer'
 import { IDataTableColumn } from 'react-data-table-component'
-import Table from 'components/DataTable'
+import Table from '@components/DataTable'
 
 const {
   getInvoicesRequest,

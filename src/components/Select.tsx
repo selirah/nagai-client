@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import Select from 'react-select'
-import { OptionKey } from 'classes'
+import { OptionKey } from '@classes/index'
 
 interface Option {
   label: string

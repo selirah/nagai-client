@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import classnames from 'classnames'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import layoutActions from 'redux/layout/actions'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
+import layoutActions from '@redux/layout/actions'
 import 'animate.css/animate.css'
 
 interface LayoutWrapperProps {

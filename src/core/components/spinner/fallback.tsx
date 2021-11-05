@@ -1,4 +1,4 @@
-import logo from 'assets/images/logo/logo.png'
+import logo from '@assets/images/logo/logo.png'
 
 const FallbackSpinner = () => (
   <div className="fallback-spinner vh-100">

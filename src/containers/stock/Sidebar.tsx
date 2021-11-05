@@ -21,11 +21,11 @@ import {
   UncontrolledTooltip
 } from 'reactstrap'
 import { List, Grid, Search, XCircle } from 'react-feather'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import stockActions from 'redux/stock/actions'
-import { Product } from 'classes'
-import productActions from 'redux/products/actions'
+import stockActions from '@redux/stock/actions'
+import { Product } from '@classes/index'
+import productActions from '@redux/products/actions'
 
 interface Props {
   mainSidebar: boolean

@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { User, LoginFields, RegisterFields, Auth } from 'classes'
+import { User, LoginFields, RegisterFields, Auth } from '@classes/index'
 import { ActionTypes } from './types'
 
 const authActions = {

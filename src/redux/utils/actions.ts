@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { Region, Unit, Territory, Outlet, Tax, DBUser } from 'classes'
+import { Region, Unit, Territory, Outlet, Tax, DBUser } from '@classes/index'
 import { ActionTypes } from './types'
 
 const utilsActions = {

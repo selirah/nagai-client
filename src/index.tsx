@@ -1,23 +1,23 @@
 import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import reportWebVitals from './reportWebVitals'
-import { configureStore } from 'redux/store'
+import { configureStore } from '@redux/store'
 import { ToastContainer } from 'react-toastify'
-import { ThemeContext } from 'contexts/Theme'
-import { LocaleWrapper } from 'contexts/i18n'
-import { PUBLIC_ROUTES } from 'router/constants'
-import { authorization } from 'utils/authorization'
-import authActions from 'redux/auth/actions'
-import { getItem, removeItem } from 'utils/localstorage'
-import { User } from 'classes'
+import { ThemeContext } from '@contexts/Theme'
+import { LocaleWrapper } from '@contexts/i18n'
+import { PUBLIC_ROUTES } from '@router/constants'
+import { authorization } from '@utils/authorization'
+import authActions from '@redux/auth/actions'
+import { getItem, removeItem } from '@utils/localstorage'
+import { User } from '@classes/Auth'
 import jwtDecode from 'jwt-decode'
-import { AbilityContext } from 'contexts/Can'
-import ability from 'utils/ability'
+import { AbilityContext } from '@contexts/Can'
+import ability from '@utils/ability'
 import moment from 'moment'
 // ** Spinner (Splash Screen)
-import Spinner from 'core/components/spinner/fallback'
+import Spinner from './core/components/spinner/fallback'
 // ** Ripple Button
-import 'core/components/ripple-button'
+import '@core/components/ripple-button'
 // ** PrismJS
 import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
@@ -25,10 +25,10 @@ import 'prismjs/components/prism-jsx.min'
 // ** React Perfect Scrollbar
 import 'react-perfect-scrollbar/dist/css/styles.css'
 // ** React Toastify
-import 'core/scss/react/libs/toastify/toastify.scss'
+import '@core/scss/react/libs/toastify/toastify.scss'
 // ** Core styles
-import 'core/scss/core.scss'
-import 'assets/scss/style.scss'
+import '@core/scss/core.scss'
+import '@assets/scss/style.scss'
 
 const { setCurrentUser, logout } = authActions
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import NavMenuLink from './NavMenuLink'
 import NavMenuGroup from './NavMenuGroup'
-import { resolveHorizontalNavMenuItemComponent as resolveNavItemComponent } from 'core/layouts/Utils'
+import { resolveHorizontalNavMenuItemComponent as resolveNavItemComponent } from '@core/layouts/Utils'
 
 interface NavMenuItemsProps {
   submenu: boolean

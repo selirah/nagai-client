@@ -5,7 +5,7 @@ const EmptyCart = () => {
         <h2 className="font-weight-bold text-success mb-2">Empty Cart</h2>
         <img
           alt="empty"
-          src={require('assets/images/icons/empty-cart.svg').default}
+          src={require('@assets/images/icons/empty-cart.svg').default}
           width={100}
         />
         <p className="mt-2">Consider adding products to cart</p>

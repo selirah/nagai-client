@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { LoginFields } from 'classes'
+import { LoginFields } from '@classes/index'
 import {
   Form,
   FormGroup,
@@ -15,9 +15,9 @@ import {
   Col,
   Alert
 } from 'reactstrap'
-import RippleButton from 'core/components/ripple-button'
-import { PUBLIC_ROUTES } from 'router/constants'
-import InputPasswordToggle from 'core/components/input-password-toggle'
+import RippleButton from '@core/components/ripple-button'
+import { PUBLIC_ROUTES } from '@router/constants'
+import InputPasswordToggle from '@core/components/input-password-toggle'
 
 interface Props {
   initialValues: LoginFields

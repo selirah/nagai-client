@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import classnames from 'classnames'
 import { Collapse, Badge } from 'reactstrap'
 import NavMenuItems from './NavMenuItems'
-import { isNavGroupActive, getAllParents } from 'core/layouts/Utils'
+import { isNavGroupActive, getAllParents } from '@core/layouts/Utils'
 
 interface NavMenuGroupProps {
   item: any

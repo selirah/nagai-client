@@ -1,6 +1,6 @@
 import React from 'react'
-import { DBUser, Tracking as Track } from 'classes'
-import { getInitials } from 'utils/index'
+import { DBUser, Tracking as Track } from '@classes/index'
+import { getInitials } from '@utils/index'
 import { Card, CardHeader, CardBody, Badge } from 'reactstrap'
 
 interface Props {

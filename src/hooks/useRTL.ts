@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import layoutActions from 'redux/layout/actions'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import layoutActions from '@redux/layout/actions'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 
 const { handleRTL } = layoutActions
 

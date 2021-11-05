@@ -1,9 +1,9 @@
 import { useState, createContext } from 'react'
 import { IntlProvider } from 'react-intl'
-import EN from 'locale/EN.json'
-import FR from 'locale/FR.json'
-import userEN from 'locale/EN.json'
-import userFR from 'locale/FR.json'
+import EN from '@locale/EN.json'
+import FR from '@locale/FR.json'
+import userEN from '@locale/EN.json'
+import userFR from '@locale/FR.json'
 
 type LocalContextValue = {
   switchLanguage(lang: 'en' | 'fr'): void

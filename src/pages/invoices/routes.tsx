@@ -1,12 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { Route, useRouteMatch, Switch } from 'react-router-dom'
-import { Route as RR } from 'classes'
-import Spinner from 'components/Spinner'
+import { Route as RR } from '@classes/index'
+import Spinner from '@components/Spinner'
 
 const routes: RR[] = [
   {
     path: '',
-    component: lazy(() => import('containers/invoices/List')),
+    component: lazy(() => import('@containers/invoices/List')),
     exact: true
   }
 ]

@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { Category } from 'classes'
+import { Category } from '@classes/index'
 import { ActionTypes } from './types'
 
 const categoriesActions = {

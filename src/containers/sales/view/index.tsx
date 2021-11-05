@@ -1,6 +1,5 @@
-import React from 'react'
 import { useState, useEffect } from 'react'
-import { Selector } from 'redux/selector-dispatch'
+import { Selector } from '@redux/selector-dispatch'
 import { Row, Col } from 'reactstrap'
 import Invoice from './Invoice'
 import Payments from './Payments'

@@ -1,7 +1,7 @@
 const themeConfig = {
   app: {
     appName: 'Nagai',
-    appLogo: require('assets/images/logo/logo.svg').default
+    appLogo: require('@assets/images/logo/logo.svg').default
   },
   layout: {
     isRTL: false,

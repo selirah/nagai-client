@@ -1,8 +1,8 @@
 import { useState, useCallback, Fragment } from 'react'
-import SearchBar from 'containers/manufacturers/SearchBar'
-import Sidebar from 'containers/manufacturers/Sidebar'
+import SearchBar from '@containers/manufacturers/SearchBar'
+import Sidebar from '@containers/manufacturers/Sidebar'
 import classnames from 'classnames'
-import 'core/scss/react/apps/app-todo.scss'
+import '@core/scss/react/apps/app-todo.scss'
 import ManufacturerRoutes from './routes'
 
 const Manufacturers = () => {

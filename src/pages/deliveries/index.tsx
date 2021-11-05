@@ -1,13 +1,13 @@
 import { useState, useCallback, Fragment, useEffect } from 'react'
-import Sidebar from 'containers/deliveries/Sidebar'
-import SearchBar from 'containers/deliveries/SearchBar'
+import Sidebar from '@containers/deliveries/Sidebar'
+import SearchBar from '@containers/deliveries/SearchBar'
 import classnames from 'classnames'
 import DeliveriesRoutes from './routes'
-import 'core/scss/react/apps/app-todo.scss'
+import '@core/scss/react/apps/app-todo.scss'
 import { useDispatch } from 'react-redux'
-import { Dispatch } from 'redux/selector-dispatch'
-import utilsActions from 'redux/utils/actions'
-import { userRoles } from 'utils/ability'
+import { Dispatch } from '@redux/selector-dispatch'
+import utilsActions from '@redux/utils/actions'
+import { userRoles } from '@utils/ability'
 
 const { getUsersRequest } = utilsActions
 

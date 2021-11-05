@@ -1,4 +1,4 @@
-import { Product, StockTrail, Param } from 'classes'
+import { Product, StockTrail, Param } from '@classes/index'
 
 export enum ActionTypes {
   SUBMITTING = '@@products/SUBMITTING',

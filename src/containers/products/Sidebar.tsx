@@ -10,9 +10,9 @@ import { Link } from 'react-router-dom'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 import { PlusCircle, List, Grid } from 'react-feather'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import productActions from 'redux/products/actions'
+import productActions from '@redux/products/actions'
 
 interface Props {
   mainSidebar: boolean

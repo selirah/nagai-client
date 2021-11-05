@@ -1,6 +1,6 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
-import { callApiGet, callGoogleDirection } from 'api'
+import { callApiGet, callGoogleDirection } from '@api/index'
 import utilsActions from './actions'
 
 function* getRegions(): Generator {

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 import { Settings, X } from 'react-feather'
 import { CustomInput, FormGroup } from 'reactstrap'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { selectThemeColors } from 'utils'
-import 'core/scss/react/libs/react-select/_react-select.scss'
+import { selectThemeColors } from '@utils/index'
+import '@core/scss/react/libs/react-select/_react-select.scss'
 
 interface CustomizerProps {
   layoutMode: 'light' | 'dark' | 'bordered' | 'semi-dark'

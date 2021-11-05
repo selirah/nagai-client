@@ -1,8 +1,8 @@
 import { useRef, useCallback, useState, useEffect } from 'react'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import Map from './Map'
-import outletActions from 'redux/outlets/actions'
-import { Outlet } from 'classes'
+import outletActions from '@redux/outlets/actions'
+import { Outlet } from '@classes/index'
 import { useDispatch } from 'react-redux'
 
 const { getOutletsRequest, setQueryParams, clearStates, setActiveLink } =

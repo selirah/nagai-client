@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import moment from 'moment'
-import { DBUser } from 'classes'
+import { DBUser } from '@classes/index'
 import { Card, CardHeader, CardBody, Badge } from 'reactstrap'
-import { getInitials } from 'utils'
-import { userRoles } from 'utils/ability'
+import { getInitials } from '@utils/index'
+import { userRoles } from '@utils/ability'
 
 interface Props {
   user: DBUser | null

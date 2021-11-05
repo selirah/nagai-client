@@ -1,8 +1,9 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
-import { callApiPost, callApiPut, callApiGet } from 'api'
+import { callApiPost, callApiPut, callApiGet } from '@api/index'
 import saleActions from './actions'
-import { SaleFields, Param } from 'classes'
+import { SaleFields } from '@classes/Sale'
+import { Param } from '@classes/Param'
 
 function* addSale({
   payload

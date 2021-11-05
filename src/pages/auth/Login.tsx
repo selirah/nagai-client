@@ -1,18 +1,18 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import LoginForm from 'containers/auth/LoginForm'
-import { LoginFields } from 'classes'
-import authActions from 'redux/auth/actions'
+import LoginForm from '@containers/auth/LoginForm'
+import { LoginFields } from '@classes/index'
+import authActions from '@redux/auth/actions'
 import { useDispatch } from 'react-redux'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import { PRIVATE_ROUTES, PUBLIC_ROUTES } from 'router/constants'
-import { useLayoutMode } from 'hooks'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '@router/constants'
+import { useLayoutMode } from '@hooks/index'
 import { Row, Col, CardTitle, CardText } from 'reactstrap'
-import RippleButton from 'core/components/ripple-button'
+import RippleButton from '@core/components/ripple-button'
 import Logo from './Logo'
-import 'core/scss/base/pages/page-auth.scss'
+import '@core/scss/base/pages/page-auth.scss'
 import { FormattedMessage } from 'react-intl'
-import themeConfig from 'theme/themeConfig'
+import themeConfig from '@theme/themeConfig'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 const { loginRequest, clearStates } = authActions
@@ -32,7 +32,7 @@ const Login = () => {
   const [redirectToReferer, setRedirectToReferrer] = useState(false)
   const [mode] = useLayoutMode()
   const illustration = mode === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg'
-  const source = require(`assets/images/pages/${illustration}`).default
+  const source = require(`@assets/images/pages/${illustration}`).default
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState(null)
   const [load, setLoad] = useState(false)

@@ -1,10 +1,16 @@
 import { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import orderActions from 'redux/orders/actions'
-import { OrderFields, OptionKey, Tax, InvoiceFields, SaleFields } from 'classes'
-import RippleButton from 'core/components/ripple-button'
+import orderActions from '@redux/orders/actions'
+import {
+  OrderFields,
+  OptionKey,
+  Tax,
+  InvoiceFields,
+  SaleFields
+} from '@classes/index'
+import RippleButton from '@core/components/ripple-button'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import {
@@ -19,13 +25,13 @@ import {
 } from 'reactstrap'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
-import SelectComponent from 'components/Select'
-import EmptyCart from 'components/EmptyCart'
+import SelectComponent from '@components/Select'
+import EmptyCart from '@components/EmptyCart'
 import {
   generateOrderNumber,
   generateInvoiceNumber,
   generateSaleNumber
-} from 'utils/index'
+} from '@utils/index'
 import CartDrawer from './CartDrawer'
 import SummaryDrawer from './SummaryDrawer'
 

@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback, Fragment } from 'react'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import userActions from 'redux/users/actions'
-import { ChangePassword as CP } from 'classes'
+import userActions from '@redux/users/actions'
+import { ChangePassword as CP } from '@classes/index'
 import { toast, Slide } from 'react-toastify'
-import RippleButton from 'core/components/ripple-button'
-import ToastBox from 'components/ToastBox'
+import RippleButton from '@core/components/ripple-button'
+import ToastBox from '@components/ToastBox'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import {
@@ -22,7 +22,7 @@ import {
 import { useHistory } from 'react-router-dom'
 import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import InputPasswordToggle from 'core/components/input-password-toggle'
+import InputPasswordToggle from '@core/components/input-password-toggle'
 
 const { changePasswordRequest, clearStates, setActiveLink } = userActions
 

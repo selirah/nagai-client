@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
-import layoutActions from 'redux/layout/actions'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
+import layoutActions from '@redux/layout/actions'
 import classnames from 'classnames'
 import { ArrowUp } from 'react-feather'
 import ScrollToTop from 'react-scroll-up'
 import { Navbar, Button } from 'reactstrap'
-import themeConfig from 'theme/themeConfig'
-import Customizer from 'core/components/customizer'
+import themeConfig from '@theme/themeConfig'
+import Customizer from '@core/components/customizer'
 import FooterComponent from './components/footer'
 import NavbarComponent from './components/navbar'
 import SidebarComponent from './components/menu/vertical-menu'
@@ -18,9 +18,9 @@ import {
   useNavbarType,
   useFooterType,
   useNavbarColor
-} from 'hooks'
-import 'core/scss/base/core/menu/menu-types/vertical-menu.scss'
-import 'core/scss/base/core/menu/menu-types/vertical-overlay-menu.scss'
+} from '@hooks/index'
+import '@core/scss/base/core/menu/menu-types/vertical-menu.scss'
+import '@core/scss/base/core/menu/menu-types/vertical-overlay-menu.scss'
 const { handleMenuCollapsed, handleContentWidth, handleMenuHidden } =
   layoutActions
 

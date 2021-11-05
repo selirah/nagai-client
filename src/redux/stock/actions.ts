@@ -1,5 +1,11 @@
 import { action } from 'typesafe-actions'
-import { StockObj, Stock, StockFields, Param, StockTrailObj } from 'classes'
+import {
+  StockObj,
+  Stock,
+  StockFields,
+  Param,
+  StockTrailObj
+} from '@classes/index'
 import { ActionTypes } from './types'
 
 const stockActions = {

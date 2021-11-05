@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import themeConfig from 'theme/themeConfig'
+import themeConfig from '@theme/themeConfig'
 
 export const useNavbarType = () => {
   const [navbarType, setNavbarType] = useState<any>(() => {

@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 import { LayoutState, ActionTypes } from './types'
-import themeConfig from 'theme/themeConfig'
+import themeConfig from '@theme/themeConfig'
 
 const skin = window.localStorage.getItem('mode')
 

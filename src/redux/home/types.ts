@@ -10,7 +10,7 @@ import {
   OutletStats,
   ManufacturerStats,
   TerritoryStats
-} from 'classes'
+} from '@classes/index'
 
 export enum ActionTypes {
   GET_ORDER_STAT_REQUEST = '@@home/GET_ORDER_STAT_REQUEST',

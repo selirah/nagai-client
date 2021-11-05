@@ -1,8 +1,9 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
 import { ActionTypes } from './types'
-import { callApiDelete, callApiPost, callApiPut, callApiGet } from 'api'
+import { callApiDelete, callApiPost, callApiPut, callApiGet } from '@api/index'
 import invoiceActions from './actions'
-import { InvoiceFields, Param } from 'classes'
+import { InvoiceFields } from '@classes/Invoice'
+import { Param } from '@classes/Param'
 
 function* addInvoice({
   payload

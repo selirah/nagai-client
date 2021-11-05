@@ -1,4 +1,4 @@
-import { Selector } from 'redux/selector-dispatch'
+import { Selector } from '@redux/selector-dispatch'
 
 export const isObjEmpty = (obj: object) => Object.keys(obj).length === 0
 

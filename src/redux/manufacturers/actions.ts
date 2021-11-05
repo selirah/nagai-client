@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { ManufacturerFields, Manufacturer } from 'classes'
+import { ManufacturerFields, Manufacturer } from '@classes/index'
 import { ActionTypes } from './types'
 
 const manufacturerActions = {

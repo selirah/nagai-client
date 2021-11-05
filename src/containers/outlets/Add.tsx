@@ -1,12 +1,12 @@
 import { useEffect, useState, Fragment, useCallback } from 'react'
 import { useHistory, useParams } from 'react-router'
-import { Selector, Dispatch } from 'redux/selector-dispatch'
+import { Selector, Dispatch } from '@redux/selector-dispatch'
 import { useDispatch } from 'react-redux'
-import outletActions from 'redux/outlets/actions'
-import { OutletFields, Territory, OptionKey } from 'classes'
+import outletActions from '@redux/outlets/actions'
+import { OutletFields, Territory, OptionKey } from '@classes/index'
 import { toast, Slide } from 'react-toastify'
-import RippleButton from 'core/components/ripple-button'
-import ToastBox from 'components/ToastBox'
+import RippleButton from '@core/components/ripple-button'
+import ToastBox from '@components/ToastBox'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import {
@@ -24,7 +24,7 @@ import {
 import { Coffee } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { components } from 'react-select'
-import SelectComponent from 'components/Select'
+import SelectComponent from '@components/Select'
 
 const { addOutletRequest, clearStates, setActiveLink } = outletActions
 
